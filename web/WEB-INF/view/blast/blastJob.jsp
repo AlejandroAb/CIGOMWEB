@@ -29,7 +29,7 @@
 
             if (results != null) {
                 for (BlastResult result : results) {
-                    out.println("<br>" + result.getQuery() + "&nbsp;&nbsp;&nbsp;" + result.getTarget() + "&nbsp;&nbsp;&nbsp;" + result.getGen_id() + "&nbsp;&nbsp;&nbsp;" + result.getSource() + "&nbsp;&nbsp;&nbsp;" + result.getTarget_definition());
+                    out.println("<br>" + result.getQuery() + "&nbsp;&nbsp;&nbsp;" + result.getTarget() + "&nbsp;&nbsp;&nbsp;" + result.getGen_id() + "&nbsp;&nbsp;&nbsp;" + result.getSource() + "&nbsp;&nbsp;&nbsp;" + result.getTarget_definition()+ "&nbsp;&nbsp;&nbsp;" +result.getTaxa() + "&nbsp;&nbsp;&nbsp;" +result.getEval()+ "&nbsp;&nbsp;&nbsp;" +result.getBit_score()+ "&nbsp;&nbsp;&nbsp;" +result.getIdentity());
                 }
             }
             %></h2>

@@ -7,7 +7,7 @@
     </context-param>
     <context-param>
         <param-name>usuariodb</param-name>
-        <param-value>root</param-value>
+        <param-value>cigom_u</param-value>
     </context-param>
     <context-param>
         <param-name>dbname</param-name>
@@ -16,7 +16,7 @@
     <context-param>
         <description/>
         <param-name>password</param-name>
-        <param-value>amorphis</param-value>
+        <param-value>CigomWeb2016</param-value>
     </context-param>
     <context-param>
         <param-name>blastdir</param-name>

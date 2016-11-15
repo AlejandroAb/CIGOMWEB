@@ -1,6 +1,6 @@
 <%-- 
-    Document   : INDEX2.JSP
-    Created on : 15/11/2016, 01:11:37 PM
+    Document   : home2.jsp
+    Created on : 15/11/2016, 04:42:37 PM
     Author     : Alejandro
 --%>
 
