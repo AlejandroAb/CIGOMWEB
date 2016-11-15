@@ -80,20 +80,7 @@ public class BlastController extends HttpServlet {
                 ArrayList<ArrayList<String>> metagenomas = metaDAO.getMetagenomasBlast(where);
                 request.setAttribute("genomas", genomas);
                 request.setAttribute("metagenomas", metagenomas);
-                /**
-                 * Ejemplo de los arreglos El de genomas viene con id,nombre
-                 * genoma, taxa y estación El de metagenomas con id, nombre
-                 * metagenoma, tipo muestra y estación
-                 */
-                /*for (ArrayList<String> fila : genomas) {
-                 System.out.println(fila.get(0)+ " " + fila.get(1) + " " + fila.get(2) + " " + fila.get(3) );
-                 }*/
-
-                /*for (ArrayList<String> fila : metagenomas) {
-                 System.out.println(fila.get(0) + " " + fila.get(1) + " " + fila.get(2) + " " + fila.get(3) );
-                 }*/
-                //userPath = "/blast";
-                //String url = "/WEB-INF/view" + userPath + ".jsp";
+               // Falta tabla de JOBS
                 String url = "/WEB-INF/view/blast/blast.jsp";
                 request.getRequestDispatcher(url).forward(request, response);
             } else if (userPath.equals("/blastSearch")) {
