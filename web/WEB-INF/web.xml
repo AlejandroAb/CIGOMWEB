@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-   
     <context-param>
         <param-name>ipdb</param-name>
         <param-value>localhost</param-value>
@@ -19,6 +18,8 @@
         <param-value>CigomWeb2016</param-value>
     </context-param>
     <context-param>
+        <description>C:/Users/Alejandro/Documents/Projects/pemex/
+/home/blast/querys/</description>
         <param-name>blastdir</param-name>
         <!-- <param-value>C:/Users/Alejandro/Documents/Projects/GCT3NG/blast/</param-value>-->
         <param-value>/home/blast/querys/</param-value>
@@ -50,7 +51,6 @@
         <!--<param-value>blastx</param-value> -->
         <param-value>/home/blast/ncbi-blast-2.5.0+/bin/blastx</param-value>
     </context-param>
-   
     <servlet>
         <servlet-name>BlastController</servlet-name>
         <servlet-class>controller.BlastController</servlet-class>
@@ -62,15 +62,16 @@
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/actualizaT</url-pattern>
-        <url-pattern>/log</url-pattern>        
+        <url-pattern>/log</url-pattern>
         <url-pattern>/homeCamp</url-pattern>
         <url-pattern>/CerrarSesion</url-pattern>
-    </servlet-mapping>    
+    </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>BlastController</servlet-name>       
-        <url-pattern>/blastSearch</url-pattern>
+        <servlet-name>BlastController</servlet-name>
         <url-pattern>/blast</url-pattern>
         <url-pattern>/showJob</url-pattern>
+        <url-pattern>/deleteJob</url-pattern>
+        <url-pattern>/blastSearch</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

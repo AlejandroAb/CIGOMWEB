@@ -72,6 +72,7 @@ public class BlastController extends HttpServlet {
                 return;
             }
             if (userPath.equals("/blast")) {
+
                 GenomaDAO genomaDAO = new GenomaDAO(transacciones);
                 MetagenomaDAO metaDAO = new MetagenomaDAO(transacciones);
 
@@ -80,7 +81,10 @@ public class BlastController extends HttpServlet {
                 ArrayList<ArrayList<String>> metagenomas = metaDAO.getMetagenomasBlast(where);
                 request.setAttribute("genomas", genomas);
                 request.setAttribute("metagenomas", metagenomas);
-               // Falta tabla de JOBS
+                // Falta tabla de JOBS
+                JobDAO jDao = new JobDAO(transacciones);
+                ArrayList<Job> jobs = jDao.getUserJobs(user.getIdUsuario());
+                request.setAttribute("jobs", jobs);
                 String url = "/WEB-INF/view/blast/blast.jsp";
                 request.getRequestDispatcher(url).forward(request, response);
             } else if (userPath.equals("/blastSearch")) {
@@ -125,22 +129,22 @@ public class BlastController extends HttpServlet {
                             partName = getFilename(part);
                             break;
                         }
-                    }                   
+                    }
                     boolean withIntergenic = false;
                     if (analysisType.toLowerCase().equals("blastn")) {
                         withIntergenic = true;
                     }
                     jobURL = job.saveFastaFile(user.getIdUsuario(), jobName, analysisType, eval, blastdir, "query.fasta", host, filePart, metagenomas, genomas, blastdbs, withIntergenic);
-                   
+
                 } else {
                     String seq = request.getParameter("seq");
-                   
+
                     boolean withIntergenic = false;
                     if (analysisType.toLowerCase().equals("blastn")) {
                         withIntergenic = true;
                     }
                     jobURL = job.writeFastaFile(user.getIdUsuario(), jobName, analysisType, eval, blastdir, "query.fasta", host, seq, metagenomas, genomas, blastdbs, withIntergenic);
-                    
+
                 }
                 if (jobURL.toLowerCase().indexOf("error") != -1) {
                     outPW.print(jobURL);//jobUID trae error
@@ -150,8 +154,8 @@ public class BlastController extends HttpServlet {
 
                     String workingDir = blastdir + id + "/";
                     String cmd = sc.getInitParameter(analysisType.toLowerCase());
-                    BlastProperties props = new BlastProperties(workingDir, cmd);                   
-                    String dbPath = "\'" + job.getMetagenoma_dbs() + " " + job.getGenoma_dbs() + "\'";                    
+                    BlastProperties props = new BlastProperties(workingDir, cmd);
+                    String dbPath = "\'" + job.getMetagenoma_dbs() + " " + job.getGenoma_dbs() + "\'";
                     for (String db : job.getMetagenoma_dbs().split(" ")) {
                         if (db.trim().length() > 1) {
                             props.insertDataBase(db);
@@ -174,11 +178,11 @@ public class BlastController extends HttpServlet {
                     Thread blastThread = new Thread(blast);
                     blastThread.start();
                     //  outPW.print(uID);
-                    response.sendRedirect("showJob?idJob=" + uID);
+                    response.sendRedirect("showJob?jobURL=" + uID);
                 }
             } else if (userPath.equals("/showJob")) {
                 //PrintWriter outPW = response.getWriter();
-                String idJob = request.getParameter("idJob");
+                String idJob = request.getParameter("jobURL");
                 JobDAO jDao = new JobDAO(transacciones);
                 Job job = jDao.initJobObject(idJob);
                 if (job == null) {
@@ -191,6 +195,7 @@ public class BlastController extends HttpServlet {
                     String blastdir = sc.getInitParameter("blastdir");
                     String outFile = sc.getInitParameter("jobOutFile");
                     String workingDir = blastdir + job.getId_job() + "/";
+                    //  String workingDir = j
                     //esto es muy importante pues crea el prepared statement que se encargara de traer toda la info complementaria del BLAST
                     jDao.compilaQueryGenInfo();
                     ArrayList<BlastResult> results = jDao.readBlastOutFile(workingDir + outFile + ".sorted", 100);
@@ -205,9 +210,19 @@ public class BlastController extends HttpServlet {
                 request.setAttribute("job", job);
                 RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/view/blast/blastJob.jsp");
                 view.forward(request, response);
+            } else if (userPath.equals("/deleteJob")) {
+                PrintWriter outPW = response.getWriter();
+                String idJob = request.getParameter("jobURL");
+                JobDAO jDao = new JobDAO(transacciones);
+                String log = jDao.deleteJob(idJob);
+                if (log.length() == 0) {
+                    outPW.close();
+                } else {
+                    outPW.print(log);
+                    outPW.close();
+                }
             }
         }
-
     }
 
     private static String getFilename(Part part) {

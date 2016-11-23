@@ -14,6 +14,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -32,7 +33,7 @@ public class JobDAO {
     private Transacciones transacciones;
     private String metagenoma_dbs;
     private String genoma_dbs;
-     private String metagenoma_dbs_q;//quoted
+    private String metagenoma_dbs_q;//quoted
     private String genoma_dbs_q;//quoted
 
     public JobDAO(Transacciones transacciones) {
@@ -46,9 +47,10 @@ public class JobDAO {
             return "";
         }
     }
-     public String getMetagenoma_dbsQuoted() {
+
+    public String getMetagenoma_dbsQuoted() {
         if (metagenoma_dbs != null) {
-           return metagenoma_dbs;
+            return metagenoma_dbs;
         } else {
             return "";
         }
@@ -107,16 +109,16 @@ public class JobDAO {
                 transacciones.insertJobIDMetagenoma(idJob, id);
                 if (jobType.equals("BLASTN")) {
                     metagenoma_dbs += blasdb_dir + "metagenoma_nc_" + id + ".fasta ";
-                    metagenoma_dbs_q+= "\'"+blasdb_dir + "metagenoma_nc_" + id + ".fasta\'";
+                    metagenoma_dbs_q += "\'" + blasdb_dir + "metagenoma_nc_" + id + ".fasta\'";
                     if (withIntergenic) {
                         metagenoma_dbs += blasdb_dir + "metagenoma_5p_" + id + ".fasta ";
                         metagenoma_dbs += blasdb_dir + "metagenoma_3p_" + id + ".fasta ";
-                        metagenoma_dbs_q+= "\'"+blasdb_dir + "metagenoma_5p_" + id + ".fasta\'";
-                        metagenoma_dbs_q+= "\'"+blasdb_dir + "metagenoma_3p_" + id + ".fasta\'";
+                        metagenoma_dbs_q += "\'" + blasdb_dir + "metagenoma_5p_" + id + ".fasta\'";
+                        metagenoma_dbs_q += "\'" + blasdb_dir + "metagenoma_3p_" + id + ".fasta\'";
                     }
                 } else {
                     metagenoma_dbs += blasdb_dir + "metagenoma_aa_" + id + ".fasta ";
-                    metagenoma_dbs_q+= "\'"+blasdb_dir + "metagenoma_aa_" + id + ".fasta\'";
+                    metagenoma_dbs_q += "\'" + blasdb_dir + "metagenoma_aa_" + id + ".fasta\'";
                 }
 
                 hayDBs = true;
@@ -131,16 +133,16 @@ public class JobDAO {
                 transacciones.insertJobIDMetagenoma(idJob, id);
                 if (jobType.equals("BLASTN")) {
                     genoma_dbs += blasdb_dir + "genoma_nc_" + id + ".fasta ";
-                    genoma_dbs_q+= "\'"+blasdb_dir + "genoma_nc_" + id + ".fasta\'";
+                    genoma_dbs_q += "\'" + blasdb_dir + "genoma_nc_" + id + ".fasta\'";
                     if (withIntergenic) {
                         genoma_dbs += blasdb_dir + "genoma_5p_" + id + ".fasta ";
                         genoma_dbs += blasdb_dir + "genoma_3p_" + id + ".fasta ";
-                        genoma_dbs_q+= "\'"+blasdb_dir + "genoma_5p_" + id + ".fasta\'";
-                        genoma_dbs_q+= "\'"+blasdb_dir + "genoma_3p_" + id + ".fasta\'";
+                        genoma_dbs_q += "\'" + blasdb_dir + "genoma_5p_" + id + ".fasta\'";
+                        genoma_dbs_q += "\'" + blasdb_dir + "genoma_3p_" + id + ".fasta\'";
                     }
                 } else {
                     genoma_dbs += blasdb_dir + "genoma_aa_" + id + ".fasta ";
-                    genoma_dbs_q+= "\'"+blasdb_dir + "genoma_aa_" + id + ".fasta\'";
+                    genoma_dbs_q += "\'" + blasdb_dir + "genoma_aa_" + id + ".fasta\'";
                 }
 
                 hayDBs = true;
@@ -239,16 +241,16 @@ public class JobDAO {
                 transacciones.insertJobIDMetagenoma(idJob, id);
                 if (jobType.equals("BLASTN")) {
                     metagenoma_dbs += blasdb_dir + "metagenoma_nc_" + id + ".fasta ";
-                    metagenoma_dbs_q +="'" + blasdb_dir + "metagenoma_nc_" + id + ".fasta' ";
+                    metagenoma_dbs_q += "'" + blasdb_dir + "metagenoma_nc_" + id + ".fasta' ";
                     if (withIntergenic) {
                         metagenoma_dbs += blasdb_dir + "metagenoma_5p_" + id + ".fasta ";
                         metagenoma_dbs += blasdb_dir + "metagenoma_3p_" + id + ".fasta ";
-                        metagenoma_dbs_q +="'" + blasdb_dir + "metagenoma_5p_" + id + ".fasta' ";
-                        metagenoma_dbs_q +="'" + blasdb_dir + "metagenoma_3p_" + id + ".fasta' ";
+                        metagenoma_dbs_q += "'" + blasdb_dir + "metagenoma_5p_" + id + ".fasta' ";
+                        metagenoma_dbs_q += "'" + blasdb_dir + "metagenoma_3p_" + id + ".fasta' ";
                     }
                 } else {
                     metagenoma_dbs += blasdb_dir + "metagenoma_aa_" + id + ".fasta ";
-                    metagenoma_dbs_q +="'" + blasdb_dir + "metagenoma_aa_" + id + ".fasta' ";
+                    metagenoma_dbs_q += "'" + blasdb_dir + "metagenoma_aa_" + id + ".fasta' ";
                 }
 
                 hayDBs = true;
@@ -263,17 +265,17 @@ public class JobDAO {
                 transacciones.insertJobIDGenoma(idJob, id);
                 if (jobType.equals("BLASTN")) {
                     genoma_dbs += blasdb_dir + "genoma_nc_" + id + ".fasta ";
-                    genoma_dbs_q +="'"+ blasdb_dir + "genoma_nc_" + id + ".fasta' ";
+                    genoma_dbs_q += "'" + blasdb_dir + "genoma_nc_" + id + ".fasta' ";
                     if (withIntergenic) {
                         genoma_dbs += blasdb_dir + "genoma_5p_" + id + ".fasta ";
                         genoma_dbs += blasdb_dir + "genoma_3p_" + id + ".fasta ";
-                        genoma_dbs_q +="'"+ blasdb_dir + "genoma_5p_" + id + ".fasta' ";
-                        genoma_dbs_q +="'"+ blasdb_dir + "genoma_3p_" + id + ".fasta' ";
-                        
+                        genoma_dbs_q += "'" + blasdb_dir + "genoma_5p_" + id + ".fasta' ";
+                        genoma_dbs_q += "'" + blasdb_dir + "genoma_3p_" + id + ".fasta' ";
+
                     }
                 } else {
                     genoma_dbs += blasdb_dir + "genoma_aa_" + id + ".fasta ";
-                    genoma_dbs_q +="'"+ blasdb_dir + "genoma_aa_" + id + ".fasta' ";
+                    genoma_dbs_q += "'" + blasdb_dir + "genoma_aa_" + id + ".fasta' ";
                 }
                 hayDBs = true;
             }
@@ -329,6 +331,25 @@ public class JobDAO {
     }
 
     /**
+     * Se encarga de crear un arreglo de jobs, es usado en la interfaz de blast
+     * para crear la tabla de jobs del usuario
+     *
+     * @param idUser
+     * @return
+     */
+    public ArrayList<Job> getUserJobs(int idUser) {
+        ArrayList<ArrayList<String>> jobsDB = transacciones.getBlastJobsByUser(idUser);
+        ArrayList<Job> jobs = new ArrayList<Job>();
+        for (ArrayList<String> job : jobsDB) {
+            Job j = initJobObject(job.get(1));
+            if (j != null) {
+                jobs.add(j);
+            }
+        }
+        return jobs;
+    }
+
+    /**
      * Este método se encarga de iniciar un JOB basado en el uid que es el ID
      * que tiene el usuario para ir al link.
      *
@@ -366,13 +387,86 @@ public class JobDAO {
                             job.setStatus(val);
                         case 7:
                             job.setMessage(val);
+                        case 8:
+                            job.setPath(val);
                     }
                 }
                 i++;
             }
+            if (job.getId_job() != null) {
+                ArrayList<ArrayList<String>> metadbs = transacciones.getBlastMetaDbs(job.getId_job());
+                StringBuilder metadb = new StringBuilder();
+                for (ArrayList<String> db : metadbs) {
+                    if (metadb.length() == 0) {
+                        metadb.append(db.get(0));
+                    } else {
+                        metadb.append(", ").append(db.get(0));
+                    }
+                }
+                job.setMetagenomas(metadb.toString());
+                ArrayList<ArrayList<String>> genodbs = transacciones.getBlastGenoDbs(job.getId_job());
+                StringBuilder genodb = new StringBuilder();
+                for (ArrayList<String> db : genodbs) {
+                    if (genodb.length() == 0) {
+                        genodb.append(db.get(0));
+                    } else {
+                        genodb.append(", ").append(db.get(0));
+                    }
+                }
+                job.setGenomas(genodbs.toString());
+            }
             return job;
         } else {
             return null;
+        }
+    }
+
+    /**
+     * Este método se encarga de borrar las carpetas de un job
+     *
+     * @param job
+     * @param blastPath
+     * @return
+     */
+    public String deleteJobFolder(Job job) {
+        try {
+            Process proc = Runtime.getRuntime().exec("rm -rf " + job.getPath() + job.getId_job());
+            //System.out.println("perl " + pathTodistantes + " -s " + orgsParam + " -n " + limit);
+            proc.waitFor();
+
+            InputStream inputstream = proc.getInputStream();
+            InputStreamReader inputstreamreader = new InputStreamReader(inputstream);
+            BufferedReader bufferedreader = new BufferedReader(inputstreamreader);
+            // read the output
+            String line;
+            StringBuilder out = new StringBuilder();
+            while ((line = bufferedreader.readLine()) != null) {
+                //System.out.println(line);
+                out.append(line);
+
+            }
+            if (proc.waitFor() != 0) {
+                System.err.println("exit value = " + proc.exitValue());
+                return "Error - " + out.toString();
+            } else {
+                return "";
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return "Error borrando archivos ioe";
+        } catch (InterruptedException ex) {
+            Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return "Error borrando archivos ie";
+        }
+    }
+
+    public String deleteJob(String idJob) {
+        Job job = initJobObject(idJob);
+        if (transacciones.deleteBlastJob(job.getId_job()) && transacciones.deleteBlastMetaBase(job.getId_job()) && transacciones.deleteBlastGenoBase(job.getId_job())) {
+            String log = deleteJobFolder(job);
+            return log;
+        } else {
+            return "Error borrando blast de la base de datos";
         }
     }
 

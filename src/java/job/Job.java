@@ -24,6 +24,7 @@ public class Job {
     private String message;
     private String metagenomas;
     private String genomas;
+    private String path; //el path hasta antes de la carpeta con el id del job ejemplo /home/blast/querys/
 
     public Job(String id_job) {
         this.id_job = id_job;
@@ -31,6 +32,22 @@ public class Job {
 
     public String getIdUsuario() {
         return idUsuario;
+    }
+
+    public String getJob_url() {
+        return job_url;
+    }
+
+    public void setJob_url(String job_url) {
+        this.job_url = job_url;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public void setIdUsuario(String idUsuario) {

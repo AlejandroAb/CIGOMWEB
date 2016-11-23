@@ -163,18 +163,20 @@ public class Transacciones {
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
-    public void compilePreparedGene(){
+
+    public void compilePreparedGene() {
         conexion.compilePreparedGene();
     }
-    public ArrayList executePreparedGene(String gen_id){
+
+    public ArrayList executePreparedGene(String gen_id) {
         conexion.executePreparedGene(gen_id);
         return conexion.getTabla();
     }
-     public ArrayList executePreparedMetaGene(String gen_id){
+
+    public ArrayList executePreparedMetaGene(String gen_id) {
         conexion.executePreparedMetaGene(gen_id);
         return conexion.getTabla();
     }
-            
 
     /**
      * Este query se encarga de traer una lista con el id y el nombre de los
@@ -206,6 +208,50 @@ public class Transacciones {
         String query = "SELECT idcampana, siglas, nombre FROM campana order by fecha_termino desc";
         conexion.executeStatement(query);
         return conexion.getTabla();
+    }
+
+    /**
+     *
+     * @param idUsuario
+     * @return
+     */
+    public ArrayList getBlastJobsByUser(int idUsuario) {
+        String query = "SELECT idblast_job, job_url FROM blast_job  "
+                + "WHERE idusuario = " + idUsuario
+                +" ORDER BY start_date desc";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    public ArrayList getBlastMetaDbs(String blastJob) {
+        String query = "SELECT bjm.idmetagenoma, meta_name "
+                + "FROM blast_job_metagenoma AS bjm "
+                + "INNER JOIN metagenoma ON metagenoma.idmetagenoma = bjm.idmetagenoma "
+                + "WHERE bjm.idblast_job = " + blastJob;
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    public ArrayList getBlastGenoDbs(String blastJob) {
+        String query = "SELECT bjg.idgenoma, genome_name "
+                + "FROM blast_job_genoma AS bjg "
+                + "INNER JOIN genoma ON genoma.idgenoma = bjg.idgenoma "
+                + "WHERE bjg.idblast_job = " + blastJob;
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    public boolean deleteBlastJob(String idJob) {
+        String query = "DELETE FROM blast_job WHERE idblast_job = " + idJob;
+        return conexion.queryUpdate(query);
+    }
+    public boolean deleteBlastMetaBase(String idJob){
+        String query = "DELETE FROM blast_job_metagenoma WHERE idblast_job = " + idJob;
+        return conexion.queryUpdate(query);
+    }
+    public boolean deleteBlastGenoBase(String idJob){
+        String query = "DELETE FROM blast_job_genoma WHERE idblast_job = " + idJob;
+        return conexion.queryUpdate(query);
     }
 
     /**
@@ -765,6 +811,7 @@ public class Transacciones {
             return false;
         }
     }
+
     public boolean insertJobIDGenoma(int idJob, String idgenoma) {
         String query = "INSERT INTO blast_job_genoma VALUES(" + idgenoma + ", " + idJob + ")";
         if (conexion.queryUpdate(query)) {
@@ -803,7 +850,7 @@ public class Transacciones {
      * @return
      */
     public ArrayList<ArrayList> getJobDetails(String uId) {
-        String query = "SELECT idblast_job, job_name, job_type, eval,  start_date, end_date, status, message "
+        String query = "SELECT idblast_job, job_name, job_type, eval,  start_date, end_date, status, message, path "
                 + "FROM blast_job "
                 + "WHERE job_url = '" + uId + "'";
         conexion.executeStatement(query);
@@ -867,27 +914,24 @@ public class Transacciones {
         conexion.executeStatementToFile(query);
         return true;
     }
-    
+
     ///METODO PARA MOSTRAR EL NOMBRE SELECCIONADO DE LA CAMPAÑA EN EL HOME
-        public ArrayList getAllCampanasId(int idCampana) {
+    public ArrayList getAllCampanasId(int idCampana) {
         String query = "SELECT idcampana, siglas, nombre FROM campana where idcampana=" + idCampana;
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
 
-
     ///METODO PARA ACTUALIZAR TERMINO DE UN SUARIO AL ENTRAR AL SISTEMA
     public boolean updateTerminos(String user) {
-        
-        String query = "update usuario set terminos=1 where correo='"+user+"'";
+
+        String query = "update usuario set terminos=1 where correo='" + user + "'";
         if (conexion.queryUpdate(query)) {
             return true;
         } else {
-           // System.out.println(conexion.getLog());
+            // System.out.println(conexion.getLog());
             return false;
         }
-    
+
     }
 }
-    
-    
