@@ -152,7 +152,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     <!--<span class="b1"><img id="logos" src="images/menu/logos.png" alt="logo" width="95%x" height="95px" /></span>-->
-                    <span class="b1"><img id="logos" src="images/menu/logoC.png" alt="logo" width="95%x" height="95px" style="padding-left:60px;" /></span>
+                    <span class="b1"><img id="logos" src="images/menu/logoC.png" alt="logo" width="23%" height="95px" style="padding-left:60px;" /></span>
                 </div>
                 <!-- /.navbar-header -->
 
@@ -193,13 +193,13 @@
                                 <a href="Blast" ><i class="fa fa-edit fa-fw"></i> BLAST</a>
                             </li>
                             <li>
-                                <a href="forms.html"><i class="fa fa-edit fa-fw"></i> AMPLICONES</a>
+                                <a href="#"><i class="fa fa-edit fa-fw"></i> AMPLICONES</a>
                             </li>
                             <li>
-                                <a href="forms.html"><i class="fa fa-edit fa-fw"></i> METAGENOMA</a>
+                                <a href="#"><i class="fa fa-edit fa-fw"></i> METAGENOMA</a>
                             </li>
                             <li>
-                                <a href="forms.html"><i class="fa fa-edit fa-fw"></i> SITIOS</a>
+                                <a href="#"><i class="fa fa-edit fa-fw"></i> SITIOS</a>
                             </li>
                             <li>
                                 <a href="analisis.jsp"><i class="fa fa-edit fa-fw"></i> ANALISIS</a>
@@ -274,7 +274,7 @@
                                                             </label>
                                                         </div>	
                                                         <div class="form-group">
-                                                            <label>e.val:</label>
+                                                            <label>e.val (1x10<sup>-</sup>):</label>
                                                             <input class="form-control" id="eval" >
                                                         </div>
 
