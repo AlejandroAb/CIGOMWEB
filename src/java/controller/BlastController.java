@@ -48,7 +48,7 @@ public class BlastController extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
-        if (session == null || session.isNew() || session.getAttribute("usrObj") == null) {
+        if ( session.isNew() ||session.getAttribute("userObj") == null) {
             //session expirada o invalida
             String url = "index.jsp";
             //mandar mensaje de session expirada o a página de error / sesión expirada

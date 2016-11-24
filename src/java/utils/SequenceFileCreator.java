@@ -6,6 +6,7 @@
 package utils;
 
 import database.Transacciones;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class SequenceFileCreator {
      * @param seqHeader string con información para crear el header del fasta
      * @return
      */
-    public boolean generateFileFromIDs(String fileName, String ids, String seqType, String seqHeader) {
+    public boolean generateFileFromIDs(String dirPath, String fileName, String ids, String seqType, String seqHeader) {
         String idList[] = ids.split(",");
         StringBuilder sqlIds = new StringBuilder();
         for (String id : idList) {
@@ -55,6 +56,11 @@ public class SequenceFileCreator {
             return false;
         }
         try {
+            File f = new File(dirPath);
+            if (!f.exists()) {
+                f.mkdir();
+                f.setWritable(true, false);
+            }
             FileWriter fastaFile = new FileWriter(fileName);
             for (ArrayList<String> seq : seqs) {
                 StringBuilder secuencia = new StringBuilder(">gnl|");
@@ -84,6 +90,6 @@ public class SequenceFileCreator {
         } catch (IOException ex) {
             Logger.getLogger(SequenceFileCreator.class.getName()).log(Level.SEVERE, null, ex);
             return false;
-        } 
+        }
     }
 }

@@ -82,6 +82,7 @@ public class SequenceController extends HttpServlet {
                 String time = ("" + System.currentTimeMillis()).substring(8);
                 String fileName = seqType + "_" + /*session.getId()*/ time + "." + ext;
                 String fullFile = sc.getRealPath("") + "/filestmp/" + seqType + "_" + /*session.getId()*/ time + "." + ext;
+                String dirPath = sc.getRealPath("") + "/filestmp";
                 boolean serveFile = false;
                 if (idSeqs == null || idSeqs.length() < 5) {
                     request.setAttribute("mensaje", "Error. Se espera por lo menos un identificador");
@@ -90,7 +91,7 @@ public class SequenceController extends HttpServlet {
                     view.forward(request, response);
                     return;
                 }
-                serveFile = sfc.generateFileFromIDs(fullFile, idSeqs, seqType, seqHeader);
+                serveFile = sfc.generateFileFromIDs(dirPath,fullFile, idSeqs, seqType, seqHeader);
                 if (serveFile) {
                     String log = serveFile(fileName, fullFile, response, "txt/fna");
                     if (log.contains("Error")) {

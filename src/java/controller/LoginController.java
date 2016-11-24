@@ -107,7 +107,7 @@ public class LoginController extends HttpServlet {
                 //out.close();
             }
         } else if (userPath.equals("/homeCamp")) {
-            if (session.isNew() || session.getAttribute("usrObj") == null) {
+            if (session.isNew() || session.getAttribute("userObj") == null) {
                 String url = "index.jsp";
                 //mandar mensaje de session expirada o a página de error / sesión expirada
                 request.setAttribute("msg", "Su sesi&oacute;n expir&oacute;");
