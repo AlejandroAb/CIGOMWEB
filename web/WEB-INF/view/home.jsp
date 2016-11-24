@@ -204,7 +204,7 @@
                     <span class="icon-bar"></span>
                 </button>
               <!--  <span class="b1"><img id="logos" src="images/menu/logos.png" alt="logo" width="95%x" height="95px" /></span>-->
-              <span class="b1"><img id="logos" src="images/menu/logoC.png" alt="logo" width="95%x" height="95px" style="padding-left:60px;" /></span>
+                    <span class="b1"><img id="logos" src="images/menu/logoC.png" alt="logo" width="23%" height="95px" style="padding-left:60px;" /></span>
             </div>
             <!-- /.navbar-header -->
 
