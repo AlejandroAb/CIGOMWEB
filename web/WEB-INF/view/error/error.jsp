@@ -1,6 +1,6 @@
 <%-- 
-    Document   : jobError
-    Created on : 15/11/2016, 11:47:02 AM
+    Document   : error.jsp
+    Created on : 24/11/2016, 01:15:56 PM
     Author     : Alejandro
 --%>
 
@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>CIGOM - ERROR</title>
     </head>
     <body>
         <h1>Hello World!</h1>

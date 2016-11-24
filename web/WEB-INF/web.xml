@@ -59,6 +59,10 @@
         <servlet-name>LoginController</servlet-name>
         <servlet-class>controller.LoginController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SequenceController</servlet-name>
+        <servlet-class>controller.SequenceController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/actualizaT</url-pattern>
@@ -72,6 +76,10 @@
         <url-pattern>/showJob</url-pattern>
         <url-pattern>/deleteJob</url-pattern>
         <url-pattern>/blastSearch</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SequenceController</servlet-name>
+        <url-pattern>/getSequence</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

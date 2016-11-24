@@ -210,6 +210,28 @@ public class Transacciones {
         return conexion.getTabla();
     }
 
+    public ArrayList getSequenceWithProtInfo(String genIDList, String seqType) {
+        String query = "SELECT DISTINCT gen.gen_id, gen_src, sequence, gen_strand, seq_from, "
+                + "seq_to,gsp.uniprot_id, prot_name, gene_name "
+                + "FROM gen "
+                + "INNER JOIN gen_seq on gen_seq.gen_id = gen.gen_id "
+                + "LEFT JOIN gen_swiss_prot as gsp on gsp.gen_id = gen_seq.gen_id "
+                + "LEFT JOIN swiss_prot as s on s.uniprot_id = gsp.uniprot_id "
+                + "WHERE gen.gen_id in("+genIDList+") "
+                + "AND seq_type = '"+seqType+"'";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+    public ArrayList getSequenceWithoutProtInfo(String genIDList, String seqType) {
+        String query = "SELECT DISTINCT gen.gen_id, gen_src, sequence, gen_strand, seq_from, seq_to "                
+                + "FROM gen "
+                + "INNER JOIN gen_seq on gen_seq.gen_id = gen.gen_id "            
+                + "WHERE gen.gen_id in("+genIDList+") "
+                + "AND seq_type = '"+seqType+"'";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
     /**
      *
      * @param idUsuario
@@ -218,7 +240,7 @@ public class Transacciones {
     public ArrayList getBlastJobsByUser(int idUsuario) {
         String query = "SELECT idblast_job, job_url FROM blast_job  "
                 + "WHERE idusuario = " + idUsuario
-                +" ORDER BY start_date desc";
+                + " ORDER BY start_date desc";
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
@@ -245,11 +267,13 @@ public class Transacciones {
         String query = "DELETE FROM blast_job WHERE idblast_job = " + idJob;
         return conexion.queryUpdate(query);
     }
-    public boolean deleteBlastMetaBase(String idJob){
+
+    public boolean deleteBlastMetaBase(String idJob) {
         String query = "DELETE FROM blast_job_metagenoma WHERE idblast_job = " + idJob;
         return conexion.queryUpdate(query);
     }
-    public boolean deleteBlastGenoBase(String idJob){
+
+    public boolean deleteBlastGenoBase(String idJob) {
         String query = "DELETE FROM blast_job_genoma WHERE idblast_job = " + idJob;
         return conexion.queryUpdate(query);
     }

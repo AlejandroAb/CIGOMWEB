@@ -47,14 +47,13 @@ public class BlastController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
-        if (session == null || session.isNew()) {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.isNew() || session.getAttribute("usrObj") == null) {
             //session expirada o invalida
             String url = "index.jsp";
             //mandar mensaje de session expirada o a página de error / sesión expirada
             request.setAttribute("msg", "Su sesi&oacute;n expir&oacute;");
             request.getRequestDispatcher(url).forward(request, response);
-            return;
         } else {
             String userPath = request.getServletPath();
             //Transacciones tiene que ser un variable de sesion
@@ -67,7 +66,7 @@ public class BlastController extends HttpServlet {
             if (transacciones == null || !transacciones.testConnection()) {
                 //redireccionar a página de error
                 request.setAttribute("msg", "No se puede crear una conexión a la BD<br/>Comunicarse con el administrador del sistema<br/>Gracias!");
-                String url = "error.jsp";
+                String url = "/WEB-INF/view/error/error.jsp";
                 request.getRequestDispatcher(url).forward(request, response);
                 return;
             }
@@ -186,7 +185,9 @@ public class BlastController extends HttpServlet {
                 JobDAO jDao = new JobDAO(transacciones);
                 Job job = jDao.initJobObject(idJob);
                 if (job == null) {
-                    RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/error/jobError.jsp");
+                    String url = "/WEB-INF/view/error/error.jsp";
+                    request.setAttribute("msg", "Error inicializando BLAST Job: " +idJob + "<br>Por favor comunicarse con el administrador del sistema ");
+                    RequestDispatcher view = request.getRequestDispatcher(url);
                     view.forward(request, response);
                 }
                 request.setAttribute("job", job);
