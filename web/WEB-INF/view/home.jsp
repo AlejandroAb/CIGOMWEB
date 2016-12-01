@@ -56,8 +56,7 @@
         <link href="dist/css/timeline.css" rel="stylesheet">
         <!-- Custom CSS -->
         <link href="dist/css/sb-admin-2.css" rel="stylesheet">
-        <!-- Morris Charts CSS -->
-        <link href="bower_components/morrisjs/morris.css" rel="stylesheet">
+
         <!-- Custom Fonts -->
         <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -90,7 +89,8 @@
                 mapTypeId: google.maps.MapTypeId.HYBRID
                         //mapTypeId: google.maps.MapTypeId.TERRAIN 
             });
-        <%      Object puntosObj = request.getAttribute("puntos");
+        <%  
+            Object puntosObj = request.getAttribute("puntos");
             ArrayList<PuntoMapa> puntos = null;
 
             if (puntosObj != null) {
@@ -204,7 +204,7 @@
                     <span class="icon-bar"></span>
                 </button>
               <!--  <span class="b1"><img id="logos" src="images/menu/logos.png" alt="logo" width="95%x" height="95px" /></span>-->
-                    <span class="b1"><img id="logos" src="images/menu/logoC.png" alt="logo" width="23%" height="95px" style="padding-left:60px;" /></span>
+                    <span class="b1"><img id="logos" src="images/menu/logoC.png" alt="logo" width="25%" height="95px" style="padding-left:60px;" /></span>
             </div>
             <!-- /.navbar-header -->
 
@@ -611,11 +611,6 @@
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
-
-    <!-- Morris Charts JavaScript -->
-    <script src="bower_components/raphael/raphael-min.js"></script>
-    <script src="bower_components/morrisjs/morris.min.js"></script>
-    <script src="js/morris-data.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="dist/js/sb-admin-2.js"></script>

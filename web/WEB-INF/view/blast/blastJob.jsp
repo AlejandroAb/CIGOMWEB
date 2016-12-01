@@ -1,13 +1,15 @@
 <%-- 
-    Document   : showJob
-    Created on : 15/11/2016, 11:47:23 AM
-    Author     : Alejandro
+    Document   : blast
+    Created on : 24/10/2016, 01:47:02 PM
+    Author     : Jose Pefi
 --%>
 
-<%@page import="bobjects.Usuario"%>
-<%@page import="job.Job"%>
 <%@page import="job.BlastResult"%>
+<%@page import="job.Job"%>
+<%@page import="bobjects.Usuario"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="database.Transacciones"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     HttpSession sesion = request.getSession();
@@ -19,14 +21,9 @@
         response.sendRedirect("index.jsp");
     }
     Usuario usuario = (Usuario) sesion.getAttribute("userObj");
-    //String usuario = (String) sesion.getAttribute("usuario");
-    // String nombres = (String) sesion.getAttribute("nombres");
-    // String apellidos = (String) sesion.getAttribute("apellidos");
-
     String nombreCompleto = usuario.getNombres() + " " + usuario.getApellidos();
-
-
 %>
+<!DOCTYPE html>
 <html>
     <head>
         <!-- Bootstrap Core CSS -->
@@ -38,36 +35,140 @@
         <link href="dist/css/timeline.css" rel="stylesheet">
         <!-- Custom CSS -->
         <link href="dist/css/sb-admin-2.css" rel="stylesheet">
-        <!-- Morris Charts CSS -->
-        <link href="bower_components/morrisjs/morris.css" rel="stylesheet">
         <!-- Custom Fonts -->
         <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-        <!-- jQuery -->
-        <script src="bower_components/jquery/dist/jquery.min.js"></script>
 
         <!-- DataTables CSS -->
         <link href="bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet">
         <!-- DataTables Responsive CSS -->
-        <link href="bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">        
+        <link href="bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">     
+
+        <!-- jQuery -->
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+        <!-- Metis Menu Plugin JavaScript -->
+        <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+
+        <!-- Custom Theme JavaScript -->
+        <script src="dist/js/sb-admin-2.js"></script>
+
+        <!-- DataTables JavaScript -->
+        <script src="bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+        <script src="bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+        <script src="bower_components/datatables-responsive/js/dataTables.responsive.js"></script>
+
+        <!--ALERTAS-->
+
+        <script src="alerta/dist/sweetalert-dev.js"></script>
+        <link rel="stylesheet" href="alerta/dist/sweetalert.css">
+
+        <!--ESCRIPT PARA OBTENER LOS VALORES DE LA TABLA GENOMAS-->
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                $("#obtenerdatos-genomas").click(function () {
+                    //saco el valor accediendo al id del input = nombre
+
+                    var dType = $("#opciones").val();
+
+                    var seqType = $("#tipoSecuencia").val();
+
+                    if ($('#proteina').prop('checked'))
+                    {
+                        var seqHeader = $('input:checkbox[name=proteinas]:checked').val();
+                    } else
+                    {
+                        var seqHeader = "regular";
+                    }
+
+
+
+                    // para cada checkbox "chequeado"
+                    var resultG = [];
+                    var i = 0;
+
+                    // para cada checkbox "chequeado"
+                    $("input[id^=checkgenoma][type=checkbox]:checked").each(function () {
+
+                        resultG[i] = $(this).val();
+                        ++i;
+                    });
+
+                    var parametros = {
+                        ids: resultG.join(','),
+                        dType: dType,
+                        seqType: seqType,
+                        seqHeader: seqHeader
+
+                    };
+                    $.ajax({
+                        data: parametros,
+                        url: 'getSequence',
+                        type: 'post',
+                        global: false,
+                        beforeSend: function () {
+                            //imagen de carga
+                            swal({
+                                title: "",
+                                imageUrl: "images/loading.gif",
+                                showConfirmButton: false
+                            });
+                        },
+                        success: function (data) {
+                            // terminamos la imagen de carga
+                            swal({
+                                title: "",
+                                imageUrl: "images/loading.gif",
+                                showConfirmButton: false,
+                                timer: 1000
+                            });
+                        }
+                    });
+
+                    /*document.write("<form action=\"getSequence\" method=post name=\"formOculto\">\n\
+                     <input type=\"hidden\" name=\"ids\" value=" + resultG.join(',') + "> \n\\n\
+                     <input type=\"hidden\" name=\"dType\" value=" + dType + "> \n\\n\
+                     <input type=\"hidden\" name=\"seqType\" value=" + seqType + "> \n\\n\
+                     <input type=\"hidden\" name=\"seqHeader\" value='" + seqHeader + "'> \n\\n\
+                     </form>");
+                     document.formOculto.submit();*/
+                    //alert("Ids: " + resultG.join(',')+"\n"+"Cadena: " + dType + ',' + seqType + ',' + seqHeader);                               
+
+                });
+            });
+
+        </script>  
+
+        <script>
+            $(document).ready(function () {
+                $('#genomas-blast').DataTable({
+                    responsive: true
+                });
+            });
+        </script>       
+
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        
-
         <title>BLAST</title>
-
     </head>
-    <body >
+    <body>
         <div id="wrapper">
 
             <!-- Navigation -->
-            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0; padding-top:10px; padding-left:0px; padding-right:15px; background-color:#ffffff;">
-                <div class="navbar-header">
+            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0; padding-top:10px; padding-right:15px; background-color:#ffffff;">
+                <div class="navbar-header" style="padding-left:15px;">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
+                    <!--<span class="b1"><img id="logos" src="images/menu/logos.png" alt="logo" width="95%x" height="95px" /></span>-->
                     <span class="b1"><img id="logos" src="images/menu/logoC.png" alt="logo" width="23%" height="95px" style="padding-left:60px;" /></span>
                 </div>
                 <!-- /.navbar-header -->
@@ -78,7 +179,7 @@
                         <br>
 
                         <i class="fa fa-user fa-fw" ></i>            
-                        <%                            out.print(nombreCompleto);
+                        <%                        out.print(nombreCompleto);
                         %>
 
 
@@ -109,16 +210,16 @@
                                 <a href="Blast" ><i class="fa fa-edit fa-fw"></i> BLAST</a>
                             </li>
                             <li>
-                                <a href="forms.html"><i class="fa fa-edit fa-fw"></i> AMPLICONES</a>
+                                <a href="#"><i class="fa fa-edit fa-fw"></i> AMPLICONES</a>
                             </li>
                             <li>
-                                <a href="forms.html"><i class="fa fa-edit fa-fw"></i> METAGENOMA</a>
+                                <a href="#"><i class="fa fa-edit fa-fw"></i> METAGENOMA</a>
                             </li>
                             <li>
-                                <a href="forms.html"><i class="fa fa-edit fa-fw"></i> SITIOS</a>
+                                <a href="#"><i class="fa fa-edit fa-fw"></i> SITIOS</a>
                             </li>
                             <li>
-                                <a href="#"><i class="fa fa-edit fa-fw"></i> ANALISIS</a>
+                                <a href="analisis.jsp"><i class="fa fa-edit fa-fw"></i> ANALISIS</a>
                             </li>
                             <li>
                                 <a href="CerrarSesion"><i class="fa fa-edit fa-fw"></i> SALIR</a>
@@ -136,252 +237,282 @@
             <div id="page-wrapper">
                 <div class="row">
                     <div class="col-lg-12">
-                        <!-- <h1 class="page-header">LOGOS</h1>-->
+                        <h1 class="page-header">BLAST-JOB</h1>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
                 <br>
-
                 <!-- /.row -->
                 <div class="row">
 
                     <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                PROCESO BLAST 
+                        <div class="panel panel-default" >
+                            <div class="panel-heading" style="background-color:#dae1e6;">
+                                Resultados <button class="fa fa-chevron-up" id="principal-job"></button>
                             </div>
-                            <div class="panel-body" style="background-color:#dae1e6;">
+                            <div class="panel-body" style="background-color:#eee;" id="caebecera-blastjob">
+
+                                <div class="col-lg-12">
+                                    <div class="panel panel-default">
+                                        <!-- /.panel-heading -->
+                                        <div class="panel-body" >
+                                            <div class="dataTable_wrapper">
+                                                <table width="100%" class="table table-striped table-bordered table-hover" id="tabla-misbusquedas">
+
+                                                    <%
+                                                        Object jobObj = request.getAttribute("job");
+                                                        Job job = jobObj != null ? (Job) jobObj : null;
+                                                        if (job != null) {
+
+                                                    %>
+                                                    <tr>
+                                                        <th style="width:10%; font-size:15px;">Nombre:</th>
+                                                        <td colspan="4"><code><%= job.getJob_name()%></code></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="font-size:15px;">Tipo de búsqueda:</th>
+                                                        <td style="width:20%;"><code><%= job.getJob_type()%></code></td>
+                                                        <th style="font-size:15px; width:10%;">e.val (1x10<sup>-</sup>):</th>
+                                                        <td >
+                                                            <code><%= job.getEvalue()%></code>
+                                                        </td>                                            
+                                                    </tr>
+                                                    <tr>                                          
+                                                        <th style="font-size:15px;">Inicio:</th>
+                                                        <td ><code><%= job.getStart_date()%></td></code>
+                                                        <th style="font-size:15px; width:10%;">Fin:</th>
+                                                        <td ><code><%= job.getStart_date()%></td></code>                                           
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="font-size:15px;">Estatus:</th>
+                                                        <td colspan="4"><code><%= job.getStatus()%></td></code>
+                                                    </tr>
+
+                                                    <script type="text/javascript">
+
+                                                        var mensaje = <%= job.getMessage()%>;
+                                                        //var mensaje = null;
+                                                        if (mensaje != null)
+                                                        {
+                                                            $(document).ready(function () {
+                                                                $("#mensaje").css("display", "block");
+                                                            });
+                                                        }
+                                                    </script>                                       
+                                                    <tr style="background-color: yellow; display:none;" id="mensaje">
+                                                        <th style="font-size:15px;">Mensaje:</th>
+                                                        <td colspan="4"><code><%= job.getMessage()%></td></code>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="font-size:15px;">Metagenomas:</th>
+                                                        <td colspan="4"><code><%= job.getMetagenomas()%></td></code>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="font-size:15px;">Genomas:</th>
+                                                        <td colspan="4"><code><%= job.getGenomas()%></td></code>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="font-size:15px;">Query:</th>
+                                                        <td colspan="4"><code><a href="" class="fa fa-file-text"></a></code></td>
+                                                    </tr>                                         
+                                                    <%
+
+                                                        }
+                                                    %>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- /.panel-body -->
+                                    </div>
+                                </div>                                  
+                            </div>                           
+                            <div class="panel-heading" style="background-color:#dae1e6;">
+                                Resultados <button class="fa fa-chevron-up" id="resultados-job"></button>
+                            </div>
+                            <div class="panel-body" style="background-color:#eee;" id="resultados">
                                 <div class="row">
-                                    <form rol="form">
+                                    <div class="col-lg-12">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <center>Resultados</center>
+                                            </div>
+                                            <br>
+                                            <div class="col-lg-12">                                           
 
-
-                                        <div class="col-lg-8">
-                                            <div class="panel panel-default">
-                                                <%
-                                                    Object jobObj = request.getAttribute("job");
-                                                    Job job = jobObj != null ? (Job) jobObj : null;
-                                                    if (job != null) {
-
-                                                %>
-                                                <div class="panel-heading" >
-                                                    <b>Nombre:</b> <%= job.getJob_name()%>
+                                                <div class="col-lg-3">
+                                                    <div class="form-group">
+                                                        <label>Seleccionar todos los registros</label>
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                <input type="checkbox" name="marcarTodo" id="marcarTodoG" />Marcar
+                                                            </label>
+                                                        </div>    
+                                                    </div>            
+                                                </div>                                                
+                                                <div class="col-lg-2">
+                                                    <div class="form-group">
+                                                        <label>Descargar</label>
+                                                        <select class="form-control" id="opciones">
+                                                            <option>Secuencias</option>
+                                                            <option>Alineamientos</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                                <!-- /.panel-heading -->
-                                                <div class="panel-body">
-                                                    <div class="table-responsive">
-                                                        <table class="table">
+                                                <div class="col-lg-2">
+                                                    <div class="form-group">
+                                                        <label>Tipo de secuencia</label>
+                                                        <select class="form-control" id="tipoSecuencia">
+                                                            <option>AA</option>
+                                                            <option>NC</option>
+                                                            <option>3P</option>
+                                                            <option>5P</option>                                                
+                                                        </select>
+                                                    </div>                                               
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <label>Incluir detalle</label>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="proteinas" id="proteina" value="proteina" >Proteinas
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-2">           
+                                                    <div class="form-group">
+                                                        <label>Descargar</label>
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                <button  class="fa fa-download" id="obtenerdatos-genomas"></button>
+                                                            </label>
+                                                        </div>    
+                                                    </div>                                            
+                                                </div>
+                                            </div>                                               
+                                            <!-- /.panel-heading -->
+                                            <div class="panel-body">
 
-                                                            <tbody style="font-size:15px;">
-                                                                <tr class="info">
-                                                                    <td><label>Tipo de búsqueda:</label></td>
-                                                                    <td><%= job.getJob_type()%></td></td>
-                                                                    <td><label>e.val (1x10<sup>-</sup>):</label></td>
-                                                                    <td><%= job.getEvalue()%></td>
+                                                <div class="dataTable_wrapper">
+                                                    <table width="100%" class="table table-striped table-bordered table-hover" id="genomas-blast">
+                                                        <thead>
+                                                            <tr style="font-size:15px; text-align:left;">
+                                                                <th style="text-align:center;"></th>
+                                                                <th>Query</th>
+                                                                <th>Target</th>
+                                                                <th>Fuente</th>
+                                                                <th>Definición</th>
+                                                                <th>Taxa</th>
+                                                                <th>%ID</th>
+                                                                <th>QF</th>
+                                                                <th>QT</th>
+                                                                <th>SF</th>
+                                                                <th>ST</th>
+                                                                <th>e-val</th>
+                                                                <th>bit-s</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="tgenomas">
+                                                            <%
+                                                                Object blastResult = request.getAttribute("table");
+                                                                ArrayList<BlastResult> results = blastResult != null ? (ArrayList<BlastResult>) blastResult : null;
 
-                                                                </tr>
-                                                                <tr class="warning">
-                                                                    <td><label>Inicio:</label></td>
-                                                                    <td><%= job.getStart_date()%></td>
-                                                                    <td><label>Fin:</label></td>
-                                                                    <td><%= job.getStart_date()%></td>                                          
+                                                                if (results != null) {
+                                                                    for (BlastResult result : results) {
 
-                                                                </tr>
-                                                                <tr class="info">
-                                                                    <td><label>Estatus:</label></td>
-                                                                    <td><%= job.getStatus()%></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                </tr>
-                                                            <script type="text/javascript">
-
-                                                                var mensaje = <%= job.getMessage()%>;
-                                                                //var mensaje = null;
-                                                                if (mensaje != null)
-                                                                {
-                                                                    $(document).ready(function () {
-                                                                        $("#mensaje").css("display", "block");
-                                                                    });
+                                                            %> 
+                                                            <tr style="text-align: left; font-size:14px;" class="genomas" id="genoma">
+                                                                <td style="text-align:center;"><input type="checkbox" value="<%= result.getGen_id()%>" id="checkgenoma"></td>
+                                                                <td><%= result.getQuery()%></td>
+                                                                <td><%= result.getGen_id()%></td>
+                                                                <td><%= result.getSource()%></td>
+                                                                <td ><%= result.getTarget_definition()%></td>
+                                                                <td><%= result.getTaxa()%></td>
+                                                                <td><%= result.getIdentity()%></td>
+                                                                <td><%= result.getQuery_from()%></td>
+                                                                <td><%= result.getQuery_to()%></td>
+                                                                <td><%= result.getTarget_from()%></td>
+                                                                <td><%= result.getTarget_to()%></td>
+                                                                <td><%= result.getEval()%></td>
+                                                                <td><%= result.getBit_score()%></td>
+                                                            </tr>   
+                                                            <%
+                                                                    }
                                                                 }
-                                                            </script>
-                                                            <tr style="background-color: yellow; display:none;" id="mensaje">
-                                                                <td><label>Mensaje:</label></td>
-                                                                <td colspan="2"><%= job.getMessage()%></td>
+                                                            %>
 
-                                                            </tr>                                       
-                                                            <tr class="warning">
-                                                                <td><label>Metagenomas:</label></td>
-                                                                <td><%= job.getMetagenomas()%></td>
-                                                                <td></td>
-                                                                <td></td>                                           
-                                                            </tr>
-                                                            <tr class="info">
-                                                                <td><label>Genomas:</label></td>
-                                                                <td><%= job.getGenomas()%></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>
-
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    <!-- /.table-responsive -->
+                                                        </tbody>
+                                                    </table>
                                                 </div>
-                                                <!-- /.panel-body -->
-                                                <%
-                                                  }
-                                                %> 
                                             </div>
-                                            <!-- /.panel -->
+                                            <!-- /.panel-body -->
                                         </div>
+                                    </div>
 
-
-                                        <div class="col-lg-12">
-
-                                            <script type="text/javascript">
-                                                var estatus = "finalizados";
-                                                if (estatus == "corriendo")
-                                                {
-                                                    document.write("<h2 style='color:red;''>PROCESANDO...</h2>");
-                                                } else
-                                                {
-
-
-                                                    $(document).ready(function () {
-                                                        //alert("El display es " + $("#tabla").css("display"));
-                                                        $("#tabla").css("display", "block");
-                                                    });
-
-                                                }
-
-                                            </script> 
-
-
-
-
-                                            <div class="panel panel-default" id="tabla" style="display: none ;" >
-                                                <div class="panel-heading" style="text-align:center;">
-                                                    <b>GENOMAS</b>
-                                                </div>
-                                                <!-- /.panel-heading -->
-                                                <div class="panel-body">
-                                                    <div class="dataTable_wrapper">
-                                                        <table width="100%" class="table table-striped table-bordered" id="genomas-blast">
-                                                            <thead>
-                                                                <tr style="font-size:15px; text-align:left;">
-                                                                    <th style="text-align:center;">Marcar todos:<input type="checkbox" name="marcarTodo" id="marcarTodoG" /></th>
-                                                                    <th>Query</th>
-                                                                    <th>Target</th>
-                                                                    <th>Fuente</th>
-                                                                    <th style="width:15%">Definición</th>
-                                                                    <th>Taxa</th>
-                                                                    <th>%ID</th>
-                                                                    <th>QF</th>
-                                                                    <th>QT</th>
-                                                                    <th>SF</th>
-                                                                    <th>ST</th>
-                                                                    <th>e-val</th>
-                                                                    <th>bit-s</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody id="tgenomas">  
-                                                                <%
-                                                                    Object blastResult = request.getAttribute("table");
-                                                                    ArrayList<BlastResult> results = blastResult != null ? (ArrayList<BlastResult>) blastResult : null;
-
-                                                                    if (results != null) {
-                                                                        for (BlastResult result : results) {
-
-                                                                %> 
-                                                                <tr style="text-align: left; font-size:14px;" class="genomas" id="genoma">
-                                                                    <td style="text-align:center;"><input type="checkbox" value="<%= result.getGen_id() %>" id="checkgenoma"></td>
-                                                                    <td><%= result.getQuery()%></td>
-                                                                    <td><%= result.getGen_id()%></td>
-                                                                    <td><%= result.getSource()%></td>
-                                                                    <td><%= result.getTarget_definition()%></td>
-                                                                    <td><%= result.getTaxa()%></td>
-                                                                    <td><%= result.getIdentity()%></td>
-                                                                    <td><%= result.getQuery_from()%></td>
-                                                                    <td><%= result.getQuery_to()%></td>
-                                                                    <td><%= result.getTarget_from()%></td>
-                                                                    <td><%= result.getTarget_to()%></td>
-                                                                    <td><%= result.getEval()%></td>
-                                                                    <td><%= result.getBit_score()%></td>
-                                                                </tr>   
-                                                                <%
-                                                               }
-                                                           }
-                                                                %>
-
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    <!-- /.table-responsive -->
-                                                </div>
-                                                <!-- /.panel-body -->
-                                            </div>
-                                            <!-- /.panel -->
-                                        </div>
-
-
-                                        <!-- /.col-lg-6 (nested) -->
-
-                                        <!-- /.col-lg-4 (nested) -->
+                                    <!-- /.row (nested) -->
                                 </div>
-                                <!-- /.row (nested) -->
+                                <!-- /.panel-body -->
                             </div>
-                            <!-- /.panel-body -->
                         </div>
+
                     </div>
 
                 </div>
+                <!-- /#page-wrapper -->
 
             </div>
-            <!-- /#page-wrapper -->
 
-        </div>
-        <!-- jQuery -->
-        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+            <!--SCRIPT PARA MARCAR Y DESMARCAR LOS CHECKS DE LA TABLA GENOMAS-->
+            <script>
+                $("#marcarTodoG").change(function () {
+                    if ($(this).is(':checked')) {
+                        //$("input[type=checkbox]").prop('checked', true); //todos los check del documento
+                        $("#genomas-blast input[type=checkbox]").prop('checked', true); //solo los del objeto #tabla-genomasblast
+                    } else {
+                        //$("input[type=checkbox]").prop('checked', false);//todos los check del documento
+                        $("#genomas-blast input[type=checkbox]").prop('checked', false);//solo los del objeto #tablas-genomasblast
+                    }
+                });
+            </script> 
+            <!--SCRIPT PARA OCULTAR DIV PRINCIPAL DE BLASTJOB-->
+            <script>
+                $(document).ready(function () {
+                    var clic = 1;
+                    $("#principal-job").on("click", function () {
+                        if (clic == 1) {
+                            $('#caebecera-blastjob').hide(); //oculto
+                            $('#principal-job').removeClass('fa-chevron-up');//elimina clse del icono up
+                            $('#principal-job').addClass('fa-chevron-down');//agrega la clase del icono down
+                            clic = clic + 1;
+                        } else {
+                            $('#caebecera-blastjob').show(); //muestro
+                            $('#principal-job').removeClass('fa-chevron-down');//elimina clse del icono down
+                            $('#principal-job').addClass('fa-chevron-up');//agrega la clase del icono up
+                            clic = 1;
+                        }
 
-        <!-- Bootstrap Core JavaScript -->
-        <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+                    });
+                });
+            </script>        
+            <!--SCRIPT PARA OCULTAR DIV RESULTADOS-->
+            <script>
+                $(document).ready(function () {
+                    var clic = 1;
+                    $("#resultados-job").on("click", function () {
+                        if (clic == 1) {
+                            $('#resultados').hide(); //oculto
+                            $('#resultados-job').removeClass('fa-chevron-up');//elimina clse del icono up
+                            $('#resultados-job').addClass('fa-chevron-down');//agrega la clase del icono down
+                            clic = clic + 1;
+                        } else {
+                            $('#resultados').show(); //muestro
+                            $('#resultados-job').removeClass('fa-chevron-down');//elimina clse del icono down
+                            $('#resultados-job').addClass('fa-chevron-up');//agrega la clase del icono up
+                            clic = 1;
+                        }
 
-        <!-- Metis Menu Plugin JavaScript -->
-        <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
-
-        <!-- Morris Charts JavaScript -->
-        <script src="bower_components/raphael/raphael-min.js"></script>
-        <script src="bower_components/morrisjs/morris.min.js"></script>
-        <script src="js/morris-data.js"></script>
-
-        <!-- Custom Theme JavaScript -->
-        <script src="dist/js/sb-admin-2.js"></script>
-
-        <!-- DataTables JavaScript -->
-        <script src="bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
-        <script src="bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
-        <script src="bower_components/datatables-responsive/js/dataTables.responsive.js"></script>
-
-        <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-        <script>
-                                                $(document).ready(function () {
-                                                    $('#genomas-blast').DataTable({
-                                                        responsive: true
-                                                    });
-                                                });
-        </script>
-        
-                        <!--SCRIPT PARA MARCAR Y DESMARCAR LOS CHECKS DE LA TABLA GENOMAS-->
-        <script>
-            $("#marcarTodoG").change(function() {
-                if ($(this).is(':checked')) {
-                    //$("input[type=checkbox]").prop('checked', true); //todos los check del documento
-                    $("#genomas-blast input[type=checkbox]").prop('checked', true); //solo los del objeto #tabla-genomasblast
-                } else {
-                    //$("input[type=checkbox]").prop('checked', false);//todos los check del documento
-                    $("#genomas-blast input[type=checkbox]").prop('checked', false);//solo los del objeto #tablas-genomasblast
-                }
-            });
-        </script> 
-
+                    });
+                });
+            </script>
     </body>
 </html>

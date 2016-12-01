@@ -4,6 +4,7 @@
     Author     : Jose Pefi
 --%>
 
+<%@page import="job.Job"%>
 <%@page import="bobjects.Usuario"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.ArrayList"%>
@@ -59,10 +60,15 @@
         <script src="bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
         <script src="bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
         <script src="bower_components/datatables-responsive/js/dataTables.responsive.js"></script>
+        
+        <!--ALERTAS-->
+        
+        <script src="alerta/dist/sweetalert-dev.js"></script>
+        <link rel="stylesheet" href="alerta/dist/sweetalert.css">
 
         <!--ESCRIPT QUE ACTIVA EL BUSCADOR EN LA TABLA METAGENOMAS-->
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $('#tabla-metagenomas').DataTable({
                     responsive: true
                 });
@@ -71,16 +77,24 @@
 
         <!--ESCRIPT QUE ACTIVA EL BUSCADOR EN LA TABLA GENOMAS-->
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $('#tabla-genomas').DataTable({
+                    responsive: true
+                });
+            });
+        </script>
+        <!--ESCRIPT QUE ACTIVA EL BUSCADOR EN LA TABLA BUSQUEDAS-->
+        <script>
+            $(document).ready(function () {
+                $('#tabla-misbusquedas').DataTable({
                     responsive: true
                 });
             });
         </script>
         <!--ESCRIPT PARA OBTENER LOS VALORES DEL FORMULARIO-->
         <script type="text/javascript">
-            $(document).ready(function() {
-                $("#ObtenerVal").click(function() {
+            $(document).ready(function () {
+                $("#ObtenerVal").click(function () {
                     //saco el valor accediendo al id del input = nombre
                     var nombre = $("#nombre").val();
 
@@ -96,7 +110,7 @@
                     var i = 0;
                     var j = 0;
                     // para cada checkbox "chequeado"
-                    $("input[id^=checkG][type=checkbox]:checked").each(function() {
+                    $("input[id^=checkG][type=checkbox]:checked").each(function () {
 
                         // buscamos el td más cercano en el DOM hacia "arriba"
                         // luego encontramos los td adyacentes a este
@@ -111,7 +125,7 @@
                         ++i;
                     });
 
-                    $("input[id^=checkMG][type=checkbox]:checked").each(function() {
+                    $("input[id^=checkMG][type=checkbox]:checked").each(function () {
 
                         resultMG[j] = $(this).val();
                         ++j;
@@ -135,6 +149,47 @@
             });
 
         </script>
+        
+        <!--FUNCIÓN PARA ELIMINAR UN BLASTJOB--->
+
+     <script>
+        function eliminar(id,url) {
+            swal({
+                title: "Estas seguro de elimar esta fila?",
+                //text: url+"---"+id,
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#2274ba",
+                confirmButtonText: "Si, Acepto!",
+                cancelButtonColor: "#2274ba",
+                cancelButtonText: "Cancelar",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            },
+                    function (isConfirm) {
+                        if (isConfirm) {
+
+                            $(function () {
+                                $('#'+id).hide(); //ocultamos el registro    
+                                
+                                //parametros enviados al controlador 'deleteJob'
+                                var params = {
+                                    id: id,
+                                    url: url
+                                };
+                                $.post('deleteJob', params, function (data) {
+                                    //aqui ocultamos el registro
+                                    //alert("parametros enviados");
+                                    //document.write("<img src='http://i1114.photobucket.com/albums/k527/martin264/loading.gif' />");
+                                    //swal("Confirmado!", "Bienvenido al sistema:", "success");
+                                    //location.href="actualiza.jsp?nombre=";  
+                                });
+                            });
+
+                        } 
+                    });
+        }
+    </script>      
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>BLAST</title>
@@ -220,7 +275,7 @@
             <div id="page-wrapper">
                 <div class="row">
                     <div class="col-lg-12">
-                        <!-- <h1 class="page-header">ADMINISTRADOR</h1>-->
+                        <h1 class="page-header">BLAST</h1>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
@@ -229,11 +284,66 @@
                 <div class="row">
 
                     <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Crear nueva búsqueda Blast.
+                        <div class="panel panel-default" >
+                        <div class="panel-heading" style="background-color:#dae1e6;">
+                            Mis búsquedas <button class="fa fa-chevron-up" id="mis-busquedas"></button>
+                        </div>
+                        <div class="panel-body" style="background-color:#eee;" id="mi-busquedablast">
+
+                            <div class="col-lg-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <center>Resultado mis busquedas</center>
+                                    </div>
+                                    <!-- /.panel-heading -->
+                                    <div class="panel-body" >
+                                        <div class="dataTable_wrapper">
+                                            <table width="100%" class="table table-striped table-bordered table-hover" id="tabla-misbusquedas">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nombre</th>
+                                                        <th>Estatus</th>
+                                                        <th>Inicio</th>
+                                                        <th>Fin</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="metas">
+                                                    <%
+                                                        Object jobsObj = request.getAttribute("jobs");
+                                                        ArrayList<Job> jobs = null;
+
+                                                        if (jobsObj != null) {
+                                                            jobs = (ArrayList<Job>) jobsObj;
+                                                        }
+                                                        if (jobs != null) {
+                                                            for (Job jb : jobs) {
+
+                                                    %> 
+                                                    <tr style="text-align: left;" class="meta" id="<%= jb.getId_job()%>" width="100%" >
+                                                        <td><a href="showJob?<%= jb.getURL()%>"><%= jb.getJob_name()%></a></td>
+                                                        <td><%= jb.getStatus()%></td>
+                                                        <td><%= jb.getStart_date()%></td>
+                                                        <td><%= jb.getEnd_date()%></td>
+                                                        <td style="text-align:center;"><button onclick="eliminar('<%= jb.getId_job()%>','<%= jb.getURL()%>')" class="glyphicon glyphicon-trash" id="eliminar"></button></td>
+                                                    </tr>
+                                                    <%
+                                                        }
+                                                    }
+                                                    %>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <!-- /.panel-body -->
+                                </div>
+                            </div>                                  
+                        </div>                           
+                            <div class="panel-heading" style="background-color:#dae1e6;">
+                                Crear nueva búsqueda Blast. <button class="fa fa-chevron-up" id="nueva-busqueda"></button>
                             </div>
-                            <div class="panel-body" style="background-color:#eee;">
+                            <div class="panel-body" style="background-color:#eee;" id="busquedablast">
                                 <div class="row">
                                     <form rol="form">
                                         <div class="col-lg-8">
@@ -384,12 +494,6 @@
                                                         </table>
                                                     </div>
                                                 </div>
-                                                <div class="panel-heading">
-                                                    Crear nueva búsqueda Blast.
-                                                </div>
-                                                <div class="panel-body" style="background-color:#eee;">
-                                                    <!-- /.panel-body -->
-                                                </div>
                                             </div>   
 
                                             <div class="col-lg-6">
@@ -410,10 +514,6 @@
                             </div>
                             <!-- /.panel-body -->
                         </div>
-                        <div class="panel-heading">
-                            Mis búsquedas
-                        </div>
-                        <div class="panel-body" style="background-color:#eee;"></div>
                     </div>
 
                 </div>
@@ -424,7 +524,7 @@
         </div>
         <!--SCRIPT PARA MARCAR Y DESMARCAR LOS CHECKS DE LA TABLA METAGENOMAS-->
         <script>
-            $("#marcarTodoMG").change(function() {
+            $("#marcarTodoMG").change(function () {
                 if ($(this).is(':checked')) {
                     //$("input[type=checkbox]").prop('checked', true); //todos los check del documento
                     $("#tabla-metagenomas input[type=checkbox]").prop('checked', true); //solo los del objeto #marcarMetagenomas
@@ -437,7 +537,7 @@
 
         <!--SCRIPT PARA MARCAR Y DESMARCAR LOS CHECKS DE LA TABLA GENOMAS-->
         <script>
-            $("#marcarTodoG").change(function() {
+            $("#marcarTodoG").change(function () {
                 if ($(this).is(':checked')) {
                     //$("input[type=checkbox]").prop('checked', true); //todos los check del documento
                     $("#tabla-genomas input[type=checkbox]").prop('checked', true); //solo los del objeto #tabla-genomas
@@ -446,6 +546,47 @@
                     $("#tabla-genomas input[type=checkbox]").prop('checked', false);//solo los del objeto #tabla-genomas
                 }
             });
-        </script>  
+        </script> 
+
+        <!--SCRIPT PARA OCULTAR DIV DE MIS BUSQUEDAS-->
+        <script>
+            $(document).ready(function () {
+                var clic = 1;
+                $("#mis-busquedas").on("click", function () {
+                    if (clic == 1) {
+                        $('#mi-busquedablast').hide(); //oculto
+                        $('#mis-busquedas').removeClass('fa-chevron-up');//elimina clse del icono up
+                        $('#mis-busquedas').addClass('fa-chevron-down');//agrega la clase del icono down
+                        clic = clic + 1;
+                    } else {
+                        $('#mi-busquedablast').show(); //muestro
+                        $('#mis-busquedas').removeClass('fa-chevron-down');//elimina clse del icono down
+                        $('#mis-busquedas').addClass('fa-chevron-up');//agrega la clase del icono up
+                        clic = 1;
+                    }
+
+                });
+            });
+        </script>
+        <!--SCRIPT PARA OCULTAR DIV DE BUSQUEDABLAST-->
+        <script>
+            $(document).ready(function () {
+                var clic = 1;
+                $("#nueva-busqueda").on("click", function () {
+                    if (clic == 1) {
+                        $('#busquedablast').hide(); //oculto
+                        $('#nueva-busqueda').removeClass('fa-chevron-up');//elimina clse del icono up
+                        $('#nueva-busqueda').addClass('fa-chevron-down');//agrega la clase del icono down
+                        clic = clic + 1;
+                    } else {
+                        $('#busquedablast').show(); //muestro
+                        $('#nueva-busqueda').removeClass('fa-chevron-down');//elimina clse del icono down
+                        $('#nueva-busqueda').addClass('fa-chevron-up');//agrega la clase del icono up
+                        clic = 1;
+                    }
+
+                });
+            });
+        </script>
     </body>
 </html>

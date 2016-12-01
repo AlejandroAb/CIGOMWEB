@@ -12,6 +12,13 @@
         <title>CIGOM - ERROR</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <br>
+        <center>  
+                <img src="images/error.png">
+                <br>
+                <h5 style="color:#EC1010">
+                    <b>"<%= request.getAttribute("msg")%>"</b>
+                </h5> 
+        </center>
     </body>
 </html>

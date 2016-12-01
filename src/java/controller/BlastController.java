@@ -212,16 +212,20 @@ public class BlastController extends HttpServlet {
                 RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/view/blast/blastJob.jsp");
                 view.forward(request, response);
             } else if (userPath.equals("/deleteJob")) {
-                PrintWriter outPW = response.getWriter();
-                String idJob = request.getParameter("jobURL");
-                JobDAO jDao = new JobDAO(transacciones);
+                //PrintWriter outPW = response.getWriter();
+                String idJob = request.getParameter("id");
+                String urlJob = request.getParameter("url");
+                
+                System.out.println(idJob+"--"+urlJob);
+                
+                /*JobDAO jDao = new JobDAO(transacciones);
                 String log = jDao.deleteJob(idJob);
                 if (log.length() == 0) {
                     outPW.close();
                 } else {
                     outPW.print(log);
                     outPW.close();
-                }
+                }*/
             }
         }
     }

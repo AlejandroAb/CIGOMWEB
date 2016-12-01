@@ -66,6 +66,13 @@ public class SequenceController extends HttpServlet {
 
             }
             if (userPath.equals("/getSequence")) {
+                /*String idSeqs = request.getParameter("ids");
+                String dType = request.getParameter("dType");
+                String seqType = request.getParameter("seqType");
+                String seqHeader = request.getParameter("seqHeader");
+                
+                System.out.println("Ids:"+idSeqs+"\n"+"dtype:"+dType+"\n"+"seqType:"+seqType+"\n"+"seqHeader:"+seqHeader);
+                */
                 SequenceFileCreator sfc = new SequenceFileCreator(transacciones);
                 //sfc.doFile
                 ServletContext sc = getServletContext();
@@ -85,7 +92,7 @@ public class SequenceController extends HttpServlet {
                 String dirPath = sc.getRealPath("") + "/filestmp";
                 boolean serveFile = false;
                 if (idSeqs == null || idSeqs.length() < 5) {
-                    request.setAttribute("mensaje", "Error. Se espera por lo menos un identificador");
+                    request.setAttribute("msg", "Error. Se espera por lo menos un identificador");
                     String url = "/WEB-INF/view/error/error.jsp";
                     RequestDispatcher view = request.getRequestDispatcher(url);
                     view.forward(request, response);
@@ -95,17 +102,18 @@ public class SequenceController extends HttpServlet {
                 if (serveFile) {
                     String log = serveFile(fileName, fullFile, response, "txt/fna");
                     if (log.contains("Error")) {
-                        request.setAttribute("mensaje", log);
+                        request.setAttribute("msg", log);
                         String url = "/WEB-INF/view/error/error.jsp";
                         RequestDispatcher view = request.getRequestDispatcher(url);
                         view.forward(request, response);
                     }
                 } else {
-                    request.setAttribute("mensaje", "Error creando archivo de secuencias");
+                    request.setAttribute("msg", "Error creando archivo de secuencias");
                     String url = "/WEB-INF/view/error/error.jsp";
                     RequestDispatcher view = request.getRequestDispatcher(url);
                     view.forward(request, response);
                 }
+               
             }
 
         }
