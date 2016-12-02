@@ -272,7 +272,7 @@
                                                     <tr>
                                                         <th style="font-size:15px;">Tipo de búsqueda:</th>
                                                         <td style="width:20%;"><code><%= job.getJob_type()%></code></td>
-                                                        <th style="font-size:15px; width:10%;">e.val (1x10<sup>-</sup>):</th>
+                                                        <th style="font-size:15px; width:10%;" colspan="2">e.val (1x10<sup>-</sup>):</th>
                                                         <td >
                                                             <code><%= job.getEvalue()%></code>
                                                         </td>                                            
@@ -280,7 +280,7 @@
                                                     <tr>                                          
                                                         <th style="font-size:15px;">Inicio:</th>
                                                         <td ><code><%= job.getStart_date()%></td></code>
-                                                        <th style="font-size:15px; width:10%;">Fin:</th>
+                                                        <th style="font-size:15px; width:10%;" colspan="2">Fin:</th>
                                                         <td ><code><%= job.getStart_date()%></td></code>                                           
                                                     </tr>
                                                     <tr>

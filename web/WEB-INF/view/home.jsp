@@ -29,6 +29,7 @@
     String termino = (String) sesion.getAttribute("terminos");
    // String nombres = (String) sesion.getAttribute("nombres");
    // String apellidos = (String) sesion.getAttribute("apellidos");
+   String user = usuario.getCorreo();
 
     String nombreCompleto = usuario.getNombres() + " " + usuario.getApellidos();
 
@@ -135,7 +136,7 @@
 
                             $(function () {
                                 var params = {
-                                    nombre: "<%=usuario%>"
+                                    nombre: "<%=user%>"
                                 };
                                 $.post('actualizaT', params, function (data) {
                                     swal("Confirmado!", "Bienvenido al sistema:<%=nombreCompleto%>", "success");
