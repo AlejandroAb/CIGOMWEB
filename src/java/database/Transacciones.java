@@ -49,7 +49,13 @@ public class Transacciones {
         this.password = password;
         conecta(true);
     }
+public boolean estamosConectados() {
+        return estamosConectados;
+    }
 
+    public void setEstamosConectados(boolean estamosConectados) {
+        this.estamosConectados = estamosConectados;
+    }
     public void desconecta() {
         conexion.shutDown();
     }
@@ -92,6 +98,52 @@ public class Transacciones {
 
     public void setUser(String user) {
         this.user = user;
+    }
+public ArrayList getGenSwissProtDetailsNoTaxaInfo(String gen_id){
+        String query = "SELECT s.uniprot_id, prot_name, gene_name "
+                + "FROM gen_swiss_prot AS gsp "
+                + "INNER JOIN swiss_prot AS s on s.uniprot_id = gsp.uniprot_id "
+                + "WHERE gen_id ='" + gen_id + "'";
+        conexion.executePreparedGene(gen_id);
+        return conexion.getTabla();
+    }
+    /**
+     * Trae los detalles de un swiss prot para una predicción dada en la
+     * relacion gen_swiss_prot Es usado al crear el resultado de blast mientras
+     * se lee el archivo out.txt
+     *
+     * @param gen_id
+     * @return
+     */
+    public ArrayList getGenSwissProtDetails(String gen_id) {
+        String query = "SELECT sp.uniprot_id, uniprot_acc, prot_name, eval, name, gene_name "
+                + "FROM gen_swiss_prot AS gsp  "
+                + "INNER JOIN swiss_prot AS sp on sp.uniprot_id = gsp.uniprot_id "
+                + "INNER JOIN ncbi_node ON sp.ncbi_tax_id = ncbi_node.tax_id "
+                + "WHERE gsp.gen_id ='" + gen_id + "'";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    /**
+     * Trae los detalles (tipo de muestra y profundidad) para una muestra dado
+     * un gen predicho en un metagenoma
+     *
+     * @param gen_id
+     * @param meta si es para metagenoma tiene que venir la palabra "meta" para
+     * genomas, vacio.
+     * @return
+     */
+    public ArrayList getDetallesMuestraByGen(String gen_id, String meta) {
+        String query = "SELECT tipo_muestra, muestreo.profundidad  "
+                + "FROM gen "
+                + "INNER JOIN " + meta + "genoma ON " + meta + "genoma.id" + meta + "genoma = gen.id" + meta + "genoma "
+                + "INNER JOIN muestra ON muestra.idmuestra = " + meta + "genoma.idmuestra "
+                + "INNER JOIN muestreo ON muestreo.idmuestreo = muestra.idmuestreo "
+                + "INNER JOIN tipo_muestra ON tipo_muestra.idtipomuestra = muestreo.idtipomuestra "
+                + "WHERE gen.gen_id = '" + gen_id + "'";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
     }
 
     public void conecta(boolean conex) {

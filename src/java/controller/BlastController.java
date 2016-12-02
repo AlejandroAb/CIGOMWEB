@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,10 +30,8 @@ import job.BlastProperties;
 import job.BlastResult;
 import job.Job;
 
-/**
- *
- * @author Jose Pefi
- */
+
+@MultipartConfig
 public class BlastController extends HttpServlet {
 
     /**
@@ -47,8 +46,8 @@ public class BlastController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession(false);
-        if ( session.isNew() ||session.getAttribute("userObj") == null) {
+         HttpSession session = request.getSession();
+        if (session  == null || session.isNew() || session.getAttribute("userObj") == null) {
             //session expirada o invalida
             String url = "index.jsp";
             //mandar mensaje de session expirada o a página de error / sesión expirada
@@ -147,6 +146,8 @@ public class BlastController extends HttpServlet {
                 }
                 if (jobURL.toLowerCase().indexOf("error") != -1) {
                     outPW.print(jobURL);//jobUID trae error
+                    outPW.close();
+                    return;
                 } else {
                     String id = jobURL.substring(0, jobURL.indexOf("-"));
                     String uID = jobURL.substring(jobURL.indexOf("-") + 1);
@@ -189,6 +190,7 @@ public class BlastController extends HttpServlet {
                     request.setAttribute("msg", "Error inicializando BLAST Job: " +idJob + "<br>Por favor comunicarse con el administrador del sistema ");
                     RequestDispatcher view = request.getRequestDispatcher(url);
                     view.forward(request, response);
+                    return;
                 }
                 request.setAttribute("job", job);
                 if (job.getStatus().equals("Terminado")) {
@@ -212,20 +214,17 @@ public class BlastController extends HttpServlet {
                 RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/view/blast/blastJob.jsp");
                 view.forward(request, response);
             } else if (userPath.equals("/deleteJob")) {
-                //PrintWriter outPW = response.getWriter();
-                String idJob = request.getParameter("id");
-                String urlJob = request.getParameter("url");
-                
-                System.out.println(idJob+"--"+urlJob);
-                
-                /*JobDAO jDao = new JobDAO(transacciones);
-                String log = jDao.deleteJob(idJob);
+                PrintWriter outPW = response.getWriter();
+                //String idJob = request.getParameter("id");
+                String urlJob = request.getParameter("url");            
+                JobDAO jDao = new JobDAO(transacciones);
+                String log = jDao.deleteJob(urlJob);
                 if (log.length() == 0) {
                     outPW.close();
                 } else {
                     outPW.print(log);
                     outPW.close();
-                }*/
+                }
             }
         }
     }

@@ -25,9 +25,18 @@ public class Job {
     private String metagenomas;
     private String genomas;
     private String path; //el path hasta antes de la carpeta con el id del job ejemplo /home/blast/querys/
+    private String queryPath;
 
     public Job(String id_job) {
         this.id_job = id_job;
+    }
+
+    public String getQueryPath() {
+        return queryPath;
+    }
+
+    public void setQueryPath(String queryPath) {
+        this.queryPath = queryPath;
     }
 
     public String getIdUsuario() {

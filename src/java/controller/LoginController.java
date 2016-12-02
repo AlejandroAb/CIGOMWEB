@@ -45,7 +45,7 @@ public class LoginController extends HttpServlet {
             transacciones = getNewConexion();
             session.setAttribute("transacciones", transacciones);
         }
-        if (!transacciones.testConnection()) {
+        if (transacciones == null || !transacciones.testConnection()) {
             request.setAttribute("msg", "Error al establecer conexion con la Base de datos");
             String url = "index.jsp";
             request.getRequestDispatcher(url).forward(request, response);
@@ -118,7 +118,7 @@ public class LoginController extends HttpServlet {
             int idCampana;
             if (idCampanaStr == null) {
                 idCampana = campanaDAO.lastIDCampana();
-                System.out.println("idCampana is null");
+
             } else {
                 try {
                     idCampana = Integer.parseInt(idCampanaStr);
@@ -161,6 +161,9 @@ public class LoginController extends HttpServlet {
             String db = sc.getInitParameter("dbname");
             String password = sc.getInitParameter("password");
             transacciones = new Transacciones(db, usuario, ip, password);
+            if (!transacciones.estamosConectados()) {
+                return null;
+            }
             return transacciones;
             //  transacciones = new Transacciones(datasource.getConnection());
         } catch (Exception e) {

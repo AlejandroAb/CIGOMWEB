@@ -28,7 +28,7 @@
 
         <!--Jssor Slider-->
         <script>
-            jQuery(document).ready(function ($) {
+            jQuery(document).ready(function($) {
                 //Reference http://www.jssor.com/development/slider-with-slideshow-jquery.html
                 //Reference http://www.jssor.com/development/tool-slideshow-transition-viewer.html
 
@@ -63,7 +63,6 @@
                         $TransitionsOrder: 1, //[Optional] The way to choose transition to play slide, 1 Sequence, 0 Random
                         $ShowLink: true                                    //[Optional] Whether to bring slide link on top of the slider when slideshow is running, default value is false
                     },
-
                     $BulletNavigatorOptions: {//[Optional] Options to specify and enable navigator or not
                         $Class: $JssorBulletNavigator$, //[Required] Class to create navigator instance
                         $ChanceToShow: 2, //[Required] 0 Never, 1 Mouse Over, 2 Always
@@ -71,13 +70,11 @@
                         $SpacingX: 10, //[Optional] Horizontal space between each item in pixel, default value is 0
                         $SpacingY: 10                                    //[Optional] Vertical space between each item in pixel, default value is 0
                     },
-
                     $ArrowNavigatorOptions: {
                         $Class: $JssorArrowNavigator$, //[Requried] Class to create arrow navigator instance
                         $ChanceToShow: 2, //[Required] 0 Never, 1 Mouse Over, 2 Always
                         $AutoCenter: 2                                 //[Optional] Auto center navigator in parent container, 0 None, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
                     },
-
                     $ThumbnailNavigatorOptions: {
                         $Class: $JssorThumbnailNavigator$, //[Required] Class to create thumbnail navigator instance
                         $ChanceToShow: 2, //[Required] 0 Never, 1 Mouse Over, 2 Always
@@ -163,19 +160,18 @@
                                             </div>
 
                                             <label>
-                                                <button class="btn btn-primary" type="submit">Enntrar</button>
+                                                <button class="btn btn-primary" type="submit">Entrar</button>
                                             </label>
-                                                        <% 
-                                                            if(request.getAttribute("msg")!=null)
-                                                            {
-                                                         %>
-                                                        <br>
-                                                        <center>  <h5 style="color:#EC1010">
-                                                                    <b>"<%= request.getAttribute("msg")%>"</b>
-                                                            </h5> </center>
-                                                        <% 
-                                                            }
-                                                        %>  
+                                            <%
+                                                if (request.getAttribute("msg") != null) {
+                                            %>
+                                            <br>
+                                            <center>  <h5 style="color:#EC1010">
+                                                    <b>"<%= request.getAttribute("msg")%>"</b>
+                                                </h5> </center>
+                                                <%
+                                                    }
+                                                %>  
                                             <!-- Change this to a button or input when using this as a form -->
                                             <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
                                         </fieldset>
