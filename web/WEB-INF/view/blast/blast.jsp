@@ -61,6 +61,10 @@
         <script src="bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
         <script src="bower_components/datatables-responsive/js/dataTables.responsive.js"></script>
         
+        
+         <!-- Mandar form con archivo  -->
+        <script src="js/blastForm.js"></script>
+        
         <!--ALERTAS-->
         
         <script src="alerta/dist/sweetalert-dev.js"></script>
@@ -70,80 +74,45 @@
         <script>
             $(document).ready(function () {
                 $('#tabla-metagenomas').DataTable({
-                    responsive: true
+                    responsive: true,
+                    pageLength: 5
                 });
-            });
-        </script>
+            });</script>
 
         <!--ESCRIPT QUE ACTIVA EL BUSCADOR EN LA TABLA GENOMAS-->
         <script>
             $(document).ready(function () {
                 $('#tabla-genomas').DataTable({
-                    responsive: true
+                    responsive: true,
+                    pageLength: 5
                 });
-            });
-        </script>
-        <!--ESCRIPT QUE ACTIVA EL BUSCADOR EN LA TABLA BUSQUEDAS-->
-        <script>
-            $(document).ready(function () {
-                $('#tabla-misbusquedas').DataTable({
-                    responsive: true
-                });
-            });
-        </script>
+            });</script>
         <!--ESCRIPT PARA OBTENER LOS VALORES DEL FORMULARIO-->
         <script type="text/javascript">
-            $(document).ready(function () {
-                $("#ObtenerVal").click(function () {
-                    //saco el valor accediendo al id del input = nombre
-                    var nombre = $("#nombre").val();
-
-                    var secuencia = $("#secuencia").val();
-
-                    var algoritmo = $('input:radio[name=algoritmo]:checked').val();
-
-                    var eval = $("#eval").val();
-
-                    // para cada checkbox "chequeado"
-                    var resultG = [];
+            $(document).ready(function() {
+                $("#ObtenerVal").click(function(event) {
+                    var table = $("#tabla-metagenomas").DataTable();
+                    var rows = table.rows().nodes();
                     var resultMG = [];
-                    var i = 0;
-                    var j = 0;
-                    // para cada checkbox "chequeado"
-                    $("input[id^=checkG][type=checkbox]:checked").each(function () {
+                    var resultG = [];
 
-                        // buscamos el td más cercano en el DOM hacia "arriba"
-                        // luego encontramos los td adyacentes a este
-                        // $(this).closest('td').siblings().each(function () {
-
-                        // obtenemos el texto del td 
-                        // result[i] = $(this).val();
-                        //++i;
-                        //});
-
-                        resultG[i] = $(this).val();
-                        ++i;
+                    $('input[type="checkbox"]', rows).each(function(index) {
+                        if ($(this).is(':checked')) {
+                            resultMG[index] = $(this).val();
+                        }
                     });
-
-                    $("input[id^=checkMG][type=checkbox]:checked").each(function () {
-
-                        resultMG[j] = $(this).val();
-                        ++j;
+                    var tableG = $("#tabla-genomas").DataTable();
+                    var rowsG = tableG.rows().nodes();
+                    $('input[type="checkbox"]', rowsG).each(function(index) {
+                        if ($(this).is(':checked')) {
+                            resultG[index] = $(this).val();
+                        }
                     });
+                    var metagenomas = resultMG.join(',');
+                    var genomas = resultG.join(',');
 
-                    console.log("IdGenomas: " + resultG.join(','));
-                    console.log("IdMetagenosmas: " + resultMG.join(','));
-                    console.log("Cadena: " + nombre + ',' + secuencia + ',' + algoritmo + ',' + eval);
-                    document.write("<form action=\"blastSearch\" method=post name=\"formOculto\">\n\
-                                         <input type=\"hidden\" name=\"idgenomas\" value=" + resultG.join(',') + "> \n\\n\
-                                         <input type=\"hidden\" name=\"idmetagenomas\" value=" + resultMG.join(',') + "> \n\\n\
-                                         <input type=\"hidden\" name=\"algoritmo\" value=" + algoritmo + "> \n\\n\
-                                         <input type=\"hidden\" name=\"evalue\" value=" + eval + "> \n\\n\
-                                         <input type=\"hidden\" name=\"name\" value='" + nombre + "'> \n\\n\
-                                        <input type=\"hidden\" name=\"inputType\" value=sequence> \n\\n\
-                                        <input type=\"hidden\" name=\"seq\" value='" + secuencia + "'> \n\
-                                         </form>");
-                    document.formOculto.submit();
+                    uploadXHTML(genomas, metagenomas);
+                    event.preventDefault(); // Stop the submit here!
 
                 });
             });
@@ -321,7 +290,7 @@
 
                                                     %> 
                                                     <tr style="text-align: left;" class="meta" id="<%= jb.getId_job()%>" width="100%" >
-                                                        <td><a href="showJob?<%= jb.getURL()%>"><%= jb.getJob_name()%></a></td>
+                                                        <td><a href="showJob?jobURL=<%= jb.getURL()%>"><%= jb.getJob_name()%></a></td>
                                                         <td><%= jb.getStatus()%></td>
                                                         <td><%= jb.getStart_date()%></td>
                                                         <td><%= jb.getEnd_date()%></td>
@@ -358,7 +327,9 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>O, subir archivo</label>
-                                                <input type="file">
+                                                 <input id="uploadedFasta" type="file" value="upload">
+                                                <progress style="display: none" id="progressBar" max="100" value="0"></progress>
+                                                <span  id="percentageCalc" style="display: none"></span>
                                             </div>    
                                         </div>
 
@@ -400,11 +371,11 @@
                                                 <!-- /.panel-heading -->
                                                 <div class="panel-body">
                                                     Marcar todos
-                                                    <input type="checkbox" name="marcarTodo" id="marcarTodoG" /> 
+                                                    <input type="checkbox" name="marcarTodo" id="marcarTodoMG" /> 
                                                     <br>
                                                     <br>
                                                     <div class="dataTable_wrapper">
-                                                        <table width="100%" class="table table-striped table-bordered table-hover" id="tabla-genomas">
+                                                         <table width="100%" class="table table-striped table-bordered table-hover" id="tabla-metagenomas">
                                                             <thead>
                                                                 <tr>
                                                                     <th></th>
@@ -426,7 +397,7 @@
 
                                                                 %> 
                                                                 <tr style="text-align: left;" class="meta">
-                                                                    <td><input type="checkbox" value="<%= metagenomas.get(mg).get(0)%>" id="checkMG"></td>
+                                                                    <td><input type="checkbox" value="<%= metagenomas.get(mg).get(0)%>" name="checkMG"></td>
                                                                     <td><%= metagenomas.get(mg).get(1)%></td>
                                                                     <td><%= metagenomas.get(mg).get(2)%></td>
                                                                     <td><%= metagenomas.get(mg).get(3)%></td>
@@ -452,7 +423,7 @@
                                                 <!-- /.panel-heading -->
                                                 <div class="panel-body">
                                                     Marcar todos
-                                                    <input type="checkbox" name="marcarTodo" id="marcarTodoMG" /> 
+                                                    <input type="checkbox" name="marcarTodo" id="marcarTodoG" /> 
                                                     <br>
                                                     <br>
                                                     <div class="dataTable_wrapper">
@@ -480,7 +451,7 @@
                                                                 %>   
 
                                                                 <tr style="text-align: center;" class="genomas" id="genoma">
-                                                                    <td><input type="checkbox" value="<%= genomas.get(g).get(0)%>" class="boton" id="checkG"></td>
+                                                                    <td><input type="checkbox" value="<%= genomas.get(g).get(0)%>" class="boton" name="checkG"></td>
                                                                     <td><%= genomas.get(g).get(1)%></td>
                                                                     <td><%= genomas.get(g).get(2)%></td>
                                                                     <td><%= genomas.get(g).get(3)%></td>
@@ -524,29 +495,27 @@
         </div>
         <!--SCRIPT PARA MARCAR Y DESMARCAR LOS CHECKS DE LA TABLA METAGENOMAS-->
         <script>
-            $("#marcarTodoMG").change(function () {
-                if ($(this).is(':checked')) {
-                    //$("input[type=checkbox]").prop('checked', true); //todos los check del documento
-                    $("#tabla-metagenomas input[type=checkbox]").prop('checked', true); //solo los del objeto #marcarMetagenomas
-                } else {
-                    //$("input[type=checkbox]").prop('checked', false);//todos los check del documento
-                    $("#tabla-metagenomas input[type=checkbox]").prop('checked', false);//solo los del objeto #marcarMetagenomas
-                }
+            $("#marcarTodoMG").change(function() {
+                var table = $("#tabla-metagenomas").DataTable();
+                var rows = table.rows().nodes();
+                $('input[type="checkbox"]', rows).prop('checked', this.checked);
+
             });
         </script>
+        <!--16 de nov 0155 50155136-->
 
         <!--SCRIPT PARA MARCAR Y DESMARCAR LOS CHECKS DE LA TABLA GENOMAS-->
+        
         <script>
-            $("#marcarTodoG").change(function () {
-                if ($(this).is(':checked')) {
-                    //$("input[type=checkbox]").prop('checked', true); //todos los check del documento
-                    $("#tabla-genomas input[type=checkbox]").prop('checked', true); //solo los del objeto #tabla-genomas
-                } else {
-                    //$("input[type=checkbox]").prop('checked', false);//todos los check del documento
-                    $("#tabla-genomas input[type=checkbox]").prop('checked', false);//solo los del objeto #tabla-genomas
-                }
+            $("#marcarTodoG").change(function() {
+                var table = $("#tabla-genomas").DataTable();
+                var rows = table.rows().nodes();
+                //ya no es necesario validar "$(this).is(':checked')" ya que es el vallor que se usa implicitamente
+                $('input[type="checkbox"]', rows).prop('checked', this.checked);
+
+
             });
-        </script> 
+        </script>
 
         <!--SCRIPT PARA OCULTAR DIV DE MIS BUSQUEDAS-->
         <script>

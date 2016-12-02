@@ -29,7 +29,7 @@ import utils.RandomString;
  * @author Alejandro
  */
 public class JobDAO {
-
+    
     private Transacciones transacciones;
     private String metagenoma_dbs;
     private String genoma_dbs;
@@ -39,7 +39,7 @@ public class JobDAO {
     public JobDAO(Transacciones transacciones) {
         this.transacciones = transacciones;
     }
-
+    
     public String getMetagenoma_dbs() {
         if (metagenoma_dbs != null) {
             return metagenoma_dbs;
@@ -47,7 +47,7 @@ public class JobDAO {
             return "";
         }
     }
-
+    
     public String getMetagenoma_dbsQuoted() {
         if (metagenoma_dbs != null) {
             return metagenoma_dbs;
@@ -55,11 +55,11 @@ public class JobDAO {
             return "";
         }
     }
-
+    
     public void setMetagenoma_dbs(String metagenoma_dbs) {
         this.metagenoma_dbs = metagenoma_dbs;
     }
-
+    
     public String getGenoma_dbs() {
         if (genoma_dbs != null) {
             return genoma_dbs;
@@ -67,7 +67,7 @@ public class JobDAO {
             return "";
         }
     }
-
+    
     public void setGenoma_dbs(String genoma_dbs) {
         this.genoma_dbs = genoma_dbs;
     }
@@ -106,22 +106,24 @@ public class JobDAO {
             metagenoma_dbs_q = "";
             for (String id : idsm) {
                 id = id.trim();
-                transacciones.insertJobIDMetagenoma(idJob, id);
-                if (jobType.equals("BLASTN")) {
-                    metagenoma_dbs += blasdb_dir + "metagenoma_nc_" + id + ".fasta ";
-                    metagenoma_dbs_q += "\'" + blasdb_dir + "metagenoma_nc_" + id + ".fasta\'";
-                    if (withIntergenic) {
-                        metagenoma_dbs += blasdb_dir + "metagenoma_5p_" + id + ".fasta ";
-                        metagenoma_dbs += blasdb_dir + "metagenoma_3p_" + id + ".fasta ";
-                        metagenoma_dbs_q += "\'" + blasdb_dir + "metagenoma_5p_" + id + ".fasta\'";
-                        metagenoma_dbs_q += "\'" + blasdb_dir + "metagenoma_3p_" + id + ".fasta\'";
+                if (id.length() > 0) {
+                    transacciones.insertJobIDMetagenoma(idJob, id);
+                    if (jobType.equals("BLASTN")) {
+                        metagenoma_dbs += blasdb_dir + "metagenoma_nc_" + id + ".fasta ";
+                        metagenoma_dbs_q += "\'" + blasdb_dir + "metagenoma_nc_" + id + ".fasta\'";
+                        if (withIntergenic) {
+                            metagenoma_dbs += blasdb_dir + "metagenoma_5p_" + id + ".fasta ";
+                            metagenoma_dbs += blasdb_dir + "metagenoma_3p_" + id + ".fasta ";
+                            metagenoma_dbs_q += "\'" + blasdb_dir + "metagenoma_5p_" + id + ".fasta\'";
+                            metagenoma_dbs_q += "\'" + blasdb_dir + "metagenoma_3p_" + id + ".fasta\'";
+                        }
+                    } else {
+                        metagenoma_dbs += blasdb_dir + "metagenoma_aa_" + id + ".fasta ";
+                        metagenoma_dbs_q += "\'" + blasdb_dir + "metagenoma_aa_" + id + ".fasta\'";
                     }
-                } else {
-                    metagenoma_dbs += blasdb_dir + "metagenoma_aa_" + id + ".fasta ";
-                    metagenoma_dbs_q += "\'" + blasdb_dir + "metagenoma_aa_" + id + ".fasta\'";
+                    
+                    hayDBs = true;
                 }
-
-                hayDBs = true;
             }
         }
         if (idgenomas != null && idgenomas.trim().length() > 0) {
@@ -130,22 +132,24 @@ public class JobDAO {
             genoma_dbs_q = "";
             for (String id : ids) {
                 id = id.trim();
-                transacciones.insertJobIDMetagenoma(idJob, id);
-                if (jobType.equals("BLASTN")) {
-                    genoma_dbs += blasdb_dir + "genoma_nc_" + id + ".fasta ";
-                    genoma_dbs_q += "\'" + blasdb_dir + "genoma_nc_" + id + ".fasta\'";
-                    if (withIntergenic) {
-                        genoma_dbs += blasdb_dir + "genoma_5p_" + id + ".fasta ";
-                        genoma_dbs += blasdb_dir + "genoma_3p_" + id + ".fasta ";
-                        genoma_dbs_q += "\'" + blasdb_dir + "genoma_5p_" + id + ".fasta\'";
-                        genoma_dbs_q += "\'" + blasdb_dir + "genoma_3p_" + id + ".fasta\'";
+                if (id.length() > 0) {
+                    transacciones.insertJobIDGenoma(idJob, id);
+                    if (jobType.equals("BLASTN")) {
+                        genoma_dbs += blasdb_dir + "genoma_nc_" + id + ".fasta ";
+                        genoma_dbs_q += "\'" + blasdb_dir + "genoma_nc_" + id + ".fasta\'";
+                        if (withIntergenic) {
+                            genoma_dbs += blasdb_dir + "genoma_5p_" + id + ".fasta ";
+                            genoma_dbs += blasdb_dir + "genoma_3p_" + id + ".fasta ";
+                            genoma_dbs_q += "\'" + blasdb_dir + "genoma_5p_" + id + ".fasta\'";
+                            genoma_dbs_q += "\'" + blasdb_dir + "genoma_3p_" + id + ".fasta\'";
+                        }
+                    } else {
+                        genoma_dbs += blasdb_dir + "genoma_aa_" + id + ".fasta ";
+                        genoma_dbs_q += "\'" + blasdb_dir + "genoma_aa_" + id + ".fasta\'";
                     }
-                } else {
-                    genoma_dbs += blasdb_dir + "genoma_aa_" + id + ".fasta ";
-                    genoma_dbs_q += "\'" + blasdb_dir + "genoma_aa_" + id + ".fasta\'";
+                    
+                    hayDBs = true;
                 }
-
-                hayDBs = true;
             }
         }
         if (idJob != -1 && hayDBs) {
@@ -160,49 +164,49 @@ public class JobDAO {
                 out = new FileOutputStream(new File(seqFilePath + +idJob + "/"
                         + seqFileName));
                 filecontent = filePart.getInputStream();
-
+                
                 int read = 0;
                 final byte[] bytes = new byte[1024];
-
+                
                 while ((read = filecontent.read(bytes)) != -1) {
                     out.write(bytes, 0, read);
                 }
                 return idJob + "-" + job_url;
-
+                
             } catch (FileNotFoundException fne) {
                 return "Error writing file";
-
+                
             } catch (IOException ioe) {
                 return "Error writing file";
-
+                
             } finally {
                 if (out != null) {
                     out.close();
-
+                    
                 }
                 if (filecontent != null) {
                     filecontent.close();
-
+                    
                 }
-
+                
             }
         } else {
             return "Error creating job into database";
         }
     }
-
+    
     public String getMetagenoma_dbs_q() {
         return metagenoma_dbs_q;
     }
-
+    
     public void setMetagenoma_dbs_q(String metagenoma_dbs_q) {
         this.metagenoma_dbs_q = metagenoma_dbs_q;
     }
-
+    
     public String getGenoma_dbs_q() {
         return genoma_dbs_q;
     }
-
+    
     public void setGenoma_dbs_q(String genoma_dbs_q) {
         this.genoma_dbs_q = genoma_dbs_q;
     }
@@ -252,7 +256,7 @@ public class JobDAO {
                     metagenoma_dbs += blasdb_dir + "metagenoma_aa_" + id + ".fasta ";
                     metagenoma_dbs_q += "'" + blasdb_dir + "metagenoma_aa_" + id + ".fasta' ";
                 }
-
+                
                 hayDBs = true;
             }
         }
@@ -271,7 +275,7 @@ public class JobDAO {
                         genoma_dbs += blasdb_dir + "genoma_3p_" + id + ".fasta ";
                         genoma_dbs_q += "'" + blasdb_dir + "genoma_5p_" + id + ".fasta' ";
                         genoma_dbs_q += "'" + blasdb_dir + "genoma_3p_" + id + ".fasta' ";
-
+                        
                     }
                 } else {
                     genoma_dbs += blasdb_dir + "genoma_aa_" + id + ".fasta ";
@@ -289,27 +293,29 @@ public class JobDAO {
                 directorio.setReadable(true, false);
                 directorio.setWritable(true, false);
                 directorio.setExecutable(true, false);
-
+                
                 writer = new FileWriter(seqFilePath + +idJob + "/" + seqFileName);
-
+                
                 writer.write(seq);
                 writer.close();
                 return idJob + "-" + job_url;
-
+                
             } catch (FileNotFoundException fne) {
+                 updateJobStatus(""+idJob,"Error", "Error de I/O", true);
                 return "Error writing file";
-
+                
             } catch (IOException ioe) {
+                updateJobStatus(""+idJob,"Error", "Error de I/O", true);
                 return "Error writing file";
-
+                
             } finally {
                 if (out != null) {
                     out.close();
-
+                    
                 }
-
+                
             }
-        } else {
+        } else {            
             return "Error creating job into database";
         }
     }
@@ -389,31 +395,32 @@ public class JobDAO {
                             job.setMessage(val);
                         case 8:
                             job.setPath(val);
+                            job.setQueryPath(val + "" + job.getId_job() + "/" + "query.fasta");
                     }
                 }
                 i++;
             }
             if (job.getId_job() != null) {
                 ArrayList<ArrayList<String>> metadbs = transacciones.getBlastMetaDbs(job.getId_job());
-                StringBuilder metadb = new StringBuilder();
+                StringBuilder metadb = new StringBuilder("");
                 for (ArrayList<String> db : metadbs) {
                     if (metadb.length() == 0) {
-                        metadb.append(db.get(0));
+                        metadb.append(db.get(1));
                     } else {
-                        metadb.append(", ").append(db.get(0));
+                        metadb.append(", ").append(db.get(1));
                     }
                 }
                 job.setMetagenomas(metadb.toString());
                 ArrayList<ArrayList<String>> genodbs = transacciones.getBlastGenoDbs(job.getId_job());
-                StringBuilder genodb = new StringBuilder();
+                StringBuilder genodb = new StringBuilder("");
                 for (ArrayList<String> db : genodbs) {
                     if (genodb.length() == 0) {
-                        genodb.append(db.get(0));
+                        genodb.append(db.get(1));
                     } else {
-                        genodb.append(", ").append(db.get(0));
+                        genodb.append(", ").append(db.get(1));
                     }
                 }
-                job.setGenomas(genodbs.toString());
+                job.setGenomas(genodb.toString());
             }
             return job;
         } else {
@@ -433,7 +440,7 @@ public class JobDAO {
             Process proc = Runtime.getRuntime().exec("rm -rf " + job.getPath() + job.getId_job());
             //System.out.println("perl " + pathTodistantes + " -s " + orgsParam + " -n " + limit);
             proc.waitFor();
-
+            
             InputStream inputstream = proc.getInputStream();
             InputStreamReader inputstreamreader = new InputStreamReader(inputstream);
             BufferedReader bufferedreader = new BufferedReader(inputstreamreader);
@@ -443,7 +450,7 @@ public class JobDAO {
             while ((line = bufferedreader.readLine()) != null) {
                 //System.out.println(line);
                 out.append(line);
-
+                
             }
             if (proc.waitFor() != 0) {
                 System.err.println("exit value = " + proc.exitValue());
@@ -459,7 +466,7 @@ public class JobDAO {
             return "Error borrando archivos ie";
         }
     }
-
+    
     public String deleteJob(String idJob) {
         Job job = initJobObject(idJob);
         if (transacciones.deleteBlastJob(job.getId_job()) && transacciones.deleteBlastMetaBase(job.getId_job()) && transacciones.deleteBlastGenoBase(job.getId_job())) {
@@ -469,7 +476,7 @@ public class JobDAO {
             return "Error borrando blast de la base de datos";
         }
     }
-
+    
     public void compilaQueryGenInfo() {
         transacciones.compilePreparedGene();
     }
@@ -509,9 +516,9 @@ public class JobDAO {
                     type = " i3p";
                 }
                 if (campos[1].contains("METADB")) {
-                    result.setSource("Metagenoma" + type);
+                    result.setSource("<b>M" + type + "</b>");
                 } else if (campos[1].contains("GENODB")) {
-                    result.setSource("Genoma" + type);
+                    result.setSource("<b>G" + type + "</b>");
                 }
                 //depende la version de blast usa | o :
                 int idx_id = campos[1].lastIndexOf("|");
@@ -522,39 +529,50 @@ public class JobDAO {
                     idx_id = 0;
                 }
                 result.setGen_id(campos[1].substring(idx_id + 1, campos[1].lastIndexOf(":")));
-                ArrayList<ArrayList<String>> targetDef;
-                if (campos[1].contains("METADB")) {
-                    targetDef = transacciones.executePreparedMetaGene(result.getGen_id());
-                } else {
-                    targetDef = transacciones.executePreparedGene(result.getGen_id());
-                }
-
-                if (targetDef != null && targetDef.size() > 0) {
-                    ArrayList<String> bestDef = targetDef.get(0);
+                ArrayList<ArrayList<String>> sampDetails;
+                String meta = campos[1].contains("METADB") ? "meta" : "";
+                sampDetails = transacciones.getDetallesMuestraByGen(result.getGen_id(), meta);
+                if (sampDetails != null && sampDetails.size() > 0) {
+                    ArrayList<String> details = sampDetails.get(0);
                     //select sp.uniprot_id, uniprot_acc, prot_name,ncbi_node.name,tipo_muestra,eval
-                    String prot = bestDef.get(0) + ":" + bestDef.get(2) + "(" + bestDef.get(5) + ")";
-                    if (prot.startsWith(":")) {
-                        result.setTarget_definition("No asignado");
-                        result.setTaxa("NA");
-                        result.setSource(result.getSource() + " - " + bestDef.get(4));
-                    } else {
-                        result.setTarget_definition(prot);
-                        result.setTaxa(bestDef.get(3));
-                        result.setSource(result.getSource() + " - " + bestDef.get(4));
+                    String det = details.get(0) + " " + details.get(1) + " mts.";
+                    result.setSource(result.getSource() + " " + det);
+                }
+                /*
+                 if (campos[1].contains("METADB")) {
+
+                 targetDef = transacciones.executePreparedMetaGene(result.getGen_id());
+                 } else {
+                 targetDef = transacciones.executePreparedGene(result.getGen_id());
+                 }
+                 */
+                ArrayList<ArrayList<String>> swissProtDetails = transacciones.getGenSwissProtDetails(result.getGen_id());
+                if (swissProtDetails != null && swissProtDetails.size() > 0) {
+                    ArrayList<String> bestDef = swissProtDetails.get(0);
+                    String protDef = bestDef.get(2);
+                    int idx = protDef.indexOf("(");
+                    protDef = idx != -1 ? protDef.substring(0, idx) : protDef;
+                    String prot = bestDef.get(0) + ":" + protDef;
+                    String geneName = bestDef.get(5);
+                    if (geneName != null && geneName.length() > 1) {
+                        prot += " - <b>" + geneName + "</b>";
                     }
+                    prot += "<i><b>(" + bestDef.get(3) + ")</i></b>";
+                    result.setTarget_definition(prot);
+                    result.setTaxa(bestDef.get(4));
                 } else {
                     result.setTarget_definition("No asignado");
                     result.setTaxa("NA");
-                    result.setSource(result.getSource() + " - ND");
                 }
+                
                 res.add(result);
-
+                
                 if (lineas != -1 && lineas > lines) {
                     break;
                 }
             }
             return res;
-
+            
         } catch (FileNotFoundException ex) {
             Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -563,7 +581,7 @@ public class JobDAO {
             return null;
         }
     }
-
+    
     public void closeConexion() {
         this.transacciones.desconecta();
     }

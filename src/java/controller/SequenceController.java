@@ -41,7 +41,7 @@ public class SequenceController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-        if (session == null || session.isNew()) {
+        if (session == null || session.isNew() || session.getAttribute("userObj") == null) {
             //session expirada o invalida
             String url = "index.jsp";
             //mandar mensaje de session expirada o a página de error / sesión expirada
@@ -65,20 +65,29 @@ public class SequenceController extends HttpServlet {
                 return;
 
             }
-            if (userPath.equals("/getSequence")) {
+             if (userPath.equals("/getSequence")) {
                 /*String idSeqs = request.getParameter("ids");
-                String dType = request.getParameter("dType");
-                String seqType = request.getParameter("seqType");
-                String seqHeader = request.getParameter("seqHeader");
+                 String dType = request.getParameter("dType");
+                 String seqType = request.getParameter("seqType");
+                 String seqHeader = request.getParameter("seqHeader");
                 
-                System.out.println("Ids:"+idSeqs+"\n"+"dtype:"+dType+"\n"+"seqType:"+seqType+"\n"+"seqHeader:"+seqHeader);
-                */
+                 System.out.println("Ids:"+idSeqs+"\n"+"dtype:"+dType+"\n"+"seqType:"+seqType+"\n"+"seqHeader:"+seqHeader);
+                 */
+
                 SequenceFileCreator sfc = new SequenceFileCreator(transacciones);
                 //sfc.doFile
                 ServletContext sc = getServletContext();
                 String idSeqs = request.getParameter("ids");
+
                 String seqType = request.getParameter("seqType");
                 String seqHeader = request.getParameter("seqHeader");
+                String downloadType = request.getParameter("dType");
+                if (downloadType == null) {
+                    downloadType = "seq";
+                }
+                if (seqHeader == null) {
+                    seqHeader = "regular";
+                }
                 String ext = "";
                 if (seqType.trim().toLowerCase().equals("aa")) {
                     ext = "faa";
@@ -90,6 +99,8 @@ public class SequenceController extends HttpServlet {
                 String fileName = seqType + "_" + /*session.getId()*/ time + "." + ext;
                 String fullFile = sc.getRealPath("") + "/filestmp/" + seqType + "_" + /*session.getId()*/ time + "." + ext;
                 String dirPath = sc.getRealPath("") + "/filestmp";
+                String clustal = sc.getInitParameter("clustalw2");
+                String fileType = "";
                 boolean serveFile = false;
                 if (idSeqs == null || idSeqs.length() < 5) {
                     request.setAttribute("msg", "Error. Se espera por lo menos un identificador");
@@ -98,9 +109,18 @@ public class SequenceController extends HttpServlet {
                     view.forward(request, response);
                     return;
                 }
-                serveFile = sfc.generateFileFromIDs(dirPath,fullFile, idSeqs, seqType, seqHeader);
+                System.out.println("Try download IDs:" + idSeqs);
+                if (downloadType.equals("seq")) {
+                    serveFile = sfc.generateFileFromIDs(dirPath, fullFile, idSeqs, seqType, seqHeader);
+                    fileType = "txt/fna";
+                } else {
+                    serveFile = sfc.generateAlignFromIDs(dirPath, fullFile, idSeqs, seqType, seqHeader, clustal);
+                    fileName += ".align";
+                    fullFile += ".align";
+                    fileType = "txt/align";
+                }
                 if (serveFile) {
-                    String log = serveFile(fileName, fullFile, response, "txt/fna");
+                    String log = serveFile(fileName, fullFile, response, fileType);
                     if (log.contains("Error")) {
                         request.setAttribute("msg", log);
                         String url = "/WEB-INF/view/error/error.jsp";
@@ -113,7 +133,20 @@ public class SequenceController extends HttpServlet {
                     RequestDispatcher view = request.getRequestDispatcher(url);
                     view.forward(request, response);
                 }
-               
+            } else if (userPath.equals("/serveFile")) {
+                String fullFile = request.getParameter("file");
+                String fileType = "txt/fasta";
+                if (fullFile != null && fullFile.length() > 2) {
+                    String fileName = fullFile.substring(fullFile.lastIndexOf("/") + 1);
+                    String log = serveFile(fileName, fullFile, response, fileType);
+                    if (log.contains("Error")) {
+                        request.setAttribute("msg", log);
+                        String url = "/WEB-INF/view/error/error.jsp";
+                        RequestDispatcher view = request.getRequestDispatcher(url);
+                        view.forward(request, response);
+                    }
+                }
+
             }
 
         }
