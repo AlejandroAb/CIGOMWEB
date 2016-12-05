@@ -114,6 +114,7 @@ public class LoginController extends HttpServlet {
                 request.getRequestDispatcher(url).forward(request, response);
             }
             String idCampanaStr = request.getParameter("idCampana");
+            System.out.println("id="+idCampanaStr);
             CampanaDAO campanaDAO = new CampanaDAO(transacciones);
             int idCampana;
             if (idCampanaStr == null) {
@@ -142,7 +143,7 @@ public class LoginController extends HttpServlet {
             RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/WEB-INF/view/home.jsp");
             dispatch.forward(request, response);
         } else if (userPath.equals("/actualizaT")) {
-            String name = request.getParameter("nombre");
+            String name = request.getParameter("nombre");         
             boolean termino = transacciones.updateTerminos(name);
             session.setAttribute("terminos", "1");
         } else if (userPath.equals("/CerrarSesion")) {

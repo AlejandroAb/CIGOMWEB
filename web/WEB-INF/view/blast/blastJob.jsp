@@ -210,15 +210,18 @@
 
             <!-- Navigation -->
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0; padding-top:10px; padding-right:15px; background-color:#ffffff;">
-                <div class="navbar-header" style="padding-left:15px;">
+            <div class="col-lg-9">
+            <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <!--<span class="b1"><img id="logos" src="images/menu/logos.png" alt="logo" width="95%x" height="95px" /></span>-->
-                    <span class="b1"><img id="logos" src="images/menu/logoC.png" alt="logo" width="23%" height="95px" style="padding-left:60px;" /></span>
+                
+                    <span class="b1"><img id="logos" src="images/logosistema.png" alt="logo" width="70%" height="100px" style="padding-left:10px;" /></span>
+                    <!--<img id="logos" src="images/logosistema2.png" alt="logo" width="40%" height="60px"  />-->
+                </div>
                 </div>
                 <!-- /.navbar-header -->
 
@@ -321,7 +324,7 @@
                                                     <tr>
                                                         <th style="font-size:15px;">Tipo de búsqueda:</th>
                                                         <td style="width:20%;"><code><%= job.getJob_type()%></code></td>
-                                                        <th style="font-size:15px; width:10%;">e.val (1x10<sup>-</sup>):</th>
+                                                        <th style="font-size:15px; width:10%;" colspan="2">e.val (1x10<sup>-</sup>):</th>
                                                         <td >
                                                             <code><%= job.getEvalue()%></code>
                                                         </td>                                            
@@ -329,7 +332,7 @@
                                                     <tr>                                          
                                                         <th style="font-size:15px;">Inicio:</th>
                                                         <td ><code><%= job.getStart_date()%></td></code>
-                                                        <th style="font-size:15px; width:10%;">Fin:</th>
+                                                        <th style="font-size:15px; width:10%;" colspan="2">Fin:</th>
                                                         <td ><code><%= job.getStart_date()%></td></code>                                           
                                                     </tr>
                                                     <tr>
