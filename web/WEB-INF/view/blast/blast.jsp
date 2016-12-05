@@ -70,6 +70,15 @@
         <script src="alerta/dist/sweetalert-dev.js"></script>
         <link rel="stylesheet" href="alerta/dist/sweetalert.css">
 
+         <!--ESCRIPT QUE ACTIVA EL BUSCADOR EN LA TABLA MIS BUSQUEDAS-->
+        <script>
+            $(document).ready(function () {
+                $('#tabla-misbusquedas').DataTable({
+                    responsive: true,
+                    pageLength: 5
+                });
+            });</script>       
+        
         <!--ESCRIPT QUE ACTIVA EL BUSCADOR EN LA TABLA METAGENOMAS-->
         <script>
             $(document).ready(function () {
@@ -124,7 +133,7 @@
      <script>
         function eliminar(id,url) {
             swal({
-                title: "Estas seguro de elimar esta fila?",
+                title: "Estas seguro de elimar esta busqueda?",
                 //text: url+"---"+id,
                 type: "warning",
                 showCancelButton: true,
@@ -147,11 +156,7 @@
                                     url: url
                                 };
                                 $.post('deleteJob', params, function (data) {
-                                    //aqui ocultamos el registro
-                                    //alert("parametros enviados");
-                                    //document.write("<img src='http://i1114.photobucket.com/albums/k527/martin264/loading.gif' />");
-                                    //swal("Confirmado!", "Bienvenido al sistema:", "success");
-                                    //location.href="actualiza.jsp?nombre=";  
+                                 //
                                 });
                             });
 
@@ -168,15 +173,18 @@
 
             <!-- Navigation -->
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0; padding-top:10px; padding-right:15px; background-color:#ffffff;">
-                <div class="navbar-header" style="padding-left:15px;">
+            <div class="col-lg-9">
+            <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <!--<span class="b1"><img id="logos" src="images/menu/logos.png" alt="logo" width="95%x" height="95px" /></span>-->
-                    <span class="b1"><img id="logos" src="images/menu/logoC.png" alt="logo" width="23%" height="95px" style="padding-left:60px;" /></span>
+                
+                    <span class="b1"><img id="logos" src="images/logosistema.png" alt="logo" width="70%" height="100px" style="padding-left:10px;" /></span>
+                    <!--<img id="logos" src="images/logosistema2.png" alt="logo" width="40%" height="60px"  />-->
+                </div>
                 </div>
                 <!-- /.navbar-header -->
 
@@ -261,9 +269,9 @@
 
                             <div class="col-lg-12">
                                 <div class="panel panel-default">
-                                    <div class="panel-heading">
+                                   <!-- <div class="panel-heading">
                                         <center>Resultado mis busquedas</center>
-                                    </div>
+                                    </div>-->
                                     <!-- /.panel-heading -->
                                     <div class="panel-body" >
                                         <div class="dataTable_wrapper">
@@ -319,7 +327,7 @@
 
                                             <div class="form-group">
                                                 <label>Nombre</label>
-                                                <input class="form-control" placeholder="Introduce Texto" id="nombre">
+                                                <input class="form-control" placeholder="" id="nombre">
                                             </div>
                                             <div class="form-group">
                                                 <label>Introduzca el número de acceso (s), gi (s), o secuencia (s) FASTA</label>

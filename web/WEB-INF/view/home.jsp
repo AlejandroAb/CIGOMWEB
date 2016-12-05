@@ -71,11 +71,28 @@
 	<link href="themes/1/tooltip.css" rel="stylesheet" type="text/css" />
         <script src="themes/1/tooltip.js" type="text/javascript"></script>
 
+                                  <!-- jQuery -->
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>        
+        
         <!--ALERTAS-->
-        <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
         <script src="alerta/dist/sweetalert-dev.js"></script>
         <link rel="stylesheet" href="alerta/dist/sweetalert.css">
+    <!-- Custom Theme JavaScript -->
+    <script src="dist/js/sb-admin-2.js"></script>
 
+    <!-- DataTables JavaScript -->
+    <script src="bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+    <script src="bower_components/datatables-responsive/js/dataTables.responsive.js"></script>
+
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    <script>
+        $(document).ready(function () {
+            $('#dataTables-example').DataTable({
+                responsive: true
+            });
+        });
+    </script>
         <script src="http://maps.google.com/maps/api/js?sensor=false&key=AIzaSyClwGUqp2wGhajPth9e6SIz92XqQRNMi0k"></script>
     </script>
 
@@ -161,52 +178,41 @@
             window.onload = funciones;
         }
     </script>
-    <!--Esta función obtiene el id de la campaña seleccionada, 
-    posteriormente este id es enviado por “post” a homecontroller  
-    y retornar nuevas estaciones y un nuevo resumen.-->
-    <script>
-        $(document).ready(function () {
-            $('select').find('option').click(function () {
-                var optionSelected = $(this);
-                var valueSelected = optionSelected.val();
-                //var textSelected   = optionSelected.text();
 
+          <script>
+$(document).ready(function(){
+    $("select[name=campanas]").change(function(){
+            //alert($('select[name=campanas]').val());
+            
+            var valorSelect = $('select[name=campanas]').val();
+            
                 document.write("<form action=\"homeCamp\" method=post name=\"formOculto\">\n\
-                                         <input type=\"hidden\" name=\"idCampana\" value=" + valueSelected + "> \n\
-                                         </form>");
-                document.formOculto.submit();
-
-                //(function () {
-                /*var params = {
-                 idCampana: valueSelected
-                 };*/
-                //$.post('homeCamp', {idCampana: valueSelected});
-                //location.href = "homeCamp?idCampana="+valueSelected;
-
-                //document.formulario1.submit() 
-                //});
-
-            });
+                     <input type=\"hidden\" name=\"idCampana\" value=" + valorSelect + "> \n\
+                     </form>");
+                document.formOculto.submit();  
         });
-    </script>
-    
+});           
+        </script>  
 </head>
 
 <body>
     <div id="wrapper">
 
         <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0; padding-top:10px; padding-left:0px; padding-right:15px; background-color:#ffffff;">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0; padding-top:8px; padding-left:0px; padding-right:15px; background-color:#ffffff;">
+            <div class="col-lg-9">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-              <!--  <span class="b1"><img id="logos" src="images/menu/logos.png" alt="logo" width="95%x" height="95px" /></span>-->
-                    <span class="b1"><img id="logos" src="images/menu/logoC.png" alt="logo" width="25%" height="95px" style="padding-left:60px;" /></span>
-            </div>
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                
+                    <span class="b1"><img id="logos" src="images/logosistema.png" alt="logo" width="70%" height="100px" style="padding-left:10px;" /></span>
+                    <!--<img id="logos" src="images/logosistema2.png" alt="logo" width="40%" height="60px"  />-->
+                </div>
+                </div>
             <!-- /.navbar-header -->
 
             <ul class="nav navbar-top-links navbar-right">
@@ -292,7 +298,7 @@
                         <div class="panel-heading">
                             <div class="form-group">
                                 <div class="col-lg-4">
-                                    <select class="form-control" id="campanas">
+                                    <select class="form-control" id="campanas" name="campanas">
                                         <%
                                             ArrayList<ArrayList<String>> campanaid = null;
                                            // int c = request.getAttribute("campanaid");
@@ -604,31 +610,13 @@
     </div>
     <!-- /#wrapper -->
 
-    <!-- jQuery -->
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
-
     <!-- Bootstrap Core JavaScript -->
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
-    <!-- Custom Theme JavaScript -->
-    <script src="dist/js/sb-admin-2.js"></script>
 
-    <!-- DataTables JavaScript -->
-    <script src="bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
-    <script src="bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
-    <script src="bower_components/datatables-responsive/js/dataTables.responsive.js"></script>
-
-    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-    <script>
-        $(document).ready(function () {
-            $('#dataTables-example').DataTable({
-                responsive: true
-            });
-        });
-    </script>
 
 
 </body>

@@ -31,30 +31,55 @@ function uploadXHTML(genomas, metagenomas) {
             }
         }
         if (blastOption === null || blastOption.length < 1) {
-            alert("Seleccionar algoritmo de búsqueda");
+            //alert("Seleccionar algoritmo de búsqueda");
+            swal({
+                title: "<span style='color:#red'>Seleccionar algoritmo de búsqueda!</span>",
+                imageUrl: "images/error_busqueda.png",
+                html: true
+            });
             document.getElementById("nombre").focus();
             return false;
         }
         if (jobName === null || jobName.length < 1) {
-            alert("Ingresa un nombre para la búqueda");
+            //alert("Ingresa un nombre para la búqueda");
+            swal({
+                title: "<span style='color:#red'>Ingresa un nombre para la búqueda!</span>",
+                imageUrl: "images/error_busqueda.png",
+                html: true
+            });            
             document.getElementById("nombre").focus();
             return false;
         }
         var e;
         if (eval.length < 1 || isNaN(eval)) {
-            alert("Ingrese un número entero entre  0 y 100" + "\n" + "3 default -> 0.001");
+            //alert("Ingrese un número entero entre  0 y 100" + "\n" + "3 default -> 0.001");
+            swal({
+                title: "<span style='color:#red'>Ingrese un número entero entre  0 y 100" + "\n" + "3 default -> 0.001!</span>",
+                imageUrl: "images/error_busqueda.png",
+                html: true
+            });             
             document.getElementById("eval").focus();
             return false;
         } else {
             try {
                 e = parseInt(eval);
                 if (e < 0 || e > 100) {
-                    alert("Ingrese un número entero entre  0 y 100" + "\n" + "3 default -> 0.001");
+                    //alert("Ingrese un número entero entre  0 y 100" + "\n" + "3 default -> 0.001");
+            swal({
+                title: "<span style='color:#red'>Ingrese un número entero entre  0 y 100" + "\n" + "3 default -> 0.001!</span>",
+                imageUrl: "images/error_busqueda.png",
+                html: true
+            });                    
                     document.getElementById("evalue").focus();
                     return false;
                 }
             } catch (err) {
-                alert("Ingrese un número entero entre  0 y 100" + "\n" + "3 default -> 0.001");
+                //alert("Ingrese un número entero entre  0 y 100" + "\n" + "3 default -> 0.001");
+            swal({
+                title: "<span style='color:#red'>Ingrese un número entero entre  0 y 100" + "\n" + "3 default -> 0.001!</span>",
+                imageUrl: "images/error_busqueda.png",
+                html: true
+            });                 
                 document.getElementById("evalue").focus();
                 return false;
             }
@@ -83,7 +108,12 @@ function uploadXHTML(genomas, metagenomas) {
             oMyForm.append("inputType", 'sequence');
             isFile = false;
         } else {
-            alert("Ingrese una secuencia o seleccione un archivo");
+            //alert("Ingrese una secuencia o seleccione un archivo");
+             swal({
+                title: "<span style='color:#red'>Ingrese una secuencia o seleccione un archivo!</span>",
+                imageUrl: "images/error_busqueda.png",
+                html: true
+            });            
             document.getElementById('secuencia').focus();
             return false;
         }
@@ -116,7 +146,12 @@ function uploadXHTML(genomas, metagenomas) {
          }*/
         oMyForm.append("idgenomas", genomas);
         if ((metagenomas.length + genomas.length) === 0) {
-            alert("Seleccione por lo menos una base de datos");
+            //alert("Seleccione por lo menos una base de datos");
+            swal({
+                title: "<span style='color:#red'>Seleccione por lo menos una base de datos!</span>",
+                imageUrl: "images/error_busqueda.png",
+                html: true
+            });  
             return false;
         }
         oReq = getXmlHttpObject();
@@ -127,7 +162,12 @@ function uploadXHTML(genomas, metagenomas) {
         oReq.open("POST", "blastSearch", true);
         oReq.send(oMyForm);
     } catch (err) {
-        alert("Error al crear la petición Blast\n" + err.message);
+        //alert("Error al crear la petición Blast\n" + err.message);
+               swal({
+                title: "Error al crear la petición Blast\n!"+ err.message,
+                imageUrl: "images/error_busqueda.png",
+                html: true
+            }); 
         return false;
     }
 }
@@ -166,10 +206,14 @@ function handleStateChangeFiles()
                 alert(response);
             }
 
-        }
-        else
+        } else
         {
             alert("Error creando blast job " + oReq.status + ":" + oReq.statusText);
+            swal({
+                title: "Error creando blast job" + oReq.status + ":" + oReq.statusText,
+                imageUrl: "images/error_busqueda.png",
+                html: true
+            }); 
         }
     }
 }
@@ -198,8 +242,7 @@ function transferCompleteFunction(evt) {
             percentageDiv.innerHTML = "Archivo listo";
         }
         // alert("Expediente creado correctamente ID: " + response.toString());
-    }
-    else {
+    } else {
         alert(response);
     }
 

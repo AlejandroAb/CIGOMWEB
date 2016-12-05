@@ -114,6 +114,7 @@ public class LoginController extends HttpServlet {
                 request.getRequestDispatcher(url).forward(request, response);
             }
             String idCampanaStr = request.getParameter("idCampana");
+            System.out.println("id="+idCampanaStr);
             CampanaDAO campanaDAO = new CampanaDAO(transacciones);
             int idCampana;
             if (idCampanaStr == null) {
