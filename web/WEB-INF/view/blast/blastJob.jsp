@@ -476,9 +476,9 @@
                                                             <tr style="text-align: left; font-size:14px;" class="genomas" id="genoma">
                                                                 <td style="text-align:center;"><input type="checkbox" value="<%= result.getGen_id()%>" id="checkgenoma"></td>
                                                                 <td><%= result.getQuery()%></td>
-                                                                <td><%= result.getGen_id()%></td>
+                                                                <td style="word-break: break-all"><%= result.getGen_id()%></td>
                                                                 <td><%= result.getSource()%></td>
-                                                                <td ><%= result.getTarget_definition()%></td>
+                                                                <td  style="word-break: break-all"><%= result.getTarget_definition()%></td>
                                                                 <td><%= result.getTaxa()%></td>
                                                                 <td><%= result.getIdentity()%></td>
                                                                 <td><%= result.getQuery_from()%></td>
