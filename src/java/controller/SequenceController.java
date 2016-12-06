@@ -82,6 +82,7 @@ public class SequenceController extends HttpServlet {
                 String seqType = request.getParameter("seqType");
                 String seqHeader = request.getParameter("seqHeader");
                 String downloadType = request.getParameter("dType");
+                System.out.println("Ids:"+idSeqs+"\n"+"dtype:"+downloadType+"\n"+"seqType:"+seqType+"\n"+"seqHeader:"+seqHeader);    
                 if (downloadType == null) {
                     downloadType = "seq";
                 }

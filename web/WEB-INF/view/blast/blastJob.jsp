@@ -66,16 +66,16 @@
 
         <script src="alerta/dist/sweetalert-dev.js"></script>
         <link rel="stylesheet" href="alerta/dist/sweetalert.css">
-        
+
         <!-- Forma para pedir secuencias -->
         <script src="js/seqRequest.js"></script>
-        
+
         <!--ESCRIPT PARA OBTENER LOS VALORES DE LA TABLA GENOMAS-->
         <script type="text/javascript">
 
-            $(document).ready(function() {
+            $(document).ready(function () {
 
-                $("#obtenerdatos-genomas").click(function() {
+                $("#obtenerdatos-genomas").click(function () {
                     //saco el valor accediendo al id del input = nombre
 
                     var dType = $("#opciones").val();
@@ -90,111 +90,82 @@
                         var seqHeader = "regular";
                     }
 
-
-
                     // para cada checkbox "chequeado"
                     var resultG = [];
                     var table = $("#genomas-blast").DataTable();
                     var rows = table.rows().nodes();
-                    $('input[type="checkbox"]', rows).each(function(index) {
-                        if ($(this).is(':checked')) {
-                            resultG[index] = $(this).val();
-                        }
-                    });
-                    var parametros = {
-                        ids: resultG.join(','),
-                        dType: dType,
-                        seqType: seqType,
-                        seqHeader: seqHeaders
-
-                    };
-                    $.ajax({
-                        data: parametros,
-                        url: 'getSequence',
-                        type: 'post',
-                        global: false,
-                        beforeSend: function() {
-                            //imagen de carga
-                            swal({
-                                title: "",
-                                imageUrl: "images/loading.gif",
-                                showConfirmButton: false
-                            });
-                        },
-                        success: function(data) {
-                            // terminamos la imagen de carga
-                            swal({
-                                title: "",
-                                imageUrl: "images/loading.gif",
-                                showConfirmButton: false,
-                                timer: 1000
-                            });
-                        }
-                    });
-
-                    /*document.write("<form action=\"getSequence\" method=post name=\"formOculto\">\n\
-                     <input type=\"hidden\" name=\"ids\" value=" + resultG.join(',') + "> \n\\n\
-                     <input type=\"hidden\" name=\"dType\" value=" + dType + "> \n\\n\
-                     <input type=\"hidden\" name=\"seqType\" value=" + seqType + "> \n\\n\
-                     <input type=\"hidden\" name=\"seqHeader\" value='" + seqHeader + "'> \n\\n\
-                     </form>");
-                     document.formOculto.submit();*/
-                    //alert("Ids: " + resultG.join(',')+"\n"+"Cadena: " + dType + ',' + seqType + ',' + seqHeader);                               
-                    return false;
-                });
-            });
-
-        </script>  
-        <script type="text/javascript">
-
-            $(document).ready(function() {
-
-                $("#obtenerdatos-genomas2").click(function() {
-                    //saco el valor accediendo al id del input = nombre
-
-                    var dType = $("#opciones").val();
-
-                    var seqType = $("#tipoSecuencia").val();
-
-                    var seqHeader;
-                    if ($('#proteina').prop('checked'))
-                    {
-                        seqHeader = $('input:checkbox[name=proteinas]:checked').val();
-                    } else
-                    {
-                        seqHeader = "regular";
-                    }             // para cada checkbox "chequeado"
-                    var resultG = [];
-                    var table = $("#genomas-blast").DataTable();
-                    var rows = table.rows().nodes();
-                    $('input[type="checkbox"]', rows).each(function(index) {
+                    $('input[type="checkbox"]', rows).each(function (index) {
                         if ($(this).is(':checked')) {
                             resultG[index] = $(this).val();
                         }
                     });
 
-                    requestSequence(resultG.join(','), seqType, dType, seqHeader);
+                    // alert(""dType+"-"+seqType"-"+seqHeader);
 
-                    /*   swal({
+                    /* var parametros = {
+                     ids: resultG.join(','),
+                     dType: dType,
+                     seqType: seqType,
+                     seqHeader: seqHeader
+                     };
+                     
+                     $.post('getSequence', parametros, function (data) {
+                     //
+                     
+                     });*/
+                    /*$.ajax({
+                     data: parametros,
+                     url: 'getSequence',
+                     type: 'post',
+                     global: false,
+                     beforeSend: function() {
+                     //imagen de carga
+                     swal({
                      title: "",
                      imageUrl: "images/loading.gif",
                      showConfirmButton: false
                      });
-                     
+                     },
+                     success: function(data) {
+                     // terminamos la imagen de carga
                      swal({
                      title: "",
                      imageUrl: "images/loading.gif",
                      showConfirmButton: false,
                      timer: 1000
+                     });
+                     }
                      });*/
 
+                    document.write("<form action=\"getSequence\" method=\"post\" name=\"formOculto\">\n\
+                     <input type=\"hidden\" name=\"ids\" value=" + resultG.join(',') + "> \n\
+                     <input type=\"hidden\" name=\"dType\" value=" + dType + "> \n\
+                     <input type=\"hidden\" name=\"seqType\" value=" + seqType + "> \n\
+                     <input type=\"hidden\" name=\"seqHeader\" value='" + seqHeader + "'> \n\
+                     </form>");
+                    document.formOculto.submit();
+                    //alert("Ids: " + resultG.join(',')+"\n"+"Cadena: " + dType + ',' + seqType + ',' + seqHeader);                               
                     return false;
                 });
             });
 
-        </script>  
+        </script> 
+
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
+                //$('#loading').hide();
+                $('form').submit(function () {
+                     swal({
+                     title: "",
+                     imageUrl: "images/loading.gif",
+                     showConfirmButton: false
+                     });
+                });
+            });
+        </script>
+
+        <script>
+            $(document).ready(function () {
                 $('#genomas-blast').DataTable({
                     responsive: true,
                     pageLength: 25
@@ -210,18 +181,18 @@
 
             <!-- Navigation -->
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0; padding-top:10px; padding-right:15px; background-color:#ffffff;">
-            <div class="col-lg-9">
-            <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                
-                    <span class="b1"><img id="logos" src="images/logosistema.png" alt="logo" width="70%" height="100px" style="padding-left:10px;" /></span>
-                    <!--<img id="logos" src="images/logosistema2.png" alt="logo" width="40%" height="60px"  />-->
-                </div>
+                <div class="col-lg-9">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+
+                        <span class="b1"><img id="logos" src="images/logosistema.png" alt="logo" width="70%" height="100px" style="padding-left:10px;" /></span>
+                        <!--<img id="logos" src="images/logosistema2.png" alt="logo" width="40%" height="60px"  />-->
+                    </div>
                 </div>
                 <!-- /.navbar-header -->
 
@@ -518,8 +489,8 @@
             </div>
 
             <!--SCRIPT PARA MARCAR Y DESMARCAR LOS CHECKS DE LA TABLA GENOMAS-->
-             <script>
-                $("#marcarTodoG").change(function() {
+            <script>
+                $("#marcarTodoG").change(function () {
                     var table = $("#genomas-blast").DataTable();
                     var rows = table.rows().nodes();
                     $('input[type="checkbox"]', rows).prop('checked', this.checked);
