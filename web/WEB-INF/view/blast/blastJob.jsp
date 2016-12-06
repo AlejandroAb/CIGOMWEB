@@ -288,6 +288,17 @@
                                                         if (job != null) {
 
                                                     %>
+                                                     <script>
+
+                                                        var mensaje = "<%= job.getMessage() %>";
+                                                        
+                                                        if (mensaje !== "" && mensaje !== null)
+                                                        {
+                                                            $(document).ready(function () {
+                                                                $("#mensaje").css("display", " table-row");
+                                                            });
+                                                        }
+                                                    </script> 
                                                     <tr>
                                                         <th style="width:10%; font-size:15px;">Nombre:</th>
                                                         <td colspan="4"><code><%= job.getJob_name()%></code></td>
@@ -302,37 +313,25 @@
                                                     </tr>
                                                     <tr>                                          
                                                         <th style="font-size:15px;">Inicio:</th>
-                                                        <td ><code><%= job.getStart_date()%></td></code>
+                                                        <td ><code><%= job.getStart_date()%></code></td>
                                                         <th style="font-size:15px; width:10%;" colspan="2">Fin:</th>
-                                                        <td ><code><%= job.getStart_date()%></td></code>                                           
+                                                        <td ><code><%= job.getStart_date()%></code></td>                                           
                                                     </tr>
                                                     <tr>
                                                         <th style="font-size:15px;">Estatus:</th>
-                                                        <td colspan="4"><code><%= job.getStatus()%></td></code>
+                                                        <td colspan="4"><code><%= job.getStatus()%></code></td>
                                                     </tr>
-
-                                                    <script type="text/javascript">
-
-                                                        var mensaje = <%= job.getMessage()%>;
-                                                        //var mensaje = null;
-                                                        if (mensaje != null)
-                                                        {
-                                                            $(document).ready(function () {
-                                                                $("#mensaje").css("display", "block");
-                                                            });
-                                                        }
-                                                    </script>                                       
                                                     <tr style="background-color: yellow; display:none;" id="mensaje">
                                                         <th style="font-size:15px;">Mensaje:</th>
-                                                        <td colspan="4"><code><%= job.getMessage()%></td></code>
-                                                    </tr>
+                                                        <td colspan="4"><code><%= job.getMessage()%></code></td>
+                                                    </tr>                                                    
                                                     <tr>
                                                         <th style="font-size:15px;">Metagenomas:</th>
-                                                        <td colspan="4"><code><%= job.getMetagenomas()%></td></code>
+                                                        <td colspan="4"><code><%= job.getMetagenomas()%></code></td>
                                                     </tr>
                                                     <tr>
                                                         <th style="font-size:15px;">Genomas:</th>
-                                                        <td colspan="4"><code><%= job.getGenomas()%></td></code>
+                                                        <td colspan="4"><code><%= job.getGenomas()%></code></td>
                                                     </tr>
                                                     <tr>
                                                         <th style="font-size:15px;">Query:</th>
@@ -409,9 +408,6 @@
                                                             <label>
                                                                 <button  class="fa fa-download" id="obtenerdatos-genomas"></button>
                                                             </label>
-                                                            <label>
-                                                                <button  class="fa fa-download" id="obtenerdatos-genomas2">2</button>
-                                                            </label>
                                                         </div>    
                                                     </div>                                            
                                                 </div>
@@ -450,9 +446,9 @@
                                                             <tr style="text-align: left; font-size:14px;" class="genomas" id="genoma">
                                                                 <td style="text-align:center;"><input type="checkbox" value="<%= result.getGen_id()%>" id="checkgenoma"></td>
                                                                 <td><%= result.getQuery()%></td>
-                                                                <td><%= result.getGen_id()%></td>
+                                                                <td style="word-break: break-all"><%= result.getGen_id()%></td>
                                                                 <td><%= result.getSource()%></td>
-                                                                <td ><%= result.getTarget_definition()%></td>
+                                                                <td style="word-break: break-all"><%= result.getTarget_definition()%></td>
                                                                 <td><%= result.getTaxa()%></td>
                                                                 <td><%= result.getIdentity()%></td>
                                                                 <td><%= result.getQuery_from()%></td>

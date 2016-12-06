@@ -435,7 +435,7 @@
                                                     <br>
                                                     <br>
                                                     <div class="dataTable_wrapper">
-                                                        <table width="100%" class="table table-striped table-bordered table-hover" id="tabla-metagenomas">
+                                                        <table width="100%" class="table table-striped table-bordered table-hover" id="tabla-genomas">
                                                             <thead>
                                                                 <tr>
                                                                     <th></th>
