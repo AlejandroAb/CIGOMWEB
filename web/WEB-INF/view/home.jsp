@@ -262,7 +262,7 @@ $(document).ready(function(){
                             <a href="forms.html"><i class="fa fa-edit fa-fw"></i> SITIOS</a>
                         </li>
                         <li>
-                            <a href="analisis.jsp"><i class="fa fa-edit fa-fw"></i> ANALISIS</a>
+                            <a href="/view/analisis.jsp"><i class="fa fa-edit fa-fw"></i> ANALISIS</a>
                         </li>
                         <li>
                             <a href="CerrarSesion"><i class="fa fa-edit fa-fw"></i> SALIR</a>

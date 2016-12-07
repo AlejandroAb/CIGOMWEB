@@ -168,7 +168,8 @@
             $(document).ready(function () {
                 $('#genomas-blast').DataTable({
                     responsive: true,
-                    pageLength: 25
+                    pageLength: 25,
+                    order: [[ 11, "asc" ],[ 12, "desc" ]]
                 });
             });
         </script>    

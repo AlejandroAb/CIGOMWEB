@@ -75,7 +75,8 @@
             $(document).ready(function () {
                 $('#tabla-misbusquedas').DataTable({
                     responsive: true,
-                    pageLength: 5
+                    pageLength: 5,
+                    order: [[ 2, "desc" ]]
                 });
             });</script>       
         
