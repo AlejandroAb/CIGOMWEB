@@ -186,7 +186,7 @@ $(document).ready(function(){
             
             var valorSelect = $('select[name=campanas]').val();
             
-                document.write("<form action=\"homeCamp\" method=post name=\"formOculto\">\n\
+                document.write("<form action=\"homeCamp\" method=\"post\" name=\"formOculto\">\n\
                      <input type=\"hidden\" name=\"idCampana\" value=" + valorSelect + "> \n\
                      </form>");
                 document.formOculto.submit();  

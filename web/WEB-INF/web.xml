@@ -24,11 +24,13 @@
         </description>
         <param-name>blastdir</param-name>
         <!-- <param-value>C:/Users/Alejandro/Documents/Projects/GCT3NG/blast/</param-value>-->
+        <!-- C:/Users/app/ -->
        <param-value>/home/blast/querys/</param-value>
     </context-param>
     <context-param>
         <param-name>blastdbs</param-name>
         <!-- <param-value>C:/Users/Alejandro/Documents/Projects/GCT3NG/blast/</param-value>-->
+        <!--Para jose C:/Users/app/ -->
         <param-value>/home/blast/blastdb/</param-value>
     </context-param>
     <context-param>

@@ -66,16 +66,16 @@
 
         <script src="alerta/dist/sweetalert-dev.js"></script>
         <link rel="stylesheet" href="alerta/dist/sweetalert.css">
-        
+
         <!-- Forma para pedir secuencias -->
         <script src="js/seqRequest.js"></script>
-        
+
         <!--ESCRIPT PARA OBTENER LOS VALORES DE LA TABLA GENOMAS-->
         <script type="text/javascript">
 
-            $(document).ready(function() {
+            $(document).ready(function () {
 
-                $("#obtenerdatos-genomas").click(function() {
+                $("#obtenerdatos-genomas").click(function () {
                     //saco el valor accediendo al id del input = nombre
 
                     var dType = $("#opciones").val();
@@ -90,114 +90,86 @@
                         var seqHeader = "regular";
                     }
 
-
-
                     // para cada checkbox "chequeado"
                     var resultG = [];
                     var table = $("#genomas-blast").DataTable();
                     var rows = table.rows().nodes();
-                    $('input[type="checkbox"]', rows).each(function(index) {
-                        if ($(this).is(':checked')) {
-                            resultG[index] = $(this).val();
-                        }
-                    });
-                    var parametros = {
-                        ids: resultG.join(','),
-                        dType: dType,
-                        seqType: seqType,
-                        seqHeader: seqHeaders
-
-                    };
-                    $.ajax({
-                        data: parametros,
-                        url: 'getSequence',
-                        type: 'post',
-                        global: false,
-                        beforeSend: function() {
-                            //imagen de carga
-                            swal({
-                                title: "",
-                                imageUrl: "images/loading.gif",
-                                showConfirmButton: false
-                            });
-                        },
-                        success: function(data) {
-                            // terminamos la imagen de carga
-                            swal({
-                                title: "",
-                                imageUrl: "images/loading.gif",
-                                showConfirmButton: false,
-                                timer: 1000
-                            });
-                        }
-                    });
-
-                    /*document.write("<form action=\"getSequence\" method=post name=\"formOculto\">\n\
-                     <input type=\"hidden\" name=\"ids\" value=" + resultG.join(',') + "> \n\\n\
-                     <input type=\"hidden\" name=\"dType\" value=" + dType + "> \n\\n\
-                     <input type=\"hidden\" name=\"seqType\" value=" + seqType + "> \n\\n\
-                     <input type=\"hidden\" name=\"seqHeader\" value='" + seqHeader + "'> \n\\n\
-                     </form>");
-                     document.formOculto.submit();*/
-                    //alert("Ids: " + resultG.join(',')+"\n"+"Cadena: " + dType + ',' + seqType + ',' + seqHeader);                               
-                    return false;
-                });
-            });
-
-        </script>  
-        <script type="text/javascript">
-
-            $(document).ready(function() {
-
-                $("#obtenerdatos-genomas2").click(function() {
-                    //saco el valor accediendo al id del input = nombre
-
-                    var dType = $("#opciones").val();
-
-                    var seqType = $("#tipoSecuencia").val();
-
-                    var seqHeader;
-                    if ($('#proteina').prop('checked'))
-                    {
-                        seqHeader = $('input:checkbox[name=proteinas]:checked').val();
-                    } else
-                    {
-                        seqHeader = "regular";
-                    }             // para cada checkbox "chequeado"
-                    var resultG = [];
-                    var table = $("#genomas-blast").DataTable();
-                    var rows = table.rows().nodes();
-                    $('input[type="checkbox"]', rows).each(function(index) {
+                    $('input[type="checkbox"]', rows).each(function (index) {
                         if ($(this).is(':checked')) {
                             resultG[index] = $(this).val();
                         }
                     });
 
-                    requestSequence(resultG.join(','), seqType, dType, seqHeader);
+                    // alert(""dType+"-"+seqType"-"+seqHeader);
 
-                    /*   swal({
+                    /* var parametros = {
+                     ids: resultG.join(','),
+                     dType: dType,
+                     seqType: seqType,
+                     seqHeader: seqHeader
+                     };
+                     
+                     $.post('getSequence', parametros, function (data) {
+                     //
+                     
+                     });*/
+                    /*$.ajax({
+                     data: parametros,
+                     url: 'getSequence',
+                     type: 'post',
+                     global: false,
+                     beforeSend: function() {
+                     //imagen de carga
+                     swal({
                      title: "",
                      imageUrl: "images/loading.gif",
                      showConfirmButton: false
                      });
-                     
+                     },
+                     success: function(data) {
+                     // terminamos la imagen de carga
                      swal({
                      title: "",
                      imageUrl: "images/loading.gif",
                      showConfirmButton: false,
                      timer: 1000
+                     });
+                     }
                      });*/
 
+                    document.write("<form action=\"getSequence\" method=\"post\" name=\"formOculto\">\n\
+                     <input type=\"hidden\" name=\"ids\" value=" + resultG.join(',') + "> \n\
+                     <input type=\"hidden\" name=\"dType\" value=" + dType + "> \n\
+                     <input type=\"hidden\" name=\"seqType\" value=" + seqType + "> \n\
+                     <input type=\"hidden\" name=\"seqHeader\" value='" + seqHeader + "'> \n\
+                     </form>");
+                    document.formOculto.submit();
+                    //alert("Ids: " + resultG.join(',')+"\n"+"Cadena: " + dType + ',' + seqType + ',' + seqHeader);                               
                     return false;
                 });
             });
 
-        </script>  
+        </script> 
+
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
+                //$('#loading').hide();
+                $('form').submit(function () {
+                     swal({
+                     title: "",
+                     imageUrl: "images/loading.gif",
+                     showConfirmButton: false
+                     });
+                });
+            });
+        </script>
+
+        <script>
+            $(document).ready(function () {
                 $('#genomas-blast').DataTable({
                     responsive: true,
-                    pageLength: 25
+                    pageLength: 25,
+                    order: [[ 11, "asc" ],[ 12, "desc" ]]
                 });
             });
         </script>    
@@ -210,18 +182,18 @@
 
             <!-- Navigation -->
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0; padding-top:10px; padding-right:15px; background-color:#ffffff;">
-            <div class="col-lg-9">
-            <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                
-                    <span class="b1"><img id="logos" src="images/logosistema.png" alt="logo" width="70%" height="100px" style="padding-left:10px;" /></span>
-                    <!--<img id="logos" src="images/logosistema2.png" alt="logo" width="40%" height="60px"  />-->
-                </div>
+                <div class="col-lg-9">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+
+                        <span class="b1"><img id="logos" src="images/logosistema.png" alt="logo" width="70%" height="100px" style="padding-left:10px;" /></span>
+                        <!--<img id="logos" src="images/logosistema2.png" alt="logo" width="40%" height="60px"  />-->
+                    </div>
                 </div>
                 <!-- /.navbar-header -->
 
@@ -317,6 +289,17 @@
                                                         if (job != null) {
 
                                                     %>
+                                                     <script>
+
+                                                        var mensaje = "<%= job.getMessage() %>";
+                                                        
+                                                        if (mensaje !== "" && mensaje !== null)
+                                                        {
+                                                            $(document).ready(function () {
+                                                                $("#mensaje").css("display", " table-row");
+                                                            });
+                                                        }
+                                                    </script> 
                                                     <tr>
                                                         <th style="width:10%; font-size:15px;">Nombre:</th>
                                                         <td colspan="4"><code><%= job.getJob_name()%></code></td>
@@ -331,37 +314,25 @@
                                                     </tr>
                                                     <tr>                                          
                                                         <th style="font-size:15px;">Inicio:</th>
-                                                        <td ><code><%= job.getStart_date()%></td></code>
+                                                        <td ><code><%= job.getStart_date()%></code></td>
                                                         <th style="font-size:15px; width:10%;" colspan="2">Fin:</th>
-                                                        <td ><code><%= job.getStart_date()%></td></code>                                           
+                                                        <td ><code><%= job.getStart_date()%></code></td>                                           
                                                     </tr>
                                                     <tr>
                                                         <th style="font-size:15px;">Estatus:</th>
-                                                        <td colspan="4"><code><%= job.getStatus()%></td></code>
+                                                        <td colspan="4"><code><%= job.getStatus()%></code></td>
                                                     </tr>
-
-                                                    <script type="text/javascript">
-
-                                                        var mensaje = <%= job.getMessage()%>;
-                                                        //var mensaje = null;
-                                                        if (mensaje != null)
-                                                        {
-                                                            $(document).ready(function () {
-                                                                $("#mensaje").css("display", "block");
-                                                            });
-                                                        }
-                                                    </script>                                       
                                                     <tr style="background-color: yellow; display:none;" id="mensaje">
                                                         <th style="font-size:15px;">Mensaje:</th>
-                                                        <td colspan="4"><code><%= job.getMessage()%></td></code>
-                                                    </tr>
+                                                        <td colspan="4"><code><%= job.getMessage()%></code></td>
+                                                    </tr>                                                    
                                                     <tr>
                                                         <th style="font-size:15px;">Metagenomas:</th>
-                                                        <td colspan="4"><code><%= job.getMetagenomas()%></td></code>
+                                                        <td colspan="4"><code><%= job.getMetagenomas()%></code></td>
                                                     </tr>
                                                     <tr>
                                                         <th style="font-size:15px;">Genomas:</th>
-                                                        <td colspan="4"><code><%= job.getGenomas()%></td></code>
+                                                        <td colspan="4"><code><%= job.getGenomas()%></code></td>
                                                     </tr>
                                                     <tr>
                                                         <th style="font-size:15px;">Query:</th>
@@ -437,9 +408,6 @@
                                                         <div class="checkbox">
                                                             <label>
                                                                 <button  class="fa fa-download" id="obtenerdatos-genomas"></button>
-                                                            </label>
-                                                            <label>
-                                                                <button  class="fa fa-download" id="obtenerdatos-genomas2">2</button>
                                                             </label>
                                                         </div>    
                                                     </div>                                            
@@ -518,8 +486,8 @@
             </div>
 
             <!--SCRIPT PARA MARCAR Y DESMARCAR LOS CHECKS DE LA TABLA GENOMAS-->
-             <script>
-                $("#marcarTodoG").change(function() {
+            <script>
+                $("#marcarTodoG").change(function () {
                     var table = $("#genomas-blast").DataTable();
                     var rows = table.rows().nodes();
                     $('input[type="checkbox"]', rows).prop('checked', this.checked);

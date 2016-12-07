@@ -177,8 +177,9 @@ public class BlastController extends HttpServlet {
                     blast.setjDao(job);
                     Thread blastThread = new Thread(blast);
                     blastThread.start();
-                    //  outPW.print(uID);
-                    response.sendRedirect("showJob?jobURL=" + uID);
+                    outPW.print(uID);
+                    outPW.close();
+                    //response.sendRedirect("showJob?jobURL=" + uID);
                 }
             } else if (userPath.equals("/showJob")) {
                 //PrintWriter outPW = response.getWriter();

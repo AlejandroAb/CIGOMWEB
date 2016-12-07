@@ -84,13 +84,13 @@ public class SequenceFileCreator {
                     if (protDetails != null && protDetails.size() > 0) {
                         ArrayList<String> details = protDetails.get(0);
                         if (!details.get(0).equals("NULL")) { //uniprot ID
-                            secuencia.append(" ").append(seq.get(6));
+                            secuencia.append(" ").append(details.get(0));
                         }
                         if (!details.get(1).equals("NULL")) { //prot_name
-                            secuencia.append(" ").append(seq.get(7));
+                            secuencia.append(" ").append(details.get(1));
                         }
                         if (!details.get(2).equals("NULL")) { //gene_name
-                            secuencia.append(" ").append(seq.get(8));
+                            secuencia.append(" ").append(details.get(2));
                         }
                     }
                 }
@@ -157,13 +157,13 @@ public class SequenceFileCreator {
                     if (protDetails != null && protDetails.size() > 0) {
                         ArrayList<String> details = protDetails.get(0);
                         if (!details.get(0).equals("NULL")) { //uniprot ID
-                            secuencia.append(" ").append(seq.get(6));
+                            secuencia.append(" ").append(details.get(0));
                         }
                         if (!details.get(1).equals("NULL")) { //prot_name
-                            secuencia.append(" ").append(seq.get(7));
+                            secuencia.append(" ").append(details.get(1));
                         }
                         if (!details.get(2).equals("NULL")) { //gene_name
-                            secuencia.append(" ").append(seq.get(8));
+                            secuencia.append(" ").append(details.get(2));
                         }
                     }
                 }
