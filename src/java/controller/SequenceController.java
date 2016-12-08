@@ -66,22 +66,13 @@ public class SequenceController extends HttpServlet {
 
             }
              if (userPath.equals("/getSequence")) {
-                /*String idSeqs = request.getParameter("ids");
-                 String dType = request.getParameter("dType");
-                 String seqType = request.getParameter("seqType");
-                 String seqHeader = request.getParameter("seqHeader");
-                
-                 System.out.println("Ids:"+idSeqs+"\n"+"dtype:"+dType+"\n"+"seqType:"+seqType+"\n"+"seqHeader:"+seqHeader);
-                 */
-
                 SequenceFileCreator sfc = new SequenceFileCreator(transacciones);
-                //sfc.doFile
                 ServletContext sc = getServletContext();
                 String idSeqs = request.getParameter("ids");
-
                 String seqType = request.getParameter("seqType");
                 String seqHeader = request.getParameter("seqHeader");
                 String downloadType = request.getParameter("dType");
+                
                 System.out.println("Ids:"+idSeqs+"\n"+"dtype:"+downloadType+"\n"+"seqType:"+seqType+"\n"+"seqHeader:"+seqHeader);    
                 if (downloadType == null) {
                     downloadType = "seq";
@@ -109,8 +100,7 @@ public class SequenceController extends HttpServlet {
                     RequestDispatcher view = request.getRequestDispatcher(url);
                     view.forward(request, response);
                     return;
-                }
-                System.out.println("Try download IDs:" + idSeqs);
+                }              
                 if (downloadType.equals("seq")) {
                     serveFile = sfc.generateFileFromIDs(dirPath, fullFile, idSeqs, seqType, seqHeader);
                     fileType = "txt/fna";

@@ -185,7 +185,12 @@ function getXmlHttpObject() {
         }
     }
     if (!xmlHttp) {
-        alert("Your browser does not support AJAX!");
+        //alert("Your browser does not support AJAX!");
+               swal({
+                title: "Your browser does not support AJAX!!",
+                imageUrl: "images/error_busqueda.png",
+                html: true
+            });        
 
     }
     return xmlHttp;
@@ -203,12 +208,17 @@ function handleStateChangeFiles()
 
                 // window.location.href = "/WEB-INF/selections/functiontable.jsp";
             } else {
-                alert(response);
+                //alert(response);
+                swal({
+                title: response,
+                imageUrl: "images/error_busqueda.png",
+                html: true
+            });    
             }
 
         } else
         {
-            alert("Error creando blast job " + oReq.status + ":" + oReq.statusText);
+            //alert("Error creando blast job " + oReq.status + ":" + oReq.statusText);
             swal({
                 title: "Error creando blast job" + oReq.status + ":" + oReq.statusText,
                 imageUrl: "images/error_busqueda.png",
@@ -243,7 +253,12 @@ function transferCompleteFunction(evt) {
         }
         // alert("Expediente creado correctamente ID: " + response.toString());
     } else {
-        alert(response);
+        //alert(response);
+                swal({
+                title: response,
+                imageUrl: "images/error_busqueda.png",
+                html: true
+            });        
     }
 
 }

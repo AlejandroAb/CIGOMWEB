@@ -73,81 +73,7 @@
         <!--ESCRIPT PARA OBTENER LOS VALORES DE LA TABLA GENOMAS-->
         <script type="text/javascript">
 
-            $(document).ready(function () {
-
-                $("#obtenerdatos-genomas").click(function () {
-                    //saco el valor accediendo al id del input = nombre
-
-                    var dType = $("#opciones").val();
-
-                    var seqType = $("#tipoSecuencia").val();
-
-                    if ($('#proteina').prop('checked'))
-                    {
-                        var seqHeader = $('input:checkbox[name=proteinas]:checked').val();
-                    } else
-                    {
-                        var seqHeader = "regular";
-                    }
-
-                    // para cada checkbox "chequeado"
-                    var resultG = [];
-                    var table = $("#genomas-blast").DataTable();
-                    var rows = table.rows().nodes();
-                    $('input[type="checkbox"]', rows).each(function (index) {
-                        if ($(this).is(':checked')) {
-                            resultG[index] = $(this).val();
-                        }
-                    });
-
-                    // alert(""dType+"-"+seqType"-"+seqHeader);
-
-                    /* var parametros = {
-                     ids: resultG.join(','),
-                     dType: dType,
-                     seqType: seqType,
-                     seqHeader: seqHeader
-                     };
-                     
-                     $.post('getSequence', parametros, function (data) {
-                     //
-                     
-                     });*/
-                    /*$.ajax({
-                     data: parametros,
-                     url: 'getSequence',
-                     type: 'post',
-                     global: false,
-                     beforeSend: function() {
-                     //imagen de carga
-                     swal({
-                     title: "",
-                     imageUrl: "images/loading.gif",
-                     showConfirmButton: false
-                     });
-                     },
-                     success: function(data) {
-                     // terminamos la imagen de carga
-                     swal({
-                     title: "",
-                     imageUrl: "images/loading.gif",
-                     showConfirmButton: false,
-                     timer: 1000
-                     });
-                     }
-                     });*/
-
-                    document.write("<form action=\"getSequence\" method=\"post\" name=\"formOculto\">\n\
-                     <input type=\"hidden\" name=\"ids\" value=" + resultG.join(',') + "> \n\
-                     <input type=\"hidden\" name=\"dType\" value=" + dType + "> \n\
-                     <input type=\"hidden\" name=\"seqType\" value=" + seqType + "> \n\
-                     <input type=\"hidden\" name=\"seqHeader\" value='" + seqHeader + "'> \n\
-                     </form>");
-                    document.formOculto.submit();
-                    //alert("Ids: " + resultG.join(',')+"\n"+"Cadena: " + dType + ',' + seqType + ',' + seqHeader);                               
-                    return false;
-                });
-            });
+            
 
         </script> 
 
@@ -261,7 +187,7 @@
             <div id="page-wrapper">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">BLAST-JOB</h1>
+                        <h1 class="page-header">BLAST-JOB</h1> 
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
@@ -300,6 +226,9 @@
                                                             });
                                                         }
                                                     </script> 
+                                                    <tr style="display:none;">
+                                                        <th><input type="text" value="<%= job.getJob_url() %>" id="urljob" name="urljob" /></th>
+                                                    </tr>                                                    
                                                     <tr>
                                                         <th style="width:10%; font-size:15px;">Nombre:</th>
                                                         <td colspan="4"><code><%= job.getJob_name()%></code></td>
@@ -449,7 +378,7 @@
                                                                 <td><%= result.getQuery()%></td>
                                                                 <td style="word-break: break-all"><%= result.getGen_id()%></td>
                                                                 <td><%= result.getSource()%></td>
-                                                                <td style="word-break: break-all"><%= result.getTarget_definition()%></td>
+                                                                <td  style="word-break: break-all"><%= result.getTarget_definition()%></td>
                                                                 <td><%= result.getTaxa()%></td>
                                                                 <td><%= result.getIdentity()%></td>
                                                                 <td><%= result.getQuery_from()%></td>

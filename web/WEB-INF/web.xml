@@ -24,12 +24,16 @@
         </description>
         <param-name>blastdir</param-name>
         <!-- <param-value>C:/Users/Alejandro/Documents/Projects/GCT3NG/blast/</param-value>-->
-       <param-value><!--/home/blast/querys/-->C:/Users/app/</param-value>
+        <!-- C:/Users/app/ -->
+        <!--/home/blast/querys/-->
+       <param-value>/home/blast/querys/</param-value>
     </context-param>
     <context-param>
         <param-name>blastdbs</param-name>
         <!-- <param-value>C:/Users/Alejandro/Documents/Projects/GCT3NG/blast/</param-value>-->
-        <param-value><!--/home/blast/blastdb/-->C:/Users/app/</param-value>
+        <!--Para jose C:/Users/app/ -->
+        <!--/home/blast/blastdb/-->
+        <param-value>/home/blast/blastdb/</param-value>
     </context-param>
     <context-param>
         <param-name>jobOutFile</param-name>
