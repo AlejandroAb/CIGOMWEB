@@ -9,6 +9,7 @@ import bobjects.Usuario;
 import database.Transacciones;
 import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
@@ -65,15 +66,15 @@ public class SequenceController extends HttpServlet {
                 return;
 
             }
-             if (userPath.equals("/getSequence")) {
+            if (userPath.equals("/getSequence")) {
                 SequenceFileCreator sfc = new SequenceFileCreator(transacciones);
                 ServletContext sc = getServletContext();
                 String idSeqs = request.getParameter("ids");
                 String seqType = request.getParameter("seqType");
                 String seqHeader = request.getParameter("seqHeader");
                 String downloadType = request.getParameter("dType");
-                
-                System.out.println("Ids:"+idSeqs+"\n"+"dtype:"+downloadType+"\n"+"seqType:"+seqType+"\n"+"seqHeader:"+seqHeader);    
+
+                System.out.println("Ids:" + idSeqs + "\n" + "dtype:" + downloadType + "\n" + "seqType:" + seqType + "\n" + "seqHeader:" + seqHeader);
                 if (downloadType == null) {
                     downloadType = "seq";
                 }
@@ -100,7 +101,7 @@ public class SequenceController extends HttpServlet {
                     RequestDispatcher view = request.getRequestDispatcher(url);
                     view.forward(request, response);
                     return;
-                }              
+                }
                 if (downloadType.equals("seq")) {
                     serveFile = sfc.generateFileFromIDs(dirPath, fullFile, idSeqs, seqType, seqHeader);
                     fileType = "txt/fna";
@@ -159,9 +160,11 @@ public class SequenceController extends HttpServlet {
             while ((len = fis.read(buf)) > 0) {
                 bos.write(buf, 0, len);
             }
-
+        } catch (FileNotFoundException fnfe) {
+            return "Error: El archivo solicitado no se encuentra disponible";
         } catch (IOException ioe) {
             return "Error: Problemas de entrada / salida";
+
         } finally {
             try {
                 bos.close();

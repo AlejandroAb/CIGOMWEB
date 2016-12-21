@@ -114,7 +114,7 @@
                             </li>
 
                             <li>
-                                <a href="Blast" ><i class="fa fa-edit fa-fw"></i> BLAST</a>
+                                <a href="blast" ><i class="fa fa-edit fa-fw"></i> BLAST</a>
                             </li>
                             <li>
                                 <a href="#"><i class="fa fa-edit fa-fw"></i> AMPLICONES</a>

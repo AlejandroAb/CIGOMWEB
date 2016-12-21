@@ -226,9 +226,9 @@
                             </li>
 
                             <li>
-                                <a href="Blast" ><i class="fa fa-edit fa-fw"></i> BLAST</a>
+                                <a href="blast" ><i class="fa fa-edit fa-fw"></i> BLAST</a>
                             </li>
-                            <li>
+                            <!--<li>
                                 <a href="#"><i class="fa fa-edit fa-fw"></i> AMPLICONES</a>
                             </li>
                             <li>
@@ -239,7 +239,7 @@
                             </li>
                             <li>
                                 <a href="analisis.jsp"><i class="fa fa-edit fa-fw"></i> ANALISIS</a>
-                            </li>
+                            </li>-->
                             <li>
                                 <a href="CerrarSesion"><i class="fa fa-edit fa-fw"></i> SALIR</a>
                             </li>

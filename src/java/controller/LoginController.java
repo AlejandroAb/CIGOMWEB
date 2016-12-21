@@ -113,8 +113,10 @@ public class LoginController extends HttpServlet {
                 request.setAttribute("msg", "Su sesi&oacute;n expir&oacute;");
                 request.getRequestDispatcher(url).forward(request, response);
             }
+            String opMapa = request.getParameter("op");
+            //System.out.println("opcionMapa="+opMapa);
             String idCampanaStr = request.getParameter("idCampana");
-            System.out.println("id="+idCampanaStr);
+            //System.out.println("id="+idCampanaStr);
             CampanaDAO campanaDAO = new CampanaDAO(transacciones);
             int idCampana;
             if (idCampanaStr == null) {
@@ -128,6 +130,8 @@ public class LoginController extends HttpServlet {
                 }
 
             }
+            
+            
             ArrayList<PuntoMapa> puntos = campanaDAO.getEstacionesCampana(idCampana); //se va al response
             ArrayList<RegistroResumen> resumen = campanaDAO.getResumenCampanaRegistro(idCampana);
             ArrayList<ArrayList<String>> resumenCampana = campanaDAO.getResumenCampana(idCampana);
@@ -138,7 +142,8 @@ public class LoginController extends HttpServlet {
             request.setAttribute("resumenCampana", resumenCampana);
             request.setAttribute("resumen", resumen); //
             request.setAttribute("campana", campanas); //llenar la lista
-            request.setAttribute("campanaid", campanasid); //para dejar seleccionado la campaña en la lista          
+            request.setAttribute("campanaid", campanasid); //para dejar seleccionado la campaña en la lista  
+            //request.setAttribute("opMapa", opMapa);
 
             RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/WEB-INF/view/home.jsp");
             dispatch.forward(request, response);

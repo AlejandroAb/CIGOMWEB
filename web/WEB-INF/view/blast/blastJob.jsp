@@ -61,6 +61,10 @@
         <script src="bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
         <script src="bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
         <script src="bower_components/datatables-responsive/js/dataTables.responsive.js"></script>
+        
+        <!---TOlTIPS---->
+        <link href="themes/1/tooltip.css" rel="stylesheet" type="text/css" >
+        <script src="themes/1/tooltip.js" type="text/javascript"></script>           
 
         <!--ALERTAS-->
 
@@ -71,9 +75,7 @@
         <script src="js/seqRequest.js"></script>
 
         <!--ESCRIPT PARA OBTENER LOS VALORES DE LA TABLA GENOMAS-->
-        <script type="text/javascript">
-
-            
+        <script type="text/javascript">         
 
         </script> 
 
@@ -159,7 +161,7 @@
                             <li>
                                 <a href="blast" ><i class="fa fa-edit fa-fw"></i> BLAST</a>
                             </li>
-                            <li>
+                           <!-- <li>
                                 <a href="#"><i class="fa fa-edit fa-fw"></i> AMPLICONES</a>
                             </li>
                             <li>
@@ -170,7 +172,7 @@
                             </li>
                             <li>
                                 <a href="analisis.jsp"><i class="fa fa-edit fa-fw"></i> ANALISIS</a>
-                            </li>
+                            </li>-->
                             <li>
                                 <a href="CerrarSesion"><i class="fa fa-edit fa-fw"></i> SALIR</a>
                             </li>
@@ -308,7 +310,7 @@
                                                         <label>Descargar</label>
                                                         <select class="form-control" id="opciones">
                                                             <option value="seq">Secuencias</option>
-                                                            <option value="align">Alineamientos</option>
+                                                            <!--<option value="align">Alineamientos</option>-->
                                                         </select>
                                                     </div>
                                                 </div>
@@ -350,11 +352,11 @@
                                                         <thead>
                                                             <tr style="font-size:15px; text-align:left;">
                                                                 <th style="text-align:center;"></th>
-                                                                <th>Query</th>
-                                                                <th>Target</th>
-                                                                <th>Fuente</th>
-                                                                <th>Definición</th>
-                                                                <th>Taxa</th>
+                                                                <th><span class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Nombre de la secuencia de entrada', {position: 0})"></span> Query</th>
+                                                                <th><span class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Identificador del gen blanco', {position: 0})"></span> Target</th>
+                                                                <th><span class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Procedencia del gen target acorde a la siguiente nomenclatura: <b>M</b>etagenoma | <b>G</b>enoma - Agua | Sedimento - Profundidad de la muestra', {position: 0})"></span> Fuente</th>
+                                                                <th><span class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Asignación funcional del gen target según BLASTP ', {position: 0})"></span> Definición</th>
+                                                                <th><span class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Clasificación taxonómica del gen target según su definición.', {position: 0})"></span> Taxa</th>
                                                                 <th>%ID</th>
                                                                 <th>QF</th>
                                                                 <th>QT</th>
