@@ -238,7 +238,7 @@
                                                     <tr>
                                                         <th style="font-size:15px;">Tipo de búsqueda:</th>
                                                         <td style="width:20%;"><code><%= job.getJob_type()%></code></td>
-                                                        <th style="font-size:15px; width:10%;" colspan="2">e.val (1x10<sup>-</sup>):</th>
+                                                        <th style="font-size:15px; width:10%;" colspan="2">e. value :</th>
                                                         <td >
                                                             <code><%= job.getEvalue()%></code>
                                                         </td>                                            
