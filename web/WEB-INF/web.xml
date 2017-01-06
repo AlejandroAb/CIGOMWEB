@@ -26,7 +26,7 @@
         <!-- <param-value>C:/Users/Alejandro/Documents/Projects/GCT3NG/blast/</param-value>-->
         <!-- C:/Users/app/ -->
         <!--/home/blast/querys/-->
-       <param-value>/home/blast/querys/</param-value>
+        <param-value>/home/blast/querys/</param-value>
     </context-param>
     <context-param>
         <param-name>blastdbs</param-name>
@@ -79,18 +79,19 @@
         <url-pattern>/serveFile</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>LoginController</servlet-name>
-        <url-pattern>/log</url-pattern>
-        <url-pattern>/homeCamp</url-pattern>
-        <url-pattern>/actualizaT</url-pattern>
-        <url-pattern>/CerrarSesion</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>BlastController</servlet-name>
         <url-pattern>/blast</url-pattern>
         <url-pattern>/deleteJob</url-pattern>
         <url-pattern>/blastSearch</url-pattern>
         <url-pattern>/showJob</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginController</servlet-name>
+        <url-pattern>/log</url-pattern>
+        <url-pattern>/homeCamp</url-pattern>
+        <url-pattern>/actualizaT</url-pattern>
+        <url-pattern>/CerrarSesion</url-pattern>
+        <url-pattern>/Muestra</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

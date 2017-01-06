@@ -114,9 +114,9 @@ public class LoginController extends HttpServlet {
                 request.getRequestDispatcher(url).forward(request, response);
             }
             String opMapa = request.getParameter("op");
-            //System.out.println("opcionMapa="+opMapa);
+            System.out.println("opcionMapa="+opMapa);
             String idCampanaStr = request.getParameter("idCampana");
-            //System.out.println("id="+idCampanaStr);
+            System.out.println("id="+idCampanaStr);
             CampanaDAO campanaDAO = new CampanaDAO(transacciones);
             int idCampana;
             if (idCampanaStr == null) {
@@ -138,6 +138,7 @@ public class LoginController extends HttpServlet {
             ArrayList<ArrayList<String>> campanas = campanaDAO.getCampanas();
             ArrayList<ArrayList<String>> campanasid = campanaDAO.getCampanasId(idCampana);
 
+            request.setAttribute("opMapa", opMapa);
             request.setAttribute("puntos", puntos);
             request.setAttribute("resumenCampana", resumenCampana);
             request.setAttribute("resumen", resumen); //
@@ -155,6 +156,9 @@ public class LoginController extends HttpServlet {
             session.invalidate();
             transacciones.desconecta();
             response.sendRedirect("index.jsp");
+        } else if(userPath.equals("/Muestra")){
+            RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/WEB-INF/view/muestra.jsp");
+            dispatch.forward(request, response);
         }
     }
 

@@ -32,6 +32,8 @@
     String user = usuario.getCorreo();
 
     String nombreCompleto = usuario.getNombres() + " " + usuario.getApellidos();
+    
+    String opcionMapa = request.getParameter("opMapa");
 
 %>
 <!DOCTYPE html>
@@ -78,7 +80,11 @@
         <link rel="stylesheet" href="alerta/dist/sweetalert.css">
         <!-- Custom Theme JavaScript -->
         <script src="dist/js/sb-admin-2.js"></script>
-
+        
+        <!--id Camapaña-->
+        <script src="js/idCampana.js"></script>
+        <script src="js/changeMap.js"></script>
+        
         <!-- DataTables JavaScript -->
         <script src="bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
         <script src="bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
@@ -210,22 +216,6 @@
             } else {
                 window.onload = funciones;
             }
-        </script>
-
-        <script>
-            $(document).ready(function () {
-                //obtener el id de la campaña  
-                $("select[name=campanas]").change(function () {
-                    //alert($('select[name=campanas]').val());
-
-                    var valorSelect = $('select[name=campanas]').val();
-
-                    document.write("<form action=\"homeCamp\" method=\"post\" name=\"formOculto\">\n\
-                   <input type=\"hidden\" name=\"idCampana\" value=" + valorSelect + "> \n\
-                   </form>");
-                    document.formOculto.submit();
-                });
-            });
         </script> 
 
 
@@ -246,7 +236,7 @@
                         </button>
 
    <span class="b1">
-                            <img class="breakpoint" id="logos" src="images/logosistema.png" alt="logo" height="100px" style="padding-left:10px;" />
+                            <span class="b1"><img id="logos" src="images/logotipo4.png" alt="logo" width="85%" height="100px" style="padding-left:10px;" /></span>
                         </span>
                         <!--<img id="logos" src="images/logosistema2.png" alt="logo" width="40%" height="60px"  />-->
                     </div>
@@ -262,8 +252,6 @@
                         <%
                             out.print(nombreCompleto);
                         %>
-
-
                     </li>
                     <!-- /.dropdown -->
                 </ul>
@@ -290,9 +278,10 @@
                             <li>
                                 <a href="blast" ><i class="fa fa-edit fa-fw"></i> BLAST</a>
                             </li>
-                            <!--<li>
-                                <a href="forms.html"><i class="fa fa-edit fa-fw"></i> AMPLICONES</a>
+                            <li>
+                                <a href="Muestra"><i class="fa fa-edit fa-fw"></i> MUESTRA</a>
                             </li>
+                            <!--
                             <li>
                                 <a href="forms.html"><i class="fa fa-edit fa-fw"></i> METAGENOMA</a>
                             </li>
@@ -307,8 +296,6 @@
                             </li>
 
                         </ul>
-
-
                     </div>
                     <!-- /.sidebar-collapse -->
                 </div>
@@ -335,10 +322,11 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <div class="form-group">
-                                    <div class="col-lg-2" style="text-align:right;">
+                                    <div class="col-lg-2" style="text-align:center;">
                                         <label>Seleccione campaña:</label>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-2" style="text-align:left;">
+                                       
                                         <select class="form-control" id="campanas" name="campanas">
                                             <%
                                                 ArrayList<ArrayList<String>> campanaid = null;
@@ -386,23 +374,24 @@
                                     </div>
 
 
-                                    <!--<div class="col-lg-2">
+                                    <div class="col-lg-2">
                                         AGUA: <img src="images/icons/indicadores/agua.png" alt="agua">  
 
                                     </div>
                                     <div class="col-lg-2">
                                         SEDIMENTO: <img src="images/icons/indicadores/sedimento.png" alt="sedimento">
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-2">
                                         AGUA Y SEDIMENTO: <img src="images/icons/indicadores/aguaSed.png" alt="aguasedimento">
                                     </div>
                                     <div class="col-lg-2">       
                                         <select  id="opciones" name="opciones">
                                             
-                                            <option value="op1">Opcion1</option>
-                                            <option value="op2">Opcion2</option>
+                                            <option value="<%out.print(opcionMapa);%>" disabled selected><%out.print(opcionMapa);%></option>
+                                            <option value="op1" >op1</option>
+                                            <option value="op2" >op2</option>
                                         </select> 
-                                    </div>-->
+                                    </div>
 
                                 </div>
                                 <br>
