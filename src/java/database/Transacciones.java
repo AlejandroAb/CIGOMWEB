@@ -187,10 +187,9 @@ public ArrayList getGenSwissProtDetailsNoTaxaInfo(String gen_id){
      * @return
      */
     public ArrayList getEstacionesMuestreadasFromCampana(int idCampana) {
-        String query = "SELECT distinct estacion.idEstacion, estacion_nombre FROM estacion "
-                + "INNER JOIN derrotero ON derrotero.idEstacion = estacion.idestacion "
-                + "INNER JOIN muestreo  ON derrotero.idderrotero = muestreo.idCE "
-                + "WHERE derrotero.idcampana = " + idCampana;
+        String query = " SELECT distinct estacion.idEstacion, estacion_nombre "
+                + "FROM estacion INNER JOIN muestreo  ON  muestreo.idEstacion = estacion.idEstacion  "
+                + "WHERE idCampana = " + idCampana;
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
@@ -241,10 +240,9 @@ public ArrayList getGenSwissProtDetailsNoTaxaInfo(String gen_id){
      * @return
      */
     public ArrayList getEstacionesMuestreadasFromCampana2Map(int idCampana) {
-        String query = "SELECT distinct estacion.idestacion, estacion_nombre, latitud_r, longitud_r FROM estacion "
-                + "INNER JOIN derrotero ON derrotero.idEstacion = estacion.idestacion "
-                + "INNER JOIN muestreo  ON derrotero.idderrotero = muestreo.idCE "
-                + "WHERE derrotero.idcampana = " + idCampana;
+        String query = " SELECT distinct estacion.idestacion, estacion_nombre, estacion.latitud, estacion.longitud "
+                + "FROM estacion INNER JOIN muestreo ON estacion.idestacion = muestreo.idEstacion "
+                + "WHERE muestreo.idcampana =" + idCampana;
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
@@ -517,9 +515,13 @@ public ArrayList getGenSwissProtDetailsNoTaxaInfo(String gen_id){
      * @return
      */
     public int getConteoMuestreosCampanaEstacionTipoProfundidad(int idCampana, int idEstacion, String tipoProfundidad) {
-        String query = "SELECT count(idMuestreo) FROM muestreo "
+      /*  String query = "SELECT count(idMuestreo) FROM muestreo "
                 + "INNER JOIN derrotero ON derrotero.idderrotero = muestreo.idCE "
                 + "WHERE derrotero.idcampana = " + idCampana + " AND derrotero.idEstacion = " + idEstacion
+                + " AND tipo_profundidad = '" + tipoProfundidad + "'";*/
+          String query = "SELECT count(idMuestreo) FROM muestreo "
+               // + "INNER JOIN derrotero ON derrotero.idderrotero = muestreo.idCE "
+                + "WHERE idcampana = " + idCampana + " AND idEstacion = " + idEstacion
                 + " AND tipo_profundidad = '" + tipoProfundidad + "'";
         conexion.executeStatement(query);
         ArrayList<ArrayList> dbResult = conexion.getTabla();
@@ -553,8 +555,8 @@ public ArrayList getGenSwissProtDetailsNoTaxaInfo(String gen_id){
         String query = "SELECT COUNT(idmarcador) FROM marcador "
                 + "INNER JOIN muestra ON muestra.idmuestra = marcador.idmuestra "
                 + "INNER JOIN muestreo on muestreo.idmuestreo = muestra.idmuestreo "
-                + "INNER JOIN derrotero ON derrotero.idderrotero = muestreo.idCE "
-                + "WHERE derrotero.idcampana = " + idCampana + " AND derrotero.idEstacion = " + idEstacion
+             //   + "INNER JOIN derrotero ON derrotero.idderrotero = muestreo.idCE "
+                + "WHERE idcampana = " + idCampana + " AND idEstacion = " + idEstacion
                 + " AND tipo_profundidad = '" + tipoProfundidad + "'";
         conexion.executeStatement(query);
         ArrayList<ArrayList> dbResult = conexion.getTabla();
@@ -588,8 +590,8 @@ public ArrayList getGenSwissProtDetailsNoTaxaInfo(String gen_id){
         String query = "SELECT COUNT(idmetagenoma) FROM metagenoma "
                 + "INNER JOIN muestra ON muestra.idmuestra = metagenoma.idmuestra "
                 + "INNER JOIN muestreo on muestreo.idmuestreo = muestra.idmuestreo "
-                + "INNER JOIN derrotero ON derrotero.idderrotero = muestreo.idCE "
-                + "WHERE derrotero.idcampana = " + idCampana + " AND derrotero.idEstacion = " + idEstacion
+          //      + "INNER JOIN derrotero ON derrotero.idderrotero = muestreo.idCE "
+                + "WHERE idcampana = " + idCampana + " AND idEstacion = " + idEstacion
                 + " AND tipo_profundidad = '" + tipoProfundidad + "'";
         conexion.executeStatement(query);
         ArrayList<ArrayList> dbResult = conexion.getTabla();
@@ -623,8 +625,8 @@ public ArrayList getGenSwissProtDetailsNoTaxaInfo(String gen_id){
         String query = "SELECT COUNT(idgenoma) FROM genoma "
                 + "INNER JOIN muestra ON muestra.idmuestra = genoma.idmuestra "
                 + "INNER JOIN muestreo on muestreo.idmuestreo = muestra.idmuestreo "
-                + "INNER JOIN derrotero ON derrotero.idderrotero = muestreo.idCE "
-                + "WHERE derrotero.idcampana = " + idCampana + " AND derrotero.idEstacion = " + idEstacion
+             //   + "INNER JOIN derrotero ON derrotero.idderrotero = muestreo.idCE "
+                + "WHERE idcampana = " + idCampana + " AND idEstacion = " + idEstacion
                 + " AND tipo_profundidad = '" + tipoProfundidad + "'";
         conexion.executeStatement(query);
         ArrayList<ArrayList> dbResult = conexion.getTabla();

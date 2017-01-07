@@ -104,7 +104,7 @@ public class BlastController extends HttpServlet {
                 try {
                     eval = Double.parseDouble(evalue);
                 } catch (Exception e) {//null pointer o number format
-                    eval = 0.0001;//default
+                    eval = 10;//default
                 }
 
                 String jobName = request.getParameter("name");

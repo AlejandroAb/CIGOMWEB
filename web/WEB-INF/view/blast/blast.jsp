@@ -367,8 +367,8 @@
                                                             </label>
                                                         </div>	
                                                         <div class="form-group">
-                                                            <label>e.val (1x10<sup>-</sup>):</label>
-                                                            <input class="form-control" id="eval" >
+                                                            <label>e. value:</label>
+                                                            <input class="form-control" id="eval" value="10">
                                                         </div>
 
                                                     </div>
