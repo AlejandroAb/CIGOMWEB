@@ -186,7 +186,7 @@
                             <span class="icon-bar"></span>
                         </button>
 
-                        <span class="b1"><img id="logos" src="images/logosistema.png" alt="logo" width="65%" height="100px" style="padding-left:10px;" /></span>
+                        <span class="b1"><img id="logos" src="images/logotipo4.png" alt="logo" width="85%" height="100px" style="padding-left:10px;" /></span>
                         <!--<img id="logos" src="images/logosistema2.png" alt="logo" width="40%" height="60px"  />-->
                     </div>
                 </div>

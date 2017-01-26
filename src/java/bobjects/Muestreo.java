@@ -27,12 +27,16 @@ public class Muestreo {
     public static String PROF_MIL_M = "1000 m";
     public static String PROF_FONDO = "Fondo";
     private int idMuestreo = 0;
+    private String idCampana = "";//agregue
+    private String idEstacion = "";//agregue
     private int idDerrotero = -1; //id del derrotero o idCE (Crucero Estación)    
     private int idTipoMuestreo = -1;
     private int idTipoMuestra = -1;
     private String etiqueta = "";
-    private MyDate fechaInicial;
+    private MyDate fechaInicial; 
     private MyDate fechaFinal;
+    private MyCoord latitud_estacion = new MyCoord("0");//agregue
+    private MyCoord longitud_estacion = new MyCoord("0");//agregue
     private MyCoord latitud_r = new MyCoord("0");//real
     private MyCoord longitud_r = new MyCoord("0");//real
     private MyCoord latitud_a = new MyCoord("0");//ajustada --> requerimiento CIGOM preguntar a lex si las tenemos  // puede fungir como final
@@ -97,6 +101,20 @@ public class Muestreo {
     public void setIdMuestreo(int idMuestreo) {
         this.idMuestreo = idMuestreo;
     }
+    public String getIdCampana() {
+        return idCampana;
+    }
+
+    public  void setIdCampana(String idCampana) {
+        this.idCampana = idCampana;
+    }
+    public String getIdEstacion() {
+        return idEstacion;
+    }
+
+    public void setIdEstacion(String idEstacion) {
+        this.idEstacion = idEstacion;
+    }
 
     public int getIdDerrotero() {
         return idDerrotero;
@@ -117,6 +135,9 @@ public class Muestreo {
     public MyDate getFechaInicial() {
         return fechaInicial;
     }
+    public void setFechaInicial(MyDate fechaInicial) {
+        this.fechaInicial = fechaInicial;
+    }
 
     public ArrayList<Muestra> getMuestras() {
         return muestras;
@@ -124,10 +145,6 @@ public class Muestreo {
 
     public void setMuestras(ArrayList<Muestra> muestras) {
         this.muestras = muestras;
-    }
-
-    public void setFechaInicial(MyDate fechaInicial) {
-        this.fechaInicial = fechaInicial;
     }
 
     public MyDate getFechaFinal() {
@@ -152,6 +169,21 @@ public class Muestreo {
 
     public void setLongitud_r(MyCoord logitud_r) {
         this.longitud_r = logitud_r;
+    }
+        public MyCoord getLatitud_estacion() {
+        return latitud_estacion;
+    }
+
+    public void setLatitud_estacion(MyCoord latitud_estacion) {
+        this.latitud_estacion = latitud_estacion;
+    }
+
+    public MyCoord getLongitud_estacion() {
+        return longitud_estacion;
+    }
+
+    public void setLongitud_estacion(MyCoord longitud_estacion) {
+        this.longitud_estacion = longitud_estacion;
     }
 
     public MyCoord getLatitud_a() {

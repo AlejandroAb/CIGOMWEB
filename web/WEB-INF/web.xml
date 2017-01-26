@@ -73,6 +73,10 @@
         <servlet-name>SequenceController</servlet-name>
         <servlet-class>controller.SequenceController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MuestraController</servlet-name>
+        <servlet-class>controller.MuestraController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SequenceController</servlet-name>
         <url-pattern>/getSequence</url-pattern>
@@ -91,7 +95,11 @@
         <url-pattern>/homeCamp</url-pattern>
         <url-pattern>/actualizaT</url-pattern>
         <url-pattern>/CerrarSesion</url-pattern>
-        <url-pattern>/Muestra</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MuestraController</servlet-name>
+        <url-pattern>/showMuestra</url-pattern>
+        <url-pattern>/MuestraController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

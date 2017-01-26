@@ -123,7 +123,8 @@
                 });
 
 
-            <%                Object puntosObj = request.getAttribute("puntos");
+            <%  
+                Object puntosObj = request.getAttribute("puntos");
                 ArrayList<PuntoMapa> puntos = null;
 
                 if (puntosObj != null) {
@@ -139,7 +140,6 @@
                     draggable: true,
                     animation: google.maps.Animation.DROP,
                     position: {lat: <%= p.getLatitud()%>, lng: <%= p.getLongitud()%>},
-
                     icon: {
                         path: google.maps.SymbolPath.CIRCLE,
                         scale: 3, //tamaño
@@ -178,7 +178,7 @@
         <script>
             function terminos() {
                 swal({
-                    title: "Decea aceptar terminos y condiciones?",
+                    title: "Desea aceptar terminos y condiciones?",
                     text: "La información generada por la Línea de Acción 4 (Degradación de Hidrocarburos) del proyecto \"Implementación de redes de observación oceanográficas (fisicas, geoquímicas, ecológicas) para la generación de escenarios ante posibles contigencias relacionadas a la exploración y producción de hidrocarburos en auguas profundas del Golfo de México\", financiado por el Fondo Sectorial SENER-CONACyT Hidrocarburos, pertenece a las instituciones que están desarrollando dichas líneas. \nLa consulta, descarga y uso de toda la información es confidencial y para uso exclusivo del proyecto. La utilización de la información mencionada implica el reconocimiento de la autoria y créditos de los desarrolladores",
                     type: "warning",
                     showCancelButton: true,
@@ -278,9 +278,6 @@
                             <li>
                                 <a href="blast" ><i class="fa fa-edit fa-fw"></i> BLAST</a>
                             </li>
-                            <li>
-                                <a href="Muestra"><i class="fa fa-edit fa-fw"></i> MUESTRA</a>
-                            </li>
                             <!--
                             <li>
                                 <a href="forms.html"><i class="fa fa-edit fa-fw"></i> METAGENOMA</a>
@@ -323,7 +320,7 @@
                             <div class="panel-heading">
                                 <div class="form-group">
                                     <div class="col-lg-2" style="text-align:center;">
-                                        <label>Seleccione campaña:</label>
+                                        <label>Seleccione la campaña:</label>
                                     </div>
                                     <div class="col-lg-2" style="text-align:left;">
                                        
@@ -374,7 +371,7 @@
                                     </div>
 
 
-                                    <div class="col-lg-2">
+                                   <!-- <div class="col-lg-2">
                                         AGUA: <img src="images/icons/indicadores/agua.png" alt="agua">  
 
                                     </div>
@@ -387,11 +384,11 @@
                                     <div class="col-lg-2">       
                                         <select  id="opciones" name="opciones">
                                             
-                                            <option value="<%out.print(opcionMapa);%>" disabled selected><%out.print(opcionMapa);%></option>
+                                            <option value="" disabled selected></option>
                                             <option value="op1" >op1</option>
                                             <option value="op2" >op2</option>
                                         </select> 
-                                    </div>
+                                    </div>-->
 
                                 </div>
                                 <br>

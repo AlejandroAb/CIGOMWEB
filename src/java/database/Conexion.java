@@ -102,7 +102,8 @@ public class Conexion {
         IP = ip;
         String manejador = //da de alta la base de datos en el sistema operativo
                 // "jdbc:mysql://" + IP + ":3306/" + db + "?user=root&=";
-                "jdbc:mysql://" + IP + ":3306/" + db + "?user=" + user + "&=";
+               // "jdbc:mysql://" + IP + ":3306/" + db + "?user=" + user + "&=";
+                 "jdbc:mysql://" + IP + ":3306/" + db + "?zeroDateTimeBehavior=convertToNull";
         try {
             Class.forName("com.mysql.jdbc.Driver"); //controlador de msqlpara base de datos
             //  connection = DriverManager.getConnection(manejador, "root", "AMORPHIS"); //genera la conexión

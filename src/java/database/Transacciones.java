@@ -49,13 +49,15 @@ public class Transacciones {
         this.password = password;
         conecta(true);
     }
-public boolean estamosConectados() {
+
+    public boolean estamosConectados() {
         return estamosConectados;
     }
 
     public void setEstamosConectados(boolean estamosConectados) {
         this.estamosConectados = estamosConectados;
     }
+
     public void desconecta() {
         conexion.shutDown();
     }
@@ -99,7 +101,8 @@ public boolean estamosConectados() {
     public void setUser(String user) {
         this.user = user;
     }
-public ArrayList getGenSwissProtDetailsNoTaxaInfo(String gen_id){
+
+    public ArrayList getGenSwissProtDetailsNoTaxaInfo(String gen_id) {
         String query = "SELECT s.uniprot_id, prot_name, gene_name "
                 + "FROM gen_swiss_prot AS gsp "
                 + "INNER JOIN swiss_prot AS s on s.uniprot_id = gsp.uniprot_id "
@@ -107,6 +110,7 @@ public ArrayList getGenSwissProtDetailsNoTaxaInfo(String gen_id){
         conexion.executePreparedGene(gen_id);
         return conexion.getTabla();
     }
+
     /**
      * Trae los detalles de un swiss prot para una predicción dada en la
      * relacion gen_swiss_prot Es usado al crear el resultado de blast mientras
@@ -267,17 +271,18 @@ public ArrayList getGenSwissProtDetailsNoTaxaInfo(String gen_id){
                 + "INNER JOIN gen_seq on gen_seq.gen_id = gen.gen_id "
                 + "LEFT JOIN gen_swiss_prot as gsp on gsp.gen_id = gen_seq.gen_id "
                 + "LEFT JOIN swiss_prot as s on s.uniprot_id = gsp.uniprot_id "
-                + "WHERE gen.gen_id in("+genIDList+") "
-                + "AND seq_type = '"+seqType+"'";
+                + "WHERE gen.gen_id in(" + genIDList + ") "
+                + "AND seq_type = '" + seqType + "'";
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
+
     public ArrayList getSequenceWithoutProtInfo(String genIDList, String seqType) {
-        String query = "SELECT DISTINCT gen.gen_id, gen_src, sequence, gen_strand, seq_from, seq_to "                
+        String query = "SELECT DISTINCT gen.gen_id, gen_src, sequence, gen_strand, seq_from, seq_to "
                 + "FROM gen "
-                + "INNER JOIN gen_seq on gen_seq.gen_id = gen.gen_id "            
-                + "WHERE gen.gen_id in("+genIDList+") "
-                + "AND seq_type = '"+seqType+"'";
+                + "INNER JOIN gen_seq on gen_seq.gen_id = gen.gen_id "
+                + "WHERE gen.gen_id in(" + genIDList + ") "
+                + "AND seq_type = '" + seqType + "'";
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
@@ -515,12 +520,12 @@ public ArrayList getGenSwissProtDetailsNoTaxaInfo(String gen_id){
      * @return
      */
     public int getConteoMuestreosCampanaEstacionTipoProfundidad(int idCampana, int idEstacion, String tipoProfundidad) {
-      /*  String query = "SELECT count(idMuestreo) FROM muestreo "
+        /*  String query = "SELECT count(idMuestreo) FROM muestreo "
                 + "INNER JOIN derrotero ON derrotero.idderrotero = muestreo.idCE "
                 + "WHERE derrotero.idcampana = " + idCampana + " AND derrotero.idEstacion = " + idEstacion
                 + " AND tipo_profundidad = '" + tipoProfundidad + "'";*/
-          String query = "SELECT count(idMuestreo) FROM muestreo "
-               // + "INNER JOIN derrotero ON derrotero.idderrotero = muestreo.idCE "
+        String query = "SELECT count(idMuestreo) FROM muestreo "
+                // + "INNER JOIN derrotero ON derrotero.idderrotero = muestreo.idCE "
                 + "WHERE idcampana = " + idCampana + " AND idEstacion = " + idEstacion
                 + " AND tipo_profundidad = '" + tipoProfundidad + "'";
         conexion.executeStatement(query);
@@ -555,7 +560,7 @@ public ArrayList getGenSwissProtDetailsNoTaxaInfo(String gen_id){
         String query = "SELECT COUNT(idmarcador) FROM marcador "
                 + "INNER JOIN muestra ON muestra.idmuestra = marcador.idmuestra "
                 + "INNER JOIN muestreo on muestreo.idmuestreo = muestra.idmuestreo "
-             //   + "INNER JOIN derrotero ON derrotero.idderrotero = muestreo.idCE "
+                //   + "INNER JOIN derrotero ON derrotero.idderrotero = muestreo.idCE "
                 + "WHERE idcampana = " + idCampana + " AND idEstacion = " + idEstacion
                 + " AND tipo_profundidad = '" + tipoProfundidad + "'";
         conexion.executeStatement(query);
@@ -590,7 +595,7 @@ public ArrayList getGenSwissProtDetailsNoTaxaInfo(String gen_id){
         String query = "SELECT COUNT(idmetagenoma) FROM metagenoma "
                 + "INNER JOIN muestra ON muestra.idmuestra = metagenoma.idmuestra "
                 + "INNER JOIN muestreo on muestreo.idmuestreo = muestra.idmuestreo "
-          //      + "INNER JOIN derrotero ON derrotero.idderrotero = muestreo.idCE "
+                //      + "INNER JOIN derrotero ON derrotero.idderrotero = muestreo.idCE "
                 + "WHERE idcampana = " + idCampana + " AND idEstacion = " + idEstacion
                 + " AND tipo_profundidad = '" + tipoProfundidad + "'";
         conexion.executeStatement(query);
@@ -625,7 +630,7 @@ public ArrayList getGenSwissProtDetailsNoTaxaInfo(String gen_id){
         String query = "SELECT COUNT(idgenoma) FROM genoma "
                 + "INNER JOIN muestra ON muestra.idmuestra = genoma.idmuestra "
                 + "INNER JOIN muestreo on muestreo.idmuestreo = muestra.idmuestreo "
-             //   + "INNER JOIN derrotero ON derrotero.idderrotero = muestreo.idCE "
+                //   + "INNER JOIN derrotero ON derrotero.idderrotero = muestreo.idCE "
                 + "WHERE idcampana = " + idCampana + " AND idEstacion = " + idEstacion
                 + " AND tipo_profundidad = '" + tipoProfundidad + "'";
         conexion.executeStatement(query);
@@ -1012,4 +1017,59 @@ public ArrayList getGenSwissProtDetailsNoTaxaInfo(String gen_id){
         }
 
     }
+
+    /**
+     * Este metodo se encarga de traer la info necesario para inicializar una
+     * muestra a partir de una etiqueta url que es el "link" que se le genera al
+     * usuario para visualizar la muestra.
+     *
+     * @param url ID que tiene el link del usuario para accesar al job
+     * @return
+     */
+    public ArrayList getMuestra(int idMuestra) {
+        String query = "SELECT idMuestra,etiqueta,contenedor,tamano,protocolo,notas,rel_to_oxygen,contenedor_temp "
+                + "FROM muestra "
+                + "WHERE idMuestra = '" + idMuestra + "'";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+
+    }
+
+    public ArrayList getMuestreo(int idMuestra) {
+        String query = "SELECT idMuestra,muestreo.etiqueta,nombre,estacion_nombre,bioma,env_material,env_feature,muestreo.protocolo,latitud_r,longitud_r,latitud as latitud_estacion,longitud as longitud_estacion "
+                + "FROM muestreo "
+                + "INNER JOIN campana on campana.idCampana=muestreo.idCampana "
+                + "INNER JOIN estacion on estacion.idEstacion=muestreo.idEstacion "
+                + "INNER JOIN muestra on muestra.idMuestreo = muestreo.idMuestreo "
+                + "WHERE idMuestra= " + idMuestra + "";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+
+    }
+
+    public ArrayList getVariables(int idMuestra) {
+        String query = "SELECT muestreo.idMuestreo,mv.idvariable, nombre_web, medicion_t1, unidades "
+                + "FROM muestreo_variable as mv  "
+                + "inner join variable on variable.idvariable = mv.idvariable "
+                + "inner join muestreo on muestreo.idMuestreo= mv.idMuestreo "
+                + "inner join muestra on muestra.idMuestreo = muestreo.idMuestreo "
+                + "WHERE muestra.idmuestra = " + idMuestra + "";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+
+    }
+
+    public ArrayList getMuestreo2(int idMuestreo) {
+        String query = "SELECT muestreo.idMuestreo,muestreo.etiqueta as etiqueta_muestreo,nombre as nombre_campana,estacion_nombre,bioma,env_material,env_feature,muestreo.protocolo as muestreo_protocolo,"
+                + "muestra.protocolo as muestra_protocolo,contenedor,muestra.tamano,notas,rel_to_oxygen,contenedor_temp "
+                + "FROM muestreo "
+                + "INNER JOIN campana on campana.idCampana=muestreo.idCampana "
+                + "INNER JOIN estacion on estacion.idEstacion=muestreo.idEstacion "
+                + "INNER JOIN muestra on muestra.idMuestreo = muestreo.idMuestreo "
+                + "WHERE muestreo.idMuestreo= '" + idMuestreo + "';";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+
+    }
+
 }

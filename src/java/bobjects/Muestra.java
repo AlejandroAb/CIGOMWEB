@@ -19,8 +19,11 @@ public class Muestra {
     private String etiqueta = "";
     private String contenedor="";//isolation growth conditions
     private String process=""; //samp_mat_process
+    private String protocolo="";//
     private String notas=""; //comentarios
     private String samp_size="ND";//
+    private String real_to_oxy="";//
+    private String contenedor_temp="";//
     private ArrayList<Medicion> mediciones;
     private ArrayList<Usuario> usuarios;
 
@@ -34,6 +37,29 @@ public class Muestra {
 
     public void setSamp_size(String samp_size) {
         this.samp_size = samp_size;
+    }
+    
+    public String getprotocolo() {
+        return protocolo;
+    }
+
+    public void setprotocolo(String protocolo) {
+        this.protocolo = protocolo;
+    }
+    
+    public String getreal_to_oxy() {
+        return real_to_oxy;
+    }
+
+    public void setreal_to_oxy(String real_to_oxy) {
+        this.real_to_oxy = real_to_oxy;
+    }
+    public String getcontenedor_temp() {
+        return contenedor_temp;
+    }
+
+    public void setcontenedor_temp(String contenedor_temp) {
+        this.contenedor_temp = contenedor_temp;
     }
 
     public Muestra(int idMuestra, int idMuestreo) {
