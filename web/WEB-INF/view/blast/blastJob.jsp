@@ -333,9 +333,19 @@
                                                         </label>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-2">           
+                                              <!-- <div class="col-lg-2">           
                                                     <div class="form-group">
                                                         <label>Descargar</label>
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                <button  class="fa fa-download" id="obtener-secs" onclick="downloadSeqs('graphTable', 'sequence')"></button>
+                                                            </label>
+                                                        </div>    
+                                                    </div>                                            
+                                                </div>-->
+                                                 <div class="col-lg-2">           
+                                                    <div class="form-group">
+                                                        <label>Descargar nok</label>
                                                         <div class="checkbox">
                                                             <label>
                                                                 <button  class="fa fa-download" id="obtenerdatos-genomas"></button>
@@ -343,6 +353,7 @@
                                                         </div>    
                                                     </div>                                            
                                                 </div>
+                                                
                                             </div>                                               
                                             <!-- /.panel-heading -->
                                             <div class="panel-body">

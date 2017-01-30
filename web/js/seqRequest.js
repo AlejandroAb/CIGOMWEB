@@ -77,7 +77,7 @@ $(document).ready(function () {
                 document.body.appendChild(form);
                 form.submit();
                 //   document.getElementById('loadingPanel').style.display = "none";
-                return true;
+             //   return true;
             } catch (err) {
                 var txt = "Error al solicitar secuencias";
                 txt += "Error description: " + err.message + "\n\n";

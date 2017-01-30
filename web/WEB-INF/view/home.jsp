@@ -172,7 +172,7 @@
         <script>
             function terminos() {
                 swal({
-                    title: "Decea aceptar terminos y condiciones?",
+                    title: "Desea aceptar terminos y condiciones?",
                     text: "La información generada por la Línea de Acción 4 (Degradación de Hidrocarburos) del proyecto \"Implementación de redes de observación oceanográficas (fisicas, geoquímicas, ecológicas) para la generación de escenarios ante posibles contigencias relacionadas a la exploración y producción de hidrocarburos en auguas profundas del Golfo de México\", financiado por el Fondo Sectorial SENER-CONACyT Hidrocarburos, pertenece a las instituciones que están desarrollando dichas líneas. \nLa consulta, descarga y uso de toda la información es confidencial y para uso exclusivo del proyecto. La utilización de la información mencionada implica el reconocimiento de la autoria y créditos de los desarrolladores",
                     type: "warning",
                     showCancelButton: true,
