@@ -98,7 +98,7 @@ public class BlastProcess implements Runnable {
                     i++;
                     args.append(i).append("-").append(arg).append("\n");
                 }
-                System.out.println("ARGS:\n" + args.toString());
+              //  System.out.println("ARGS:\n" + args.toString());
 //   adao.insertAnalisisProceso(idAnalisis, "Error creando bams ", "Valor de salida incorrecto: " + resultHandler.getExitValue() + " Esperado: " + 0, "", outputStream.toString());
             }
 
@@ -150,7 +150,7 @@ public class BlastProcess implements Runnable {
                         i++;
                         args.append(i).append(" - ").append(arg).append("\n");
                     }
-                    System.out.println("ARGS:\n" + args.toString());
+                  //  System.out.println("ARGS:\n" + args.toString());
 //   adao.insertAnalisisProceso(idAnalisis, "Error creando bams ", "Valor de salida incorrecto: " + resultHandler.getExitValue() + " Esperado: " + 0, "", outputStream.toString());
                 }
 
@@ -378,7 +378,7 @@ public class BlastProcess implements Runnable {
             jDao.updateJobStatus(jobId, "Sorting output", "", false);
             //adao.insertAnalisisProceso(idAnalisis, "Creando bams individuales", "...", bamsIndividuales, "");
             //adao.updateAnalisisProcessEstatus(idAnalisis, "Corriendo", "");
-            System.out.println("Por empezar sort:" + line);
+          //  System.out.println("Por empezar sort:" + line);
             executor.execute(cmdLine, resultHandler);
             resultHandler.waitFor();
             if (resultHandler.getExitValue() == 0) {
@@ -388,7 +388,7 @@ public class BlastProcess implements Runnable {
 
             } else {
                 jDao.updateJobStatus(jobId, "Error", outputStream.toString(), true);
-                System.out.println("Todo mal: " + resultHandler.getExitValue() + " - " + line + "\n" + outputStream.toString());
+                System.err.println("Error blast job: " + resultHandler.getExitValue() + " - " + line + "\n" + outputStream.toString());
                 //   adao.insertAnalisisProceso(idAnalisis, "Error creando bams ", "Valor de salida incorrecto: " + resultHandler.getExitValue() + " Esperado: " + 0, "", outputStream.toString());
             }
 

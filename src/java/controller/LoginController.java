@@ -36,14 +36,14 @@ public class LoginController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false); 
         Transacciones transacciones = null;
-        if (!session.isNew()) {
+        if (session != null && !session.isNew()) {
             transacciones = (Transacciones) session.getAttribute("transacciones");
         }
         if (transacciones == null) {
             transacciones = getNewConexion();
-            session.setAttribute("transacciones", transacciones);
+           // session.setAttribute("transacciones", transacciones);
         }
         if (transacciones == null || !transacciones.testConnection()) {
             request.setAttribute("msg", "Error al establecer conexion con la Base de datos");
@@ -55,15 +55,17 @@ public class LoginController extends HttpServlet {
         //AUTENTIFICACION DE USUARIOS
         String userPath = request.getServletPath();
         if (userPath.equals("/log")) {
-
+            session = request.getSession();
             String user = request.getParameter("usuario");
             String pass = request.getParameter("password");
+            
             try {
                 if (user == null || user.length() < 5 || pass == null || pass.length() < 4) {
                     String url = "index.jsp";
                     // request.setAttribute("msg", "Please enter user name and password");
                     request.setAttribute("msg", "Por favor ingresar usuario y contraseña validos");
                     request.getRequestDispatcher(url).forward(request, response);
+                    return;
                 }
                 UsuarioDAO udao = new UsuarioDAO(transacciones);
                 Usuario usuario = udao.authentUser(user, pass);
@@ -74,10 +76,12 @@ public class LoginController extends HttpServlet {
                     //request.setAttribute("msg", "Wrong user or password");
                     request.setAttribute("msg", "Usuario o contraseña incorrecta");
                     request.getRequestDispatcher(url).forward(request, response);
+                    return;
                 } else {
                     session.setAttribute("transacciones", transacciones);
                     session.setAttribute("userObj", usuario);
                     session.setAttribute("terminos", usuario.getTerminos());
+                    session.setAttribute("transacciones", transacciones);            
                     String idCampanaStr = request.getParameter("idCampana");
                     CampanaDAO campanaDAO = new CampanaDAO(transacciones);
                     int idCampana;
@@ -101,22 +105,23 @@ public class LoginController extends HttpServlet {
                     request.setAttribute("campanaid", campanasid);
                     RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/WEB-INF/view/home.jsp");
                     dispatch.forward(request, response);
-                    //response.sendRedirect("home.jsp");
+                    return;
                 }
             } finally {
                 //out.close();
             }
         } else if (userPath.equals("/homeCamp")) {
-            if (session.isNew() || session.getAttribute("userObj") == null) {
-                String url = "index.jsp";
+            if (session ==  null || session.getAttribute("userObj") == null) {
+                String url = "index.jsp";               
                 //mandar mensaje de session expirada o a página de error / sesión expirada
                 request.setAttribute("msg", "Su sesi&oacute;n expir&oacute;");
                 request.getRequestDispatcher(url).forward(request, response);
+                return;
             }
             String opMapa = request.getParameter("op");
-            //System.out.println("opcionMapa="+opMapa);
+            //  System.out.println("opcionMapa="+opMapa);
             String idCampanaStr = request.getParameter("idCampana");
-            //System.out.println("id="+idCampanaStr);
+            //   System.out.println("id="+idCampanaStr);
             CampanaDAO campanaDAO = new CampanaDAO(transacciones);
             int idCampana;
             if (idCampanaStr == null) {
@@ -130,14 +135,14 @@ public class LoginController extends HttpServlet {
                 }
 
             }
-            
-            
+
             ArrayList<PuntoMapa> puntos = campanaDAO.getEstacionesCampana(idCampana); //se va al response
             ArrayList<RegistroResumen> resumen = campanaDAO.getResumenCampanaRegistro(idCampana);
             ArrayList<ArrayList<String>> resumenCampana = campanaDAO.getResumenCampana(idCampana);
             ArrayList<ArrayList<String>> campanas = campanaDAO.getCampanas();
             ArrayList<ArrayList<String>> campanasid = campanaDAO.getCampanasId(idCampana);
 
+            request.setAttribute("opMapa", opMapa);
             request.setAttribute("puntos", puntos);
             request.setAttribute("resumenCampana", resumenCampana);
             request.setAttribute("resumen", resumen); //
@@ -148,7 +153,7 @@ public class LoginController extends HttpServlet {
             RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/WEB-INF/view/home.jsp");
             dispatch.forward(request, response);
         } else if (userPath.equals("/actualizaT")) {
-            String name = request.getParameter("nombre");         
+            String name = request.getParameter("nombre");
             boolean termino = transacciones.updateTerminos(name);
             session.setAttribute("terminos", "1");
         } else if (userPath.equals("/CerrarSesion")) {

@@ -23,7 +23,18 @@ public class MyDate {
     public MyDate(String fecha) {
         this.fecha = fecha;
     }
-
+    public boolean splitSQLStandarDate(){
+        StringTokenizer st = new StringTokenizer(fecha, "- ");
+        if(st.countTokens()<4){
+            return false;
+        }else{
+            anio = Integer.parseInt(st.nextToken());
+            mes = Integer.parseInt(st.nextToken());
+            dia =  Integer.parseInt(st.nextToken());
+            time = st.nextToken();
+            return true;
+        }
+    }
     public int getDia() {
         return dia;
     }
@@ -141,6 +152,12 @@ public class MyDate {
         } else {
             return "NULL";
         }
+        return date;
+    }
+    
+    public String toWebString(){
+        String date="";
+        date = dia + "/" + mes + "/" + anio + "  " + time;
         return date;
     }
 

@@ -41,7 +41,7 @@ public class SequenceController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         if (session == null || session.isNew() || session.getAttribute("userObj") == null) {
             //session expirada o invalida
             String url = "index.jsp";

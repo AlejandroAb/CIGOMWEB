@@ -16,7 +16,10 @@ public class Medicion {
     private String medicion_t1;
     private String medicion_t2;
     private String medicion_t3;
-    private String comentarios="";
+    private String comentarios = "";
+    private String nombre = "";
+    private String unidades;
+
     /**
      * Se crea un constructor solo con la variable para que en casos de
      * necesitar dar de alta una medicion a algo que aún no se da de alta,
@@ -27,6 +30,22 @@ public class Medicion {
      */
     public Medicion(int idVariable) {
         this.idVariable = idVariable;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getUnidades() {
+        return unidades;
+    }
+
+    public void setUnidades(String unidades) {
+        this.unidades = unidades;
     }
 
     public Medicion(int idMuestra, int idVariable) {

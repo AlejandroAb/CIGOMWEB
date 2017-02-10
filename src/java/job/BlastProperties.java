@@ -105,13 +105,13 @@ public class BlastProperties {
     public String generateConcatOutputCommandLine() {
         String command;
         command =  "cat " + workingDir +"out.txt.* > " + workingDir + out_file;
-        System.out.println(command);
+        //System.out.println(command);
         return command;
     }
        public String generateConcatOutputCommandLine2() {
         String command;
         command =  "cat " + workingDir +"out.txt.1 out.txt.2 > " + workingDir + out_file+".concat";
-        System.out.println(command);
+      //  System.out.println(command);
         return command;
     }
     public BlastProperties(String workingDir, String instruction) {

@@ -46,13 +46,14 @@ public class BlastController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-         HttpSession session = request.getSession();
+         HttpSession session = request.getSession(false);
         if (session  == null || session.isNew() || session.getAttribute("userObj") == null) {
             //session expirada o invalida
             String url = "index.jsp";
             //mandar mensaje de session expirada o a página de error / sesión expirada
             request.setAttribute("msg", "Su sesi&oacute;n expir&oacute;");
             request.getRequestDispatcher(url).forward(request, response);
+            return;
         } else {
             String userPath = request.getServletPath();
             //Transacciones tiene que ser un variable de sesion

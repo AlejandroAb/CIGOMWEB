@@ -11,13 +11,14 @@
 <%@page import="database.Transacciones"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    HttpSession sesion = request.getSession();
-    response.setHeader("Cache-Control", "no-cache");
-    response.setHeader("Cache-Control", "no-store");
-    response.setHeader("Pragma", "no-cache");
-    response.setDateHeader("Expires", 0);
+    HttpSession sesion = request.getSession(false);
+    //response.setHeader("Cache-Control", "no-cache");
+    //response.setHeader("Cache-Control", "no-store");
+    //response.setHeader("Pragma", "no-cache");
+    //response.setDateHeader("Expires", 0);
     if (session == null) {
         response.sendRedirect("index.jsp");
+        return;
     }
     Usuario usuario = (Usuario) sesion.getAttribute("userObj");
     String nombreCompleto = usuario.getNombres() + " " + usuario.getApellidos();
@@ -186,7 +187,7 @@
                             <span class="icon-bar"></span>
                         </button>
 
-                        <span class="b1"><img id="logos" src="images/logosistema.png" alt="logo" width="70%" height="100px" style="padding-left:10px;" /></span>
+                        <span class="b1"><img id="logos" src="images/logotipo4.png" alt="logo" width="85%" height="100px" style="padding-left:10px;" /></span>
                         <!--<img id="logos" src="images/logosistema2.png" alt="logo" width="40%" height="60px"  />-->
                     </div>
                 </div>

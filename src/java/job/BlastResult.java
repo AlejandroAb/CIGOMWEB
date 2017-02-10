@@ -27,9 +27,17 @@ public class BlastResult {
    private String target_from;
    private String target_to;
    private String taxa;
-
+   private String idMuestra;
     public String getQuery_from() {
         return query_from;
+    }
+
+    public String getIdMuestra() {
+        return idMuestra;
+    }
+
+    public void setIdMuestra(String idMuestra) {
+        this.idMuestra = idMuestra;
     }
 
     public void setQuery_from(String query_from) {

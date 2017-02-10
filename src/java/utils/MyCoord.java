@@ -20,10 +20,88 @@ public class MyCoord {
     int grados;
     int minutos;
     float segundos;
+    float gradosDecimales;
 
     public MyCoord(String coordenadas) {
         this.coordenadas = coordenadas;
 
+    }
+
+    public float getGradosDecimales() {
+        return gradosDecimales;
+    }
+     public float getGradosDecimales(int round) {
+         String format = "#.";
+         for(int i=0; i < round; i++){
+             format+="#";
+         }
+         DecimalFormat df = new DecimalFormat(format);      
+         return Float.valueOf(df.format(gradosDecimales));
+    }
+
+    public void setGradosDecimales(float gradosDecimales) {
+        this.gradosDecimales = gradosDecimales;
+    }
+
+    public void computeGradosDecimales() {
+        try {
+            gradosDecimales = Float.parseFloat(coordenadas);
+        } catch (NumberFormatException nfe) {
+            gradosDecimales = (grados + ((float) minutos + ((float) segundos / 60)) / 60);
+        }
+    }
+
+    /**
+     * Código para obtener la distancia entre dos puntos. Código adaptado de:
+     * //http://www.geodatasource.com/developers/java
+     *
+     * @param lat1
+     * @param lon1
+     * @param lat2
+     * @param lon2
+     * @param unit
+     * @return por defaul esta en M millas N = milla naúticas
+     */
+    public static double distance(MyCoord lat1, MyCoord lon1, MyCoord lat2, MyCoord lon2, String unit, int round) {
+        double long1 = Math.abs(lon1.getGradosDecimales());
+        double long2 = Math.abs(lon2.getGradosDecimales());
+        double lati1 = Math.abs(lat1.getGradosDecimales());
+        double lati2 = Math.abs(lat2.getGradosDecimales());
+     //   double theta = lon1.getGradosDecimales() - lon2.getGradosDecimales();
+        //   double dist = Math.sin(deg2rad(lat1.getGradosDecimales())) * Math.sin(deg2rad(lat2.getGradosDecimales())) + Math.cos(deg2rad(lat1.getGradosDecimales())) * Math.cos(deg2rad(lat2.getGradosDecimales())) * Math.cos(deg2rad(theta));
+        double theta = long1 - long2;
+        double dist = Math.sin(deg2rad(lati1)) * Math.sin(deg2rad(lati2)) + Math.cos(deg2rad(lati1)) * Math.cos(deg2rad(lati2)) * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        if (unit == "K") {
+            dist = dist * 1.609344;
+        } else if (unit == "N") {
+            dist = dist * 0.8684;
+        } else if (unit == "m") {
+            dist = dist * 1.609344 * 1000;
+        }
+         String format = "#.";
+         for(int i=0; i < round; i++){
+             format+="#";
+         }
+         DecimalFormat df = new DecimalFormat(format);      
+         return Double.valueOf(df.format(dist));
+       // return (dist);
+    }
+    /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+    /*::	This function converts decimal degrees to radians						 :*/
+    /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+
+    private static double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+    /*::	This function converts radians to decimal degrees						 :*/
+    /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+    private static double rad2deg(double rad) {
+        return (rad * 180 / Math.PI);
     }
 
     public boolean parseCoordsLGMS() {
@@ -46,6 +124,7 @@ public class MyCoord {
             System.out.println("Error nsee parseCoordsLGMS(): " + coordenadas);
             return false;
         }
+        computeGradosDecimales();
         return true;
 
     }
@@ -77,6 +156,7 @@ public class MyCoord {
             System.out.println("Error nsee parseCoordsLGMS(): " + coordenadas);
             return false;
         }
+        computeGradosDecimales();
         return true;
 
     }
@@ -114,8 +194,8 @@ public class MyCoord {
                 grados = Integer.parseInt(st.nextToken().trim());
                 minutos = Integer.parseInt(st.nextToken().trim());
                 segundos = Float.parseFloat(st.nextToken().trim());
-              //  coords = (grados) + ((double) minutos + (segundos / 60)) / 60;
-              //  coordenadas = "" + coords;
+                //  coords = (grados) + ((double) minutos + (segundos / 60)) / 60;
+                //  coordenadas = "" + coords;
             } else {
                 int tok = 0;
                 while (st.hasMoreTokens()) {
@@ -123,7 +203,7 @@ public class MyCoord {
                     System.out.print("Token: " + tok + " " + st.nextToken());
                 }
             }
-           // minutos = Integer.parseInt(st.nextToken());
+            // minutos = Integer.parseInt(st.nextToken());
             // segundos = Float.parseFloat(st.nextToken());
             coords = (grados) + ((double) minutos + (segundos / 60)) / 60;
             coordenadas = "" + coords;
@@ -136,6 +216,7 @@ public class MyCoord {
             System.out.println("Error nsee parseCoordsLGMS(): " + coordenadas);
             return false;
         }
+        computeGradosDecimales();
         return true;
 
     }

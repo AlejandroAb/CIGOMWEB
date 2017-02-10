@@ -27,12 +27,16 @@ public class Muestreo {
     public static String PROF_MIL_M = "1000 m";
     public static String PROF_FONDO = "Fondo";
     private int idMuestreo = 0;
+    private String idCampana = "";//agregue
+    private String idEstacion = "";//agregue
     private int idDerrotero = -1; //id del derrotero o idCE (Crucero Estación)    
     private int idTipoMuestreo = -1;
     private int idTipoMuestra = -1;
     private String etiqueta = "";
     private MyDate fechaInicial;
     private MyDate fechaFinal;
+    private MyCoord latitud_estacion = new MyCoord("0");//agregue
+    private MyCoord longitud_estacion = new MyCoord("0");//agregue
     private MyCoord latitud_r = new MyCoord("0");//real
     private MyCoord longitud_r = new MyCoord("0");//real
     private MyCoord latitud_a = new MyCoord("0");//ajustada --> requerimiento CIGOM preguntar a lex si las tenemos  // puede fungir como final
@@ -40,9 +44,9 @@ public class Muestreo {
     private String protocolo = "";
     private String comentarios = "";
     private String lance = "";
-    private String bioma = "";
-    private String env_feature = "";
-    private String env_material = "";
+    private Term bioma;
+    private Term env_feature;
+    private Term env_material;
     private String tamano = "ND"; //cantidad y unidades
     private double profundidad = -1;
     private String tipo_prof = "";
@@ -50,12 +54,21 @@ public class Muestreo {
     private ArrayList<Usuario> usuarios;
     private ArrayList<Muestra> muestras;
     private ArrayList<Medicion> mediciones;
+    private double distanciaEstacion;//distancia que hay entre la estación y el lugar de la toma de muestra
 
     public Muestreo() {
         instrumentos = new ArrayList<Instrumento>();
         usuarios = new ArrayList<Usuario>();
         muestras = new ArrayList<Muestra>();
         mediciones = new ArrayList<Medicion>();
+    }
+
+    public double getDistanciaEstacion() {
+        return distanciaEstacion;
+    }
+
+    public void setDistanciaEstacion(double distanciaEstacion) {
+        this.distanciaEstacion = distanciaEstacion;
     }
 
     public Muestreo(int idMuestreo) {
@@ -98,6 +111,22 @@ public class Muestreo {
         this.idMuestreo = idMuestreo;
     }
 
+    public String getIdCampana() {
+        return idCampana;
+    }
+
+    public void setIdCampana(String idCampana) {
+        this.idCampana = idCampana;
+    }
+
+    public String getIdEstacion() {
+        return idEstacion;
+    }
+
+    public void setIdEstacion(String idEstacion) {
+        this.idEstacion = idEstacion;
+    }
+
     public int getIdDerrotero() {
         return idDerrotero;
     }
@@ -118,16 +147,16 @@ public class Muestreo {
         return fechaInicial;
     }
 
+    public void setFechaInicial(MyDate fechaInicial) {
+        this.fechaInicial = fechaInicial;
+    }
+
     public ArrayList<Muestra> getMuestras() {
         return muestras;
     }
 
     public void setMuestras(ArrayList<Muestra> muestras) {
         this.muestras = muestras;
-    }
-
-    public void setFechaInicial(MyDate fechaInicial) {
-        this.fechaInicial = fechaInicial;
     }
 
     public MyDate getFechaFinal() {
@@ -152,6 +181,22 @@ public class Muestreo {
 
     public void setLongitud_r(MyCoord logitud_r) {
         this.longitud_r = logitud_r;
+    }
+
+    public MyCoord getLatitud_estacion() {
+        return latitud_estacion;
+    }
+
+    public void setLatitud_estacion(MyCoord latitud_estacion) {
+        this.latitud_estacion = latitud_estacion;
+    }
+
+    public MyCoord getLongitud_estacion() {
+        return longitud_estacion;
+    }
+
+    public void setLongitud_estacion(MyCoord longitud_estacion) {
+        this.longitud_estacion = longitud_estacion;
     }
 
     public MyCoord getLatitud_a() {
@@ -210,19 +255,19 @@ public class Muestreo {
         this.etiqueta = etiqueta;
     }
 
-    public String getBioma() {
+    public Term getBioma() {
         return bioma;
     }
 
-    public void setBioma(String bioma) {
+    public void setBioma(Term bioma) {
         this.bioma = bioma;
     }
 
-    public String getEnv_feature() {
+    public Term getEnv_feature() {
         return env_feature;
     }
 
-    public void setEnv_feature(String env_feature) {
+    public void setEnv_feature(Term env_feature) {
         this.env_feature = env_feature;
     }
 
@@ -234,11 +279,11 @@ public class Muestreo {
         this.tamano = tamano;
     }
 
-    public String getEnv_material() {
+    public Term getEnv_material() {
         return env_material;
     }
 
-    public void setEnv_material(String env_material) {
+    public void setEnv_material(Term env_material) {
         this.env_material = env_material;
     }
 

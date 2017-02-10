@@ -11,13 +11,14 @@
 <%@page import="database.Transacciones"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    HttpSession sesion = request.getSession();
+    HttpSession sesion = request.getSession(false);
     response.setHeader("Cache-Control", "no-cache");
     response.setHeader("Cache-Control", "no-store");
     response.setHeader("Pragma", "no-cache");
     response.setDateHeader("Expires", 0);
     if (session == null) {
         response.sendRedirect("index.jsp");
+        return;
     }
     Usuario usuario = (Usuario) sesion.getAttribute("userObj");
     String nombreCompleto = usuario.getNombres() + " " + usuario.getApellidos();

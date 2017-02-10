@@ -374,14 +374,19 @@ public class JobDAO {
                         case 0:
                             job = new Job(val);
                             job.setURL(userId);
+                            break;
                         case 1:
                             job.setJob_name(val);
+                            break;
                         case 2:
                             job.setJob_type(val);
+                            break;
                         case 3:
                             job.setEvalue(val);
+                            break;
                         case 4:
                             job.setStart_date(val);
+                            break;
                         case 5:
                             String endDate = val;
                             if (endDate != null) {
@@ -389,13 +394,17 @@ public class JobDAO {
                             } else {
                                 job.setEnd_date("-");
                             }
+                        break;
                         case 6:
                             job.setStatus(val);
+                            break;
                         case 7:
                             job.setMessage(val);
+                            break;
                         case 8:
                             job.setPath(val);
                             job.setQueryPath(val + "" + job.getId_job() + "/" + "query.fasta");
+                            break;
                     }
                 }
                 i++;
@@ -537,6 +546,7 @@ public class JobDAO {
                     //select sp.uniprot_id, uniprot_acc, prot_name,ncbi_node.name,tipo_muestra,eval
                     String det = details.get(0) + " " + details.get(1) + " mts.";
                     result.setSource(result.getSource() + " " + det);
+                    result.setIdMuestra(details.get(2));
                 }
                 /*
                  if (campos[1].contains("METADB")) {

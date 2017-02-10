@@ -10,11 +10,19 @@ import bobjects.Medicion;
 import bobjects.Muestra;
 import bobjects.Muestreo;
 import bobjects.Usuario;
+import bobjects.Variable;
 import database.Transacciones;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import utils.MyCoord;
+import java.util.Date;
+import java.util.Locale;
+import utils.MyDate;
 
 /**
  *
@@ -102,7 +110,7 @@ public class MuestreoDAO {
             String queryMedicion = "INSERT INTO muestreo_variable(idMuestreo, idVariable,"
                     + "idOrden, idMetodo, medicion_t1, comentarios) VALUES ("
                     + muestreo.getIdMuestreo() + "," + medicion.getIdVariable() + ","
-                    + medicion.getOrden() + ","+medicion.getIdMetodoMedida()+", '" + medicion.getMedicion_t1() + "','" + medicion.getComentarios() + "')";
+                    + medicion.getOrden() + "," + medicion.getIdMetodoMedida() + ", '" + medicion.getMedicion_t1() + "','" + medicion.getComentarios() + "')";
             if (!toFile) {
                 if (!transacciones.insertaQuery(queryMedicion)) {
                     log += "Error insertando relación muestreo-variable: "
@@ -162,7 +170,7 @@ public class MuestreoDAO {
                         + "(idMuestra, idMuestreo, profundidad, etiqueta, contenedor, tamano, protocolo, notas) "
                         + "VALUES (" + muestra.getIdMuestra() + ", " + muestra.getIdMuestreo() + ", "
                         + muestra.getProfundidad() + ", '" + muestra.getEtiqueta() + "', '"
-                        + muestra.getContenedor() + "', '" + muestra.getSamp_size() + "', '" +muestra.getProcess()+"','"+ muestra.getNotas() + "')";
+                        + muestra.getContenedor() + "', '" + muestra.getSamp_size() + "', '" + muestra.getProcess() + "','" + muestra.getNotas() + "')";
                 if (!toFile) {
                     if (!transacciones.insertaQuery(queryMuestra)) {
                         log += "Error insertando muestra - muestreo: "
@@ -180,7 +188,7 @@ public class MuestreoDAO {
                     String queryMedicion = "INSERT INTO muestra_valor(idMuestra, idVariable,"
                             + "orden, idMetodo, medicion_t1, medicion_t2, medicion_t3, comentarios) VALUES ("
                             + muestra.getIdMuestra() + "," + medicion.getIdVariable() + ","
-                            + medicion.getOrden() + ","+medicion.getIdMetodoMedida()+",'" + medicion.getMedicion_t1() + "','','','" + medicion.getComentarios() + "')";
+                            + medicion.getOrden() + "," + medicion.getIdMetodoMedida() + ",'" + medicion.getMedicion_t1() + "','','','" + medicion.getComentarios() + "')";
                     if (!toFile) {
                         if (!transacciones.insertaQuery(queryMedicion)) {
                             log += "Error insertando relación muestra_valor: "
@@ -205,5 +213,105 @@ public class MuestreoDAO {
             }
         }
         return log;
+    }
+
+    /**
+     * Inicializar objeto muestreo a partir de la muestra
+     *
+     * @param idm id de la muestra
+     * @return objeto muestreo con lo necesario para desplegar la info en
+     * funcion de la muestra
+     */
+    public Muestreo initMuestreoFromMuestra(int idm) {
+        ArrayList<ArrayList> muestreoDetalles = transacciones.getMuestreo(idm);
+        ArrayList<ArrayList> medicionesDetalles = transacciones.getVariables(idm);
+        TermDAO tDAO = new TermDAO(transacciones);
+        Muestreo muestreo = null; //new Muestreo(idm);
+        if (muestreoDetalles != null && muestreoDetalles.size() > 0) {
+            ArrayList<String> rec = muestreoDetalles.get(0);
+            int i = 0;
+            for (String val : rec) {
+                if (val != null) {
+                    switch (i) {
+                        case 0:
+                            muestreo = new Muestreo(Integer.parseInt(val));
+                            break;
+                        case 1:
+                            muestreo.setEtiqueta(val);
+                            break;
+                        case 2:
+                            muestreo.setIdCampana(val);
+                            break;
+                        case 3:
+                            muestreo.setIdEstacion(val);
+                            break;
+                        case 4:
+                            muestreo.setBioma(tDAO.initTerm(val));
+                            break;
+                        case 5:
+                            muestreo.setEnv_material(tDAO.initTerm(val));
+                            break;
+                        case 6:
+                            muestreo.setEnv_feature(tDAO.initTerm(val));
+                            break;
+                        case 7:
+                            muestreo.setProtocolo(val);
+                            break;
+                        case 8:
+                            MyCoord lat = new MyCoord(val);
+                            lat.computeGradosDecimales();
+                            muestreo.setLatitud_r(lat);
+                            break;
+                        //en la vista
+                        case 9:
+                            MyCoord lon = new MyCoord(val);
+                            lon.computeGradosDecimales();
+                            muestreo.setLongitud_r(lon);
+                            break;
+                        case 10:
+                            MyCoord latEstacion = new MyCoord(val);
+                            latEstacion.computeGradosDecimales();
+                            muestreo.setLatitud_estacion(latEstacion);
+                            break;
+                        case 11:
+                            MyCoord lonEstacion = new MyCoord(val);
+                            lonEstacion.computeGradosDecimales();
+                            muestreo.setLongitud_estacion(lonEstacion);
+                            break;
+                        case 12:
+                            MyDate fi = new MyDate(val);
+                            fi.splitSQLStandarDate();
+                            muestreo.setFechaInicial(fi);
+                            break;
+                        case 13:
+                            MyDate ff = new MyDate(val);
+                            ff.splitSQLStandarDate();
+                            muestreo.setFechaFinal(ff);
+                            break;
+                    }
+                }
+                i++;
+            }
+            muestreo.setDistanciaEstacion(MyCoord.distance(muestreo.getLatitud_r(), muestreo.getLongitud_r(), muestreo.getLatitud_estacion(), muestreo.getLongitud_estacion(), "K",4));
+            Medicion medicion = null;
+            for (ArrayList<String> m : medicionesDetalles) {
+                String idMuestreo = m.get(0);
+                String idvariable = m.get(1);
+                String nombre_web = m.get(2);
+                String medicion_t1 = m.get(3);
+                String unidades = m.get(4);
+
+                medicion = new Medicion(Integer.parseInt(idvariable));
+                medicion.setMedicion_t1(medicion_t1);
+                medicion.setIdVariable(Integer.parseInt(idvariable));
+                medicion.setNombre(nombre_web);
+                medicion.setUnidades(unidades);
+                medicion.setIdMuestra(muestreo.getIdMuestreo());
+                muestreo.addNewMedicion(medicion);
+            }
+            return muestreo;
+        } else {
+            return null;
+        }
     }
 }
