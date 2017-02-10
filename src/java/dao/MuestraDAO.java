@@ -64,4 +64,29 @@ public class MuestraDAO {
         }
     }
     
+    public Muestra busqueda(String etiqueta) {
+        ArrayList<ArrayList> muestraDetails = transacciones.getBuscar(etiqueta) ;
+       
+       if (muestraDetails != null && muestraDetails.size() > 0) {
+            Muestra muestra = null;
+            int i = 0;
+            ArrayList<String> rec = muestraDetails.get(0);
+            for (String val : rec) {
+                if (val != null) {
+                    switch (i) {
+                        case 0:
+                            muestra = new Muestra(Integer.parseInt(val));
+                        case 1:
+                            muestra.setEtiqueta(val); ;
+                    }
+                }
+                i++;
+            }
+            return muestra;
+        }
+        else{
+        return null;
+        }
+    }
+    
 }

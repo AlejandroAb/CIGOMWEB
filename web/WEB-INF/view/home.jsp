@@ -235,7 +235,7 @@
                             <span class="icon-bar"></span>
                         </button>
 
-   <span class="b1">
+                        <span class="b1">
                             <span class="b1"><img id="logos" src="images/logotipo4.png" alt="logo" width="85%" height="100px" style="padding-left:10px;" /></span>
                         </span>
                         <!--<img id="logos" src="images/logosistema2.png" alt="logo" width="40%" height="60px"  />-->
@@ -278,10 +278,11 @@
                             <li>
                                 <a href="blast" ><i class="fa fa-edit fa-fw"></i> BLAST</a>
                             </li>
-                            <!--
+                            
                             <li>
-                                <a href="forms.html"><i class="fa fa-edit fa-fw"></i> METAGENOMA</a>
+                                <a href="buscadores"><i class="fa fa-edit fa-fw"></i> METAGENOMICA</a>
                             </li>
+                            <!--
                             <li>
                                 <a href="forms.html"><i class="fa fa-edit fa-fw"></i> SITIOS</a>
                             </li>

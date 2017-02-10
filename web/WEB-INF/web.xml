@@ -77,6 +77,10 @@
         <servlet-name>MuestraController</servlet-name>
         <servlet-class>controller.MuestraController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>buscadores</servlet-name>
+        <servlet-class>controller.buscadoresController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SequenceController</servlet-name>
         <url-pattern>/getSequence</url-pattern>
@@ -100,6 +104,12 @@
         <servlet-name>MuestraController</servlet-name>
         <url-pattern>/showMuestra</url-pattern>
         <url-pattern>/MuestraController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>buscadores</servlet-name>
+        <url-pattern>/buscadores</url-pattern>
+        <url-pattern>/buscaPalabra</url-pattern>
+        <url-pattern>/detallesBusqueda</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

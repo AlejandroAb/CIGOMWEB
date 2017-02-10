@@ -1071,5 +1071,25 @@ public class Transacciones {
         return conexion.getTabla();
 
     }
+        public ArrayList getBuscar(String name) {
+        String query = "select tax_id, name, rank from ncbi_node where name like '"+name+"%' limit 20";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+
+    }
+        public ArrayList getBuscarTaxID(String taxId) {
+        String query = "select tax_id, name, rank from ncbi_node where tax_id like '"+taxId+"%' limit 20";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+
+    }
+    
+    public ArrayList getBuscarncbinode(String taxId) {
+        String query = "select * from ncbi_node where tax_id="+taxId;
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+
+    }
+
 
 }
