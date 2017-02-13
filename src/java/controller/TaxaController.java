@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -71,16 +72,35 @@ public class TaxaController extends HttpServlet {
             long total = tdao.getConteos();
             if (tabla != null && tabla.size() > 0) {
                 //número de registros
-                request.setAttribute("count", tabla.size());
-                request.setAttribute("result", tabla);
+             //   request.setAttribute("count", tabla.size());
+              //  request.setAttribute("result", tabla);
                 //número de secuencias
                 request.setAttribute("seqs", "" + total);
+                PrintWriter out = response.getWriter();
+                response.setContentType("text/html");
+                response.setCharacterEncoding("UTF-8");
+                for (ArrayList<String> bg : tabla) {
+                    out.println("<p style=\"color:red;\">Registros:" + tabla.size() + "&nbsp;Total seqs: " + total + "</p>");
+                    out.println("<p style=\"color:green;\">" + bg.get(1) + " * <a href = 'showMuestra?idMuestra=" + bg.get(2) + "'>" + bg.get(3) + "</a> *" + bg.get(4) + "*<b>" + bg.get(5) + "</b>&nbsp;" + bg.get(6) + "mts." + bg.get(7) + "</p>");
+                }
+                out.close();
             } else {
-                request.setAttribute("count", "" + 0);
-                request.setAttribute("seqs", "" + total);
+               // request.setAttribute("count", "" + 0);
+               // request.setAttribute("seqs", "" + total);
+                PrintWriter out = response.getWriter();
+                response.setContentType("text/html");
+                response.setCharacterEncoding("UTF-8");
+
+                out.println("<p style=\"color:red;\">No hay resultados</p>");
+
+                out.close();
             }
-            String url = "/WEB-INF/view/taxa/taxonomy.jsp";
-            request.getRequestDispatcher(url).forward(request, response);
+            //String url = "/WEB-INF/view/taxa/taxonomy.jsp";
+            //request.getRequestDispatcher(url).forward(request, response);
+            //return;
+        } else if (userPath.equals("/taxonomia")) {
+            RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/view/taxa/taxonomy.jsp");
+            view.forward(request, response);
             return;
         }
 

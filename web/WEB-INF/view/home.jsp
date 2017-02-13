@@ -281,12 +281,13 @@
                             </li>
                             
                             <li>
-                                <a href="searchTaxa?taxa=2-Bacteria(superkingdom)" ><i class="fa fa-edit fa-fw"></i> Test taxa</a>
+                                <a href="taxonomia" ><i class="fa fa-edit fa-fw"></i>TAXA</a>
                             </li>
                             <!--
                             <li>
-                                <a href="forms.html"><i class="fa fa-edit fa-fw"></i> METAGENOMA</a>
+                                <a href="buscadores"><i class="fa fa-edit fa-fw"></i> METAGENOMICA</a>
                             </li>
+                            <!--
                             <li>
                                 <a href="forms.html"><i class="fa fa-edit fa-fw"></i> SITIOS</a>
                             </li>

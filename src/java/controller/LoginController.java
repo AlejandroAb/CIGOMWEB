@@ -160,6 +160,9 @@ public class LoginController extends HttpServlet {
             session.invalidate();
             transacciones.desconecta();
             response.sendRedirect("index.jsp");
+        } else if(userPath.equals("/Muestra")){
+            RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/WEB-INF/view/muestra.jsp");
+            dispatch.forward(request, response);
         }
     }
 

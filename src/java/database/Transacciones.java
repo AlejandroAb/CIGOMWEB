@@ -1031,7 +1031,7 @@ public class Transacciones {
      * @return
      */
     public ArrayList getDetallesMuestraMarcador(String idMarcador) {
-        String query = "SELECT marc_name,idmuestra, muestra.etiqueta, tipo_muestra, tipo_profundidad, muestreo.profundidad "
+        String query = "SELECT marc_name,muestra.idmuestra, muestra.etiqueta, tipo_muestra, tipo_profundidad, muestreo.profundidad "
                 + "FROM marcador "
                 + "INNER JOIN muestra on muestra.idmuestra = marcador.idmuestra "
                 + "INNER JOIN muestreo on muestreo.idmuestreo = muestra.idmuestreo "
@@ -1058,6 +1058,33 @@ public class Transacciones {
             // System.out.println(conexion.getLog());
             return false;
         }
+
+    }
+
+    public ArrayList buscaNodosByName(String name, boolean limit) {
+        String query = "SELECT tax_id, name, rank FROM ncbi_node WHERE name like '" + name + "%' ORDER BY name";
+        if(limit){
+            query += " limit 100";
+        }
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+
+    }
+
+    public ArrayList buscaNodosByTaxID(String taxId, boolean limit) {
+        String query = "select tax_id, name, rank from ncbi_node where tax_id like '" + taxId + "%' ORDER BY tax_id";
+        if(limit){
+            query += " limit 100";
+        }
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+
+    }
+
+    public ArrayList getBuscarncbinode(String taxId) {
+        String query = "select * from ncbi_node where tax_id=" + taxId;
+        conexion.executeStatement(query);
+        return conexion.getTabla();
 
     }
 

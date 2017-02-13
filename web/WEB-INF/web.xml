@@ -13,7 +13,6 @@
         <param-value>cigomdb</param-value>
     </context-param>
     <context-param>
-        <description/>
         <param-name>password</param-name>
         <param-value>CigomWeb2016</param-value>
     </context-param>
@@ -80,6 +79,10 @@
         <servlet-name>TaxaController</servlet-name>
         <servlet-class>controller.TaxaController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>buscadores</servlet-name>
+        <servlet-class>controller.BuscadoresController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SequenceController</servlet-name>
         <url-pattern>/getSequence</url-pattern>
@@ -105,7 +108,14 @@
         <url-pattern>/MuestraController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>buscadores</servlet-name>
+        <url-pattern>/buscadores</url-pattern>
+        <url-pattern>/buscaPalabra</url-pattern>
+        <url-pattern>/detallesBusqueda</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>TaxaController</servlet-name>
+        <url-pattern>/taxonomia</url-pattern>
         <url-pattern>/searchTaxa</url-pattern>
     </servlet-mapping>
     <session-config>

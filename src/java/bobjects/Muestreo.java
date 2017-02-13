@@ -151,6 +151,8 @@ public class Muestreo {
         this.fechaInicial = fechaInicial;
     }
 
+   
+
     public ArrayList<Muestra> getMuestras() {
         return muestras;
     }
@@ -197,7 +199,7 @@ public class Muestreo {
 
     public void setLongitud_estacion(MyCoord longitud_estacion) {
         this.longitud_estacion = longitud_estacion;
-    }
+    }   
 
     public MyCoord getLatitud_a() {
         return latitud_a;
