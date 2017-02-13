@@ -81,7 +81,7 @@ public class TaxaController extends HttpServlet {
                 response.setCharacterEncoding("UTF-8");
                 for (ArrayList<String> bg : tabla) {
                     out.println("<p style=\"color:red;\">Registros:" + tabla.size() + "&nbsp;Total seqs: " + total + "</p>");
-                    out.println("<p style=\"color:green;\">" + bg.get(1) + " * <a href = 'showMuestra?idMuestra=" + bg.get(2) + "'>" + bg.get(3) + "</a> *" + bg.get(4) + "*<b>" + bg.get(5) + "</b>&nbsp;" + bg.get(6) + "mts." + bg.get(7) + "</p>");
+                    out.println("<p style=\"color:green;\">" + bg.get(1) + " * <a href = 'showMuestra?idMuestra=" + bg.get(2) + "'>" + bg.get(3) + "</a> *" + bg.get(4) + "*<b>" + bg.get(5) + "</b>&nbsp;" + bg.get(6) + "mts." + bg.get(7) + "*&nbsp;" + bg.get(8) + "</p>");
                 }
                 out.close();
             } else {

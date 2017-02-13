@@ -445,6 +445,29 @@ public class Transacciones {
         return id;
     }
 
+    public float getSecuenciasByMarcador(String idMarcador) {
+        String query = "SELECT seq_num_total  "
+                + "FROM marcador WHERE idmarcador='" + idMarcador + "'";
+
+        conexion.executeStatement(query);
+        //   System.out.println(query);
+        ArrayList<ArrayList> dbResult = conexion.getTabla();
+        float counts = -1;
+        if (dbResult == null || dbResult.isEmpty()) {
+            counts = -1;
+        } else {
+            try {
+                counts = Float.parseFloat((String) dbResult.get(0).get(0));
+                if (counts == 0) {
+                    counts = -1;
+                }
+            } catch (NumberFormatException nfe) {
+                counts = -1;
+            }
+        }
+        return counts;
+    }
+
     /**
      * Trae el id de la campana mas reciente, es usado en el home para mostrar
      * la útima campaña por default
@@ -1063,7 +1086,7 @@ public class Transacciones {
 
     public ArrayList buscaNodosByName(String name, boolean limit) {
         String query = "SELECT tax_id, name, rank FROM ncbi_node WHERE name like '" + name + "%' ORDER BY name";
-        if(limit){
+        if (limit) {
             query += " limit 100";
         }
         conexion.executeStatement(query);
@@ -1073,7 +1096,7 @@ public class Transacciones {
 
     public ArrayList buscaNodosByTaxID(String taxId, boolean limit) {
         String query = "select tax_id, name, rank from ncbi_node where tax_id like '" + taxId + "%' ORDER BY tax_id";
-        if(limit){
+        if (limit) {
             query += " limit 100";
         }
         conexion.executeStatement(query);

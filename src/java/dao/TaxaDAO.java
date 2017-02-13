@@ -6,6 +6,7 @@
 package dao;
 
 import database.Transacciones;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -71,11 +72,13 @@ public class TaxaDAO {
         ArrayList<ArrayList<String>> tabla = new ArrayList();
         ArrayList<ArrayList> marcadoresCounts = transacciones.getConteosMarcadorPorTaxon(rank, name);
         conteos = 0;
+         DecimalFormat df = new DecimalFormat("#.######");      
+         
         for (ArrayList<String> marcador : marcadoresCounts) {
             ArrayList<String> registro = new ArrayList();
             String idMarcador = marcador.get(0);
-            String counts = marcador.get(1);
-            conteos += Integer.parseInt(counts);
+            int counts = Integer.parseInt(marcador.get(1));
+            conteos += counts;
             registro.add(idMarcador);
             ArrayList<ArrayList> detalles = transacciones.getDetallesMuestraMarcador(idMarcador);
             if (detalles.size() > 0) {
@@ -86,6 +89,10 @@ public class TaxaDAO {
                 registro.add(detalle.get(3));//tipo_muestra
                 registro.add(detalle.get(4));//tipo_prof
                 registro.add(detalle.get(5));//profundidad
+                registro.add(""+counts);                
+                float secsMarcador = transacciones.getSecuenciasByMarcador(idMarcador);
+                registro.add(""+Float.valueOf(df.format((counts/secsMarcador))));
+                //registros
             } else {
                 registro.add("");
                 registro.add("");
@@ -93,8 +100,9 @@ public class TaxaDAO {
                 registro.add("");
                 registro.add("");
                 registro.add("");
-            }
-            registro.add(counts);
+                registro.add("");
+                registro.add("");
+            }            
             tabla.add(registro);
         }
         return tabla;
