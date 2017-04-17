@@ -8,6 +8,7 @@ package controller;
 import bobjects.Muestra;
 import bobjects.Muestreo;
 import bobjects.Usuario;
+import dao.KronaDAO;
 import dao.MuestraDAO;
 import dao.MuestreoDAO;
 import database.Transacciones;
@@ -69,26 +70,42 @@ public class MuestraController extends HttpServlet {
 
             if (userPath.equals("/showMuestra")) {
                 String idmuestra = request.getParameter("idMuestra");
+                if (idmuestra != null) {
+                    try {
+                        int id = Integer.parseInt(idmuestra);
+                        MuestraDAO mDao = new MuestraDAO(transacciones);
+                        Muestra muestra = mDao.initMuestraObject(id);
 
-                MuestraDAO mDao = new MuestraDAO(transacciones);
-                Muestra muestra = mDao.initMuestraObject(Integer.parseInt(idmuestra));
+                        MuestreoDAO mtreoDao = new MuestreoDAO(transacciones);
+                        Muestreo muestreo = mtreoDao.initMuestreoFromMuestra(id);
+                        if (muestra == null || muestreo == null) {
+                            String url = "/WEB-INF/view/error/error.jsp";
+                            request.setAttribute("msg", "Error inicializando Etiqueta: " + idmuestra + "<br>Por favor comunicarse con el administrador del sistema ");
+                            RequestDispatcher view = request.getRequestDispatcher(url);
+                            view.forward(request, response);
+                            return;
+                        }
+                        request.setAttribute("muestra", muestra);
+                        request.setAttribute("muestreo", muestreo);
 
-                MuestreoDAO mtreoDao = new MuestreoDAO(transacciones);
-                Muestreo muestreo = mtreoDao.initMuestreoFromMuestra(Integer.parseInt(idmuestra));
+                        RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/view/muestra/muestra.jsp");
+                        view.forward(request, response);
+                    } catch (NumberFormatException nfe) {
 
-                if (muestra == null) {
+                    }
+                } else {
                     String url = "/WEB-INF/view/error/error.jsp";
                     request.setAttribute("msg", "Error inicializando Etiqueta: " + idmuestra + "<br>Por favor comunicarse con el administrador del sistema ");
                     RequestDispatcher view = request.getRequestDispatcher(url);
                     view.forward(request, response);
                     return;
                 }
-                request.setAttribute("muestra", muestra);
-                request.setAttribute("muestreo", muestreo);
+            } else if (userPath.equals("/showAmplicon")) {
 
-                RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/view/muestra/muestra.jsp");
+                RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/view/amplicon/amplicon.jsp");
                 view.forward(request, response);
-            }
+            }       
+            
         }
     }
 

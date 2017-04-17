@@ -16,9 +16,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     HttpSession sesion = request.getSession(false);
-    //response.setHeader("Cache-Control", "no-cache");
-    //response.setHeader("Cache-Control", "no-store");
-    //response.setHeader("Pragma", "no-cache");
+   // response.setHeader("Cache-Control", "no-cache");
+   // response.setHeader("Cache-Control", "no-store");
+   // response.setHeader("Pragma", "no-cache");
     //response.setDateHeader("Expires", 0);
     if (session == null) {
         response.sendRedirect("index.jsp");
@@ -82,7 +82,7 @@
                 });
             });
         </script> 
-        <script src="http://maps.google.com/maps/api/js?sensor=false&key=AIzaSyClwGUqp2wGhajPth9e6SIz92XqQRNMi0k"></script>
+        <script src="http://maps.google.com/maps/api/js?key=AIzaSyBfAtZqx-idIbmuhOlAOOnELI4WK0P9mKg"></script>
         <script type="text/javascript">
 
             function funciones() {
@@ -91,7 +91,8 @@
             }
             window.onload = funciones;
 
-        </script> 
+        </script>         
+
 
         <title>Muestra</title>
     </head>
@@ -133,17 +134,6 @@
                 <div class="navbar-default sidebar" role="navigation">
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
-                            <li class="sidebar-search">
-                                <div class="input-group custom-search-form">
-                                    <input type="text" class="form-control" placeholder="Buscar...">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="button">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                                <!-- /input-group -->
-                            </li>
                             <li>
                                 <a href="homeCamp"><i class="fa fa-edit fa-fw"></i> HOME</a>
                             </li>
@@ -151,16 +141,12 @@
                             <li>
                                 <a href="blast" ><i class="fa fa-edit fa-fw"></i> BLAST</a>
                             </li>
-                            <!--
-                             <li>
-                                 <a href="#"><i class="fa fa-edit fa-fw"></i> METAGENOMA</a>
-                             </li>
-                             <li>
-                                 <a href="#"><i class="fa fa-edit fa-fw"></i> SITIOS</a>
-                             </li>
-                             <li>
-                                 <a href="analisis.jsp"><i class="fa fa-edit fa-fw"></i> ANALISIS</a>
-                             </li>-->
+                            <li>
+                                <a href="taxonomia" ><i class="fa fa-edit fa-fw"></i>TAXONOMÍA</a>
+                            </li>
+                            <li>
+                                <a href="matrices"><i class="fa fa-edit fa-fw"></i>MATRICES</a>
+                            </li>
                             <li>
                                 <a href="CerrarSesion"><i class="fa fa-edit fa-fw"></i> SALIR</a>
                             </li>
@@ -186,7 +172,8 @@
                     %>    
 
                     <div class="col-lg-12">
-                        <h1 class="page-header"><%= muestra.getEtiqueta()%></h1> 
+
+                        <h2 style="color:#337ab7;">Muestra</h2><h4 class="page-header" style="color:#d9534f; margin-top:0px;"><%= muestra.getEtiqueta()%></h4> 
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
@@ -195,7 +182,6 @@
                 <div class="row">
 
                     <div class="col-lg-12" id="contenido">
-                        <!--<iframe src="krona.html" width=100%; height=500px; frameborder="0"> </iframe>-->
 
                         <div class="panel panel-default">
                             <!-- <div class="panel-heading">
@@ -208,88 +194,68 @@
                                     <li class="active"><a href="#colecta" data-toggle="tab">Colecta</a>
                                     </li>
                                     <li><a href="#procesamiento" data-toggle="tab">Procesamiento</a>
-                                    </li>
-                                    <!--<li><a href="#mapaPuntos" id="boton" data-toggle="tab">Mapa</a>
-                                    </li>
-                                    <li><a href="#krona" data-toggle="tab">Krona</a>
-                                    </li>-->
+                                    </li>                                 
                                 </ul>
+
 
                                 <!-- Tab panes -->
                                 <div class="tab-content">
                                     <div class="tab-pane fade in active " id="colecta">
                                         <br>
-                                        <div class="col-md-6">
-                                            <div class="panel-body">
-                                                <div class="list-group" width="100%">
-                                                    <div  class="list-group-item">
-                                                        <b>Clave colecta:</b>
-                                                        <span class="pull-right text-muted small" ><em><%= muestreo.getEtiqueta()%></em>
-                                                        </span>
+                                        <div class="col-md-6">                      
+                                            <div class="panel panel-default" style="border:none;">
+                                                <!-- /.panel-heading -->
+                                                <div class="panel-body">
+                                                    <div class="table table-striped table-bordered table-hover" width="100%">
+                                                        <table class="table table-striped">
+                                                            <tbody>
+                                                                <tr style="border-top:none;">
+                                                                    <td style="padding:10px;"><b>Clave colecta:</b></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= muestreo.getEtiqueta()%></em></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="padding:10px;"><b>Campaña:</b></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= muestreo.getIdCampana()%></em></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="padding:10px;"><b>Estación:</b></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= muestreo.getIdEstacion()%></em></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="padding:10px;"><b>Coordenadas:</b></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em>Lat: <%= muestreo.getLatitud_r().getCoordenadas()%> </em> <em>Lon:<%= muestreo.getLongitud_r().getCoordenadas()%></em></td>
+                                                                </tr> 
+                                                                <tr>
+                                                                    <td style="padding:10px;"><b>Fecha:</b></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em>FI: <%= muestreo.getFechaInicial().toWebString()%></em>  <em>FF: <%= muestreo.getFechaFinal().toWebString()%></em></td>
+                                                                </tr> 
+                                                                <tr>
+                                                                    <td style="padding:10px;"><b>Bioma:</b></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><a href="<%= muestreo.getBioma().getUrl()%>"  target="_blank"><%= muestreo.getBioma().getIdTerm()%></a> - <%= muestreo.getBioma().getName()%></em></td>
+                                                                </tr>                                       
+                                                                <tr>
+                                                                    <td style="padding:10px;"><b>Material ambiental:</b></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><a href="<%= muestreo.getEnv_material().getUrl()%>"  target="_blank"><%= muestreo.getEnv_material().getIdTerm()%></a> - <%= muestreo.getEnv_material().getName()%></em></td>
+                                                                </tr> 
+                                                                <tr>
+                                                                    <td style="padding:10px;"><b>Caracteristica ambiental:</b></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><a href="<%= muestreo.getEnv_feature().getUrl()%>"  target="_blank"><%= muestreo.getEnv_feature().getIdTerm()%></a> - <%= muestreo.getEnv_feature().getName()%></em></td>
+                                                                </tr>                                                                 
+                                                                <tr>
+                                                                    <td style="padding:10px;"><b>Protocolo de muestreo:</b></td>
+                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= muestreo.getProtocolo()%></em></td>
+                                                                </tr>                                        
+                                                            </tbody>
+                                                        </table>
                                                     </div>
-                                                    <div  class="list-group-item">
-                                                        <b> Campaña: </b>
-                                                        <span class="pull-right text-muted small" ><em><%= muestreo.getIdCampana()%></em>
-                                                        </span>
-                                                    </div>
-                                                    <div  class="list-group-item">
-                                                        <b> Estación: </b>
-                                                        <span class="pull-right text-muted small"><em><%= muestreo.getIdEstacion()%></em>
-                                                        </span>
-                                                    </div>
-                                                    <div  class="list-group-item">
-                                                        <b> Coordenadas: </b>
-                                                        <span class="pull-right text-muted small"><em>Lat: <%= muestreo.getLatitud_r().getCoordenadas()%> </em> <em>Lon:<%= muestreo.getLongitud_r().getCoordenadas()%></em>
-                                                        </span>
-                                                    </div>
-                                                    <div  class="list-group-item">
-                                                        <b> Fecha: </b>
-                                                        <span class="pull-right text-muted small"><em>FI: <%= muestreo.getFechaInicial().toWebString()%></em>  <em>FF: <%= muestreo.getFechaFinal().toWebString()%></em>
-                                                        </span>
-                                                    </div>
-                                                    <div  class="list-group-item">
-                                                        <b> Bioma </b>
-                                                        <span class="pull-right text-muted small"><em><a href="<%= muestreo.getBioma().getUrl()%>"  target="_blank"><%= muestreo.getBioma().getIdTerm()%></a> - <%= muestreo.getBioma().getName()%></em>
-                                                        </span>
-                                                    </div >
-                                                    <div  class="list-group-item">
-                                                        <b> Material ambiental: </b>
-                                                        <span class="pull-right text-muted small"><em><a href="<%= muestreo.getEnv_material().getUrl()%>"  target="_blank"><%= muestreo.getEnv_material().getIdTerm()%></a> - <%= muestreo.getEnv_material().getName()%></em>
-                                                        </span>
-                                                    </div>
-                                                    <div  class="list-group-item">
-                                                        <b> Caracteristica ambiental: </b>
-                                                        <span class="pull-right text-muted small"><em><a href="<%= muestreo.getEnv_feature().getUrl()%>"  target="_blank"><%= muestreo.getEnv_feature().getIdTerm()%></a> - <%= muestreo.getEnv_feature().getName()%></em>
-                                                        </span>
-                                                    </div>
-                                                    <script>
-                                                        var str = "<%= muestreo.getProtocolo()%>";
-                                                        var n = str.length;
-                                                        if (n > 220) {
-                                                            $("#protocolo").css("padding-bottom", '320px');
-                                                            //alert("es mayor que 220");
-                                                        } else {
-                                                            //alert("es menor que 220");
-                                                            $("#protocolo").css("padding-bottom", '100px');
-                                                        }
-
-                                                        //alert(n);
-                                                    </script>
-                                                    <div  id="protocolo" style="">
-
-                                                        <span class="pull-right text-muted small" style="border: 1px solid #ddd; padding: 10px;">
-                                                            <b style="color:#000; font-size: 14px;">Protocolo de muestreo:</b>
-                                                            <br>
-                                                            <p style="text-align:justify;"> 
-                                                                <em><%= muestreo.getProtocolo()%></em>
-                                                            </p>
-                                                        </span>
-                                                    </div>
+                                                    <!-- /.table-responsive -->
                                                 </div>
-                                                <%
-                                                    }
-                                                %>       
-                                            </div>  
+                                                <!-- /.panel-body -->
+                                            </div>                               
+                                            <%
+                                                }
+                                            %>       
+
 
                                         </div>
                                         <div class="col-md-6">
@@ -343,39 +309,39 @@
                                                     var marker = new google.maps.Marker({
                                                         position: new google.maps.LatLng(<%= muestreo.getLatitud_r().getCoordenadas()%>, <%= muestreo.getLongitud_r().getCoordenadas()%>),
                                                         map: map,
-                                                        title: "Muestra",
-                                                        icon: iconoMuestra
+                                                            title: "Muestra",
+                                                                icon: iconoMuestra
                                                     });
                                                     var marker2 = new google.maps.Marker({
-                                                        position: new google.maps.LatLng(<%= muestreo.getLatitud_estacion().getCoordenadas()%>, <%= muestreo.getLongitud_estacion().getCoordenadas()%>),
-                                                        map: map,
-                                                        title: "Estación",
-                                                        icon: iconoAncla
-                                                    });
+                                                                    position: new google.maps.LatLng(<%= muestreo.getLatitud_estacion().getCoordenadas()%>, <%= muestreo.getLongitud_estacion().getCoordenadas()%>),
+                                                                    map: map,
+                                                                    title: "Estación",
+                                                                    icon: iconoAncla
+                                                                    });
 
-                                                    var flightPlanCoordinates = [
+                                                                            var flightPlanCoordinates = [
                                                         {lat: <%= muestreo.getLatitud_r().getCoordenadas()%>, lng: <%= muestreo.getLongitud_r().getCoordenadas()%>},
-                                                        {lat: <%= muestreo.getLatitud_estacion().getCoordenadas()%>, lng: <%= muestreo.getLongitud_estacion().getCoordenadas()%>}
+                                                                {lat: <%= muestreo.getLatitud_estacion().getCoordenadas()%>, lng: <%= muestreo.getLongitud_estacion().getCoordenadas()%>}
                                                     ];
-                                                    var flightPath = new google.maps.Polyline({
-                                                        path: flightPlanCoordinates,
-                                                        geodesic: true,
-                                                        strokeColor: '#FF0000',
-                                                        strokeOpacity: 1.0,
-                                                        strokeWeight: 2
+                                                                            var flightPath = new google.maps.Polyline({
+                                                                            path: flightPlanCoordinates,
+                                                                            geodesic: true,
+                                                                        strokeColor: '#FF0000',
+                                                                        strokeOpacity: 1.0,
+                                                                            strokeWeight: 2
                                                     });
 
                                                     flightPath.setMap(map);
-                                                }
-                                            </script>
+                                                                            }
+                                                                            </script>
 
-                                            <h2>Mapa</h2>
+                                            <h2 style="color:#337ab7;">Mapa</h2>
                                             <hr> 
                                             <p>
                                                 <b>Estación:</b> <%= muestreo.getIdEstacion()%> (<%= muestreo.getLatitud_estacion().getCoordenadas()%>,<%= muestreo.getLongitud_estacion().getCoordenadas()%>)
                                             </p>
-                                             <p>
-                                                 Distancia entre la estaci&oacute;n y el punto de la toma de muestra es:<b> <%= muestreo.getDistanciaEstacion()>1?""+muestreo.getDistanciaEstacion()+" Km.":""+muestreo.getDistanciaEstacion()*1000+"mts."%> </b>
+                                            <p>
+                                                Distancia entre la estaci&oacute;n y el punto de la toma de muestra es:<b> <%= muestreo.getDistanciaEstacion()>1?""+muestreo.getDistanciaEstacion()+" Km.":""+muestreo.getDistanciaEstacion()*1000+"mts."%> </b>
                                             </p>
                                             <%}%>                  
                                             <div id="mapa" style="width:100%; height:200px">
@@ -394,132 +360,78 @@
                                                 if (muestra != null) {
 
                                             %>   
-                                            <div class="panel-body">
-                                                <div class="list-group" >
-
-
-                                                    <div class="list-group-item">
-                                                        <b>Etiqueta de la muestra:</b>
-                                                        <span class="pull-right text-muted small"><em><%= muestra.getEtiqueta()%></em>
-                                                        </span>
+                                            <div class="panel panel-default" style="border:none;">
+                                                <!-- /.panel-heading -->
+                                                <div class="panel-body">
+                                                    <div class="table table-striped table-bordered table-hover" width="100%">
+                                                        <table class="table table-striped">
+                                                            <tbody>
+                                                                <tr style="border-top:none;">
+                                                                    <td style="padding:10px;"><b>Etiqueta de la muestra:</b></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= muestra.getEtiqueta()%></em></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="padding:10px;"><b>Contenedor:</b></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= muestra.getContenedor()%></em></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="padding:10px;"><b>Temperatura contenedor:</b></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= muestra.getcontenedor_temp()%></em></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="padding:10px;"><b>Relación oxigeno:</b></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= muestra.getreal_to_oxy()%></em></td>
+                                                                </tr> 
+                                                                <tr>
+                                                                    <td style="padding:10px;"><b>Tamaño:</b></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= muestra.getSamp_size()%></em></td>
+                                                                </tr> 
+                                                                <tr>
+                                                                    <td style="padding:10px;"><b>Protocolo: </b></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= muestra.getprotocolo()%></em></td>
+                                                                </tr>                                       
+                                                                <tr>
+                                                                    <td style="padding:10px;"><b>Notas:</b></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= muestra.getNotas()%></em></td>
+                                                                </tr>                                        
+                                                            </tbody>
+                                                        </table>
                                                     </div>
-                                                    <div class="list-group-item">
-                                                        <b>Contenedor: </b>
-                                                        <span class="pull-right text-muted small"><em><%= muestra.getContenedor()%></em>
-                                                        </span>
-                                                    </div>
-                                                    <div class="list-group-item">
-                                                        <b>Temperatura contenedor: </b>
-                                                        <span class="pull-right text-muted small"><em><%= muestra.getcontenedor_temp()%></em>
-                                                        </span>
-                                                    </div>
-                                                    <div class="list-group-item">
-                                                        <b>Relación oxigeno: </b>
-                                                        <span class="pull-right text-muted small"><em><%= muestra.getreal_to_oxy()%></em>
-                                                        </span>
-                                                    </div>
-                                                    <div class="list-group-item">
-                                                        <b>Tamaño:</b>
-                                                        <span class="pull-right text-muted small"><em><%= muestra.getSamp_size()%></em>
-                                                        </span>
-                                                    </div>
-                                                    <script>
-
-                                                        var protocolo = "<%= muestra.getprotocolo()%>";
-                                                        var p = protocolo.length;
-                                                        if (p > 150)
-                                                        {
-                                                            $(document).ready(function() {
-                                                                $("#protocolo1").css("display", "block");
-                                                            });
-                                                        } else {
-                                                            $(document).ready(function() {
-                                                                $("#protocolo2").css("display", "block");
-                                                            });
-                                                        }
-                                                    </script>  
-
-                                                    <div id="protocolo1" style="display:none;">
-                                                        <span class="pull-right text-muted small" style="border: 1px solid #ddd; padding: 10px; ">
-                                                            <b style="color:#000; font-size: 14px;">Protocolo:</b>
-                                                            <br>
-                                                            <p style="text-align:justify;">
-                                                                <em><%= muestra.getprotocolo()%></em>
-                                                            </p>
-                                                        </span>
-                                                    </div>                                                   
-
-                                                    <div class="list-group-item" id="protocolo2" style="display:none;">
-                                                        <b>Protocolo:</b>
-                                                        <span class="pull-right text-muted small"><em><%= muestra.getprotocolo()%></em>
-                                                        </span>
-                                                    </div> 
-                                                    <script>
-
-                                                        var nota = "<%= muestra.getNotas()%>";
-                                                        var n = nota.length;
-                                                        if (n > 150)
-                                                        {
-                                                            $(document).ready(function() {
-                                                                $("#notas1").css("display", "block");
-                                                            });
-                                                        } else {
-                                                            $(document).ready(function() {
-                                                                $("#notas2").css("display", "block");
-                                                            });
-                                                        }
-                                                    </script>   
-                                                    <div id="notas1" style="display:none;">
-                                                        <span class="pull-right text-muted small" style="border: 1px solid #ddd; padding: 10px; ">
-                                                            <b style="color:#000; font-size: 14px;">Notas:</b>
-                                                            <br>
-                                                            <p style="text-align:justify;">
-                                                                <em><%= muestra.getNotas()%></em>
-                                                            </p>
-                                                        </span>
-                                                    </div>
-
-                                                    <div class="list-group-item" id="notas2" style="display:none;">
-                                                        <b>Notas:</b>
-                                                        <span class="pull-right text-muted small"><em><%= muestra.getNotas()%></em>
-                                                        </span>
-                                                    </div>
-
+                                                    <!-- /.table-responsive -->
                                                 </div>
+                                                <!-- /.panel-body -->
+                                            </div>                                            
+                                            <%
+                                            }
+                                            %>
 
-                                            </div>
                                         </div>
+                                    </div>                                 
+                                </div>
 
-                                    </div>
-                                    <%
-                                        }
-                                    %>
 
-                                    <div class="tab-pane fade" id="mapaPuntos">
-                                        <div class="col-md-12">
-                                            <div id="mapadiv" style="width:100%; height:200px">
+                                <div class="tab-pane fade" id="mapaPuntos">
+                                    <div class="col-md-12">
+                                        <div id="mapadiv" style="width:100%; height:200px">
 
-                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="krona">
-                                        <br>
-                                        <iframe src="../WEB-INF/view/home.jsp" width=100%; height=500px; frameborder="0"> </iframe>
                                     </div>
                                 </div>
+
                             </div>
-                            <!-- /.panel-body -->
                         </div>
-                        <!-- /.panel -->
-
-
+                        <!-- /.panel-body -->
                     </div>
+                    <!-- /.panel -->
+
 
                 </div>
 
             </div>
-            <!-- /#page-wrapper -->
 
-        </div>                                        
-    </body>
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>                                        
+</body>
 </html>

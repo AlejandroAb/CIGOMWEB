@@ -16,14 +16,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-    HttpSession sesion = request.getSession(false);
+    HttpSession sesion = request.getSession();
     //response.setHeader("Cache-Control", "no-cache");
-    //response.setHeader("Cache-Control", "no-store");
-    //response.setHeader("Pragma", "no-cache");
-    //response.setDateHeader("Expires", 0);
+    // response.setHeader("Cache-Control", "no-store");
+    // response.setHeader("Pragma", "no-cache");
+    // response.setDateHeader("Expires", 0);
     if (session == null) {
         response.sendRedirect("index.jsp");
-        return;
     }
     Usuario usuario = (Usuario) sesion.getAttribute("userObj");
     //String usuario = (String) sesion.getAttribute("usuario");
@@ -33,8 +32,7 @@
     String user = usuario.getCorreo();
 
     String nombreCompleto = usuario.getNombres() + " " + usuario.getApellidos();
-    
-    String opcionMapa = request.getParameter("opMapa");
+
 
 %>
 <!DOCTYPE html>
@@ -81,15 +79,23 @@
         <link rel="stylesheet" href="alerta/dist/sweetalert.css">
         <!-- Custom Theme JavaScript -->
         <script src="dist/js/sb-admin-2.js"></script>
-        
+
         <!--id Camapaña-->
         <script src="js/idCampana.js"></script>
         <script src="js/changeMap.js"></script>
-        
+
         <!-- DataTables JavaScript -->
         <script src="bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
         <script src="bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
         <script src="bower_components/datatables-responsive/js/dataTables.responsive.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $('#dataTables-example').DataTable({
+                    responsive: true
+                });
+            });
+        </script>
         <style>
 
             .labels {
@@ -100,15 +106,9 @@
             }
 
         </style>
-        <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-        <script>
-            $(document).ready(function () {
-                $('#dataTables-example').DataTable({
-                    responsive: true
-                });
-            });
-        </script>
-        <script src="http://maps.google.com/maps/api/js?sensor=false&key=AIzaSyClwGUqp2wGhajPth9e6SIz92XqQRNMi0k"></script>
+
+
+        <script src="http://maps.google.com/maps/api/js?key=AIzaSyBfAtZqx-idIbmuhOlAOOnELI4WK0P9mKg"></script>
         <script src="https://cdn.rawgit.com/googlemaps/v3-utility-library/master/markerwithlabel/src/markerwithlabel.js"></script>
         <script>
             function iniciar() {
@@ -122,57 +122,55 @@
                     mapTypeId: google.maps.MapTypeId.HYBRID
                             //mapTypeId: google.maps.MapTypeId.TERRAIN 
                 });
-
-
-            <%  
-                Object puntosObj = request.getAttribute("puntos");
+            <%  Object puntosObj = request.getAttribute("puntos");
                 ArrayList<PuntoMapa> puntos = null;
+
+                Object puntosXestacion = request.getAttribute("puntosXestacion");
+                ArrayList<PuntoMapa> puntosEstacion = null;
 
                 if (puntosObj != null) {
                     puntos = (ArrayList<PuntoMapa>) puntosObj;
                 }
-                if (puntos != null) {
-                    for (PuntoMapa p : puntos) {
+                if (puntos != null && ((String) puntosXestacion).equals("false")) {
 
+                   
+                        for (PuntoMapa p : puntos) {
             %>
-                //MARCADOR 
+              //MARCADOR ESTACION
+                var iconoAncla = 'images/muestra.png';
                 marker = new google.maps.Marker({
                     map: mapa,
                     draggable: true,
                     animation: google.maps.Animation.DROP,
                     position: {lat: <%= p.getLatitud()%>, lng: <%= p.getLongitud()%>},
-                    icon: {
-                        path: google.maps.SymbolPath.CIRCLE,
-                        scale: 3, //tamaño
-                        strokeColor: '#f00', //color del borde
-                        strokeWeight: 1, //grosor del borde
-                        fillColor: '#f00', //color de relleno
-                        fillOpacity: 1 // opacidad del relleno
-                    }
+                    icon: iconoAncla,
+                    title: "<%= p.getEtiqueta()%>",
 
-                });
-
-                marker = new MarkerWithLabel({
-                    map: mapa,
-                    draggable: true,
-                    position: {lat: <%= p.getLatitud()%>, lng: <%= p.getLongitud()%>},
-                    raiseOnDrag: true,
-                    labelContent: "<%= p.getEtiqueta()%>",
-                    labelClass: "labels", // clase CSS labels
-                    labelAnchor: new google.maps.Point(-4, 3),
-                    labelInBackground: false,
-                    icon: {
-                        path: google.maps.SymbolPath.CIRCLE,
-                        scale: 0 //tamaño del marker real, 0 para que no se vea.
-                    }
                 });
             <%
+                        }
+                    
+                }else{
 
-                    }
-                }
+                    for (PuntoMapa p : puntos) {
+
             %>
+                //MARCADOR MUESTRA
+                var iconoMuestra = 'images/estacion.png';
+                marker = new google.maps.Marker({
+                    map: mapa,
+                    draggable: true,
+                    animation: google.maps.Animation.DROP,
+                    position: {lat: <%= p.getLatitud()%>, lng: <%= p.getLongitud()%>},
+                    icon: iconoMuestra,
+                    title: "<%= p.getEtiqueta()%>",
 
-
+                });
+            <%
+                    }
+               
+            }
+            %>
             }
         </script>
 
@@ -231,12 +229,12 @@
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                             <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
 
-   <span class="b1">
+                        <span class="b1">
                             <span class="b1"><img id="logos" src="images/logotipo4.png" alt="logo" width="85%" height="100px" style="padding-left:10px;" /></span>
                         </span>
                         <!--<img id="logos" src="images/logosistema2.png" alt="logo" width="40%" height="60px"  />-->
@@ -244,12 +242,12 @@
                 </div>
                 <!-- /.navbar-header -->
 
-   <ul class="nav navbar-top-links navbar-right">
+                <ul class="nav navbar-top-links navbar-right">
                     <li class="dropdown" style="color: #337ab7">
 
-   <br>
+                        <br>
 
-   <i class="fa fa-user fa-fw" ></i>            
+                        <i class="fa fa-user fa-fw" ></i>            
                         <%
                             out.print(nombreCompleto);
                         %>
@@ -261,17 +259,6 @@
                 <div class="navbar-default sidebar" role="navigation">
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
-                            <li class="sidebar-search">
-                                <div class="input-group custom-search-form">
-                                    <input type="text" class="form-control" placeholder="Buscar...">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="button">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                                <!-- /input-group -->
-                            </li>
                             <li>
                                 <a href="homeCamp"><i class="fa fa-edit fa-fw"></i> HOME</a>
                             </li>
@@ -279,21 +266,15 @@
                             <li>
                                 <a href="blast" ><i class="fa fa-edit fa-fw"></i> BLAST</a>
                             </li>
-                            
                             <li>
-                                <a href="taxonomia" ><i class="fa fa-edit fa-fw"></i>TAXA</a>
+                                <a href="taxonomia" ><i class="fa fa-edit fa-fw"></i>TAXONOMÍA</a>
                             </li>
-                            <!--
+
+
                             <li>
-                                <a href="buscadores"><i class="fa fa-edit fa-fw"></i> METAGENOMICA</a>
+                                <a href="matrices"><i class="fa fa-edit fa-fw"></i>MATRICES</a>
                             </li>
-                            <!--
-                            <li>
-                                <a href="forms.html"><i class="fa fa-edit fa-fw"></i> SITIOS</a>
-                            </li>
-                            <li>
-                                <a href="/view/analisis.jsp"><i class="fa fa-edit fa-fw"></i> ANALISIS</a>
-                            </li>-->
+
                             <li>
                                 <a href="CerrarSesion"><i class="fa fa-edit fa-fw"></i> SALIR</a>
                             </li>
@@ -314,12 +295,15 @@
                 </div>
                 <br>
                 <!-- /.row -->
+
                 <div class="row">
 
                     <div class="col-lg-12" id="mapa" style="width:100%; height:400px">
+
                     </div>
 
                 </div>
+
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
@@ -328,8 +312,8 @@
                                     <div class="col-lg-2" style="text-align:center;">
                                         <label>Seleccione la campaña:</label>
                                     </div>
-                                    <div class="col-lg-2" style="text-align:left;">
-                                       
+                                    <div class="col-lg-4" style="text-align:left;">
+
                                         <select class="form-control" id="campanas" name="campanas">
                                             <%
                                                 ArrayList<ArrayList<String>> campanaid = null;
@@ -345,8 +329,7 @@
                                             %>
                                             <option value="<%= campanaid.get(cid).get(0)%>" disabled selected><%= campanaid.get(cid).get(2)%></option>
                                             <%
-                                                        //System.out.println(campanaidOobj);
-                                                        //out.println("<h1>" + campana.get(i) + "</h1>"); 
+
                                                     }
                                                 }
                                             %>  
@@ -362,7 +345,6 @@
                                                 if (campana != null) {
                                                     for (int c = 0; c < campana.size(); c++) {
 
-                                                        //out.println("<h1>" + campana.get(i) + "</h1>");  
 
                                             %>
 
@@ -375,263 +357,102 @@
                                             %>
                                         </select>
                                     </div>
-
-
-                                   <!-- <div class="col-lg-2">
-                                        AGUA: <img src="images/icons/indicadores/agua.png" alt="agua">  
-
+                                    <%                                        
+                                        String op1 = "checked='checked'";
+                                        String op2 = "";
+                                        if (puntosXestacion != null && ((String) puntosXestacion).equals("false")) {
+                                            op2 = "checked='checked'";
+                                            op1 = "";
+                                        }
+                                    %>
+                                    <div class="col-lg-1">
+                                        <label>Visualizar: </label>
                                     </div>
                                     <div class="col-lg-2">
-                                        SEDIMENTO: <img src="images/icons/indicadores/sedimento.png" alt="sedimento">
+                                        <div class="form-group">
+                                            <label class="radio-inline">
+                                                <input type="radio" value ="estacion" name="puntosXestacion" id="opcion1" <%=op1%>/> Coords. de la estación
+                                            </label>
+                                        </div>
                                     </div>
                                     <div class="col-lg-2">
-                                        AGUA Y SEDIMENTO: <img src="images/icons/indicadores/aguaSed.png" alt="aguasedimento">
+                                        <label class="radio-inline">
+                                            <input type="radio" value = "muestra" name="puntosXestacion" id="opcion2" <%=op2%>> Coords. de la muestra
+                                        </label>                                        
                                     </div>
-                                    <div class="col-lg-2">       
-                                        <select  id="opciones" name="opciones">
-                                            
-                                            <option value="" disabled selected></option>
-                                            <option value="op1" >op1</option>
-                                            <option value="op2" >op2</option>
-                                        </select> 
-                                    </div>-->
 
                                 </div>
                                 <br>
                                 <br>
-                                <%                                    if (campanaidOobj != null) {
-                                        campanaid = (ArrayList<ArrayList<String>>) campanaidOobj;
-                                    }
-                                    if (campanaid != null) {
-                                        for (int cid2 = 0; cid2 < campanaid.size(); cid2++) {
 
-                                %>
-                                <CENTER><p class="text-primary"><b>RESUMEN DE LA CAMPAÑA: <%= campanaid.get(cid2).get(2)%></b></p></CENTER>
-                                    <%
-                                            }
-                                        }
-                                    %>
                             </div>
                             <!-- /.panel-heading -->
-                            <div class="panel-body">
-                                <div class="dataTable_wrapper">
-                                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
-                                        <thead>
-                                            <tr align="center">
-                                                <th>ESTACIÓN</th>
-                                                <th><span class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Máximo de lorofila  o fluorescencia. +/- 150m.', {position: 0})"></span> MAX F</th>
-                                                <th><span class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Mínimo de oxígeno (O<sub>2</sub>). +/- 400 m.', {position: 0})"></span> MIN O</th>
-                                                <th><span class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Masa de agua intermedia del antártida. En esta profundidad se registra constantemente una densidad entre 26.5 y 26.7. -1000m.', {position: 0})"></span> MIL</th>
-                                                <th><span class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Máxima profundidad, se toma a unos 20m antes del sedimento.', {position: 0})"></span> FONDO</th>
-                                                <th><span class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Sedimento marino, muestra tomada con nucleador.', {position: 0})"></span> SED</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <%
-                                                ArrayList<RegistroResumen> resumen = null;
 
-                                                Object resumenObj = request.getAttribute("resumen");
+                            <div id="actualizaInfo">
+                                <div class="panel-body">
+                                    <div class="dataTable_wrapper">
+                                        <%         if (campanaidOobj != null) {
+                                                campanaid = (ArrayList<ArrayList<String>>) campanaidOobj;
+                                            }
+                                            if (campanaid != null) {
+                                                for (int cid2 = 0; cid2 < campanaid.size(); cid2++) {
 
-                                                if (resumenObj != null) {
-                                                    resumen = (ArrayList<RegistroResumen>) resumenObj;
-                                                }
-                                                if (resumen != null) {
-                                                    for (RegistroResumen registro : resumen) {
-
-                                                        //out.println("<h1>" + resumen.get(i) + "</h1>");
-
-                                            %>
-                                            <tr class="odd gradeA" align="center">
-                                                <td align="middle" style="font-size:18px "><br><%= registro.getEstacion()%></td>
-                                                <td>
-                                                    <table width="100%" class="table table-striped table-bordered table-hover">
-                                                        <tbody>
-                                                            <tr align="center">
-                                                                <%
-                                                                    if (registro.tieneMaxF()) {
-                                                                %>
-                                                                <td  colspan = "4" > <img src="images/icons/correcto.png" alt="correcto"> </td>
-                                                                    <%
-                                                                    } else {
-                                                                    %>
-                                                                <td  colspan = "4" > <img src="images/icons/incorrecto.png" alt="incorrecto"> </td>
-                                                                    <%
-                                                                        }
-
-                                                                    %>
-                                                            </tr>                                                         
-                                                            <tr align="center">
-                                                                <td>A</td>
-                                                                <td>M</td>
-                                                                <td>G</td>
-                                                            </tr>
-                                                            <tr align="center">
-                                                                <td ><%= registro.getSecuenciasMax()[0]%></td>
-                                                                <td ><%= registro.getSecuenciasMax()[1]%></td>
-                                                                <td ><%= registro.getSecuenciasMax()[2]%></td>
-                                                            </tr> 
-                                                        </tbody>
-                                                    </table>
-                                                </td>
-                                                <td>
-                                                    <table width="100%" class="table table-striped table-bordered table-hover">
-                                                        <tbody>
-                                                            <tr align="center">
-
-                                                                <%
-                                                                    if (registro.tieneMinO()) {
-                                                                %>
-                                                                <td  colspan = "4" > <img src="images/icons/correcto.png" alt="correcto"> </td>
-                                                                    <%
-                                                                    } else {
-                                                                    %>
-                                                                <td  colspan = "4" > <img src="images/icons/incorrecto.png" alt="incorrecto"> </td>
-                                                                    <%
-                                                                        }
-
-                                                                    %>
-
-                                                            </tr>                                                         
-                                                            <tr align="center">
-                                                                <td>A</td>
-                                                                <td>M</td>
-                                                                <td>G</td>
-                                                            </tr>
-                                                            <tr align="center">
-                                                                <td ><%= registro.getSecuenciasMin()[0]%></td>
-                                                                <td ><%= registro.getSecuenciasMin()[1]%></td>
-                                                                <td ><%= registro.getSecuenciasMin()[2]%></td>
-                                                            </tr> 
-                                                        </tbody>
-                                                    </table>
-                                                </td>
-                                                <td>
-                                                    <table width="100%" class="table table-striped table-bordered table-hover">
-                                                        <tbody>
-                                                            <tr align="center">
-
-                                                                <%
-                                                                    if (registro.tieneMil()) {
-                                                                %>
-                                                                <td  colspan = "4" > <img src="images/icons/correcto.png" alt="correcto"> </td>
-                                                                    <%
-                                                                    } else {
-                                                                    %>
-                                                                <td  colspan = "4" > <img src="images/icons/incorrecto.png" alt="incorrecto"> </td>
-                                                                    <%
-                                                                        }
-
-                                                                    %>
-
-                                                            </tr>                                                         
-                                                            <tr align="center">
-                                                                <td>A</td>
-                                                                <td>M</td>
-                                                                <td>G</td>
-                                                            </tr>
-                                                            <tr align="center">
-                                                                <td ><%= registro.getSecuenciasMil()[0]%></td>
-                                                                <td ><%= registro.getSecuenciasMil()[1]%></td>
-                                                                <td ><%= registro.getSecuenciasMil()[2]%></td>
-                                                            </tr> 
-                                                        </tbody>
-                                                    </table>
-                                                </td>
-                                                <td>
-                                                    <table width="100%" class="table table-striped table-bordered table-hover">
-                                                        <tbody>
-                                                            <tr align="center">
-
-                                                                <%
-                                                                    if (registro.tieneFondo()) {
-                                                                %>
-                                                                <td  colspan = "4" > <img src="images/icons/correcto.png" alt="correcto"> </td>
-                                                                    <%
-                                                                    } else {
-                                                                    %>
-                                                                <td  colspan = "4" > <img src="images/icons/incorrecto.png" alt="incorrecto"> </td>
-                                                                    <%
-                                                                        }
-
-                                                                    %>
-
-                                                            </tr>                                                          
-                                                            <tr align="center">
-                                                                <td>A</td>
-                                                                <td>M</td>
-                                                                <td>G</td>
-                                                            </tr>
-                                                            <tr align="center">
-                                                                <td ><%= registro.getSecuenciasFondo()[0]%></td>
-                                                                <td ><%= registro.getSecuenciasFondo()[1]%></td>
-                                                                <td ><%= registro.getSecuenciasFondo()[2]%></td>
-                                                            </tr> 
-                                                        </tbody>
-                                                    </table>
-                                                </td>
-                                                <td>
-                                                    <table width="100%" class="table table-striped table-bordered table-hover">
-                                                        <tbody>
-                                                            <tr align="center">
-
-                                                                <%
-                                                                    if (registro.tieneSedimento()) {
-                                                                %>
-                                                                <td  colspan = "4" > <img src="images/icons/correcto.png" alt="correcto"> </td>
-                                                                    <%
-                                                                    } else {
-                                                                    %>
-                                                                <td  colspan = "4" > <img src="images/icons/incorrecto.png" alt="incorrecto"> </td>
-                                                                    <%
-                                                                        }
-
-                                                                    %>
-
-                                                            </tr>                                                        
-                                                            <tr align="center">
-                                                                <td>A</td>
-                                                                <td>M</td>
-                                                                <td>G</td>
-                                                            </tr>
-                                                            <tr align="center">
-                                                                <td ><%= registro.getSecuenciasSedimento()[0]%></td>
-                                                                <td ><%= registro.getSecuenciasSedimento()[1]%></td>
-                                                                <td ><%= registro.getSecuenciasSedimento()[2]%></td>
-                                                            </tr> 
-                                                        </tbody>
-                                                    </table>
-                                                </td>
-                                            </tr>
+                                        %>
+                                        <CENTER><p class="text-primary"><b>RESUMEN DE LA CAMPAÑA: <%= campanaid.get(cid2).get(2)%></b></p></CENTER>
                                             <%
                                                     }
                                                 }
                                             %>
-                                        </tbody>
-                                    </table>
-                                    <%
-                                        /*ArrayList<RegistroResumen> resumen = null;
+                                        <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                            <thead>
+                                                <tr align="center">
+                                                    <th>ESTACIÓN</th>
+                                                    <th>Producto Genético</th>
+                                                    <th>Clave de Acceso</th>
+                                                    <th>Muestra</th>
+                                                    <th>Profundidad</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <%
+                                                    ArrayList<ArrayList<String>> resumen = null;
+                                                    // ArrayList<RegistroResumen> resumen = null;
 
-                                       Object resumenObj = request.getAttribute("resumen");
+                                                    Object resumenObj = request.getAttribute("resumenProducto");
 
-                                       if (resumenObj != null) {
-                                           resumen = (ArrayList<RegistroResumen>) resumenObj;
-                                       }
-                                       if (resumen != null) {
-                                           for (RegistroResumen registro : resumen) {
-                                       
-                                              out.println("<h1>" + registro.getEstacion() + "</h1>");
-                                           }
-                                           }*/
-                                    %>
+                                                    if (resumenObj != null) {
+                                                        resumen = (ArrayList<ArrayList<String>>) resumenObj;
+                                                    }
+                                                    if (resumen != null) {
+                                                        for (ArrayList<String> registro : resumen) {
+
+
+                                                %>
+                                                <tr>
+                                                    <td><a href = 'showEstacion?idEstacion=<%= registro.get(0)%>'><%= registro.get(1)%></a></td>
+                                                    <td><%= registro.get(2)%></td>
+                                                    <td><a href = '<%= registro.get(3)%>'><%= registro.get(4)%></a></td>
+                                                    <td><a href = 'showMuestra?idMuestra=<%= registro.get(5)%>'><%= registro.get(6)%></a></td>
+                                                    <td><%= registro.get(7) + "-" + registro.get(8)%></td>
+                                                </tr>
+
+                                                <%    }
+                                                    }
+                                                %>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <!-- /.table-responsive -->
                                 </div>
-                                <!-- /.table-responsive -->
+                                <!-- /.panel-body -->
                             </div>
-                            <!-- /.panel-body -->
                         </div>
                         <!-- /.panel -->
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
+
             </div>
             <!-- /#page-wrapper -->
 

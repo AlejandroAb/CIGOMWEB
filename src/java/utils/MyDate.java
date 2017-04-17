@@ -14,27 +14,29 @@ import java.util.StringTokenizer;
  */
 public class MyDate {
 
-    int dia;
-    int mes;
-    int anio;
-    String fecha;
-    String time = "00:00:00";
+    int dia = 0;
+    int mes = 0;
+    int anio = 0;
+    String fecha="";
+    String time = "ND";
 
     public MyDate(String fecha) {
         this.fecha = fecha;
     }
-    public boolean splitSQLStandarDate(){
+
+    public boolean splitSQLStandarDate() {
         StringTokenizer st = new StringTokenizer(fecha, "- ");
-        if(st.countTokens()<4){
+        if (st.countTokens() < 4) {
             return false;
-        }else{
+        } else {
             anio = Integer.parseInt(st.nextToken());
             mes = Integer.parseInt(st.nextToken());
-            dia =  Integer.parseInt(st.nextToken());
+            dia = Integer.parseInt(st.nextToken());
             time = st.nextToken();
             return true;
         }
     }
+
     public int getDia() {
         return dia;
     }
@@ -154,11 +156,29 @@ public class MyDate {
         }
         return date;
     }
-    
-    public String toWebString(){
-        String date="";
-        date = dia + "/" + mes + "/" + anio + "  " + time;
+
+    public String toWebString() {
+        String date = "";
+        if (dia != 0) {
+            date += dia;
+        }
+        if (mes != 0) {
+            if (date.length() > 0) {
+                date += "/" + mes;
+            } else {
+                date += mes;
+            }
+        }
+        if (anio != 0) {
+            if (date.length() > 0) {
+                date += "/" + anio;
+            } else {
+                date += anio;
+            }
+        }
+        if (!time.equals("ND")) {
+            date += "  " + time;
+        }
         return date;
     }
-
 }

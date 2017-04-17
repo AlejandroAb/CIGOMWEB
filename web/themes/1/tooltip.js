@@ -15,7 +15,7 @@ var tooltipOptions=
     cssClass: "",
     sticky: false,
     overlay: false,
-    license: "64628"
+    license: "240m7"
 };
 
 

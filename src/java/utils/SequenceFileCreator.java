@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import job.ClustalProcess;
@@ -19,11 +20,57 @@ import job.ClustalProcess;
  * @author Alejandro
  */
 public class SequenceFileCreator {
-
+    
     private Transacciones transacciones;
-
+    
     public SequenceFileCreator(Transacciones transacciones) {
         this.transacciones = transacciones;
+    }
+    
+    
+    /**
+     * Este método se encarga de generar el string necesario para crear el archivo fasta
+     * @param rank el rango del taxon a buscar, ejemplo genus
+     * @param valueRank el valor de dicho taxon, ejemplo pseudomona
+     * @param ids lista de ids de marcadores para la operación
+     * @return 
+     */
+    public String generaTaxoFileSequence(String rank, String valueRank, String ids) {
+        StringBuilder file = new StringBuilder("");
+        String idsM[] = ids.split("-");
+        HashMap<String, String> hashTaxones = new HashMap<>();
+        String lineSep = System.getProperty("line.separator");
+        for (String idMarcador : idsM) {
+            //primero hay que encontrar los posibles tax_ids para un tax_id y un marcador dados
+            ArrayList<ArrayList> taxaList = transacciones.getTaxonesByTaxonMarcador(idMarcador, rank, valueRank);
+            StringBuilder allTaxIDS = new StringBuilder("");
+            if (taxaList != null && taxaList.size() > 0) {
+                //ponemos esos ids en un strib comma separated y llenamos un hash
+                for (ArrayList<String> taxID : taxaList) {
+                    hashTaxones.put(taxID.get(0), taxID.get(2) + " (" + taxID.get(1) + ")");
+                    if (allTaxIDS.length() == 0) {
+                        allTaxIDS.append(taxID.get(0));
+                    } else {
+                        allTaxIDS.append(",").append(taxID.get(0));
+                    }
+                }
+                if (allTaxIDS.length() > 0) {
+                    //llenamos las secuencias
+                    //el sgt qquery trae tax_id, idseq, identity, score, seq
+                    ArrayList<ArrayList> secuencias = transacciones.getSecuenciasByTaxIdsAndMarcador(allTaxIDS.toString(), idMarcador);
+                    for (ArrayList<String> secuencia : secuencias) {
+                        String taxon = hashTaxones.get(secuencia.get(0));
+                        if (taxon == null) {
+                            taxon = "no_rank";
+                        }
+                        file.append(">").append(secuencia.get(1)).append("|IDENT_").append(secuencia.get(2)).append("|SCORE_").append(secuencia.get(3)).append("|").append(taxon).append(lineSep);
+                        file.append(secuencia.get(4)).append(lineSep);
+                    }
+                }
+                
+            }
+        }
+        return file.toString();
     }
 
     /**
@@ -70,7 +117,7 @@ public class SequenceFileCreator {
                  } else {
                  secuencia.append("METADB|");
                  }*/
-
+                
                 StringBuilder secuencia = new StringBuilder(">");
                 if (seq.get(1).equals("GEN")) {//gen_src
                     secuencia.append("GDB|");
@@ -175,9 +222,9 @@ public class SequenceFileCreator {
             cp.setInFile(fileName);
             cp.setOutFile(fileName + ".align");
             cp.setCommand(alignCommand);
-
+            
             return cp.correSimpleClustal();
-
+            
         } catch (IOException ex) {
             Logger.getLogger(SequenceFileCreator.class.getName()).log(Level.SEVERE, null, ex);
             return false;

@@ -292,7 +292,7 @@ public class MuestreoDAO {
                 }
                 i++;
             }
-            muestreo.setDistanciaEstacion(MyCoord.distance(muestreo.getLatitud_r(), muestreo.getLongitud_r(), muestreo.getLatitud_estacion(), muestreo.getLongitud_estacion(), "K",4));
+            muestreo.setDistanciaEstacion(MyCoord.distance(muestreo.getLatitud_r(), muestreo.getLongitud_r(), muestreo.getLatitud_estacion(), muestreo.getLongitud_estacion(), "K", 4));
             Medicion medicion = null;
             for (ArrayList<String> m : medicionesDetalles) {
                 String idMuestreo = m.get(0);

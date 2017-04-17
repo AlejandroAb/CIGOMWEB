@@ -70,5 +70,27 @@ public class MuestraDAO {
         return null;
         }
     }
-    
+        /**
+     * Este método se encarga de generar un String[] con los detalles de un
+     * punto de muestreo dada una muestra. Es usado para construir el archivo de
+     * entrada qu lee R para generar mapas de abundancia
+     *
+     * @param idMuestra
+     * @return un array de string con todos los datos necesarion para el archivo
+     * que se genera 
+     */
+    public String[] getEstacionByMuestra(String idMuestra) {
+        ArrayList<ArrayList<String>> puntos = transacciones.getEstacionCoordsForMuestra(idMuestra);
+        String[] detallesPunto = new String[4];
+        if (puntos != null && puntos.size() > 0) {
+            ArrayList<String> detalle = puntos.get(0);
+            detallesPunto[0] = detalle.get(0);//ID
+            detallesPunto[1] = detalle.get(1);//ESTACION
+            detallesPunto[2] = detalle.get(2);//LAT
+            detallesPunto[3] = detalle.get(3);//LON
+            return detallesPunto;
+        } else {
+            return null;
+        }
+    }
 }

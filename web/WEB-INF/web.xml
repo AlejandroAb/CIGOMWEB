@@ -3,18 +3,23 @@
     <context-param>
         <param-name>ipdb</param-name>
         <param-value>localhost</param-value>
+        <!--132.248.32.62-->
     </context-param>
     <context-param>
         <param-name>usuariodb</param-name>
         <param-value>cigom_u</param-value>
+        <!-- <param-value>cigom_u2</param-value>-->
     </context-param>
     <context-param>
         <param-name>dbname</param-name>
         <param-value>cigomdb</param-value>
+        <!--<param-value>20genomica17Mysql</param-value>-->
     </context-param>
     <context-param>
         <param-name>password</param-name>
         <param-value>CigomWeb2016</param-value>
+        <!-- <param-value>CigomWeb2017Remote</param-value>-->
+        <!-- <param-value>20genomica17Mysql</param-value>-->
     </context-param>
     <context-param>
         <description>
@@ -24,14 +29,14 @@
         <!--<param-value> C:/Users/Alejandro/Documents/Projects/pemex/</param-value>-->
         <!-- C:/Users/app/ -->
         <!--/home/blast/querys/-->
-        <param-value>/home/blast/querys/</param-value>
+        <param-value>/data/blast/querys/</param-value>
     </context-param>
     <context-param>
         <param-name>blastdbs</param-name>
         <!-- <param-value>C:/Users/Alejandro/Documents/Projects/GCT3NG/blast/</param-value>-->
         <!--Para jose C:/Users/app/ -->
         <!--/home/blast/blastdb/-->
-        <param-value>/home/blast/blastdb/</param-value>
+        <param-value>/data/blast/blastdb/</param-value>
     </context-param>
     <context-param>
         <param-name>jobOutFile</param-name>
@@ -41,23 +46,35 @@
         <param-name>blastn</param-name>
         <!--<param-value>/opt/ncbi-blast-2.2.30+/bin/blastn</param-value> -->
         <!--<param-value>blastn</param-value> -->
-        <param-value>/home/blast/ncbi-blast-2.5.0+/bin/blastn</param-value>
+        <param-value>/data/blast/ncbi-blast-2.5.0+/bin/blastn</param-value>
     </context-param>
     <context-param>
         <param-name>blastp</param-name>
         <!--  <param-value>/opt/ncbi-blast-2.2.30+/bin/blastp</param-value>  -->
         <!-- <param-value>blastp</param-value>-->
-        <param-value>/home/blast/ncbi-blast-2.5.0+/bin/blastp</param-value>
+        <param-value>/data/blast/ncbi-blast-2.5.0+/bin/blastp</param-value>
+    </context-param>
+    <context-param>
+        <param-name>scriptDir</param-name>
+        <!--  <param-value>/opt/ncbi-blast-2.2.30+/bin/blastp</param-value>  -->
+        <param-value>C:/Users/Alejandro/Documents/Projects/pemex/R/web/</param-value>
+       <!-- <param-value>/data/R/</param-value>-->
+    </context-param>
+    <context-param>
+        <param-name>execR</param-name>
+        <!--  <param-value>/opt/ncbi-blast-2.2.30+/bin/blastp</param-value>  -->
+        <!--<param-value>Rscript</param-value>-->
+         <param-value>c:/Program Files/R/R-3.0.3/bin/Rscript </param-value>
     </context-param>
     <context-param>
         <param-name>blastx</param-name>
         <!-- <param-value>/opt/ncbi-blast-2.2.30+/bin/blastx</param-value>  -->
         <!--<param-value>blastx</param-value> -->
-        <param-value>/home/blast/ncbi-blast-2.5.0+/bin/blastx</param-value>
+        <param-value>/data/blast/ncbi-blast-2.5.0+/bin/blastx</param-value>
     </context-param>
     <context-param>
         <param-name>clustalw2</param-name>
-        <param-value>/home/blast/clustalw-2.1-linux-x86_64-libcppstatic/clustalw2</param-value>
+        <param-value>/data/blast/clustalw-2.1-linux-x86_64-libcppstatic/clustalw2</param-value>
     </context-param>
     <servlet>
         <servlet-name>BlastController</servlet-name>
@@ -83,10 +100,28 @@
         <servlet-name>buscadores</servlet-name>
         <servlet-class>controller.BuscadoresController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MarcadorController</servlet-name>
+        <servlet-class>controller.MarcadorController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MetagenomeController</servlet-name>
+        <servlet-class>controller.MetagenomeController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GenomeController</servlet-name>
+        <servlet-class>controller.GenomeController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EstacionController</servlet-name>
+        <servlet-class>controller.EstacionController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SequenceController</servlet-name>
         <url-pattern>/getSequence</url-pattern>
         <url-pattern>/serveFile</url-pattern>
+        <url-pattern>/getSequenceTaxo</url-pattern>
+        
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>BlastController</servlet-name>
@@ -106,6 +141,7 @@
         <servlet-name>MuestraController</servlet-name>
         <url-pattern>/showMuestra</url-pattern>
         <url-pattern>/MuestraController</url-pattern>
+        <url-pattern>/showAmplicon</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>buscadores</servlet-name>
@@ -117,6 +153,29 @@
         <servlet-name>TaxaController</servlet-name>
         <url-pattern>/taxonomia</url-pattern>
         <url-pattern>/searchTaxa</url-pattern>
+        <url-pattern>/downloadTaxaTable</url-pattern>
+        <url-pattern>/creaMatriz</url-pattern>
+        <url-pattern>/matrizFactory</url-pattern>
+        <url-pattern>/matrices</url-pattern>
+        <url-pattern>/degradadores</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MarcadorController</servlet-name>
+        <url-pattern>/showMarcador</url-pattern>
+        <url-pattern>/kronaAmp</url-pattern>
+        <url-pattern>/kronaAmp2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MetagenomeController</servlet-name>
+        <url-pattern>/showMetagenoma</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GenomeController</servlet-name>
+        <url-pattern>/showGenoma</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EstacionController</servlet-name>
+        <url-pattern>/showEstacion</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

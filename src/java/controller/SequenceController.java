@@ -11,6 +11,7 @@ import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,7 +41,7 @@ public class SequenceController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        // response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession(false);
         if (session == null || session.isNew() || session.getAttribute("userObj") == null) {
             //session expirada o invalida
@@ -74,7 +75,7 @@ public class SequenceController extends HttpServlet {
                 String seqHeader = request.getParameter("seqHeader");
                 String downloadType = request.getParameter("dType");
 
-                System.out.println("Ids:" + idSeqs + "\n" + "dtype:" + downloadType + "\n" + "seqType:" + seqType + "\n" + "seqHeader:" + seqHeader);
+                //   System.out.println("Ids:" + idSeqs + "\n" + "dtype:" + downloadType + "\n" + "seqType:" + seqType + "\n" + "seqHeader:" + seqHeader);
                 if (downloadType == null) {
                     downloadType = "seq";
                 }
@@ -138,6 +139,22 @@ public class SequenceController extends HttpServlet {
                         view.forward(request, response);
                     }
                 }
+
+            } else if (userPath.equals("/getSequenceTaxo")) {
+                String rank = request.getParameter("rank");
+                String valueRank = request.getParameter("valueRank");
+                String ids = request.getParameter("ids");
+                SequenceFileCreator sfc = new SequenceFileCreator(transacciones);
+                String file = sfc.generaTaxoFileSequence(rank, valueRank, ids);
+                response.setContentType("text/fasta");
+                response.setHeader("Content-Disposition", "attachment; filename=\"Secuencias_" + valueRank.replaceAll(" ", "_") + ".fasta\"");
+                OutputStream outputStream = response.getOutputStream();
+                if (file == null || file.length() < 1) {
+                    file = "ERROR AL CREAR Archivo\n";
+                }
+                outputStream.write(file.getBytes());
+                outputStream.flush();
+                outputStream.close();
 
             }
 

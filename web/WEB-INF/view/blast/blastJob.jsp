@@ -13,9 +13,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     HttpSession sesion = request.getSession(false);
-    //response.setHeader("Cache-Control", "no-cache");
-    //response.setHeader("Cache-Control", "no-store");
-    //response.setHeader("Pragma", "no-cache");
+    // response.setHeader("Cache-Control", "no-cache");
+    // response.setHeader("Cache-Control", "no-store");
+    // response.setHeader("Pragma", "no-cache");
     //response.setDateHeader("Expires", 0);
     if (session == null) {
         response.sendRedirect("index.jsp");
@@ -23,9 +23,16 @@
     }
     Usuario usuario = (Usuario) sesion.getAttribute("userObj");
     String nombreCompleto = usuario.getNombres() + " " + usuario.getApellidos();
+    Object jobObj = request.getAttribute("job");
+    Job job = jobObj != null ? (Job) jobObj : null;
+    
 %>
 <!DOCTYPE html>
 <html>
+    <%        if (job != null && !job.getStatus().toLowerCase().equals("terminado") && !job.getStatus().toLowerCase().contains("error")) {
+            out.println("<meta http-equiv='refresh' content='5'>");
+        }
+    %>
     <head>
         <!-- Bootstrap Core CSS -->
         <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -76,9 +83,9 @@
 
         <!--ESCRIPT PARA OBTENER LOS VALORES DE LA TABLA GENOMAS-->
         <script type="text/javascript">
-
-
-
+            
+            
+            
         </script> 
 
         <script>
@@ -145,17 +152,6 @@
                 <div class="navbar-default sidebar" role="navigation">
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
-                            <li class="sidebar-search">
-                                <div class="input-group custom-search-form">
-                                    <input type="text" class="form-control" placeholder="Buscar...">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="button">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                                <!-- /input-group -->
-                            </li>
                             <li>
                                 <a href="homeCamp"><i class="fa fa-edit fa-fw"></i> HOME</a>
                             </li>
@@ -163,18 +159,12 @@
                             <li>
                                 <a href="blast" ><i class="fa fa-edit fa-fw"></i> BLAST</a>
                             </li>
-                            <!--<li>
-                                <a href="#"><i class="fa fa-edit fa-fw"></i> AMPLICONES</a>
+                            <li>
+                                <a href="taxonomia" ><i class="fa fa-edit fa-fw"></i>TAXONOMIA</a>
                             </li>
                             <li>
-                                <a href="#"><i class="fa fa-edit fa-fw"></i> METAGENOMA</a>
+                                <a href="matrices"><i class="fa fa-edit fa-fw"></i>MATRICES</a>
                             </li>
-                            <li>
-                                <a href="#"><i class="fa fa-edit fa-fw"></i> SITIOS</a>
-                            </li>
-                            <li>
-                                <a href="analisis.jsp"><i class="fa fa-edit fa-fw"></i> ANALISIS</a>
-                            </li>-->
                             <li>
                                 <a href="CerrarSesion"><i class="fa fa-edit fa-fw"></i> SALIR</a>
                             </li>
@@ -191,7 +181,7 @@
             <div id="page-wrapper">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">BLAST-JOB</h1> 
+                        <h2 class="page-header" style="color:#337ab7;">BLAST-JOB</h2> 
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
@@ -201,10 +191,10 @@
 
                     <div class="col-lg-12">
                         <div class="panel panel-default" >
-                            <div class="panel-heading" style="background-color:#dae1e6;">
-                                Resultados <button class="fa fa-chevron-up" id="principal-job"></button>
+                            <div class="panel-heading" style="background-color:#eee;">
+                                <b style="color:#d9534f;"> Detalles de la busqueda </b><button class="fa fa-chevron-up" id="principal-job"></button>
                             </div>
-                            <div class="panel-body" style="background-color:#eee;" id="caebecera-blastjob">
+                            <div class="panel-body" id="caebecera-blastjob">
 
                                 <div class="col-lg-12">
                                     <div class="panel panel-default">
@@ -213,16 +203,14 @@
                                             <div class="dataTable_wrapper">
                                                 <table width="100%" class="table table-striped table-bordered table-hover" id="tabla-misbusquedas">
 
-                                                    <%
-                                                        Object jobObj = request.getAttribute("job");
-                                                        Job job = jobObj != null ? (Job) jobObj : null;
+                                                    <%                                
                                                         if (job != null) {
 
                                                     %>
                                                     <script>
-
-                                                         var mensaje = "<%= job.getMessage()%>";
-
+                                                        
+                                                        var mensaje = "<%= job.getMessage()%>";
+                                                        
                                                         if (mensaje !== "" && mensaje !== null)
                                                         {
                                                             $(document).ready(function() {
@@ -259,20 +247,20 @@
                                                         <th style="font-size:15px;">Mensaje:</th>
                                                         <td colspan="4"><code><%= job.getMessage()%></code></td>
                                                     </tr>                                                    
-                                                    <tr>
-                                                        <th style="font-size:15px;">Metagenomas:</th>
+                                                    <tr style="background-color:#fff;">
+                                                        <th style="font-size:15px; ">Metagenomas:</th>
                                                         <td colspan="4"><code><%= job.getMetagenomas()%></code></td>
                                                     </tr>
-                                                    <tr>
+                                                    <tr style="background-color:#f9f9f9;">
                                                         <th style="font-size:15px;">Genomas:</th>
                                                         <td colspan="4"><code><%= job.getGenomas()%></code></td>
                                                     </tr>
-                                                    <tr>
+                                                    <tr style="background-color:#fff;">
                                                         <th style="font-size:15px;">Query:</th>
                                                         <td colspan="4"><code><a href="serveFile?file=<%= job.getQueryPath()%>" class="fa fa-file-text"></a></code></td>
                                                     </tr>                                         
                                                     <%
-
+                                                            
                                                         }
                                                     %>
 
@@ -284,15 +272,15 @@
                                     </div>
                                 </div>                                  
                             </div>                           
-                            <div class="panel-heading" style="background-color:#dae1e6;">
-                                Resultados <button class="fa fa-chevron-up" id="resultados-job"></button>
+                            <div class="panel-heading" style="background-color:#eee;">
+                                <b style="color:#d9534f;"> Resultados</b> <button class="fa fa-chevron-up" id="resultados-job"></button>
                             </div>
-                            <div class="panel-body" style="background-color:#eee;" id="resultados">
+                            <div class="panel-body" id="resultados">
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="panel panel-default">
                                             <div class="panel-heading">
-                                                <center>Resultados</center>
+                                                <center><b style="color:#d9534f;">Resultados</b></center>
                                             </div>
                                             <br>
                                             <div class="col-lg-12">                                           
@@ -369,10 +357,10 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody id="tgenomas">
-                                                            <%
+                                                            <%            
                                                                 Object blastResult = request.getAttribute("table");
                                                                 ArrayList<BlastResult> results = blastResult != null ? (ArrayList<BlastResult>) blastResult : null;
-
+                                                                
                                                                 if (results != null) {
                                                                     for (BlastResult result : results) {
 
@@ -442,7 +430,7 @@
                             $('#principal-job').addClass('fa-chevron-up');//agrega la clase del icono up
                             clic = 1;
                         }
-
+                        
                     });
                 });
             </script>        
@@ -462,7 +450,7 @@
                             $('#resultados-job').addClass('fa-chevron-up');//agrega la clase del icono up
                             clic = 1;
                         }
-
+                        
                     });
                 });
             </script>

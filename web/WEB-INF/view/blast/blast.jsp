@@ -11,11 +11,12 @@
 <%@page import="database.Transacciones"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    HttpSession sesion = request.getSession(false);
-    //response.setHeader("Cache-Control", "no-cache");
-    //response.setHeader("Cache-Control", "no-store");
+   HttpSession sesion = request.getSession(false);
+   // response.setHeader("Cache-Control", "no-cache");
+   // response.setHeader("Cache-Control", "no-store");
     //response.setHeader("Pragma", "no-cache");
     //response.setDateHeader("Expires", 0);
+
     if (session == null) {
         response.sendRedirect("index.jsp");
         return;
@@ -67,13 +68,12 @@
         <script src="js/blastForm.js"></script>
 
         <!--ALERTAS-->
-
         <script src="alerta/dist/sweetalert-dev.js"></script>
         <link rel="stylesheet" href="alerta/dist/sweetalert.css">
 
         <!--ESCRIPT QUE ACTIVA EL BUSCADOR EN LA TABLA MIS BUSQUEDAS-->
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $('#tabla-misbusquedas').DataTable({
                     responsive: true,
                     pageLength: 5,
@@ -83,7 +83,7 @@
 
         <!--ESCRIPT QUE ACTIVA EL BUSCADOR EN LA TABLA METAGENOMAS-->
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $('#tabla-metagenomas').DataTable({
                     responsive: true,
                     pageLength: 5
@@ -92,7 +92,7 @@
 
         <!--ESCRIPT QUE ACTIVA EL BUSCADOR EN LA TABLA GENOMAS-->
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $('#tabla-genomas').DataTable({
                     responsive: true,
                     pageLength: 5
@@ -100,14 +100,14 @@
             });</script>
         <!--ESCRIPT PARA OBTENER LOS VALORES DEL FORMULARIO-->
         <script type="text/javascript">
-            $(document).ready(function() {
-                $("#ObtenerVal").click(function(event) {
+            $(document).ready(function () {
+                $("#ObtenerVal").click(function (event) {
                     var table = $("#tabla-metagenomas").DataTable();
                     var rows = table.rows().nodes();
                     var resultMG = [];
                     var resultG = [];
                     var i = 0;
-                    $('input[type="checkbox"]', rows).each(function(index) {
+                    $('input[type="checkbox"]', rows).each(function (index) {
                         if ($(this).is(':checked')) {
                             resultMG[i] = $(this).val();
                             i++;
@@ -116,7 +116,7 @@
                     var tableG = $("#tabla-genomas").DataTable();
                     var rowsG = tableG.rows().nodes();
                     i = 0;
-                    $('input[type="checkbox"]', rowsG).each(function(index) {
+                    $('input[type="checkbox"]', rowsG).each(function (index) {
                         if ($(this).is(':checked')) {
                             resultG[i] = $(this).val();
                             i++;
@@ -149,24 +149,24 @@
                     closeOnConfirm: true,
                     closeOnCancel: true
                 },
-                function(isConfirm) {
-                    if (isConfirm) {
+                        function (isConfirm) {
+                            if (isConfirm) {
 
-                        $(function() {
-                            $('#' + id).hide(); //ocultamos el registro    
+                                $(function () {
+                                    $('#' + id).hide(); //ocultamos el registro    
 
-                            //parametros enviados al controlador 'deleteJob'
-                            var params = {
-                                id: id,
-                                url: url
-                            };
-                            $.post('deleteJob', params, function(data) {
-                                //
-                            });
+                                    //parametros enviados al controlador 'deleteJob'
+                                    var params = {
+                                        id: id,
+                                        url: url
+                                    };
+                                    $.post('deleteJob', params, function (data) {
+                                        //
+                                    });
+                                });
+
+                            }
                         });
-
-                    }
-                });
             }
         </script>      
 
@@ -211,17 +211,6 @@
                 <div class="navbar-default sidebar" role="navigation">
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
-                            <li class="sidebar-search">
-                                <div class="input-group custom-search-form">
-                                    <input type="text" class="form-control" placeholder="Buscar...">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="button">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                                <!-- /input-group -->
-                            </li>
                             <li>
                                 <a href="homeCamp"><i class="fa fa-edit fa-fw"></i> HOME</a>
                             </li>
@@ -229,18 +218,12 @@
                             <li>
                                 <a href="blast" ><i class="fa fa-edit fa-fw"></i> BLAST</a>
                             </li>
-                            <!--<li>
-                                <a href="#"><i class="fa fa-edit fa-fw"></i> AMPLICONES</a>
+                            <li>
+                                <a href="taxonomia" ><i class="fa fa-edit fa-fw"></i>TAXONOMÍA</a>
                             </li>
                             <li>
-                                <a href="#"><i class="fa fa-edit fa-fw"></i> METAGENOMA</a>
+                                <a href="matrices"><i class="fa fa-edit fa-fw"></i>MATRICES</a>
                             </li>
-                            <li>
-                                <a href="#"><i class="fa fa-edit fa-fw"></i> SITIOS</a>
-                            </li>
-                            <li>
-                                <a href="analisis.jsp"><i class="fa fa-edit fa-fw"></i> ANALISIS</a>
-                            </li>-->
                             <li>
                                 <a href="CerrarSesion"><i class="fa fa-edit fa-fw"></i> SALIR</a>
                             </li>
@@ -257,7 +240,7 @@
             <div id="page-wrapper">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">BLAST</h1>
+                        <h2 class="page-header" style="color:#337ab7;">BLAST</h2>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
@@ -267,10 +250,10 @@
 
                     <div class="col-lg-12">
                         <div class="panel panel-default" >
-                            <div class="panel-heading" style="background-color:#dae1e6;">
-                                Mis búsquedas <button class="fa fa-chevron-up" id="mis-busquedas"></button>
+                            <div class="panel-heading" style="background-color:#eee;">
+                                <b style="color:#d9534f;"> Mis búsquedas</b> <button class="fa fa-chevron-up" id="mis-busquedas"></button>
                             </div>
-                            <div class="panel-body" style="background-color:#eee;" id="mi-busquedablast">
+                            <div class="panel-body"  id="mi-busquedablast">
 
                                 <div class="col-lg-12">
                                     <div class="panel panel-default">
@@ -310,8 +293,8 @@
                                                             <td style="text-align:center;"><button onclick="eliminar('<%= jb.getId_job()%>', '<%= jb.getURL()%>')" class="glyphicon glyphicon-trash" id="eliminar"></button></td>
                                                         </tr>
                                                         <%
+                                                                }
                                                             }
-                                                        }
                                                         %>
 
                                                     </tbody>
@@ -322,10 +305,10 @@
                                     </div>
                                 </div>                                  
                             </div>                           
-                            <div class="panel-heading" style="background-color:#dae1e6;">
-                                Crear nueva búsqueda Blast. <button class="fa fa-chevron-up" id="nueva-busqueda"></button>
+                            <div class="panel-heading" style="background-color:#eee;">
+                                <b style="color:#d9534f;">Crear nueva búsqueda Blast</b> <button class="fa fa-chevron-up" id="nueva-busqueda"></button>
                             </div>
-                            <div class="panel-body" style="background-color:#eee;" id="busquedablast">
+                            <div class="panel-body" id="busquedablast">
                                 <div class="row">
                                     <form rol="form">
                                         <div class="col-lg-8">
@@ -379,7 +362,7 @@
                                         <div class="col-lg-6">
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
-                                                    <center>Metagenomas</center>
+                                                    <center><b style="color:#d9534f;">Metagenomas</b></center>
                                                 </div>
                                                 <!-- /.panel-heading -->
                                                 <div class="panel-body">
@@ -426,12 +409,47 @@
                                                 </div>
                                                 <!-- /.panel-body -->
                                             </div>
+                                  
+                                           
+                                           <div class="col-lg-12">
+                                           <p class="fa fa-plus-circle" id="masOpciones"> Opciones Avanzadas</p>
+                                           </div>
+                                            <!--div opciones avanzadas-->
+                                            <div class="col-lg-12" id="opcionesAvanzadas" style="display:none;">
+                                            <div class="form-group">
+                                            <label>Max target sequences</label>
+                                            <select class="form-control">
+                                                <option>1</option>
+                                                <option>2</option>
+                                            </select>
+                                            </div>
+                                            <label>Short queries</label>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>Radio 1
+                                                </label>
+                                            </div>
+                                         <div class="form-group">
+                                            <label>Expect threshold</label>
+                                            <input class="form-control">
+                                        </div>   
+                                            </div> 
+                                            <div class="col-lg-6">
+                                                <button type="reset" class="btn btn-default">Limpiar</button>
+                                            </div>
+                                    </form>
+
+                                    <div class="col-lg-6">
+                                        <button  class="btn btn-default" id="ObtenerVal">Buscar</button>
+                                    </div>
+                                     <!---->
+
                                         </div>
                                         <div class="col-lg-6">
 
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
-                                                    <center>Genomas</center>
+                                                    <center><b style="color:#d9534f;">Genomas</b></center>
                                                 </div>
                                                 <!-- /.panel-heading -->
                                                 <div class="panel-body">
@@ -479,17 +497,6 @@
                                                     </div>
                                                 </div>
                                             </div>   
-
-                                            <div class="col-lg-6">
-                                                <button type="reset" class="btn btn-default">Limpiar</button>
-                                            </div>
-                                    </form>
-
-                                    <div class="col-lg-6">
-                                        <button  class="btn btn-default" id="ObtenerVal">Buscar</button>
-                                    </div>
-
-
                                     <!-- /.col-lg-6 (nested) -->
 
                                     <!-- /.col-lg-4 (nested) -->
@@ -508,7 +515,7 @@
         </div>
         <!--SCRIPT PARA MARCAR Y DESMARCAR LOS CHECKS DE LA TABLA METAGENOMAS-->
         <script>
-            $("#marcarTodoMG").change(function() {
+            $("#marcarTodoMG").change(function () {
                 var table = $("#tabla-metagenomas").DataTable();
                 var rows = table.rows().nodes();
                 $('input[type="checkbox"]', rows).prop('checked', this.checked);
@@ -520,7 +527,7 @@
         <!--SCRIPT PARA MARCAR Y DESMARCAR LOS CHECKS DE LA TABLA GENOMAS-->
 
         <script>
-            $("#marcarTodoG").change(function() {
+            $("#marcarTodoG").change(function () {
                 var table = $("#tabla-genomas").DataTable();
                 var rows = table.rows().nodes();
                 //ya no es necesario validar "$(this).is(':checked')" ya que es el vallor que se usa implicitamente
@@ -532,9 +539,9 @@
 
         <!--SCRIPT PARA OCULTAR DIV DE MIS BUSQUEDAS-->
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 var clic = 1;
-                $("#mis-busquedas").on("click", function() {
+                $("#mis-busquedas").on("click", function () {
                     if (clic == 1) {
                         $('#mi-busquedablast').hide(); //oculto
                         $('#mis-busquedas').removeClass('fa-chevron-up');//elimina clse del icono up
@@ -546,15 +553,14 @@
                         $('#mis-busquedas').addClass('fa-chevron-up');//agrega la clase del icono up
                         clic = 1;
                     }
-
                 });
             });
         </script>
         <!--SCRIPT PARA OCULTAR DIV DE BUSQUEDABLAST-->
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 var clic = 1;
-                $("#nueva-busqueda").on("click", function() {
+                $("#nueva-busqueda").on("click", function () {
                     if (clic == 1) {
                         $('#busquedablast').hide(); //oculto
                         $('#nueva-busqueda').removeClass('fa-chevron-up');//elimina clse del icono up
@@ -566,6 +572,27 @@
                         $('#nueva-busqueda').addClass('fa-chevron-up');//agrega la clase del icono up
                         clic = 1;
                     }
+
+                });
+            });
+        </script>
+        <!--SCRIPT PARA OCULTAR DIV DE OPCIONES AVANZADAS-->
+        <script>
+            $(document).ready(function () {
+                var clic = 1;
+                $("#masOpciones").on("click", function () {
+                if (clic == 1) {
+                    $('#opcionesAvanzadas').show(); //muestro
+                    $('#masOpciones').removeClass('fa fa-plus-circle');//elimina clse del fa fa-plus-circle
+                    $('#masOpciones').addClass('fa fa-minus-circle');//agrega la clase del icono fa fa-minus-circle
+                    clic = clic + 1;
+                } else {
+                    $('#opcionesAvanzadas').hide(); //oculto
+                    $('#masOpciones').removeClass('fa fa-minus-circle');//elimina clase fa-minus-circle
+                    $('#masOpciones').addClass('fa fa-plus-circle');//agrega la clase fa fa-plus-circle
+                    clic = 1;
+                }
+
 
                 });
             });

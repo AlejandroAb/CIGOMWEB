@@ -33,13 +33,11 @@ public class CampanaDAO {
         ArrayList<ArrayList<String>> campanas = transacciones.getAllCampanas();
         return campanas;
     }
-    
+
     public ArrayList<ArrayList<String>> getCampanasId(int idCampana) {
         ArrayList<ArrayList<String>> campanasid = transacciones.getAllCampanasId(idCampana);
         return campanasid;
-    } 
-    
-    
+    }
 
     /**
      * Trae el ID de la campaña mas reciente.
@@ -57,12 +55,23 @@ public class CampanaDAO {
      * gmaps.
      *
      * @param idCampana La campaña en cuestión
+     * @param puntosEstaciones si es true el query busca las coordenadas
+     * mediante la estación de referencia, lo que garantiiza puntos únicos, pero
+     * no es 100% atinado con el lugar exacto de la muestra. Si es false trae
+     * los puntos de la muestra, lo que incluso puede generar estaciones
+     * repetidas, ya que en una estación pueden existir mas de un lance y es
+     * elancce puede tener diferentes coordenadas
      * @return el arreglo con todos los puntos, donde cada punto representa una
      * estacción.
      */
-    public ArrayList<PuntoMapa> getEstacionesCampana(int idCampana) {
+    public ArrayList<PuntoMapa> getEstacionesCampana(int idCampana, boolean puntosEstaciones) {
         ArrayList<PuntoMapa> estaciones = new ArrayList<>();
-        ArrayList<ArrayList<String>> estacionesMuestreadas = transacciones.getEstacionesMuestreadasFromCampana2Map(idCampana);
+        ArrayList<ArrayList<String>> estacionesMuestreadas = null;
+        if (puntosEstaciones) {
+            estacionesMuestreadas = transacciones.getEstacionesMuestreadasFromCampana2Map(idCampana);
+        } else {
+            estacionesMuestreadas = transacciones.getPuntosMuestreadosFromCampana2Map(idCampana);
+        }
         for (ArrayList<String> estacion : estacionesMuestreadas) {
             String idEstacion = estacion.get(0);
             String nombreEstacion = estacion.get(1);
@@ -75,8 +84,7 @@ public class CampanaDAO {
                 idEstacionN = Integer.parseInt(idEstacion);
                 lat = Float.parseFloat(lat_tmp);
                 lon = Float.parseFloat(lon_tmp);
-                
-                
+
                 PuntoMapa punto = new PuntoMapa(nombreEstacion);
                 punto.setLatitud(lat);
                 punto.setLongitud(lon);
@@ -98,6 +106,63 @@ public class CampanaDAO {
 
         }
         return estaciones;
+    }
+
+    public ArrayList<ArrayList<String>> getResumenCampanaByProducto(int idCampana) {
+        ArrayList<ArrayList<String>> resumen = new ArrayList<>();
+        ArrayList<ArrayList<String>> resumenMarcadores = transacciones.getMarcadoresByCampana(idCampana);
+        ArrayList<ArrayList<String>> resumenMetagenomas = transacciones.getMetagenomasByCampana(idCampana);
+        ArrayList<ArrayList<String>> resumenGenomas = transacciones.getGenomasByCampana(idCampana);
+        if (resumenMarcadores != null) {
+            llenaResultadosProductosGenomicosByCampana(resumenMarcadores, resumen, "AMPLICONES");
+        }
+        if (resumenMetagenomas != null) {
+            llenaResultadosProductosGenomicosByCampana(resumenMetagenomas, resumen, "METAGENOMA");
+        }
+        if (resumenGenomas != null) {
+            llenaResultadosProductosGenomicosByCampana(resumenGenomas, resumen, "GENOMA");
+        }
+        return resumen;
+
+    }
+
+    /**
+     * Este método se encarga de llenar la información resultante de los querys
+     * para la tabla de resumen por producto genético. Se espera que cada
+     * registro venga con estacion.idestacion, estacion_nombre, idproducto,
+     * nombre_producto, muestra.idmuestra, muestra.etiqueta, tipo_profundidad
+     * muestreo.profundidad
+     *
+     * @param resumen
+     * @param registros
+     * @param producto
+     */
+    public void llenaResultadosProductosGenomicosByCampana(ArrayList<ArrayList<String>> resumen, ArrayList<ArrayList<String>> registros, String producto) {
+
+        for (ArrayList<String> elemento : resumen) {
+            ArrayList<String> tmpArray = new ArrayList<>();
+            tmpArray.add(elemento.get(0));//idestacion
+            tmpArray.add(elemento.get(1));//nombre estacion
+            if (producto.toUpperCase().equals("METAGENOMA")) {
+                tmpArray.add("METAGENOMA");//producto
+                tmpArray.add("showMetagenoma?idMetagenoma=" + elemento.get(2));//link
+            } else if (producto.toUpperCase().equals("GENOMA")) {
+                tmpArray.add("GENOMA");//producto
+                tmpArray.add("showGenoma?idGenoma=" + elemento.get(2));//link
+            } else if (producto.toUpperCase().equals("AMPLICONES")) {
+                tmpArray.add("AMPLICON");//producto
+                tmpArray.add("showMarcador?idMarcador=" + elemento.get(2));//link
+            } else {
+                tmpArray.add(producto);//producto
+                tmpArray.add("");//link
+            }
+            tmpArray.add(elemento.get(3));//NOMBRE
+            tmpArray.add(elemento.get(4));//IDMUESTRA
+            tmpArray.add(elemento.get(5));//ETIQUETA MUESTRA
+            tmpArray.add(elemento.get(6));//TIPO PROFUNDIDAD
+            tmpArray.add(elemento.get(7));//PROFUNDIDA MUESTREO
+            registros.add(tmpArray);
+        }
     }
 
     /**

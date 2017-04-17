@@ -198,6 +198,15 @@ public class Transacciones {
         return conexion.getTabla();
     }
 
+    public ArrayList getEstacionCoordsForMuestra(String idMuestra) {
+        String query = "SELECT estacion.idestacion, estacion_nombre, muestreo.latitud_r, muestreo.longitud_r "
+                + "FROM muestra INNER JOIN muestreo ON muestreo.idmuestreo = muestra.idmuestreo "
+                + "INNER JOIN estacion ON estacion.idestacion = muestreo.idestacion "
+                + "WHERE idmuestra = " + idMuestra;
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
     /**
      * Este método se encarga de traer información complementaria al gen, es
      * usado para mostrar el resultado de blast
@@ -252,6 +261,27 @@ public class Transacciones {
     }
 
     /**
+     * A diferencia de getEstacionesMuestreadasFromCampana2Map.Este query se
+     * encarga de traer los puntos muestreados en una campaña, es decir el punto
+     * de la muestra, no el de la estación. Genera una lista con el id y el
+     * nombre de los sitios que fueron muestreados en una campaña. Un derrotero
+     * puede tener estaciones mas no siempre existen muestreos en dicha
+     * estación. Este método es usado en CampanaDAO para obtener un resumen de
+     * la campana
+     *
+     * @param idCampana el id de la campaña de la cual necesitamos saber las
+     * estaciones muestreadas
+     * @return
+     */
+    public ArrayList getPuntosMuestreadosFromCampana2Map(int idCampana) {
+        String query = " SELECT distinct estacion.idestacion, estacion_nombre, muestreo.latitud_r, muestreo.longitud_r "
+                + "FROM estacion INNER JOIN muestreo ON estacion.idestacion = muestreo.idEstacion "
+                + "WHERE muestreo.idcampana =" + idCampana;
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    /**
      * Trae una llista de todas las campañas en la BD, las trae ordenadas por
      * fecha de término, de esta manera siempre la primera en desplegarse es la
      * última campaña realizada
@@ -277,7 +307,141 @@ public class Transacciones {
         String query = "SELECT idmarcador, count(idseq_marcador) "
                 + "FROM seq_marcador AS sm "
                 + "INNER JOIN taxon AS t on t.tax_id = sm.taxon_tax_id "
-                + "WHERE  " + rank + "='" + name + "' group by idmarcador;";
+                + "WHERE  " + rank + "='" + name + "' group by idmarcador";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    /**
+     * Este método se encarga de crear una matriz de abundancia para algún corte
+     * taxonómico en específico.
+     *
+     * @param niveles este parámetro se espera que venga con los niveles
+     * taxonómicos sobre los cuales se hace la búsqueda
+     * @param marcadores lista de ids de marcadores separados por coma. Se
+     * espera que entre los dos parámetros se forme un query similar al
+     * siguiente: " select distinct (concat(kingdom ,'\t', phylum ,'\t',
+     * class,'\t', orden ,'\t', family,'\t',genus)) as phy,
+     * count(idseq_marcador) from seq_marcador inner join taxon on tax_id =
+     * taxon_tax_id where idmarcador = 119 group by phy order by phy"
+     * @return matriz de abundancia.
+     */
+    public ArrayList getMatrizPorMarcadores(String niveles, String marcadores) {
+        String query = "SELECT " + niveles + " AS phy, count(idseq_marcador) "
+                + "FROM seq_marcador "
+                + "INNER JOIN taxon AS t on t.tax_id = taxon_tax_id "
+                + "WHERE  idMarcador IN(" + marcadores + ") "
+                + "GROUP BY phy "
+                + "ORDER BY phy";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    /**
+     * Este método se encarga de traer todos los taxones distintos para todos
+     * los marcadores anotados o en su defecto los marcadores dada una condicón
+     * where
+     *
+     * @param niveles
+     * @param where
+     * @return
+     */
+    public ArrayList getDistinctTaxones(String niveles, String where) {
+        String query = "SELECT " + niveles + " AS phy, taxon.tax_id "
+                + "FROM taxon "
+                + "INNER JOIN conteos ON conteos.tax_id =taxon.tax_id "
+                + where
+                + " GROUP BY phy "
+                + " ORDER BY phy";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    /**
+     * Se encarga de traer todas las muestras diferetnes, este método se usa en
+     * la generaación de matrices
+     *
+     * @param where
+     * @return
+     */
+    public ArrayList getDistinctMuestras(String where) {
+        String query = "SELECT DISTINCT idmuestra "
+                + "FROM muestra INNER JOIN muestreo ON muestreo.idmuestreo = muestra.idmuestreo "
+                + "INNER JOIN estacion ON estacion.idestacion = muestreo.idestacion "
+                + "WHERE " + where;
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    public int getTaxaCountByMarcador(String idMarcador, String tax_id) {
+        String query = "SELECT counts FROM conteos "
+                + "WHERE idmarcador = " + idMarcador
+                + " AND tax_id = " + tax_id;
+        conexion.executeStatement(query);
+        //   System.out.println(query);
+        ArrayList<ArrayList> dbResult = conexion.getTabla();
+        int id = 0;
+        if (dbResult == null || dbResult.isEmpty()) {
+            id = 0;
+        } else {
+            try {
+                id = Integer.parseInt((String) dbResult.get(0).get(0));
+            } catch (NumberFormatException nfe) {
+                id = 0;
+            }
+        }
+        return id;
+    }
+
+    /**
+     * En las búsquedas taxonómicas, las columnas phylum, familia, etc ayudan a
+     * crear las búsquedas en cascada pues de acuerdo a su classifcación
+     * taxonómica se toma cualquiera de estos campos y a partir de ahí se
+     * obtiene todos los taxones con dicho nivel taxonómico, sin embargo para
+     * las cosas no raanqueadas, esto no sirve por lo cual se usa este query
+     * para ver las abundancias de cosas no clasificadas
+     *
+     * @param rank
+     * @param name
+     * @return
+     */
+    public ArrayList getConteosMarcadorPorTaxonNoRank(String taxID) {
+        String query = "SELECT idmarcador, count(idseq_marcador) "
+                + "FROM seq_marcador AS sm WHERE taxon_tax_id = " + taxID;
+
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    public ArrayList getMarcadoresByCampana(int idCampana) {
+        String query = "SELECT estacion.idestacion, estacion_nombre, idmarcador, marc_name, "
+                + "muestra.idmuestra, muestra.etiqueta, tipo_profundidad, muestreo.profundidad "
+                + "FROM marcador INNER JOIN muestra ON muestra.idmuestra = marcador.idmuestra "
+                + "INNER JOIN muestreo ON muestreo.idmuestreo = muestra.idmuestreo "
+                + "INNER JOIN estacion ON estacion.idestacion = muestreo.idestacion "
+                + "WHERE idcampana = " + idCampana;
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    public ArrayList getMetagenomasByCampana(int idCampana) {
+        String query = "SELECT estacion.idestacion, estacion_nombre, idmetagenoma, meta_name, "
+                + "muestra.idmuestra, muestra.etiqueta, tipo_profundidad, muestreo.profundidad "
+                + "FROM metagenoma INNER JOIN muestra ON muestra.idmuestra = metagenoma.idmuestra "
+                + "INNER JOIN muestreo ON muestreo.idmuestreo = muestra.idmuestreo "
+                + "INNER JOIN estacion ON estacion.idestacion = muestreo.idestacion "
+                + "WHERE idcampana = " + idCampana;
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    public ArrayList getGenomasByCampana(int idCampana) {
+        String query = "SELECT estacion.idestacion, estacion_nombre, idgenoma, genome_name, "
+                + "muestra.idmuestra, muestra.etiqueta, tipo_profundidad, muestreo.profundidad "
+                + "FROM genoma INNER JOIN muestra ON muestra.idmuestra = genoma.idmuestra "
+                + "INNER JOIN muestreo ON muestreo.idmuestreo = muestra.idmuestreo "
+                + "INNER JOIN estacion ON estacion.idestacion = muestreo.idestacion "
+                + "WHERE idcampana = " + idCampana;
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
@@ -290,6 +454,34 @@ public class Transacciones {
         return conexion.getTabla();
     }
 
+    /**
+     * Este método trae los distintos taxones para un marcador dado un taxon.
+     * Este método es usado para traer los taxones cuando el usuario quiere
+     * descargar secuencias del resultado de taxaSearch. Por ejemplo, sie el
+     * usuario busca pseudomonas y luego quiere bajar esas secuencias, primero
+     * se necesita saber también que especies de esas pseudomonas tiene. REste query nos da esa información
+     *
+     * @param idMarcador El id del marcador en cuestion
+     * @param rank el rango del marcador, ejemplo genus
+     * @param valueRank el valor del rango, ejemplo pseudomonas
+     * @return los diferentes tax_ids para esa búsqueda.
+     */
+    public ArrayList getTaxonesByTaxonMarcador(String idMarcador, String rank, String valueRank) {
+        String query = "SELECT DISTINCT taxon.tax_id, rank, taxon FROM taxon "
+                + "INNER JOIN conteos ON conteos.tax_id = taxon.tax_id "
+                + "WHERE idmarcador = "+idMarcador + " AND "
+                +   rank +"= '"+valueRank +"'";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+    public ArrayList getSecuenciasByTaxIdsAndMarcador(String taxIDS, String idMarcador){
+        String query = "SELECT tax_id, seq_marcador.idseq_marcador, identity, score, seq "
+                + "FROM seq_marcador "
+                + "INNER JOIN seq_marcador_classif ON seq_marcador_classif.idseq_marcador = seq_marcador.idseq_marcador "
+                + "WHERE tax_id IN ("+taxIDS+") AND idmarcador = " +idMarcador;
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
     public ArrayList getSequenceWithProtInfo(String genIDList, String seqType) {
         String query = "SELECT DISTINCT gen.gen_id, gen_src, sequence, gen_strand, seq_from, "
                 + "seq_to,gsp.uniprot_id, prot_name, gene_name "
@@ -445,24 +637,95 @@ public class Transacciones {
         return id;
     }
 
-    public float getSecuenciasByMarcador(String idMarcador) {
+    public ArrayList getArchivosMarcador(String idMarcador) {
+        String query = "SELECT idarchivo FROM marcador_archivo where idmarcador = " + idMarcador;
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    public ArrayList getMarcadores(String where) {
+        String query = "SELECT marcador.idmarcador, marc_name FROM marcador " + where + " ORDER BY marc_name";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    public ArrayList getMarcador(String idMarcador) {
+        String query = "SELECT idmarcador, m.idMuestra,mu.etiqueta, m.idtipo_marcador,genes,subfragment, "
+                + "m.idtipo_secuenciacion,ts.nombre, ts.descripcion, m.idSecuenciador, s.marca, s.modelo, "
+                + "m.idpcr, marc_name, marc_desc, seq_num_total, library_selection,  library_layout, library_vector, "
+                + "raw_data_path, pro_data_path, data_pre_process, data_qc, idstats, cantidad_dna, m.comentarios  "
+                + "FROM marcador AS m INNER JOIN tipo_marcador AS tp ON tp.idtpo_marcador = m.idtipo_marcador "
+                + "INNER JOIN muestra AS mu ON mu.idmuestra = m.idmuestra "
+                + "INNER JOIN secuenciador AS s ON s.idsecuenciador = m.idsecuenciador "
+                + "INNER JOIN tipo_secuenciacion as ts ON ts.idtipo_secuenciacion = m.idtipo_secuenciacion "
+                + "WHERE m.idmarcador = " + idMarcador;
+
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+//+ "WHERE seq_num_total > 0";
+    }
+
+    public ArrayList getPCR(String idPCR) {
+        String query = "SELECT fw_primer, rv_primer, clean_up_kit, clean_up_method, comentarios, volumen, pcr_cond "
+                + "FROM pcr WHERE idpcr = " + idPCR;
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    public ArrayList getArchivo(String idArchivo) {
+        String query = "SELECT t.idtipo_archivo, nombre_tipo, t.descripcion, nombre, extension, path, checksum, "
+                + "archivo.descripcion, fecha, alcance, editor, derechos, origen, tags, tipo, size "
+                + "FROM archivo INNER JOIN tipo_archivo AS t ON t.idtipo_archivo = archivo.idtipo_archivo "
+                + "WHERE idarchivo = " + idArchivo;
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    public ArrayList getArchivosByUser(String idArchivo) {
+        String query = "SELECT usuario.idusuario, nombres, apellidos, reltype, comentarios "
+                + "FROM usuario "
+                + "INNER JOIN usuario_archivo ON usuario_archivo.idusuario = usuario.idusuario "
+                + "WHERE idarchivo = " + idArchivo;
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    public ArrayList getStats(String idStats) {
+        String query = "SELECT lecturas, bases, long_avg, gc_prc, qc_avg, ns_prc, q20, q30, combined_prc "
+                + "FROM stats WHERE idstats = " + idStats;
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+
+    }
+
+    public ArrayList getDegradadorasByGenus() {
+        String query = " SELECT kingdom, phylum, class, orden, family, genus "
+                + "FROM taxon "
+                + "WHERE degradadora = 1 "
+                + "ORDER BY kingdom, phylum, class, orden, family, genus";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+
+    }
+
+    public int getSecuenciasByMarcador(String idMarcador) {
         String query = "SELECT seq_num_total  "
                 + "FROM marcador WHERE idmarcador='" + idMarcador + "'";
 
         conexion.executeStatement(query);
         //   System.out.println(query);
         ArrayList<ArrayList> dbResult = conexion.getTabla();
-        float counts = -1;
+        int counts = 1;
         if (dbResult == null || dbResult.isEmpty()) {
-            counts = -1;
+            counts = 1;
         } else {
             try {
-                counts = Float.parseFloat((String) dbResult.get(0).get(0));
+                counts = Integer.parseInt((String) dbResult.get(0).get(0));
                 if (counts == 0) {
-                    counts = -1;
+                    counts = 1;
                 }
             } catch (NumberFormatException nfe) {
-                counts = -1;
+                counts = 1;
             }
         }
         return counts;
@@ -499,6 +762,7 @@ public class Transacciones {
                 + "start_date, end_date, status, message) "
                 + "values(0," + idUsuario + ",'" + jobName + "','" + jobUrl + "','" + job_type + "'," + eval + ",'" + path + "','" + host
                 + "',NOW(), NULL, '" + status + "','" + message + "')";
+        // System.out.println(query);
         return conexion.queryUpdateWithKey(query);
     }
 
@@ -785,6 +1049,41 @@ public class Transacciones {
             }
         }
         return count;
+    }
+
+    /**
+     * Este m´todo se encarga de regresar el path absoluto + nombre del archivo
+     * krona dado un marcador
+     *
+     * @param idMarcador
+     * @param idTipoArchivo
+     * @return
+     */
+    public String getPath2Krona(int idMarcador, int idTipoArchivo) {
+        String query = "SELECT path, nombre, extension FROM archivo "
+                + "INNER JOIN marcador_archivo AS ma ON ma.idarchivo = archivo.idarchivo "
+                + "WHERE idmarcador = " + idMarcador + " AND idtipo_archivo =  " + idTipoArchivo;
+        conexion.executeStatement(query);
+        ArrayList<ArrayList> dbResult = conexion.getTabla();
+        if (dbResult != null && !dbResult.isEmpty()) {
+            return (String) dbResult.get(0).get(0) + (String) dbResult.get(0).get(1);
+        } else {
+            return "";
+        }
+
+    }
+
+    public String getRankByTaxID(String tax_id) {
+        String query = "SELECT rank FROM taxon "
+                + "WHERE tax_id = " + tax_id;
+        conexion.executeStatement(query);
+        ArrayList<ArrayList> dbResult = conexion.getTabla();
+        if (dbResult != null && !dbResult.isEmpty()) {
+            return (String) dbResult.get(0).get(0);
+        } else {
+            return "_";
+        }
+
     }
 
     /**

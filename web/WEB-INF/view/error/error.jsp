@@ -12,10 +12,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     HttpSession sesion = request.getSession(false);
-    response.setHeader("Cache-Control", "no-cache");
-    response.setHeader("Cache-Control", "no-store");
-    response.setHeader("Pragma", "no-cache");
-    response.setDateHeader("Expires", 0);
+    //response.setHeader("Cache-Control", "no-cache");
+    //response.setHeader("Cache-Control", "no-store");
+    //response.setHeader("Pragma", "no-cache");
+   // response.setDateHeader("Expires", 0);
     if (session == null) {
         response.sendRedirect("index.jsp");
         return;
@@ -99,17 +99,6 @@
                 <div class="navbar-default sidebar" role="navigation">
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
-                            <li class="sidebar-search">
-                                <div class="input-group custom-search-form">
-                                    <input type="text" class="form-control" placeholder="Buscar...">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="button">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                                <!-- /input-group -->
-                            </li>
                             <li>
                                 <a href="homeCamp"><i class="fa fa-edit fa-fw"></i> HOME</a>
                             </li>
@@ -118,16 +107,10 @@
                                 <a href="blast" ><i class="fa fa-edit fa-fw"></i> BLAST</a>
                             </li>
                             <li>
-                                <a href="#"><i class="fa fa-edit fa-fw"></i> AMPLICONES</a>
+                                <a href="taxonomia" ><i class="fa fa-edit fa-fw"></i>TAXONOMÍA</a>
                             </li>
                             <li>
-                                <a href="#"><i class="fa fa-edit fa-fw"></i> METAGENOMA</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-edit fa-fw"></i> SITIOS</a>
-                            </li>
-                            <li>
-                                <a href="analisis.jsp"><i class="fa fa-edit fa-fw"></i> ANALISIS</a>
+                                <a href="matrices"><i class="fa fa-edit fa-fw"></i>MATRICES</a>
                             </li>
                             <li>
                                 <a href="CerrarSesion"><i class="fa fa-edit fa-fw"></i> SALIR</a>

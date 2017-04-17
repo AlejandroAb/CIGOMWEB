@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -13,12 +14,13 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
+        <Meta name = "google-signin-client_id" content = "31373340811-n16nnhsuh8rn5gdp0bie814gqb1tfid4.apps.googleusercontent.com">
+
         <title>CIGOM</title>
 
         <link href="login/css/bootstrap.css" rel="stylesheet">
         <link href="login/css/style.css" rel="stylesheet">
-        <link rel="shortcut icon" type="image/x-icon" href="login/img/icono.png
-              " />
+        <link rel="shortcut icon" type="image/x-icon" href="login/img/icono.png" />
         <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
 
         <script type="text/javascript" src="login/js/jquery.min.js"></script>
@@ -26,9 +28,32 @@
         <script type="text/javascript" src="login/js/jssor.js"></script>
         <script type="text/javascript" src="login/js/jssor.slider.js"></script>
 
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <script>
+            function onSignIn(googleUser) {
+                // Useful data for your client-side scripts:
+                var profile = googleUser.getBasicProfile();
+                /*console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+                 console.log('Full Name: ' + profile.getName());
+                 console.log('Given Name: ' + profile.getGivenName());
+                 console.log('Family Name: ' + profile.getFamilyName());
+                 console.log("Image URL: " + profile.getImageUrl());
+                 console.log("Email: " + profile.getEmail());*/
+                //alert("Email:" + profile.getEmail());
+                // The ID token you need to pass to your backend:
+                // var id_token = googleUser.getAuthResponse().id_token;
+                // console.log("ID Token: " + id_token);
+
+                var email = profile.getEmail();
+                $.post('log', {email: email});
+            }
+            ;
+
+        </script>
+
         <!--Jssor Slider-->
         <script>
-            jQuery(document).ready(function($) {
+            jQuery(document).ready(function ($) {
                 //Reference http://www.jssor.com/development/slider-with-slideshow-jquery.html
                 //Reference http://www.jssor.com/development/tool-slideshow-transition-viewer.html
 
@@ -173,7 +198,7 @@
                                                     }
                                                 %>  
                                             <!-- Change this to a button or input when using this as a form -->
-                                            <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+
                                         </fieldset>
                                     </form>
                                 </div>
@@ -185,6 +210,20 @@
                             <p><br>Inicia sesión en tu cuenta @cigom.org y acepta los permisos que se te solicitan.</p>
 
                         </div>
+                        <!--<div class="g-signin2" data-onsuccess="onSignIn" ></div>-->
+                        <br>
+                        <!--<a href="#" onclick="signOut();">Salir</a>-->
+                        <script>
+                            function signOut() {
+                               var auth2 = gapi.auth2.getAuthInstance();
+                                auth2.signOut().then(function () {
+                                    //console.log('User signed out.');
+                                    alert("ha terminado la sesión en la aplicación");
+                                     document.location.href="https://accounts.google.com/logout?continue=http://google.com";
+                                });
+                                //auth2.disconnect();
+                            }
+                        </script>
                     </div>
                 </div>
 

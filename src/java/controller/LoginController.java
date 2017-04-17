@@ -36,14 +36,14 @@ public class LoginController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession(false); 
+        HttpSession session = request.getSession(false);
         Transacciones transacciones = null;
         if (session != null && !session.isNew()) {
             transacciones = (Transacciones) session.getAttribute("transacciones");
         }
         if (transacciones == null) {
             transacciones = getNewConexion();
-           // session.setAttribute("transacciones", transacciones);
+            // session.setAttribute("transacciones", transacciones);
         }
         if (transacciones == null || !transacciones.testConnection()) {
             request.setAttribute("msg", "Error al establecer conexion con la Base de datos");
@@ -58,7 +58,9 @@ public class LoginController extends HttpServlet {
             session = request.getSession();
             String user = request.getParameter("usuario");
             String pass = request.getParameter("password");
-            
+
+            String email = request.getParameter("email");
+
             try {
                 if (user == null || user.length() < 5 || pass == null || pass.length() < 4) {
                     String url = "index.jsp";
@@ -81,7 +83,7 @@ public class LoginController extends HttpServlet {
                     session.setAttribute("transacciones", transacciones);
                     session.setAttribute("userObj", usuario);
                     session.setAttribute("terminos", usuario.getTerminos());
-                    session.setAttribute("transacciones", transacciones);            
+                    session.setAttribute("transacciones", transacciones);
                     String idCampanaStr = request.getParameter("idCampana");
                     CampanaDAO campanaDAO = new CampanaDAO(transacciones);
                     int idCampana;
@@ -94,13 +96,25 @@ public class LoginController extends HttpServlet {
                             idCampana = campanaDAO.lastIDCampana();
                         }
                     }
-                    ArrayList<PuntoMapa> puntos = campanaDAO.getEstacionesCampana(idCampana); //se va al response
+
+                    String searchEstacion = request.getParameter("estacion");
+                    boolean puntosXestaciones = true;
+                    if (searchEstacion != null && !searchEstacion.equals("estacion")) {
+                        puntosXestaciones = false;
+                        request.setAttribute("puntosXestacion", "false");
+                    } else {
+                        request.setAttribute("puntosXestacion", "true");
+                    }
+                    ArrayList<PuntoMapa> puntos = campanaDAO.getEstacionesCampana(idCampana, puntosXestaciones); //se va al response
+                    //ArrayList<PuntoMapa> puntos = campanaDAO.getEstacionesCampana(idCampana); //se va al response
                     //ArrayList<ArrayList<String>> resumenCampana = campanaDAO.getResumenCampana(idCampana);
                     ArrayList<RegistroResumen> resumen = campanaDAO.getResumenCampanaRegistro(idCampana);
+                    ArrayList<ArrayList<String>> resumenProducto = campanaDAO.getResumenCampanaByProducto(idCampana);
                     ArrayList<ArrayList<String>> campanas = campanaDAO.getCampanas();
                     ArrayList<ArrayList<String>> campanasid = campanaDAO.getCampanasId(idCampana);
                     request.setAttribute("puntos", puntos);
                     request.setAttribute("resumen", resumen);
+                    request.setAttribute("resumenProducto", resumenProducto);
                     request.setAttribute("campana", campanas);
                     request.setAttribute("campanaid", campanasid);
                     RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/WEB-INF/view/home.jsp");
@@ -111,8 +125,8 @@ public class LoginController extends HttpServlet {
                 //out.close();
             }
         } else if (userPath.equals("/homeCamp")) {
-            if (session ==  null || session.getAttribute("userObj") == null) {
-                String url = "index.jsp";               
+            if (session == null || session.getAttribute("userObj") == null) {
+                String url = "index.jsp";
                 //mandar mensaje de session expirada o a página de error / sesión expirada
                 request.setAttribute("msg", "Su sesi&oacute;n expir&oacute;");
                 request.getRequestDispatcher(url).forward(request, response);
@@ -135,21 +149,30 @@ public class LoginController extends HttpServlet {
                 }
 
             }
-
-            ArrayList<PuntoMapa> puntos = campanaDAO.getEstacionesCampana(idCampana); //se va al response
+            String searchEstacion = request.getParameter("estacion");
+            boolean puntosXestaciones = true;
+            if (searchEstacion != null && !searchEstacion.equals("estacion")) {
+                puntosXestaciones = false;
+                request.setAttribute("puntosXestacion", "false");
+            } else {
+                request.setAttribute("puntosXestacion", "true");
+            }
+            ArrayList<PuntoMapa> puntos = campanaDAO.getEstacionesCampana(idCampana, puntosXestaciones); //se va al response
+            //ArrayList<PuntoMapa> puntos = campanaDAO.getEstacionesCampana(idCampana); //se va al response
             ArrayList<RegistroResumen> resumen = campanaDAO.getResumenCampanaRegistro(idCampana);
-            ArrayList<ArrayList<String>> resumenCampana = campanaDAO.getResumenCampana(idCampana);
+            // ArrayList<ArrayList<String>> resumenCampana = campanaDAO.getResumenCampana(idCampana);
             ArrayList<ArrayList<String>> campanas = campanaDAO.getCampanas();
             ArrayList<ArrayList<String>> campanasid = campanaDAO.getCampanasId(idCampana);
+            ArrayList<ArrayList<String>> resumenProducto = campanaDAO.getResumenCampanaByProducto(idCampana);
 
             request.setAttribute("opMapa", opMapa);
             request.setAttribute("puntos", puntos);
-            request.setAttribute("resumenCampana", resumenCampana);
+            //request.setAttribute("resumenCampana", resumenCampana);
             request.setAttribute("resumen", resumen); //
             request.setAttribute("campana", campanas); //llenar la lista
             request.setAttribute("campanaid", campanasid); //para dejar seleccionado la campaña en la lista  
             //request.setAttribute("opMapa", opMapa);
-
+            request.setAttribute("resumenProducto", resumenProducto);
             RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/WEB-INF/view/home.jsp");
             dispatch.forward(request, response);
         } else if (userPath.equals("/actualizaT")) {
@@ -160,7 +183,7 @@ public class LoginController extends HttpServlet {
             session.invalidate();
             transacciones.desconecta();
             response.sendRedirect("index.jsp");
-        } else if(userPath.equals("/Muestra")){
+        } else if (userPath.equals("/Muestra")) {
             RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/WEB-INF/view/muestra.jsp");
             dispatch.forward(request, response);
         }
