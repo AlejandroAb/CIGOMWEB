@@ -13,7 +13,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     HttpSession sesion = request.getSession(false);
-   // response.setHeader("Cache-Control", "no-cache");
+    // response.setHeader("Cache-Control", "no-cache");
     // response.setHeader("Cache-Control", "no-store");
     // response.setHeader("Pragma", "no-cache");
     // response.setDateHeader("Expires", 0);
@@ -47,6 +47,8 @@
         <!-- DataTables Responsive CSS -->
         <link href="bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">     
 
+        <!-- Ventana Modal -->
+        <link href="css/ventanaModal.css" rel="stylesheet" type="text/css">
         <!-- jQuery -->
         <script src="bower_components/jquery/dist/jquery.min.js"></script>
 
@@ -73,9 +75,10 @@
         <script src="js/creaMatriz.js"></script>        
 
         <script>
+
             //var idKrona = <%//marcador.getIdMarcador();%>;
             function funcionKrona(idKrona) {
-                alert(idKrona);
+                //alert(idKrona);
                 $.ajax({
                     type: "POST",
                     url: "kronaAmp",
@@ -83,14 +86,14 @@
                         idkrona: idKrona
                     },
                     dataType: "html",
-                    beforeSend: function() {
+                    beforeSend: function () {
                         //imagen de carga
                         $("#resultadokrona").html("<p align='center'><img src='http://form.cenp.com.br/img/carregando.gif' /></p>");
                     },
-                    error: function() {
+                    error: function () {
                         alert("error petición ajax");
                     },
-                    success: function(data) {
+                    success: function (data) {
                         //alert("success??");
                         $("#resultadokrona").empty();
                         $("#resultadokrona").append(data);
@@ -135,7 +138,7 @@
         <div id="wrapper">
 
             <!-- Navigation -->
-            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0; padding-top:10px; padding-right:15px; background-color:#ffffff;">
+            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0; padding-top:10px; padding-right:15px; background-color:#ffffff; z-index: 0;">
                 <div class="col-lg-9">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -240,7 +243,7 @@
                                     </li>
                                     <!-- <li><a id="div-krona2" href="#krona" data-toggle="tab">Krona</a>
                                      </li>                                   -->
-                                    <li><a id="div-krona3" href="#matriz" data-toggle="tab">Matriz</a>
+                                    <li><a id="div-krona3" href="#matriz" data-toggle="tab">Abundancia</a>
                                     </li>                                     
                                 </ul>
 
@@ -578,7 +581,7 @@
                                                                                                 %>
                                                                                                 <tr>
 
-                                                                                                    <td><%= u.getNombres()+" "+u.getApellidos()%></td>
+                                                                                                    <td><%= u.getNombres() + " " + u.getApellidos()%></td>
                                                                                                     <td><%= u.getAcciones()%></td>
                                                                                                     <td><%= u.getComentarios()%></td>                                                    
                                                                                                 </tr>
@@ -632,97 +635,149 @@
 
                                     <div class="tab-pane fade" id="matriz">
                                         <br>
-                                       <h4>Crear Matriz de abundancia</h4> 
-                            <br> 
-                        <div class="row">                         
-                        <div class="col-lg-2">
-                            
-                            <label>Nivel Taxonómico</label>
-                                            <select id="nivelTaxo" name="nivel" class="form-control">
-                                                <option value="" disabled selected>Select...</option>                                                
-                                                <option value="kingdom">Reino</option>
-                                                <option value="phylum">Filum</option>
-                                                <option value="class">Clase</option>
-                                                <option value="orden">Orden</option>
-                                                <option value="family">Familia</option>
-                                                <option value="genus">Género</option>
-                                                <option value="species">Especie</option>                                                
-                                            </select>                            
-                        </div>
-                        <div class="col-lg-1" >
-                            <br>
+                                        <h4>Crear Matriz de abundancia</h4> 
+                                        <br> 
+                                        <div class="row">                         
+                                            <div class="col-lg-2">
 
-                           <!-- <input type="checkbox" id="nombres" checked> <label>Nombres Cortos</label>-->
-                           <input type="checkbox" id="toFile"> <label>Archivo</label>
-                           
-                        </div>
-                        <div class="col-lg-1" >
-                            <br>
+                                                <label>Nivel Taxonómico</label>
+                                                <select id="nivelTaxo" name="nivel" class="form-control">
+                                                    <option value="" disabled selected>Select...</option>                                                
+                                                    <option value="kingdom">Reino</option>
+                                                    <option value="phylum">Filum</option>
+                                                    <option value="class">Clase</option>
+                                                    <option value="orden">Orden</option>
+                                                    <option value="family">Familia</option>
+                                                    <option value="genus">Género</option>
+                                                    <option value="species">Especie</option>                                                
+                                                </select>   
+                                                <div class="form-group" id="mGeneros" style="display:none;">
 
-                            <input type="checkbox" id="cabecera" > <label>Incluir cabecera</label>
-                        </div>       
-                        <div class="col-lg-3">
-                            <label>Nombre del Organismo</label>
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <div class="form-group">
-                                        <!--<label>Radio Buttons</label>-->
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name = "orgName" value = "taxon" id="taxon" checked>Último nivel taxonómico
-                                            </label>
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input type="checkbox" value="norm" name = "degradadores"  id="degradadores">Degradadores de hidrocarburos
+                                                        </label>
+                                                    </div>
+
+                                                    <div class="radio">
+                                                        <label>
+                                                            <a href="#popup" id="organismos" >Lista de organismos </a>
+                                                        </label>
+                                                    </div>
+                                                    <div class="modal-wrapper" id="popup">
+                                                        <div class="popup-contenedor">
+                                                            <div class="panel panel-default">
+                                                                <div class="panel-heading">
+                                                                    <center><h3><b style="color:#d9534f;">Géneros Degradadores</b></h3></center>
+                                                                </div>
+                                                                <%
+                                                                    Object tabla = request.getAttribute("tabla");
+                                                                    String tablaHTML = tabla != null ? (String) tabla : null;
+                                                                %>
+                                                                <!-- /.panel-heading -->
+                                                                <div class="panel-body" >
+                                                                    <div class="dataTable_wrapper">
+                                                                        <%
+                                                                            if (tablaHTML != null) {
+                                                                        %>
+                                                                        <%= tablaHTML%>
+
+                                                                        <%
+
+                                                                            }
+                                                                        %>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- /.panel-body -->
+                                                            </div>                               
+
+                                                            <a class="popup-cerrar" href="#">X</a>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>   
+                                            </div>
+                                            <div class="col-lg-1" >
+                                                <br>
+
+                                                <!-- <input type="checkbox" id="nombres" checked> <label>Nombres Cortos</label>-->
+                                                <input type="checkbox" id="toFile">
+                                                <span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, '', {position: 0});"></span> 
+                                                <label>Archivo</label>
+
+                                            </div>
+                                            <div class="col-lg-1" >
+                                                <br>
+
+                                                <input type="checkbox" id="cabecera" > 
+                                                <span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, '', {position: 0});"></span>
+                                                <label>Incluir cabecera</label>
+                                            </div>       
+                                            <div class="col-lg-3">
+                                                <label>Nombre del Organismo</label>
+                                                <span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, '', {position: 0});"></span>
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="form-group">
+                                                            <!--<label>Radio Buttons</label>-->
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name = "orgName" value = "taxon" id="taxon" checked>Último nivel taxonómico
+                                                                </label>
+                                                            </div>
+
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" value = "filo" name = "orgName" id="filognia" >Filogenia
+                                                                </label>
+                                                            </div>
+
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name = "orgName" value ="ncbi" id="ncbi">NCBI TAX ID
+                                                                </label>
+                                                            </div>	
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>    
+                                            <div class="col-lg-3">
+                                                <label>Conteos</label>
+                                                <span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, '', {position: 0});"></span>
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="form-group">
+                                                            <!--<label>Radio Buttons</label>-->
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" value="norm" name = "conteos" checked id="normalizar">Normalizadas
+                                                                </label>
+                                                            </div>
+
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name = "conteos" value = "crudo" id="crudos" >Cuentas crudas
+                                                                </label>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>                        
+                                            <div class="col-lg-1">
+                                                <br>
+
+                                                <button  class="fa fa-gear" onclick="buscaMatriz(<%=marcador.getIdMarcador()%>)" > Generar</button>
+                                            </div>
                                         </div>
 
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" value = "filo" name = "orgName" id="filognia" >Filogenia
-                                            </label>
-                                        </div>
 
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name = "orgName" value ="ncbi" id="ncbi">NCBI TAX ID
-                                            </label>
-                                        </div>	
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>    
-                        <div class="col-lg-3">
-                            <label>Conteos</label>
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <div class="form-group">
-                                        <!--<label>Radio Buttons</label>-->
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" value="norm" name = "conteos" checked id="normalizar">Normalizadas
-                                            </label>
-                                        </div>
-
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name = "conteos" value = "crudo" id="crudos" >Cuentas crudas
-                                            </label>
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>                        
-                        <div class="col-lg-1">
-                            <br>
-
-                            <button  class="fa fa-gear" onclick="buscaMatriz(<%=marcador.getIdMarcador()%>)" > Generar</button>
-                        </div>
-                                    </div>
-
-                                        
                                         <div id="loading"></div>
                                     </div> 
-                                   
+
                                 </div>
 
 
@@ -741,7 +796,27 @@
     <!-- /#page-wrapper -->
 
 </div>  
+<script>
+    $(document).ready(function () {
+        $("select[name=nivel]").change(function () {
+            var niveles = $('select[name=nivel]').val();
+            if (niveles == "genus") {
 
+                $("#mGeneros").css("display", " block");
+            } else {
+                $("#mGeneros").css("display", "none");
+            }
+
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#lista-organismo').DataTable({
+            responsive: true
+        });
+    });
+</script>
 
 </body>
 </html>

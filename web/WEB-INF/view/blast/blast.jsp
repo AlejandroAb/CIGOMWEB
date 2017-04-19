@@ -409,40 +409,6 @@
                                                 </div>
                                                 <!-- /.panel-body -->
                                             </div>
-                                  
-                                           
-                                           <div class="col-lg-12">
-                                           <p class="fa fa-plus-circle" id="masOpciones"> Opciones Avanzadas</p>
-                                           </div>
-                                            <!--div opciones avanzadas-->
-                                            <div class="col-lg-12" id="opcionesAvanzadas" style="display:none;">
-                                            <div class="form-group">
-                                            <label>Max target sequences</label>
-                                            <select class="form-control">
-                                                <option>1</option>
-                                                <option>2</option>
-                                            </select>
-                                            </div>
-                                            <label>Short queries</label>
-                                            <div class="radio">
-                                                <label>
-                                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>Radio 1
-                                                </label>
-                                            </div>
-                                         <div class="form-group">
-                                            <label>Expect threshold</label>
-                                            <input class="form-control">
-                                        </div>   
-                                            </div> 
-                                            <div class="col-lg-6">
-                                                <button type="reset" class="btn btn-default">Limpiar</button>
-                                            </div>
-                                    </form>
-
-                                    <div class="col-lg-6">
-                                        <button  class="btn btn-default" id="ObtenerVal">Buscar</button>
-                                    </div>
-                                     <!---->
 
                                         </div>
                                         <div class="col-lg-6">
@@ -500,8 +466,41 @@
                                     <!-- /.col-lg-6 (nested) -->
 
                                     <!-- /.col-lg-4 (nested) -->
-                                </div>
+                                </div>                                                          
                                 <!-- /.row (nested) -->
+                                           
+                                           <div class="col-lg-12">
+                                           <p class="fa fa-plus-circle" id="masOpciones"> Opciones Avanzadas</p>
+                                           </div>
+                                            <!--div opciones avanzadas-->
+                                            <div class="col-lg-12" id="opcionesAvanzadas" style="display:none;">
+                                            <div class="form-group">
+                                            <label>Max target sequences</label>
+                                            <select class="form-control">
+                                                <option>1</option>
+                                                <option>2</option>
+                                            </select>
+                                            </div>
+                                            <label>Short queries</label>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>Radio 1
+                                                </label>
+                                            </div>
+                                         <div class="form-group">
+                                            <label>Expect threshold</label>
+                                            <input class="form-control">
+                                        </div>   
+                                            </div> 
+                                            <div class="col-lg-1">
+                                                <button type="reset" class="btn btn-default">Limpiar</button>
+                                            </div>
+                                    </form>
+
+                                    <div class="col-lg-1">
+                                        <button  class="btn btn-default" id="ObtenerVal">Buscar</button>
+                                    </div>
+                                     <!---->                                
                             </div>
                             <!-- /.panel-body -->
                         </div>

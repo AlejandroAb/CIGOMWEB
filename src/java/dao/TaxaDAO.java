@@ -853,7 +853,7 @@ public class TaxaDAO {
         ArrayList<ArrayList> degradadores = transacciones.getDegradadorasByGenus();
         StringBuilder htmlTable = new StringBuilder("");
         if (degradadores != null) {
-            htmlTable.append("<table class=\"table table-striped\">").append("<thead>").append("<tr align=\"center\">");
+            htmlTable.append("<table class=\"table table-striped\" id=\"lista-organismo\">").append("<thead>").append("<tr align=\"center\">");
             htmlTable.append("<th>").append("Reino").append("</th>");
             htmlTable.append("<th>").append("Philum").append("</th>");
             htmlTable.append("<th>").append("Clase").append("</th>");

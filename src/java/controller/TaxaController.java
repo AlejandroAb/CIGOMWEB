@@ -346,7 +346,7 @@ public class TaxaController extends HttpServlet {
 
         } else if (userPath.equals("/matrices")) {
             TaxaDAO tdao = new TaxaDAO(transacciones);
-            tdao.generaTablaDegradadores();
+            //tdao.generaTablaDegradadores();
             String htmlTable = tdao.generaTablaDegradadores(); //va desde <table> hasta <table>          
             request.setAttribute("tabla", htmlTable);
             

@@ -9,6 +9,7 @@ import bobjects.Marcador;
 import bobjects.Usuario;
 import dao.KronaDAO;
 import dao.MarcadorDAO;
+import dao.TaxaDAO;
 import database.Transacciones;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -70,6 +71,11 @@ public class MarcadorController extends HttpServlet {
                 if (idMarcador != null) {
                     try {
                         Integer.parseInt(idMarcador);
+                        TaxaDAO tdao = new TaxaDAO(transacciones);
+                        //tdao.generaTablaDegradadores();
+                        String htmlTable = tdao.generaTablaDegradadores(); //va desde <table> hasta <table>          
+                        request.setAttribute("tabla", htmlTable);
+
                         MarcadorDAO mDAO = new MarcadorDAO(transacciones);
                         Marcador marcador = mDAO.initMarcador(idMarcador);
                         request.setAttribute("marcador", marcador);
@@ -101,7 +107,7 @@ public class MarcadorController extends HttpServlet {
                         return;
                     }
 
-                  //  KronaDAO kdao = new KronaDAO(transacciones);
+                    //  KronaDAO kdao = new KronaDAO(transacciones);
                     //  String html = kdao.readKronaFile(id);
                     response.setContentType("text/html");
                     response.setCharacterEncoding("UTF-8");
@@ -174,6 +180,7 @@ public class MarcadorController extends HttpServlet {
 
         }
     }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
