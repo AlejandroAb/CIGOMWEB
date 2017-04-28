@@ -311,7 +311,17 @@ public class Transacciones {
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
-
+    /**
+     *Este método se encarga traer algunos de datos de la tabla taxon de acuerdo
+     * a un tax_id dado.
+     */
+    public ArrayList getAgregarTaxon(String tax_id) {
+        String query = "SELECT tax_id,taxon,rank "
+                + "FROM taxon "
+                + "WHERE tax_id=" + tax_id;
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
     /**
      * Este método se encarga de crear una matriz de abundancia para algún corte
      * taxonómico en específico.

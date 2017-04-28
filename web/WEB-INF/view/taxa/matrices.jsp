@@ -60,13 +60,199 @@
         <!--ALERTAS-->
         <script src="alerta/dist/sweetalert-dev.js"></script>
         <link rel="stylesheet" href="alerta/dist/sweetalert.css">
+            <!-- DataTables JavaScript -->
+            <script src="bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+            <script src="bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+            <script src="bower_components/datatables-responsive/js/dataTables.responsive.js"></script>
+
+            <script>
+                $(document).ready(function () {
+                    $('#lista-organismo').DataTable({
+                        responsive: true
+                    });
+                });
+            </script>
+
+            <script>
+                $(document).ready(function () {
+                    $('#campanas').DataTable({
+                        responsive: true,
+                        bFilter: false,
+                        bInfo: false
+                    });
+                });
+            </script>
+            <script>
+                $(document).ready(function () {
+                    $('#profundidad').DataTable({
+                        responsive: true,
+                        bFilter: false,
+                        bInfo: false
+                    });
+                });
+            </script>
+            <script>
+                $(document).ready(function () {
+                    $('#provincias').DataTable({
+                        responsive: true,
+                        bFilter: false,
+                        bInfo: false
+                    });
+                });
+            </script>
+            <script>
+                $(document).ready(function () {
+                    $('#taxones').DataTable({
+                        responsive: true
+                    });
+                });
+            </script>            
+            
+            <script>
+             $(document).ready(function () {
+            //var table = $('#taxones').DataTable();
+ 
+            /*$('#taxones tbody').on( 'click', 'tr', function () {
+                    //alert( table.cell( this ).data() );
+                     table.row( this ).delete();
+            } );
+            
+          /* $('#taxones tbody').on( 'click', ' tr', function () {
+                table.row( this ).remove();
+               } );*/
+               
+             });
+    
+            </script>
+        <script type="text/javascript">
+            var palabraAnterior;
+            $(document).ready(function () {
+                //var globalTimeout = null;  
+                //hacemos focus al campo de búsqueda
+                $("#search").focus();
+                //comprobamos si se pulsa una tecla
+                $("#search").keyup(function (e) {
+                    //obtenemos el texto introducido en el campo de búsqueda
+                    var consulta = $("#search").val();
+
+                    //var evento= (window.event)?event.keyCode:evt.which;
+
+                    // var isWordCharacter = event.key.length === 1;
+                    //backspace || deelte
+                    // var isBackspaceOrDelete = (event.keyCode == 8 || event.keyCode == 46);
+                    var limite = 2;
+                    if ($.isNumeric(consulta)) {
+                        limite = 0;
+                    }
+                    if ((palabraAnterior !== $.trim(consulta)) && consulta.length > limite) {
+                        palabraAnterior = $.trim(consulta);
+                        clearTimeout($.data(this, 'timer'));
+                        var wait = setTimeout(peticion, 750);
+                        $(this).data('timer', wait);
+                    } else if (consulta.length < 1) {
+                        clearTimeout($.data(this, 'timer'));
+                        var wait = setTimeout(vacio, 200);
+                        $(this).data('timer', wait);
+                    }
+
+                    function peticion() {
+                        $("#resultado").css("display", "block");
+                        $.ajax({
+                            type: "POST",
+                            url: "buscaPalabra",
+                            data: {
+                                palabra: consulta
+                            },
+                            dataType: "html",
+                            beforeSend: function () {
+                                //imagen de carga
+                                $("#resultado").html("<p align='center'><img src='http://form.cenp.com.br/img/carregando.gif' /></p>");
+                            },
+                            error: function () {
+                                //  alert("error petición ajax");
+                            },
+                            success: function (data) {
+                                $("#resultado").empty();
+                                $("#resultado").append(data);
+                            }
+                        });
+                    }
+                    function vacio() {
+                        // alert("ya pasaon 2segundos y esta vacio");
+                        $("#resultado").css("display", "none");
+                    }
+
+                });
+            });
+        </script>      
+        <script type="text/javascript">
+            function capturar(id) {
+                //alert(id);
+                //optener
+                var divSeleccionado = $("#" + id).text();
+                //Asignar
+                $("#search").val(divSeleccionado);
+                //ocultar
+                $("#resultado").css("display", "none");
+
+            }
+        </script>
+        <script type="text/javascript">
+
+   $(document).ready(function() {
+    var table = $('#taxones').DataTable();
+ 
+    $('#taxones tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('active') ) {
+            $(this).removeClass('active');
+        }
+        else {
+            table.$('tr.active').removeClass('active');
+            $(this).addClass('active');
+        }
+    } );
+ 
+    $('#eliminarTaxon').click( function () {
+        table.row('.active').remove().draw( false );
+    } );
+} );              
+            
+                
+            function Agregar() {
+                //optener valor del input
+                var search = $("#search").val();
+                var t = $('#taxones').DataTable();
+                var counter = 1;
+                
+                var taxaid = search.substring(0, search.indexOf("-")).trim();
+                var taxon = search.substring(search.indexOf("-") + 1, search.indexOf("(")).trim();
+                var rango = search.substring(search.indexOf("(") + 1, search.indexOf(")")).trim();
+                
+        
+                 //realizamos el recorrido solo por las celdas que contienen el id, que es la primera
+                $("#taxones tr").find('td:eq(0)').each(function () {
+                 
+                //obtenemos el id de la celda
+                var codigo = $(this).html();
+ 
+               //comparamos para ver si el código es igual a la busqueda
+                
+                if(codigo==taxaid){
+                   alert("ya existe"); 
+                }else{
+     
+                t.row.add([taxaid, taxon, rango]).draw(false);
+                counter++;
+                }
+            });
+
+            }
+        </script> 
 
         <script>
-
-
             $(document).ready(function () {
-
-
+            var table = $('#taxones').DataTable();
+ 
                 $("select[name=niveles]").change(function () {
                     var niveles = $('select[name=niveles]').val();
                     if (niveles == "genus") {
@@ -220,9 +406,9 @@
         </script>   
         <style>
             .dataTables_paginate, .paging_simple_numbers{
-               margin-left:-100%;
+                margin-left:-100%;
             }
-            
+
         </style>
         <title>TAXA</title>
 
@@ -376,7 +562,7 @@
 
                             <!-- <input type="checkbox" id="nombres" checked> <label>Nombres Cortos</label>-->
                             <input type="checkbox" id="toFile"> 
-                            <span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, '',{position: 0});"></span>
+                            <span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, '', {position: 0});"></span>
                             <label>Crear archivo</label>
 
                         </div>
@@ -384,12 +570,12 @@
                             <br>
 
                             <input type="checkbox" id="extrapoled" > 
-                            <span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, '',{position: 0});"></span>
+                            <span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, '', {position: 0});"></span>
                             <label>Transponer Matriz</label>
                         </div>       
                         <div class="col-lg-3">
                             <label>Nombre del Organismo</label>
-                            <span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, '',{position: 0});"></span>
+                            <span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, '', {position: 0});"></span>
                             <div class="panel panel-default">
                                 <div class="panel-body">
                                     <div class="form-group">
@@ -418,7 +604,7 @@
                         </div>    
                         <div class="col-lg-3">
                             <label>Conteos</label>
-                            <span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, '',{position: 0});"></span>
+                            <span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, '', {position: 0});"></span>
                             <div class="panel panel-default">
                                 <div class="panel-body">
                                     <div class="form-group">
@@ -464,18 +650,18 @@
                                 </div>
                                 <!-- /.panel-heading -->
                                 <div class="panel-body" >
-                                                    <div class="dataTable_wrapper">
-                                                        <table width="100%" class="table table-striped table-bordered table-hover" id="profundidad">
-                                                            <thead>
-                                                                <tr style="display:none;">
-                                                                    <th></th>
-                                                                    <th></th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
+                                    <div class="dataTable_wrapper">
+                                        <table width="100%" class="table table-striped table-bordered table-hover" id="profundidad">
+                                            <thead>
+                                                <tr style="display:none;">
+                                                    <th></th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
 
-                                                                
-                         			<tr style="border-top:none;">
+
+                                                <tr style="border-top:none;">
                                                     <td style="padding:10px;"><b>Mínimo de Oxigeno</b></td>
                                                     <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><input type="checkbox" value="MIN" ></td>                                                                   
                                                 </tr>
@@ -496,11 +682,11 @@
                                                     <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><input type="checkbox" value="SED"  ></td>
                                                 </tr>                                            
 
-   
 
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
                                     <!-- /.table-responsive -->
                                 </div>
                                 <!-- /.panel-body -->
@@ -514,18 +700,18 @@
                                 </div>
                                 <!-- /.panel-heading -->
                                 <div class="panel-body" >
-                                                    <div class="dataTable_wrapper">
-                                                        <table width="100%" class="table table-striped table-bordered table-hover" id="campanas">
-                                                            <thead style="display:none;">
-                                                                <tr>
-                                                                    <th></th>
-                                                                    <th></th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
+                                    <div class="dataTable_wrapper">
+                                        <table width="100%" class="table table-striped table-bordered table-hover" id="campanas">
+                                            <thead style="display:none;">
+                                                <tr>
+                                                    <th></th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
 
-                                                                
-						<tr style="border-top:none;">
+
+                                                <tr style="border-top:none;">
                                                     <td style="padding:10px;"><b>Metagenómica I</b></td>
                                                     <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><input type="checkbox" value="1" id="grafica" ></td>                                                                   
                                                 </tr>
@@ -554,78 +740,126 @@
                                                     <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><input type="checkbox" value="7" id="grafica" ></td>
                                                 </tr>                                           
 
-   
-
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>  
                         <div class="col-md-4"> 
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <center><span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, '#zonasinfo',{position: 0});"></span><b style="color:#d9534f;">Zonas</b></center>
+                                    <center><span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, '#zonasinfo', {position: 0});"></span><b style="color:#d9534f;">Zonas</b></center>
                                 </div>
-                                            <div style="display:none;">
-                                                <div id="zonasinfo">
-                                                    <center><img src="images/regiones.gif" style="margin-left:10px;width:450px;height:372px;" alt="zonas info" /></center>
-                                                    
-                                                    <p style="text-align:justify;">La descripción de los rasgos geomorfológicos del golfo, se explica a partir de 7 provincias establecidas por Antoine (1972), con base en los cambios de dirección de la plataforma continental en seis de ellas, y en la séptima que caracteriza a la porción central de la Cuenca del Golfo.</p>
-                                                </div>
-                                            </div>
+                                <div style="display:none;">
+                                    <div id="zonasinfo">
+                                        <center><img src="images/regiones.gif" style="margin-left:10px;width:450px;height:372px;" alt="zonas info" /></center>
+
+                                        <p style="text-align:justify;">La descripción de los rasgos geomorfológicos del golfo, se explica a partir de 7 provincias establecidas por Antoine (1972), con base en los cambios de dirección de la plataforma continental en seis de ellas, y en la séptima que caracteriza a la porción central de la Cuenca del Golfo.</p>
+                                    </div>
+                                </div>
                                 <!-- /.panel-heading -->
                                 <div class="panel-body" >
-                                                    <div class="dataTable_wrapper">
-                                                        <table width="100%" class="table table-striped table-bordered table-hover" id="provincias">
-                                                            <thead>
-                                                                <tr style="display:none;">
-                                                                    <th></th>
-                                                                    <th></th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
+                                    <div class="dataTable_wrapper">
+                                        <table width="100%" class="table table-striped table-bordered table-hover" id="provincias">
+                                            <thead>
+                                                <tr style="display:none;">
+                                                    <th></th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
 
-                                                                
+
                                                 <tr style="border-top:none;">
                                                     <td style="padding:10px;"><span style="margin-right: 5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Bordea la plataforma de la costa occidental de Florida hasta los 84° de longitud oeste, que tiene una dirección ligeramente noroeste; es aún más amplia que la Península de Yucatán, excediendo los 260 km. Hacia el sur de la provincia la inclinación de su pendiente aumenta bruscamente y va de 100 a 1 000 m de profundidad. Está pendiente constituye el Escarpe de Florida, el cual bordea el Estrecho y la plataforma oeste de Florida.', {position: 0})"></span><b>Primera Provincia</b></td>
                                                     <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><input type="checkbox" value="1" id="provincia" ></td>                                                                   
                                                 </tr>
 
-                                            <tr>
-                                                <td style="padding:10px;"><span style="margin-right:5px; cursor:pointer; " class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Surge a partir de un cambio de dirección de la plataforma al suroeste, la cual es angosta, menor a los 80 km, y se estrecha aún más conforme se acerca al delta del Río Mississippi. En los 28° de latitud norte y 88° longitud oeste, el Escarpe de Florida y el abanico o Cono del Mississippi, constituyen una zona de elevaciones y depresiones denominada Cañón De Soto, el cual se ubica por debajo de la isobata de 300 m y alcanza profundidades hasta de 2 000 m.', {position: 0})"></span><b>Segunda Provincia</b></td>                                                    
-                                                <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><input type="checkbox" value="2" id="provincia" ></td>
-                                            </tr>
-                                            <tr>
-                                                <td style="padding:10px;"><span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Una de las más amplias, y comprende la parte occidental del Cono del Mississippi continuándose hasta el límite de la zona económica de México ubicada hacia el paralelo 26. La plataforma tiene aproximadamente 100 km de amplitud, flexionándose hacia el suroeste donde se reduce a 82 km; su pendiente es ligera hasta la isobata de 200 m donde ésta aumenta para alcanzar los 1 000 m de profundidad.', {position: 0})"></span><b>Tercera Provincia</b></td>
-                                                <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><input type="checkbox" value="3" id="provincia" ></td>
-                                            </tr>
-                                            <tr>
-                                                <td style="padding:10px;"><span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Se inicia en donde la plataforma se orienta al oeste y ocupa desde el delta del Río Bravo con 70-82 km de amplitud, resultado del aporte de sedimentos, hasta el paralelo 20, donde ésta cambia de orientación para dirigirse hacia la Sonda de Campeche. La plataforma se va angostando en su trayectoria hacia el sur hasta alcanzar 33-37 km en el paralelo 23 formando una ladera de poca disección con pendiente media entre 1 y 2°, y su talud encuentra la base a una profundidad próxima de 3 000 m. A partir de este paralelo la plataforma nuevamente se flexiona al sureste y llega a la zona volcánica de San Andrés Tuxtla en Veracruz, para alcanzar su mínima amplitud de 6 a 16 km, donde incrementa su pendiente 2° y en áreas muy localizadas hasta 15. En la porción comprendida entre el paralelo 20 y el 23, el talud es disectado por valles submarinos que configuran un relieve irregular, el cual se denomina Cordillera Ordoñez (Cserna, 1984) ubicada dentro de la séptima provincia', {position: 0})"></span><b>Cuarta Provincia</b></td>
-                                                <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><input type="checkbox" value="4" id="provincia" ></td>
-                                            </tr> 
-                                            <tr>
-                                                <td style="padding:10px;"><span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Comprende la plataforma y talud continental del sur de Veracruz y parte de Campeche. La primera se hace amplia en dirección a la Península de Yucatán con una extensión de 110-130 km frente a Punta Frontera, para después flexionarse y rodear la península. Presenta una débil pendiente de 1 a 5°, donde existen predominantemente sedimentos carbonatados de origen biogénico que convierten a esta zona en una terraza acumulativa. El talud continental de esta provincia tiene un relieve comparable al del noroeste de la cuenca (Provincia 3), donde los domos salinos aquí existentes se orientan en dirección al centro del Golfo de México, a través de sinuosidades a manera de cordones alineados.', {position: 0})"></span><b>Quinta Provincia</b></td>
-                                                <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><input type="checkbox" value="5" id="provincia" ></td>
-                                            </tr>                                             
-                                            <tr>
-                                                <td style="padding:10px;"><span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'En su primera parte, el Cañón de Campeche es un rasgo sobresaliente del talud continental el cual se limita por el escarpe del mismo nombre y cuyo origen puede estar relacionado con la evolución tectónica de esta zona. El Escarpe de Campeche se extiende a profundidades de 2 400 a 2 600 m bordeando por el occidente y noroeste a la plataforma de la península con una pendiente mayor de 45°. La segunda flexión de la plataforma ocurre a partir del paralelo 22. Aquí el escarpe se separa gradualmente del borde de la plataforma y queda entre ambas estructuras una zona a manera de planicie denominada \'Planicie de Lomeríos, marginal a la plataforma continental\'. Esta zona es muy variable en su amplitud y pendiente, pero en general tiene una inclinación débil de 1.5 a 2.5°.', {position: 0})"></span><b>Sexta Provincia</b></td>
-                                                <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><input type="checkbox" value="6" id="provincia" ></td>
-                                            </tr> 
-                                            <tr>
-                                                <td style="padding:10px;"><span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Corresponde a la parte central del Golfo de México. Comprende la Cuenca o Llanura Abisal de Sigsbee, llamada así por tener las mayores profundidades y funcionar como captadora de sedimentos. Está limitada totalmente por la isobata de 3 600 m y presenta dos zonas aún más profundas, una de ellas a los 3 735 m y la otra a los 3 741 m, donde se localizan algunas colinas de hasta 200 y 300 m de altura. Esta cuenca sirve como frontera al Escarpe de Campeche y constituye, en el noroeste del Golfo, el Escarpe de Sigsbee.', {position: 0})"></span><b>Séptima Provincia</b></td>
-                                                <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><input type="checkbox" value="7" id="provincia" ></td>
-                                            </tr>                                           
-
-   
-
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
+                                                <tr>
+                                                    <td style="padding:10px;"><span style="margin-right:5px; cursor:pointer; " class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Surge a partir de un cambio de dirección de la plataforma al suroeste, la cual es angosta, menor a los 80 km, y se estrecha aún más conforme se acerca al delta del Río Mississippi. En los 28° de latitud norte y 88° longitud oeste, el Escarpe de Florida y el abanico o Cono del Mississippi, constituyen una zona de elevaciones y depresiones denominada Cañón De Soto, el cual se ubica por debajo de la isobata de 300 m y alcanza profundidades hasta de 2 000 m.', {position: 0})"></span><b>Segunda Provincia</b></td>                                                    
+                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><input type="checkbox" value="2" id="provincia" ></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding:10px;"><span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Una de las más amplias, y comprende la parte occidental del Cono del Mississippi continuándose hasta el límite de la zona económica de México ubicada hacia el paralelo 26. La plataforma tiene aproximadamente 100 km de amplitud, flexionándose hacia el suroeste donde se reduce a 82 km; su pendiente es ligera hasta la isobata de 200 m donde ésta aumenta para alcanzar los 1 000 m de profundidad.', {position: 0})"></span><b>Tercera Provincia</b></td>
+                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><input type="checkbox" value="3" id="provincia" ></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding:10px;"><span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Se inicia en donde la plataforma se orienta al oeste y ocupa desde el delta del Río Bravo con 70-82 km de amplitud, resultado del aporte de sedimentos, hasta el paralelo 20, donde ésta cambia de orientación para dirigirse hacia la Sonda de Campeche. La plataforma se va angostando en su trayectoria hacia el sur hasta alcanzar 33-37 km en el paralelo 23 formando una ladera de poca disección con pendiente media entre 1 y 2°, y su talud encuentra la base a una profundidad próxima de 3 000 m. A partir de este paralelo la plataforma nuevamente se flexiona al sureste y llega a la zona volcánica de San Andrés Tuxtla en Veracruz, para alcanzar su mínima amplitud de 6 a 16 km, donde incrementa su pendiente 2° y en áreas muy localizadas hasta 15. En la porción comprendida entre el paralelo 20 y el 23, el talud es disectado por valles submarinos que configuran un relieve irregular, el cual se denomina Cordillera Ordoñez (Cserna, 1984) ubicada dentro de la séptima provincia', {position: 0})"></span><b>Cuarta Provincia</b></td>
+                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><input type="checkbox" value="4" id="provincia" ></td>
+                                                </tr> 
+                                                <tr>
+                                                    <td style="padding:10px;"><span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Comprende la plataforma y talud continental del sur de Veracruz y parte de Campeche. La primera se hace amplia en dirección a la Península de Yucatán con una extensión de 110-130 km frente a Punta Frontera, para después flexionarse y rodear la península. Presenta una débil pendiente de 1 a 5°, donde existen predominantemente sedimentos carbonatados de origen biogénico que convierten a esta zona en una terraza acumulativa. El talud continental de esta provincia tiene un relieve comparable al del noroeste de la cuenca (Provincia 3), donde los domos salinos aquí existentes se orientan en dirección al centro del Golfo de México, a través de sinuosidades a manera de cordones alineados.', {position: 0})"></span><b>Quinta Provincia</b></td>
+                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><input type="checkbox" value="5" id="provincia" ></td>
+                                                </tr>                                             
+                                                <tr>
+                                                    <td style="padding:10px;"><span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'En su primera parte, el Cañón de Campeche es un rasgo sobresaliente del talud continental el cual se limita por el escarpe del mismo nombre y cuyo origen puede estar relacionado con la evolución tectónica de esta zona. El Escarpe de Campeche se extiende a profundidades de 2 400 a 2 600 m bordeando por el occidente y noroeste a la plataforma de la península con una pendiente mayor de 45°. La segunda flexión de la plataforma ocurre a partir del paralelo 22. Aquí el escarpe se separa gradualmente del borde de la plataforma y queda entre ambas estructuras una zona a manera de planicie denominada \'Planicie de Lomeríos, marginal a la plataforma continental\'. Esta zona es muy variable en su amplitud y pendiente, pero en general tiene una inclinación débil de 1.5 a 2.5°.', {position: 0})"></span><b>Sexta Provincia</b></td>
+                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><input type="checkbox" value="6" id="provincia" ></td>
+                                                </tr> 
+                                                <tr>
+                                                    <td style="padding:10px;"><span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Corresponde a la parte central del Golfo de México. Comprende la Cuenca o Llanura Abisal de Sigsbee, llamada así por tener las mayores profundidades y funcionar como captadora de sedimentos. Está limitada totalmente por la isobata de 3 600 m y presenta dos zonas aún más profundas, una de ellas a los 3 735 m y la otra a los 3 741 m, donde se localizan algunas colinas de hasta 200 y 300 m de altura. Esta cuenca sirve como frontera al Escarpe de Campeche y constituye, en el noroeste del Golfo, el Escarpe de Sigsbee.', {position: 0})"></span><b>Séptima Provincia</b></td>
+                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><input type="checkbox" value="7" id="provincia" ></td>
+                                                </tr>                                           
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>                       
 
+                    </div>
+                    <div class="row" style="padding:15px;">
+                        <div class="panel-heading" style="background-color:#eee;">
+                            <b style="color:#d9534f;">Buscador</b> 
+                        </div>
+                        <br>
+                        <div class="col-lg-6">
+                            <div class="panel" style="border:none;">
+                                <label>Buscar Taxón:</label>
+                                <div class="input-group custom-search-form" style="z-index:0;">
+                                    <input type="text" class="form-control" placeholder="Buscar..." id="search" name="search">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" id="buscador" onclick="Agregar()">
+                                            <i class=""></i>Agregar
+                                        </button>
+                                    </span>
+
+                                </div>
+                                
+                                <!-- /.panel-heading -->
+                                <div id="resultado" style="position:absolute; z-index:2; background-color:#ffffff;">
+
+                                </div>
+                                <!-- .panel-body -->
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <center><b style="color:#d9534f;">Taxones Agregados</b></center>
+                                </div>
+                                <!-- /.panel-heading -->
+                                <div class="panel-body">
+                                        
+                                    <div class="dataTable_wrapper">
+                                        <table width="100%" class="table table-striped table-bordered table-hover" id="taxones">
+                                            <thead>
+                                                <tr style="text-align:center;">
+                                                    <th>TaxID</th>
+                                                    <th>Taxon</th>
+                                                    <th>Rango</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody >
+
+                                            </tbody>
+                                        </table>
+                                        <button class="btn btn-outline btn-danger" id="eliminarTaxon" >  EliminarTaxon</button>
+                                    </div>
+                                </div>
+                                <!-- /.panel-body -->
+                            </div>                        
+                        </div>
                     </div>
 
                 </div>
@@ -649,46 +883,6 @@
                     });
                 });
             </script>   
-            <!-- DataTables JavaScript -->
-            <script src="bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
-            <script src="bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
-            <script src="bower_components/datatables-responsive/js/dataTables.responsive.js"></script>
 
-            <script>
-                $(document).ready(function () {
-                    $('#lista-organismo').DataTable({
-                        responsive: true
-                    });
-                });
-            </script>
-
-            <script>
-                $(document).ready(function () {
-                    $('#campanas').DataTable({
-                        responsive: true,
-                        bFilter: false, 
-                        bInfo: false
-                    });
-                });
-            </script>
-            <script>
-                $(document).ready(function () {
-                    $('#profundidad').DataTable({
-                        responsive: true,
-                        bFilter: false, 
-                        bInfo: false
-                    });
-                });
-            </script>
-            <script>
-                $(document).ready(function () {
-                    $('#provincias').DataTable({
-                        responsive: true,
-                        bFilter: false, 
-                        bInfo: false
-                    });
-                });
-            </script>
-            
     </body>
 </html>

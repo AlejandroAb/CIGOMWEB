@@ -71,9 +71,6 @@
         <script src="bower_components/datatables-responsive/js/dataTables.responsive.js"></script>  
 
 
-
-
-
         <script type="text/javascript">
             var palabraAnterior;
             $(document).ready(function() {

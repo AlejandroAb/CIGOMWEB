@@ -98,8 +98,8 @@ public class TaxaController extends HttpServlet {
             if (tabla != null && tabla.size() > 0) {
                 session.setAttribute("tablaTaxa", tabla);
                 //número de registros
-                //   request.setAttribute("count", tabla.size());
-                //  request.setAttribute("result", tabla);
+                //request.setAttribute("count", tabla.size());
+                //request.setAttribute("result", tabla);
                 //número de secuencias
                 request.setAttribute("seqs", "" + total);
                 PrintWriter out = response.getWriter();
@@ -426,6 +426,24 @@ public class TaxaController extends HttpServlet {
              view.forward(request, response);
              return;
              */
+        }else if(userPath.equals("/agregaTaxon")){
+            String taxText = request.getParameter("taxa");
+            String taxId = taxText.indexOf("-") != -1 ? taxText.substring(0, taxText.indexOf("-")).trim() : taxText;
+            ArrayList<ArrayList> agregar = transacciones.getAgregarTaxon(taxId);
+                
+                PrintWriter out = response.getWriter();
+                response.setContentType("text/html");
+                response.setCharacterEncoding("UTF-8");
+
+ 		for (ArrayList<String> ag : agregar) {
+			out.println("<tr>");
+                        out.println("<td>"+ag.get(0)+"</td>");
+                        out.println("<td>"+ag.get(1)+"</td>");
+                        out.println("<td>"+ag.get(2)+"</td>");
+			out.println("</tr>");
+		}
+		out.close();
+            
         }
 
     }
