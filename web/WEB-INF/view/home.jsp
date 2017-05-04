@@ -133,10 +133,9 @@
                 }
                 if (puntos != null && ((String) puntosXestacion).equals("false")) {
 
-                   
-                        for (PuntoMapa p : puntos) {
+                    for (PuntoMapa p : puntos) {
             %>
-              //MARCADOR ESTACION
+                //MARCADOR ESTACION
                 var iconoAncla = 'images/muestra.png';
                 marker = new google.maps.Marker({
                     map: mapa,
@@ -148,11 +147,11 @@
 
                 });
             <%
-                        }
-                    
-                }else{
+                }
 
-                    for (PuntoMapa p : puntos) {
+            } else {
+
+                for (PuntoMapa p : puntos) {
 
             %>
                 //MARCADOR MUESTRA
@@ -168,8 +167,8 @@
                 });
             <%
                     }
-               
-            }
+
+                }
             %>
             }
         </script>
@@ -357,8 +356,7 @@
                                             %>
                                         </select>
                                     </div>
-                                    <%                                        
-                                        String op1 = "checked='checked'";
+                                    <%                                        String op1 = "checked='checked'";
                                         String op2 = "";
                                         if (puntosXestacion != null && ((String) puntosXestacion).equals("false")) {
                                             op2 = "checked='checked'";
@@ -405,6 +403,10 @@
                                             %>
                                         <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                             <thead>
+                                                  <tr id="bus">
+                                                    <th>ESTACIÓN</th>
+                                                </tr>
+                                                <br>
                                                 <tr align="center">
                                                     <th>ESTACIÓN</th>
                                                     <th>Producto Genético</th>
@@ -465,8 +467,25 @@
         <!-- Metis Menu Plugin JavaScript -->
         <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
+        <script>
+            $(document).ready(function () {
+                // Setup - add a text input to each footer cell
+                $('#dataTables-example thead #bus th').each(function () {
+                    
+                    $(this).html('<input type="text" id="estacion" placeholder="Buscar por estacion" />');
+                });
 
+                // DataTable
+                var table = $('#dataTables-example').DataTable();
 
+                $('#estacion').on('keyup', function () {
+                    table
+                            .columns(0)
+                            .search(this.value)
+                            .draw();
+                });
+            });
+        </script>
 
     </body>
 

@@ -91,7 +91,7 @@ public class TaxaController extends HttpServlet {
             fu.validateFile(workingDir, true);
             String taxId = taxText.indexOf("-") != -1 ? taxText.substring(0, taxText.indexOf("-")).trim() : taxText;
             String name = taxText.indexOf("-") != -1 && taxText.indexOf("(") != -1 ? taxText.substring(taxText.indexOf("-") + 1, taxText.indexOf("(")).trim() : taxText;
-            String rank = taxText.indexOf("(") != -1 && taxText.indexOf(")") != -1 ? taxText.substring(taxText.indexOf("(") + 1, taxText.indexOf(")")).trim() : taxText;
+            String rank = taxText.indexOf("(") != -1 && taxText.indexOf(")") != -1 ?taxText.substring(taxText.indexOf("(") + 1, taxText.indexOf(")")).trim() : taxText;
             TaxaDAO tdao = new TaxaDAO(transacciones);
             ArrayList<ArrayList<String>> tabla = tdao.getConteosByTaxName(rank, name);
             long total = tdao.getConteos();

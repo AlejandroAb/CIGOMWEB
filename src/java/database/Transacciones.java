@@ -1439,7 +1439,7 @@ public class Transacciones {
 
     public ArrayList getMuestreo(int idMuestra) {
         String query = "SELECT muestra.idMuestreo,muestreo.etiqueta,nombre,estacion_nombre,bioma,env_material,env_feature,"
-                + "muestreo.protocolo,latitud_r,longitud_r,latitud as latitud_estacion,longitud as longitud_estacion, fecha_i, fecha_f "
+                + "muestreo.protocolo,latitud_r,longitud_r,latitud as latitud_estacion,longitud as longitud_estacion, fecha_i, fecha_f,tipo_profundidad,muestreo.profundidad "
                 + "FROM muestreo "
                 + "INNER JOIN campana on campana.idCampana=muestreo.idCampana "
                 + "INNER JOIN estacion on estacion.idEstacion=muestreo.idEstacion "

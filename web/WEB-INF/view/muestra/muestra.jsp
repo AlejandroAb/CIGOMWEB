@@ -229,6 +229,32 @@
                                                                     <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em>FI: <%= muestreo.getFechaInicial().toWebString()%></em>  <em>FF: <%= muestreo.getFechaFinal().toWebString()%></em></td>
                                                                 </tr> 
                                                                 <tr>
+                                                                    
+                                                                    <td style="padding:10px;"><b>Tipo Profundidad:</b></td>
+                                                            <script>
+                                                                    if("<%= muestreo.getTipo_prof()%>" == "FONDO"){
+                                                                        document.write("<td style='padding:10px; text-align:right; color:#777; font-size:87%;'> <em>FONDO</em></td>");
+                                                                    }else if("<%= muestreo.getTipo_prof()%>" == "MAX_F"){
+                                                                        document.write("<td style='padding:10px; text-align:right; color:#777; font-size:87%;'> <em>MÁXIMA FLUORESCENCIA</em></td>");
+                                                                    }else if("<%= muestreo.getTipo_prof()%>" == "MIL"){
+                                                                        document.write("<td style='padding:10px; text-align:right; color:#777; font-size:87%;'> <em>MIL METROS</em></td>");
+                                                                    }else if("<%= muestreo.getTipo_prof()%>" == "MIN_O2"){
+                                                                        document.write("<td style='padding:10px; text-align:right; color:#777; font-size:87%;'> <em>MINIMO DE OXIGENO</em></td>");
+                                                                    }else if("<%= muestreo.getTipo_prof()%>" == "SED"){
+                                                                    document.write("<td style='padding:10px; text-align:right; color:#777; font-size:87%;'> <em>SEDIMENTO</em></td>");
+                                                                    }
+                                                                    
+                                                            </script>
+                                                            
+                                                             
+                                                                </tr>  
+                                                                <tr>
+                                                                    
+                                                                    <td style="padding:10px;"><b>Profundidad:</b></td>
+                                                                    
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;">  <em> <%= muestreo.getProfundidad() %> <em>mts</em></em></td>
+                                                                </tr>                                                                  
+                                                                <tr>
                                                                     <td style="padding:10px;"><b>Bioma:</b></td>
                                                                     <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><a href="<%= muestreo.getBioma().getUrl()%>"  target="_blank"><%= muestreo.getBioma().getIdTerm()%></a> - <%= muestreo.getBioma().getName()%></em></td>
                                                                 </tr>                                       

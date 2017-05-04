@@ -60,70 +60,70 @@
         <!--ALERTAS-->
         <script src="alerta/dist/sweetalert-dev.js"></script>
         <link rel="stylesheet" href="alerta/dist/sweetalert.css">
-            <!-- DataTables JavaScript -->
-            <script src="bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
-            <script src="bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
-            <script src="bower_components/datatables-responsive/js/dataTables.responsive.js"></script>
+        <!-- DataTables JavaScript -->
+        <script src="bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+        <script src="bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+        <script src="bower_components/datatables-responsive/js/dataTables.responsive.js"></script>
 
-            <script>
-                $(document).ready(function () {
-                    $('#lista-organismo').DataTable({
-                        responsive: true
-                    });
+        <script>
+            $(document).ready(function () {
+                $('#lista-organismo').DataTable({
+                    responsive: true
                 });
-            </script>
+            });
+        </script>
 
-            <script>
-                $(document).ready(function () {
-                    $('#campanas').DataTable({
-                        responsive: true,
-                        bFilter: false,
-                        bInfo: false
-                    });
+        <script>
+            $(document).ready(function () {
+                $('#campanas').DataTable({
+                    responsive: true,
+                    bFilter: false,
+                    bInfo: false
                 });
-            </script>
-            <script>
-                $(document).ready(function () {
-                    $('#profundidad').DataTable({
-                        responsive: true,
-                        bFilter: false,
-                        bInfo: false
-                    });
+            });
+        </script>
+        <script>
+            $(document).ready(function () {
+                $('#profundidad').DataTable({
+                    responsive: true,
+                    bFilter: false,
+                    bInfo: false
                 });
-            </script>
-            <script>
-                $(document).ready(function () {
-                    $('#provincias').DataTable({
-                        responsive: true,
-                        bFilter: false,
-                        bInfo: false
-                    });
+            });
+        </script>
+        <script>
+            $(document).ready(function () {
+                $('#provincias').DataTable({
+                    responsive: true,
+                    bFilter: false,
+                    bInfo: false
                 });
-            </script>
-            <script>
-                $(document).ready(function () {
-                    $('#taxones').DataTable({
-                        responsive: true
-                    });
+            });
+        </script>
+        <script>
+            $(document).ready(function () {
+                $('#taxones').DataTable({
+                    responsive: true
                 });
-            </script>            
-            
-            <script>
-             $(document).ready(function () {
-            //var table = $('#taxones').DataTable();
- 
-            /*$('#taxones tbody').on( 'click', 'tr', function () {
-                    //alert( table.cell( this ).data() );
-                     table.row( this ).delete();
-            } );
-            
-          /* $('#taxones tbody').on( 'click', ' tr', function () {
-                table.row( this ).remove();
-               } );*/
-               
-             });
-    
-            </script>
+            });
+        </script>            
+
+        <script>
+            $(document).ready(function () {
+                //var table = $('#taxones').DataTable();
+
+                /*$('#taxones tbody').on( 'click', 'tr', function () {
+                 //alert( table.cell( this ).data() );
+                 table.row( this ).delete();
+                 } );
+                     
+                 /* $('#taxones tbody').on( 'click', ' tr', function () {
+                 table.row( this ).remove();
+                 } );*/
+
+            });
+
+        </script>
         <script type="text/javascript">
             var palabraAnterior;
             $(document).ready(function () {
@@ -199,60 +199,50 @@
         </script>
         <script type="text/javascript">
 
-   $(document).ready(function() {
-    var table = $('#taxones').DataTable();
- 
-    $('#taxones tbody').on( 'click', 'tr', function () {
-        if ( $(this).hasClass('active') ) {
-            $(this).removeClass('active');
-        }
-        else {
-            table.$('tr.active').removeClass('active');
-            $(this).addClass('active');
-        }
-    } );
- 
-    $('#eliminarTaxon').click( function () {
-        table.row('.active').remove().draw( false );
-    } );
-} );              
-            
-                
+            $(document).ready(function () {
+                var table = $('#taxones').DataTable();
+
+                $('#taxones tbody').on('click', 'tr', function () {
+                    if ($(this).hasClass('active')) {
+                        $(this).removeClass('active');
+                    } else {
+                        table.$('tr.active').removeClass('active');
+                        $(this).addClass('active');
+                    }
+                });
+
+                $('#eliminarTaxon').click(function () {
+                    table.row('.active').remove().draw(false);
+                });
+            });
+
             function Agregar() {
-                //optener valor del input
                 var search = $("#search").val();
                 var t = $('#taxones').DataTable();
-                var counter = 1;
                 
+                if(search==""){
+                    swal({
+                            title: "<span style='color:#red'>El buscador esta vacio!</span>",
+                            imageUrl: "images/error_busqueda.png",
+                            html: true
+                        })
+                }else{
+                var counter = 1;
+
                 var taxaid = search.substring(0, search.indexOf("-")).trim();
                 var taxon = search.substring(search.indexOf("-") + 1, search.indexOf("(")).trim();
                 var rango = search.substring(search.indexOf("(") + 1, search.indexOf(")")).trim();
-                
-        
-                 //realizamos el recorrido solo por las celdas que contienen el id, que es la primera
-                $("#taxones tr").find('td:eq(0)').each(function () {
-                 
-                //obtenemos el id de la celda
-                var codigo = $(this).html();
- 
-               //comparamos para ver si el código es igual a la busqueda
-                
-                if(codigo==taxaid){
-                   alert("ya existe"); 
-                }else{
-     
+
                 t.row.add([taxaid, taxon, rango]).draw(false);
                 counter++;
-                }
-            });
-
+            }
             }
         </script> 
 
         <script>
             $(document).ready(function () {
-            var table = $('#taxones').DataTable();
- 
+                var table = $('#taxones').DataTable();
+
                 $("select[name=niveles]").change(function () {
                     var niveles = $('select[name=niveles]').val();
                     if (niveles == "genus") {
@@ -288,6 +278,15 @@
                     if ($("#degradadores").is(':checked')) {
                         degradadores = "true";
                     }
+                    
+                    var opcionTaxones = "true";
+                    if ($("#descartarTaxones").is(':checked')) {
+                        opcionTaxones = "false";
+                    }else if($("#incluirtTaxones").is(':checked')) {
+                        opcionTaxones = "true";
+                    }
+                    
+                    
                     var resultP = [];
                     var i = 0;
                     $('#profundidad tbody tr [type="checkbox"]').each(function (index) {
@@ -310,7 +309,7 @@
                     });
 
                     var campana = resultC.join('-');
-
+                    
                     var resultP = [];
                     var i = 0;
                     $('#provincias tbody tr [type="checkbox"]').each(function (index) {
@@ -319,10 +318,19 @@
                             i++;
                         }
                     });
-
                     var provincias = resultP.join('-');
+                    
+                    var resultaxones = [];
+                    var i = 0;
+                    $("#taxones tbody tr").find('td:eq(0)').each(function (){
 
-
+                            resultaxones[i] = $(this).text();
+                            i++;
+                        
+                    });
+                    var taxones = resultaxones.join(',');
+                    
+                    
                     if (nivel === null) {
                         swal({
                             title: "<span style='color:#red'>Seleccionar Nivel Taxonómico!</span>",
@@ -330,6 +338,8 @@
                             html: true
                         })
                     } else {
+                        $("#filtro").attr('disabled', 'disabled');
+
                         var form = document.createElement("form");
                         form.setAttribute("method", "post");
                         form.setAttribute("action", "matrizFactory");
@@ -346,11 +356,17 @@
                         dataOrganismo.setAttribute("value", organismo);
                         form.appendChild(dataOrganismo);
 
-                        var dataDegradadores = document.createElement("input");
+                        var dataopcionTaxones = document.createElement("input");
+                        dataopcionTaxones.setAttribute("type", "hidden");
+                        dataopcionTaxones.setAttribute("name", "opcionTaxones");
+                        dataopcionTaxones.setAttribute("value", opcionTaxones);
+                        form.appendChild(dataopcionTaxones);
+                        
+                        var dataDegradadores = document.createElement("input");                
                         dataDegradadores.setAttribute("type", "hidden");
                         dataDegradadores.setAttribute("name", "degradadores");
                         dataDegradadores.setAttribute("value", degradadores);
-                        form.appendChild(dataDegradadores);
+                        form.appendChild(dataDegradadores);                       
 
                         var dataconteos = document.createElement("input");
                         dataconteos.setAttribute("type", "hidden");
@@ -376,11 +392,11 @@
                         dataProvincia.setAttribute("value", provincias);
                         form.appendChild(dataProvincia);
 
-                        /*var dataTrim = document.createElement("input");
-                         dataTrim.setAttribute("type", "hidden");
-                         dataTrim.setAttribute("name", "trim");
-                         dataTrim.setAttribute("value", trimNombre);
-                         form.appendChild(dataTrim);*/
+                        var datataxones = document.createElement("input");
+                         datataxones.setAttribute("type", "hidden");
+                         datataxones.setAttribute("name", "taxones");
+                         datataxones.setAttribute("value", taxones);
+                         form.appendChild(datataxones);
 
                         var dataFile = document.createElement("input");
                         dataFile.setAttribute("type", "hidden");
@@ -395,8 +411,12 @@
                         form.appendChild(dataExtrapoled);
 
                         document.body.appendChild(form);
+                        //$('#filtro').removeAttr('disabled');
+                        //$("#filtro").removeAttr("disabled");
                         form.submit();
                         return true;
+
+                        $("#filtro").removeAttr("disabled");
                     }
 
 
@@ -629,7 +649,7 @@
                         <div class="col-lg-1">
                             <br>
 
-                            <button  class="fa fa-gear" id="filtro" > Generar</button>
+                            <button  class="btn btn-default fa fa-gear" id="filtro" > Generar</button>
                         </div>
                     </div>
 
@@ -825,12 +845,24 @@
                                     </span>
 
                                 </div>
-                                
+
                                 <!-- /.panel-heading -->
                                 <div id="resultado" style="position:absolute; z-index:2; background-color:#ffffff;">
 
                                 </div>
                                 <!-- .panel-body -->
+                            </div>
+                            <div class="form-group">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="descartarTaxones" value="" checked>Descartar estos taxones
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="incluirTaxones" value="">Incluir estos taxones
+                                    </label>
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -840,7 +872,7 @@
                                 </div>
                                 <!-- /.panel-heading -->
                                 <div class="panel-body">
-                                        
+
                                     <div class="dataTable_wrapper">
                                         <table width="100%" class="table table-striped table-bordered table-hover" id="taxones">
                                             <thead>
@@ -850,8 +882,7 @@
                                                     <th>Rango</th>
                                                 </tr>
                                             </thead>
-                                            <tbody >
-
+                                            <tbody>
                                             </tbody>
                                         </table>
                                         <button class="btn btn-outline btn-danger" id="eliminarTaxon" >  EliminarTaxon</button>

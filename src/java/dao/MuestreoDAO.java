@@ -288,6 +288,12 @@ public class MuestreoDAO {
                             ff.splitSQLStandarDate();
                             muestreo.setFechaFinal(ff);
                             break;
+                        case 14:
+                            muestreo.setTipo_prof(val);
+                            break;
+                        case 15:
+                            muestreo.setProfundidad(Double.parseDouble(val));
+                            break;
                     }
                 }
                 i++;
