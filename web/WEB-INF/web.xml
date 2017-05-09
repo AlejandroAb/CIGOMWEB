@@ -117,6 +117,10 @@
         <servlet-name>MetagenomeController</servlet-name>
         <servlet-class>controller.MetagenomeController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GenController</servlet-name>
+        <servlet-class>controller.GenController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SequenceController</servlet-name>
         <url-pattern>/getSequence</url-pattern>
@@ -177,6 +181,11 @@
         <url-pattern>/creaMatriz</url-pattern>
         <url-pattern>/matrices</url-pattern>
         <url-pattern>/agregaTaxon</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GenController</servlet-name>
+        <url-pattern>/GenController</url-pattern>
+        <url-pattern>/showGen</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

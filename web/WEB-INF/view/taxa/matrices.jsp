@@ -116,7 +116,7 @@
                  //alert( table.cell( this ).data() );
                  table.row( this ).delete();
                  } );
-                     
+                 
                  /* $('#taxones tbody').on( 'click', ' tr', function () {
                  table.row( this ).remove();
                  } );*/
@@ -219,23 +219,29 @@
             function Agregar() {
                 var search = $("#search").val();
                 var t = $('#taxones').DataTable();
-                
-                if(search==""){
+
+
+                if (search == "") {
                     swal({
-                            title: "<span style='color:#red'>El buscador esta vacio!</span>",
-                            imageUrl: "images/error_busqueda.png",
-                            html: true
-                        })
-                }else{
-                var counter = 1;
+                        title: "<span style='color:#red'>El buscador esta vacio!</span>",
+                        imageUrl: "images/error_busqueda.png",
+                        html: true
+                    })
+                }
+                else {
+                    var counter = 1;
 
-                var taxaid = search.substring(0, search.indexOf("-")).trim();
-                var taxon = search.substring(search.indexOf("-") + 1, search.indexOf("(")).trim();
-                var rango = search.substring(search.indexOf("(") + 1, search.indexOf(")")).trim();
+                    var taxaid = search.substring(0, search.indexOf("-")).trim();
+                    var taxon = search.substring(search.indexOf("-") + 1, search.indexOf("(")).trim();
+                    var rango = search.substring(search.indexOf("(") + 1, search.indexOf(")")).trim();
+                    
+                   
+                   t.row.add([taxaid, taxon, rango]).draw(false);
+                    counter++; 
+                
 
-                t.row.add([taxaid, taxon, rango]).draw(false);
-                counter++;
-            }
+                    
+                }
             }
         </script> 
 
@@ -278,15 +284,15 @@
                     if ($("#degradadores").is(':checked')) {
                         degradadores = "true";
                     }
-                    
+
                     var opcionTaxones = "true";
                     if ($("#descartarTaxones").is(':checked')) {
                         opcionTaxones = "false";
-                    }else if($("#incluirtTaxones").is(':checked')) {
+                    } else if ($("#incluirtTaxones").is(':checked')) {
                         opcionTaxones = "true";
                     }
-                    
-                    
+
+
                     var resultP = [];
                     var i = 0;
                     $('#profundidad tbody tr [type="checkbox"]').each(function (index) {
@@ -309,7 +315,7 @@
                     });
 
                     var campana = resultC.join('-');
-                    
+
                     var resultP = [];
                     var i = 0;
                     $('#provincias tbody tr [type="checkbox"]').each(function (index) {
@@ -319,18 +325,18 @@
                         }
                     });
                     var provincias = resultP.join('-');
-                    
+
                     var resultaxones = [];
                     var i = 0;
-                    $("#taxones tbody tr").find('td:eq(0)').each(function (){
+                    $("#taxones tbody tr").find('td:eq(0)').each(function () {
 
-                            resultaxones[i] = $(this).text();
-                            i++;
-                        
+                        resultaxones[i] = $(this).text();
+                        i++;
+
                     });
                     var taxones = resultaxones.join(',');
-                    
-                    
+
+
                     if (nivel === null) {
                         swal({
                             title: "<span style='color:#red'>Seleccionar Nivel Taxonómico!</span>",
@@ -361,12 +367,12 @@
                         dataopcionTaxones.setAttribute("name", "opcionTaxones");
                         dataopcionTaxones.setAttribute("value", opcionTaxones);
                         form.appendChild(dataopcionTaxones);
-                        
-                        var dataDegradadores = document.createElement("input");                
+
+                        var dataDegradadores = document.createElement("input");
                         dataDegradadores.setAttribute("type", "hidden");
                         dataDegradadores.setAttribute("name", "degradadores");
                         dataDegradadores.setAttribute("value", degradadores);
-                        form.appendChild(dataDegradadores);                       
+                        form.appendChild(dataDegradadores);
 
                         var dataconteos = document.createElement("input");
                         dataconteos.setAttribute("type", "hidden");
@@ -393,10 +399,10 @@
                         form.appendChild(dataProvincia);
 
                         var datataxones = document.createElement("input");
-                         datataxones.setAttribute("type", "hidden");
-                         datataxones.setAttribute("name", "taxones");
-                         datataxones.setAttribute("value", taxones);
-                         form.appendChild(datataxones);
+                        datataxones.setAttribute("type", "hidden");
+                        datataxones.setAttribute("name", "taxones");
+                        datataxones.setAttribute("value", taxones);
+                        form.appendChild(datataxones);
 
                         var dataFile = document.createElement("input");
                         dataFile.setAttribute("type", "hidden");
@@ -789,8 +795,6 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-
-
                                                 <tr style="border-top:none;">
                                                     <td style="padding:10px;"><span style="margin-right: 5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Bordea la plataforma de la costa occidental de Florida hasta los 84° de longitud oeste, que tiene una dirección ligeramente noroeste; es aún más amplia que la Península de Yucatán, excediendo los 260 km. Hacia el sur de la provincia la inclinación de su pendiente aumenta bruscamente y va de 100 a 1 000 m de profundidad. Está pendiente constituye el Escarpe de Florida, el cual bordea el Estrecho y la plataforma oeste de Florida.', {position: 0})"></span><b>Primera Provincia</b></td>
                                                     <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><input type="checkbox" value="1" id="provincia" ></td>                                                                   
