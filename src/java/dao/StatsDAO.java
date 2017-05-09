@@ -38,7 +38,16 @@ public class StatsDAO {
             stats.setCombined_prc(datos.get(8));
             return stats;
         }else{
-            return null;
+            stats.setReads("-1");
+            stats.setBases("-1");
+            stats.setLong_avg("-1");
+            stats.setGc_prc("-1");
+            stats.setQc_avg("-1");
+            stats.setNs_prc("-1");
+            stats.setQ20("-1");
+            stats.setQ30("-1");
+            stats.setCombined_prc("-1");
+            return stats;
         }
     }
 }

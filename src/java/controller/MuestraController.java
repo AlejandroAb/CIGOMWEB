@@ -48,7 +48,7 @@ public class MuestraController extends HttpServlet {
             //session expirada o invalida
             String url = "index.jsp";
             //mandar mensaje de session expirada o a página de error / sesión expirada
-            request.setAttribute("msg", "Su sesi&oacute;n expir&oacute;");
+            request.setAttribute("msg", "Su sesión expiró;");
             request.getRequestDispatcher(url).forward(request, response);
             return;
         } else {

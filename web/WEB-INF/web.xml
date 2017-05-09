@@ -2,8 +2,9 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <context-param>
         <param-name>ipdb</param-name>
-        <param-value>localhost</param-value>
+        <param-value>132.248.32.62</param-value>
         <!--132.248.32.62-->
+        <!--132.248.32.145-->
     </context-param>
     <context-param>
         <param-name>usuariodb</param-name>
@@ -105,10 +106,6 @@
         <servlet-class>controller.MarcadorController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>MetagenomeController</servlet-name>
-        <servlet-class>controller.MetagenomeController</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>GenomeController</servlet-name>
         <servlet-class>controller.GenomeController</servlet-class>
     </servlet>
@@ -116,12 +113,15 @@
         <servlet-name>EstacionController</servlet-name>
         <servlet-class>controller.EstacionController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MetagenomeController</servlet-name>
+        <servlet-class>controller.MetagenomeController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SequenceController</servlet-name>
         <url-pattern>/getSequence</url-pattern>
         <url-pattern>/serveFile</url-pattern>
         <url-pattern>/getSequenceTaxo</url-pattern>
-        
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>BlastController</servlet-name>
@@ -150,24 +150,10 @@
         <url-pattern>/detallesBusqueda</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>TaxaController</servlet-name>
-        <url-pattern>/taxonomia</url-pattern>
-        <url-pattern>/searchTaxa</url-pattern>
-        <url-pattern>/downloadTaxaTable</url-pattern>
-        <url-pattern>/creaMatriz</url-pattern>
-        <url-pattern>/matrizFactory</url-pattern>
-        <url-pattern>/matrices</url-pattern>
-        <url-pattern>/degradadores</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>MarcadorController</servlet-name>
         <url-pattern>/showMarcador</url-pattern>
         <url-pattern>/kronaAmp</url-pattern>
         <url-pattern>/kronaAmp2</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>MetagenomeController</servlet-name>
-        <url-pattern>/showMetagenoma</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>GenomeController</servlet-name>
@@ -176,6 +162,21 @@
     <servlet-mapping>
         <servlet-name>EstacionController</servlet-name>
         <url-pattern>/showEstacion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MetagenomeController</servlet-name>
+        <url-pattern>/showMetagenoma</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TaxaController</servlet-name>
+        <url-pattern>/matrizFactory</url-pattern>
+        <url-pattern>/taxonomia</url-pattern>
+        <url-pattern>/downloadTaxaTable</url-pattern>
+        <url-pattern>/degradadores</url-pattern>
+        <url-pattern>/searchTaxa</url-pattern>
+        <url-pattern>/creaMatriz</url-pattern>
+        <url-pattern>/matrices</url-pattern>
+        <url-pattern>/agregaTaxon</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

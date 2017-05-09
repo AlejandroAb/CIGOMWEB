@@ -5,6 +5,8 @@
  */
 package bobjects;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Alejandro
@@ -14,9 +16,12 @@ public class Metagenoma {
     private int idmetagenoma;
     private int idmuestra;
     private int idtipo_secuenciacion;
+    private String tipoSecuenciacion;
+    private String descTipoSecuenciacion;
     private int idSecuenciador;
-    private String name;
-    private String desc;
+    private String equipoSecuenciacion;//
+    private String name;//nombre metagenoma
+    private String desc;//descripcion  metagenoma
     private String comentarios;
     private String library_selection;
     private String library_layout;
@@ -24,6 +29,112 @@ public class Metagenoma {
     private String library_vector;
     private int seq_num_total;
     private String cantidad_dna;
+    private String metodo;
+    private String cultivo;
+    private String kit;
+    private String etiquetaMuestra;
+    private double latitud;
+    private double longitud;
+    private StatsObj stats;
+    private AssemblyObj ensamble;
+    ArrayList<ArchivoObj> archivos = new ArrayList<>();
+    public StatsObj getStats() {
+        return stats;
+    }
+
+    public ArrayList<ArchivoObj> getArchivos() {
+        return archivos;
+    }
+
+    public void setArchivos(ArrayList<ArchivoObj> archivos) {
+        this.archivos = archivos;
+    }
+    public void addArchivo(ArchivoObj archivo){
+        archivos.add(archivo);
+    }
+    public AssemblyObj getEnsamble() {
+        return ensamble;
+    }
+
+    public void setEnsamble(AssemblyObj ensamble) {
+        this.ensamble = ensamble;
+    }
+
+    public void setStats(StatsObj stats) {
+        this.stats = stats;
+    }
+
+    public double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
+
+    public double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
+    }
+
+    public String getMetodo() {
+        return metodo;
+    }
+
+    public String getTipoSecuenciacion() {
+        return tipoSecuenciacion;
+    }
+
+    public void setTipoSecuenciacion(String tipoSecuenciacion) {
+        this.tipoSecuenciacion = tipoSecuenciacion;
+    }
+
+    public String getDescTipoSecuenciacion() {
+        return descTipoSecuenciacion;
+    }
+
+    public void setDescTipoSecuenciacion(String descTipoSecuenciacion) {
+        this.descTipoSecuenciacion = descTipoSecuenciacion;
+    }
+
+    public String getEquipoSecuenciacion() {
+        return equipoSecuenciacion;
+    }
+
+    public void setEquipoSecuenciacion(String equipoSecuenciacion) {
+        this.equipoSecuenciacion = equipoSecuenciacion;
+    }
+
+    public void setMetodo(String metodo) {
+        this.metodo = metodo;
+    }
+
+    public String getCultivo() {
+        return cultivo;
+    }
+
+    public void setCultivo(String cultivo) {
+        this.cultivo = cultivo;
+    }
+
+    public String getKit() {
+        return kit;
+    }
+
+    public void setKit(String kit) {
+        this.kit = kit;
+    }
+
+    public String getEtiquetaMuestra() {
+        return etiquetaMuestra;
+    }
+
+    public void setEtiquetaMuestra(String etiquetaMuestra) {
+        this.etiquetaMuestra = etiquetaMuestra;
+    }
 
     public Metagenoma(int idmetagenoma) {
         this.idmetagenoma = idmetagenoma;
@@ -132,7 +243,5 @@ public class Metagenoma {
     public void setCantidad_dna(String cantidad_dna) {
         this.cantidad_dna = cantidad_dna;
     }
-    
-    
 
 }
