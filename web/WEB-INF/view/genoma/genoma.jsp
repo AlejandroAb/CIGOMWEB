@@ -8,7 +8,6 @@
 <%@page import="bobjects.ArchivoObj"%>
 <%@page import="bobjects.PCRObj"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="bobjects.Marcador"%>
 <%@page import="bobjects.Usuario"%>
 <%
     HttpSession sesion = request.getSession(false);
@@ -21,8 +20,8 @@
     }
     Usuario usuario = (Usuario) sesion.getAttribute("userObj");
     String nombreCompleto = usuario.getNombres() + " " + usuario.getApellidos();
-    Object marcadorObj = request.getAttribute("marcador");
-    Marcador marcador = marcadorObj != null ? (Marcador) marcadorObj : null;
+    //Object marcadorObj = request.getAttribute("marcador");
+    //Marcador marcador = marcadorObj != null ? (Marcador) marcadorObj : null;
 %>
 <!DOCTYPE html>
 <html>

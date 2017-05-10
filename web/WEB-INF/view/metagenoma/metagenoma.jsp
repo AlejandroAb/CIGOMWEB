@@ -91,7 +91,7 @@
                         $("#resultadokrona").html("<p align='center'><img src='http://form.cenp.com.br/img/carregando.gif' /></p>");
                     },
                     error: function () {
-                        alert("error peticiï¿½n ajax");
+                        alert("error petición ajax");
                     },
                     success: function (data) {
                         //alert("success??");
@@ -246,7 +246,7 @@
                                     </li>
                                     <li><a href="#archivos" id="boton" data-toggle="tab">Archivos</a>
                                     </li>
-                                    <li><a id="div-krona" href="#krona3" data-toggle="tab" onclick="funcionKrona2(<%//= marcador.getIdMarcador()%>)">Taxonomï¿½a</a>
+                                    <li><a id="div-krona" href="#krona3" data-toggle="tab" onclick="funcionKrona2(<%//= marcador.getIdMarcador()%>)">Taxonomía</a>
                                     </li>
                                     <li><a href="#matriz" data-toggle="tab">Matriz</a>
                                     </li>    
@@ -283,7 +283,7 @@
                                                                 <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getLibrary_selection()%></em></td>
                                                             </tr>
                                                             <tr>
-                                                                <td style="padding:10px;"><b>Descripciï¿½n:</b></td>
+                                                                <td style="padding:10px;"><b>Descripción:</b></td>
                                                                 <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getLibrary_layout()%></em></td>
                                                             </tr>                                                               
                                                             <tr>
@@ -325,10 +325,10 @@
                                                                             }
                                             </script>
 
-                                            <h3 style="color:#337ab7;">LOCALIZACIï¿½N</h3>
+                                            <h3 style="color:#337ab7;">LOCALIZACIÓN</h3>
                                             <hr> 
                                             <p>
-                                                <b>Estaciï¿½n:</b> <%//= muestreo.getIdEstacion()%> (<%//= muestreo.getLatitud_estacion().getCoordenadas()%>,<%//= muestreo.getLongitud_estacion().getCoordenadas()%>)
+                                                <b>Estación:</b> <%//= muestreo.getIdEstacion()%> (<%//= muestreo.getLatitud_estacion().getCoordenadas()%>,<%//= muestreo.getLongitud_estacion().getCoordenadas()%>)
                                             </p>
                                             <p>            
                                             <div id="mapa" style="width:100%; height:200px">
@@ -356,19 +356,19 @@
                                                             <tbody>
 
                                                                 <tr>
-                                                                    <td style="padding:10px;"><b>Tipo de secuenciaciï¿½n:</b></td>
+                                                                    <td style="padding:10px;"><b>Tipo de secuenciación:</b></td>
                                                                     <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getNombreTipoSecuenciacion()%></em></td>
                                                                 </tr>                                                              
                                                                 <tr>
-                                                                    <td style="padding:10px;"><b>Selecciï¿½n de la librerï¿½a:</b></td>
+                                                                    <td style="padding:10px;"><b>Selección de la librería:</b></td>
                                                                     <td style="padding:10px; text-align:left; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= marcador.getDescripcionTipoSecuenciacion()%></em></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="padding:10px;"><b>Configuraciï¿½n de la librerï¿½a:</b></td>
+                                                                    <td style="padding:10px;"><b>Configuración de la librería:</b></td>
                                                                     <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getMarca() + "-" + marcador.getModelo()%></em></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="padding:10px;"><b>Descripciï¿½n:</b></td>
+                                                                    <td style="padding:10px;"><b>Descripción:</b></td>
                                                                     <td style="padding:10px; text-align:left; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= marcador.getDescripcionTipoSecuenciacion()%></em></td>
                                                                 </tr>                                                               
                                                                 <tr>
@@ -384,7 +384,7 @@
                                                                     <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getPcr().getClean_up_kit()%></em></td>
                                                                 </tr>   
                                                                 <tr>
-                                                                    <td style="padding:10px;"><b>Metodologï¿½a:</b></td>
+                                                                    <td style="padding:10px;"><b>Metodología:</b></td>
                                                                     <td style="padding:10px; text-align:left; color:#777; font-size:87%; word-break: break-all;"><em><%//= marcador.getPcr().getClean_up_method()%></em></td>
                                                                 </tr>   
                                                                 <!-- <tr>
@@ -413,11 +413,11 @@
                                                         <table class="table table-striped">
                                                             <tbody>
                                                                 <tr style="border-top:none;">
-                                                                    <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Nï¿½mero de secuencias obtenidas.', {position: 0})"></span> <b>Lecturas:</b></td>
+                                                                    <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Número de secuencias obtenidas.', {position: 0})"></span> <b>Lecturas:</b></td>
                                                                     <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getStats().getReads()%></em></td>                                                                   
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Nï¿½mero de bases nucleotï¿½dicas que representan el total de las lecturas obtenidas.', {position: 0})"></span> <b>Bases:</b></td>
+                                                                    <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Número de bases nucleotídicas que representan el total de las lecturas obtenidas.', {position: 0})"></span> <b>Bases:</b></td>
                                                                     <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getStats().getBases()%></em></td>
                                                                 </tr>
                                                                 <tr>
@@ -452,7 +452,7 @@
                                                         <table class="table table-striped">
                                                             <tbody>
                                                                 <tr>
-                                                                    <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Nï¿½mero de bases ambiguas o con la letra N.', {position: 0})"></span> <b>nï¿½s%:</b></td>
+                                                                    <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Número de bases ambiguas o con la letra N.', {position: 0})"></span> <b>n's%:</b></td>
                                                                     <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getStats().getNs_prc()%></em></td>
                                                                 </tr>
                                                                 <tr>
@@ -502,7 +502,7 @@
                                                                     <td style="padding:10px; text-align:left; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= marcador.getDescripcionTipoSecuenciacion()%></em></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="padding:10px;"><b>Contig mï¿½s largo:</b></td>
+                                                                    <td style="padding:10px;"><b>Contig más largo:</b></td>
                                                                     <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getMarca() + "-" + marcador.getModelo()%></em></td>
                                                                 </tr>
                                                                 <tr>
@@ -546,7 +546,7 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th>Nombre</th>
-                                                                    <th>Descripciï¿½n</th>
+                                                                    <th>Descripción</th>
                                                                     <th>Descargar</th>
                                                                     <th>Detalles</th>
                                                                 </tr>
@@ -600,7 +600,7 @@
                                                                                     <td style="padding:10px; word-break: break-all;"><em><%//= aobj.getChecksum()%></em></td>
                                                                                 </tr> 
                                                                                 <tr>
-                                                                                    <td style="padding:10px;"><em><b>Tamaï¿½o:</b></em></td>
+                                                                                    <td style="padding:10px;"><em><b>Tamaño:</b></em></td>
                                                                                     <td style="padding:10px;"><em><%//= aobj.getSize()%></em></td>
                                                                                 </tr>
                                                                             </tbody>
@@ -619,7 +619,7 @@
                                                                                             <thead>
                                                                                                 <tr>
                                                                                                     <th>Usuario</th>
-                                                                                                    <th>Relaciï¿½n</th>
+                                                                                                    <th>Relación</th>
                                                                                                     <th>Comentarios</th>
                                                                                                 </tr>
                                                                                             </thead>
@@ -690,7 +690,7 @@
                                         <div class="row">                         
                                             <div class="col-lg-2">
 
-                                                <label>Nivel Taxonï¿½mico</label>
+                                                <label>Nivel Taxonómico</label>
                                                 <select id="nivelTaxo" name="nivel" class="form-control">
                                                     <option value="" disabled selected>Select...</option>                                                
                                                     <option value="kingdom">Reino</option>
@@ -698,7 +698,7 @@
                                                     <option value="class">Clase</option>
                                                     <option value="orden">Orden</option>
                                                     <option value="family">Familia</option>
-                                                    <option value="genus">Gï¿½nero</option>
+                                                    <option value="genus">Género</option>
                                                     <option value="species">Especie</option>                                                
                                                 </select>   
                                                 <div class="form-group" id="mGeneros" style="display:none;">
@@ -718,7 +718,7 @@
                                                         <div class="popup-contenedor">
                                                             <div class="panel panel-default">
                                                                 <div class="panel-heading">
-                                                                    <center><h3><b style="color:#d9534f;">Gï¿½neros Degradadores</b></h3></center>
+                                                                    <center><h3><b style="color:#d9534f;">Géneros Degradadores</b></h3></center>
                                                                 </div>
                                                                 <%
                                                                    // Object tabla = request.getAttribute("tabla");
@@ -773,7 +773,7 @@
                                                             <!--<label>Radio Buttons</label>-->
                                                             <div class="radio">
                                                                 <label>
-                                                                    <input type="radio" name = "orgName" value = "taxon" id="taxon" checked>ï¿½ltimo nivel taxonï¿½mico
+                                                                    <input type="radio" name = "orgName" value = "taxon" id="taxon" checked>Último nivel taxonómico
                                                                 </label>
                                                             </div>
 

@@ -58,14 +58,14 @@
     <context-param>
         <param-name>scriptDir</param-name>
         <!--  <param-value>/opt/ncbi-blast-2.2.30+/bin/blastp</param-value>  -->
-      <!--  <param-value>C:/Users/Alejandro/Documents/Projects/pemex/R/web/</param-value>-->
-        <param-value>/data/R/</param-value>
+        <param-value>C:/Users/Alejandro/Documents/Projects/pemex/R/web/</param-value>
+        <!-- <param-value>/data/R/</param-value>-->
     </context-param>
     <context-param>
         <param-name>execR</param-name>
         <!--  <param-value>/opt/ncbi-blast-2.2.30+/bin/blastp</param-value>  -->
-        <param-value>Rscript</param-value>
-         <!--<param-value>c:/Program Files/R/R-3.0.3/bin/Rscript </param-value>-->
+        <!--<param-value>Rscript</param-value>-->
+        <param-value>c:/Program Files/R/R-3.0.3/bin/Rscript </param-value>
     </context-param>
     <context-param>
         <param-name>blastx</param-name>
@@ -116,6 +116,10 @@
     <servlet>
         <servlet-name>MetagenomeController</servlet-name>
         <servlet-class>controller.MetagenomeController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GenController</servlet-name>
+        <servlet-class>controller.GenController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>SequenceController</servlet-name>
@@ -177,6 +181,11 @@
         <url-pattern>/creaMatriz</url-pattern>
         <url-pattern>/matrices</url-pattern>
         <url-pattern>/agregaTaxon</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GenController</servlet-name>
+        <url-pattern>/GenController</url-pattern>
+        <url-pattern>/showGen</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

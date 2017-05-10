@@ -311,10 +311,9 @@ public class Transacciones {
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
-
     /**
-     * Este método se encarga traer algunos de datos de la tabla taxon de
-     * acuerdo a un tax_id dado.
+     *Este método se encarga traer algunos de datos de la tabla taxon de acuerdo
+     * a un tax_id dado.
      */
     public ArrayList getAgregarTaxon(String tax_id) {
         String query = "SELECT tax_id,taxon,rank "
@@ -322,7 +321,7 @@ public class Transacciones {
                 + "WHERE tax_id=" + tax_id;
         conexion.executeStatement(query);
         return conexion.getTabla();
-    }
+    }    
 
     /**
      * Este métoodo calcula lo mismo que el método: getConteosMarcadorPorTaxo
