@@ -107,7 +107,7 @@
                 $("#resultadokrona3").html("<frameset><iframe src='kronaAmp2?idkrona=" + idKrona + "' width=100%; height=500px; frameborder='0'> </iframe> </frameset>");
             }
         </script>
-        <!--SCRIPT PARA OCULTAR DIV DETALLES-->
+        
         <script>
 
             var clic = 1;

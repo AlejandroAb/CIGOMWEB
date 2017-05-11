@@ -86,7 +86,8 @@ public class TaxaDAO {
             }
         }
         ArrayList<ArrayList<String>> tabla = new ArrayList();
-        ArrayList<ArrayList> marcadoresCounts = transacciones.getConteosMarcadorPorTaxon(rank, name);
+        //ArrayList<ArrayList> marcadoresCounts = transacciones.getConteosMarcadorPorTaxon(rank, name);
+        ArrayList<ArrayList> marcadoresCounts = transacciones.getConteosMarcadorPorTaxonOptimized(rank, name);
         /*if(rank.equals("no rank")){
          marcadoresCounts = transacciones.getConteosMarcadorPorTaxon(rank, name);
          }else{

@@ -5,7 +5,9 @@
  */
 package controller;
 
+import bobjects.Metagenoma;
 import bobjects.Usuario;
+import dao.MetagenomaDAO;
 import database.Transacciones;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -45,7 +47,7 @@ public class MetagenomeController extends HttpServlet {
             request.setAttribute("msg", "Su sesi&oacute;n expir&oacute;");
             request.getRequestDispatcher(url).forward(request, response);
             return;
-        }else {
+        } else {
             String userPath = request.getServletPath();
             //Transacciones tiene que ser un variable de sesion
             Transacciones transacciones = (Transacciones) session.getAttribute("transacciones");
@@ -63,15 +65,33 @@ public class MetagenomeController extends HttpServlet {
             }
 
             if (userPath.equals("/showMetagenoma")) {
-                 
-                        RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/view/metagenoma/metagenoma.jsp");
-                        view.forward(request, response);
-                  
-            }        
-            
+                String idMetagenoma = request.getParameter("idMetagenoma");
+                int idM = -1;
+                if (idMetagenoma != null) {
+                    try {
+                        idM = Integer.parseInt(idMetagenoma);
+                    } catch (NumberFormatException nfe) {
+
+                    }
+                }
+                if (idM == -1) {
+                    request.setAttribute("msg", "Error en el identificador del metagenoma!");
+                    String url = "/WEB-INF/view/error/error.jsp";
+                    request.getRequestDispatcher(url).forward(request, response);
+                } else {
+                    MetagenomaDAO mdao = new MetagenomaDAO(transacciones);
+                    Metagenoma metagenoma = mdao.initMetagenoma(idM);
+                    request.setAttribute("metagenoma", metagenoma);
+                    RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/view/metagenoma/metagenoma.jsp");
+                    view.forward(request, response);
+                }
+
+            }
+
         }
     }
-        private Transacciones getNewConexion() {
+
+    private Transacciones getNewConexion() {
         Transacciones transacciones;
         try {
             ServletContext sc = getServletContext();
