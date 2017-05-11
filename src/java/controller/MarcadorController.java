@@ -130,7 +130,7 @@ public class MarcadorController extends HttpServlet {
                 //  out.println("<iframe src='data:text/html;' width=100%; height=500px; frameborder=\"0\">" + html + "<iframe>");
                 //  out.println(html);             
             } else if (userPath.equals("/kronaAmp2")) {
-
+                // en realidad el id es el id del marcador
                 String idkrona = request.getParameter("idkrona");
                 if (idkrona != null) {
                     int id = -1;
