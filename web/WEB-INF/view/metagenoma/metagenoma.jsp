@@ -395,7 +395,7 @@
                                                                     <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= metagenoma.getLibrary_layout() %></td> 
                                                                 </tr>
                                                                 <tr>
-                                                                    <td style="padding:10px;"><b>Privación de la libreria:</b></td>
+                                                                    <td style="padding:10px;"><b>Preparación de la libreria:</b></td>
                                                                     <td style="padding:10px; text-align:left; color:#777; font-size:87%;"></td>
                                                                     <td></td>
                                                                     <td></td>
