@@ -4,6 +4,8 @@
     Author     : Jose Pefi
 --%>
 
+<%@page import="bobjects.NCBINode"%>
+<%@page import="bobjects.Genoma"%>
 <%@page import="java.util.List"%>
 <%@page import="bobjects.ArchivoObj"%>
 <%@page import="bobjects.PCRObj"%>
@@ -20,8 +22,10 @@
     }
     Usuario usuario = (Usuario) sesion.getAttribute("userObj");
     String nombreCompleto = usuario.getNombres() + " " + usuario.getApellidos();
-    //Object marcadorObj = request.getAttribute("marcador");
-    //Marcador marcador = marcadorObj != null ? (Marcador) marcadorObj : null;
+    Object genomaObj = request.getAttribute("genoma");
+    Genoma genoma = genomaObj != null ? (Genoma) genomaObj : null;
+    
+
 %>
 <!DOCTYPE html>
 <html>
@@ -206,25 +210,27 @@
 
             <div id="page-wrapper">
                 <%
-                    //if (marcador != null) {
+                    if (genoma != null) {
 
                 %>
                 <div class="row">                     
                     <div class="col-lg-12">
 
-                        <h2 style="color:#337ab7;">GENOMA</h2><h4 class="page-header" style="color:#d9534f; margin-top:0px;"><%//= marcador.getMarc_name()%></h4> 
+                        <h2 style="color:#337ab7;">GENOMA</h2><h4 class="page-header" style="color:#d9534f; margin-top:0px;"><%= genoma.getName() %></h4> 
                     </div>
-                    <!-- /.col-lg-12 -->
+                    <script>
+                        console.log("El nombre del genoma:"+<%= genoma.getName() %>);
+                    </script>
                 </div>
                 <%
-                   // }
+                   }
                 %>
                 <br>
+                
                 <!-- /.row -->
                 <div class="row">
 
                     <div class="col-lg-12" id="contenido">
-                        <!--<iframe src="krona.html" width=100%; height=500px; frameborder="0"> </iframe>-->
 
                         <div class="panel panel-default">
                             <!-- <div class="panel-heading">
@@ -263,35 +269,40 @@
                                             <div class="panel-body">
                                                 <div class="table table-striped table-bordered " width="100%">
                                                     <table class="table table-striped">
-                                                        <%
-                                                           // if (marcador != null) {
+                                                        <%  
+                                                            
+                                                            if (genoma != null) {
+                                                                
+                                                            
                                                         %>
                                                         <tbody>
-
+                                                            <tr style="border-top:none;">
+                                                                <td style="padding:10px;"><b>Versión:</b></td>
+                                                                <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= genoma.getVersion() %></em></td>
+                                                            </tr>
                                                             <tr style="border-top:none;">
                                                                 <td style="padding:10px;"><b>Muestra:</b></td>
-                                                                <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><a href = 'showMuestra?idMuestra=<%//=marcador.getIdMuestra()%>' target='_blank'><%//= marcador.getEtiquetaMuestra()%></a></em></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="padding:10px;"><b>Tips de Muestra:</b></td>
-                                                                <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getGenes() + " " + marcador.getSubFragment()%></em></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="padding:10px;"><b>Profundidad:</b></td>
-                                                                <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getLibrary_selection()%></em></td>
+                                                                <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><a href = 'showMuestra?idMuestra=<%=genoma.getIdmuestra() %>' target='_blank'><%= genoma.getEtiquetaMuestra()%></a></em></td>
                                                             </tr>
                                                             <tr>
                                                                 <td style="padding:10px;"><b>Descripción:</b></td>
-                                                                <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getLibrary_layout()%></em></td>
-                                                            </tr>                                                               
+                                                                <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= genoma.getDesc() %></em></td>
+                                                            </tr> 
                                                             <tr>
-                                                                <td style="padding:10px;"><b>Medio de cultivo:</b></td>
-                                                                <td style="padding:10px; text-align:right; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= marcador.getMarc_desc()%></em></td>
-                                                            </tr>    
-
+                                                                <td style="padding:10px;"><b>Organismo:</b></td>
+                                                                <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= genoma.getTax_id() %> <%= genoma.getStrain() %></em></td>
+                                                            </tr> 
+                                                            <tr>
+                                                                <td style="padding:10px;"><b>Linaje:</b></td>
+                                                                <td style="padding:10px; text-align:right; color:#777; font-size:87%; word-wrap:break-all;"><em><%= genoma.getTax().getKingdom()%>,<%= genoma.getTax().getPhylum() %>,<%= genoma.getTax().getClas() %>, <%= genoma.getTax().getOrden() %>,<%= genoma.getTax().getFamily() %>,<%= genoma.getTax().getGenus() %>,<%= genoma.getTax().getSpecies() %>,<%= genoma.getTax().getSubspecies() %></em></td>
+                                                            </tr>          
+                                                            <tr>
+                                                                <td style="padding:10px;"><b>Aislamiento y condiciones de crecimiento:</b></td>
+                                                                <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= genoma.getCrecimiento() %></em></td>
+                                                            </tr>   
                                                         </tbody>
                                                         <%
-                                                            //}
+                                                            }
                                                         %>
                                                     </table>
                                                 </div>
@@ -303,9 +314,9 @@
                                     <div class="col-md-6">
                                             <script>
                                                 function mapa() {
-                                                    var puntoCentral = new google.maps.LatLng(27.6406200,-100.0948700);
+                                                    var puntoCentral = new google.maps.LatLng(<%= genoma.getLatitud() %>,<%= genoma.getLongitud() %>);
                                                     var opciones = {
-                                                        zoom: 8,
+                                                        zoom: 4,
                                                         center: puntoCentral,
                                                         mapTypeId: google.maps.MapTypeId.HYBRID
                                                     };
@@ -314,7 +325,7 @@
                                                     var div = document.getElementById('mapa');
                                                     var map = new google.maps.Map(div, opciones);
                                                     var marker = new google.maps.Marker({
-                                                        position: new google.maps.LatLng(27.6406200,-100.0948700),
+                                                        position: new google.maps.LatLng(<%= genoma.getLatitud() %>,<%= genoma.getLongitud() %>),
                                                         map: map,
                                                             title: "Muestra",
                                                                 icon: iconoMuestra
@@ -326,7 +337,7 @@
                                             <h4 style="color:#337ab7;">LOCALIZACIÓN</h4>
                                             <hr> 
                                             <p>
-                                                <b>Estación:</b> <%//= muestreo.getIdEstacion()%> (<%//= muestreo.getLatitud_estacion().getCoordenadas()%>,<%//= muestreo.getLongitud_estacion().getCoordenadas()%>)
+                                                <b>Coordenadas:</b> <%= genoma.getLatitud() %>,<%= genoma.getLongitud() %>
                                             </p>
                                             <p>            
                                             <div id="mapa" style="width:100%; height:200px">
@@ -345,59 +356,74 @@
 
                                             <div class="panel panel-default" style="border:none;">
                                                 <!-- /.panel-heading -->
+                                                <h4 style="color:#337ab7;">Obtención del DNA</h4>
+                                                <hr> 
                                                 <div class="panel-body">
                                                     <div class="table table-striped table-bordered table-hover" width="100%">
                                                         <table class="table table-striped" >
                                                             <%
-                                                                //if (marcador != null) {
+                                                                if (genoma != null) {
                                                             %>
                                                             <tbody>
-
-                                                                <tr>
-                                                                    <td style="padding:10px;"><b>Tipo de secuenciación:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getNombreTipoSecuenciacion()%></em></td>
-                                                                </tr>                                                              
-                                                                <tr>
-                                                                    <td style="padding:10px;"><b>Selección de la librería:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= marcador.getDescripcionTipoSecuenciacion()%></em></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="padding:10px;"><b>Configuración de la librería:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getMarca() + "-" + marcador.getModelo()%></em></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="padding:10px;"><b>Descripción:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= marcador.getDescripcionTipoSecuenciacion()%></em></td>
-                                                                </tr>                                                               
-                                                                <tr>
-                                                                    <td style="padding:10px;"><b>Secuenciador:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%; word-break: break-all; "><em style="font-style: oblique; color:#979a03;"><%//= marcador.getPcr().getFw_primer()%></em></td>
-                                                                </tr> 
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Vol. DNA: </b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getVolumen()%></em></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= genoma.getCantidad_dna() %></em></td>
                                                                 </tr>                                       
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Kit:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getPcr().getClean_up_kit()%></em></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= genoma.getKit() %></em></td>
                                                                 </tr>   
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Metodología:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%; word-break: break-all;"><em><%//= marcador.getPcr().getClean_up_method()%></em></td>
-                                                                </tr>   
-                                                                <!-- <tr>
-                                                                     <td style="padding:10px;"><b>Condiciones pcr:</b></td>
-                                                                     <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getPcr().getPcr_cond()%></em></td>
-                                                                 </tr>   -->
+                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%= genoma.getMetodo() %></em></td>
+                                                                </tr> 
                                                             </tbody>
-                                                            <%//}%>
+                                                            <%}%>
                                                         </table>
                                                     </div>
                                                     <!-- /.table-responsive -->
                                                 </div>
                                                 <!-- /.panel-body -->
                                             </div> 
-
+                                            <div class="panel panel-default" style="border:none;">
+                                                <!-- /.panel-heading -->
+                                                <h4 style="color:#337ab7;">Secuenciación</h4>
+                                                <hr>
+                                                <div class="panel-body">
+                                                    <div class="table table-striped table-bordered " width="100%">
+                                                        <table class="table table-striped">
+                                                            <%
+                                                                 if (genoma != null) {
+                                                            %>
+                                                           <tbody>
+                                                                <tr style="border-top:none;">
+                                                                    <td style="padding:10px;"><b>Tipo de secuenciación:</b></td>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= genoma.getTipoSecuenciacion() %> - <%= genoma.getDescTipoSecuenciacion() %></td>         
+                                                                    <td style="padding:10px;"><b>Selección de la librería:</b></td>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= genoma.getLibrary_selection() %></td> 
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="padding:10px;"><b>Secuenciador:</b></td>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= genoma.getEquipoSecuenciacion() %></td>         
+                                                                    <td style="padding:10px;"><b>Configuración de la librería:</b></td>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= genoma.getLibrary_layout() %></td> 
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="padding:10px;"><b>Preparación de la libreria:</b></td>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            </tbody> 
+                                                            <%
+                                                                }
+                                                            %>
+                                                        </table>
+                                                    </div>
+                                                    <!-- /.table-responsive -->
+                                                </div>
+                                                <!-- /.panel-body -->
+                                            </div>   
                                         </div>
 
                                     </div>
@@ -412,23 +438,23 @@
                                                             <tbody>
                                                                 <tr style="border-top:none;">
                                                                     <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Número de secuencias obtenidas.', {position: 0})"></span> <b>Lecturas:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getStats().getReads()%></em></td>                                                                   
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= genoma.getStats().getReads()%></em></td>                                                                   
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Número de bases nucleotídicas que representan el total de las lecturas obtenidas.', {position: 0})"></span> <b>Bases:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getStats().getBases()%></em></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= genoma.getStats().getBases()%></em></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Longitud promedio de las lecturas.', {position: 0})"></span> <b>Logitud promedio:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getStats().getLong_avg()%></em></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= genoma.getStats().getLong_avg()%></em></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Cantidad porcentual de bases G\'s y C\'s dentro de las lecturas', {position: 0})"></span> <b>GC%</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getStats().getGc_prc()%></em></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= genoma.getStats().getGc_prc()%></em></td>
                                                                 </tr>                                                               
                                                                 <tr>
                                                                     <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Valor de calidad promedio de todas las lecturas. Arriba de 20 es aceptable, arriba de 28 es muy buena calidad.', {position: 0})"></span> <b>Promedio QC:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getStats().getQc_avg()%></em></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= genoma.getStats().getQc_avg()%></em></td>
 
                                                                 </tr>     
 
@@ -451,19 +477,19 @@
                                                             <tbody>
                                                                 <tr>
                                                                     <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Número de bases ambiguas o con la letra N.', {position: 0})"></span> <b>n´s%:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getStats().getNs_prc()%></em></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= genoma.getStats().getNs_prc()%></em></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Porcentaje de lecturas con promedio de calidad mayor a 20.', {position: 0})"></span> <b>Q20:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getStats().getQ20()%></em></td>                                          
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= genoma.getStats().getQ20()%></em></td>                                          
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Porcentaje de lecturas con promedio de calidad mayor a 30.', {position: 0})"></span> <b>Q30:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getStats().getQ30()%></em></td>                                                     
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= genoma.getStats().getQ30()%></em></td>                                                     
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Porcentaje de fragmentos que se pudieron extender (lecturas FW y RV).', {position: 0})"></span> <b>Porcentaje combinado:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getStats().getCombined_prc()%></em></td>                                           
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= genoma.getStats().getCombined_prc()%></em></td>                                           
                                                                 </tr>
                                                                 <% //}
                                                                 %>
@@ -487,40 +513,40 @@
                                                     <div class="table table-striped table-bordered table-hover" width="100%">
                                                         <table class="table table-striped" >
                                                             <%
-                                                                //if (marcador != null) {
+                                                                if (genoma != null) {
                                                             %>
                                                             <tbody>
 
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Ensamblador:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getNombreTipoSecuenciacion()%></em></td>
-                                                                </tr>                                                              
-                                                                <tr>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><em><%= genoma.getEnsamble().getEnsamblador() %></em></td>
                                                                     <td style="padding:10px;"><b>Contigs:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= marcador.getDescripcionTipoSecuenciacion()%></em></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="padding:10px;"><b>Contig más largo:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getMarca() + "-" + marcador.getModelo()%></em></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="padding:10px;"><b>Contig promedio:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= marcador.getDescripcionTipoSecuenciacion()%></em></td>
-                                                                </tr>                                                               
-                                                                <tr>
-                                                                    <td style="padding:10px;"><b>N50/N90:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%; word-break: break-all; "><em style="font-style: oblique; color:#979a03;"><%//= marcador.getPcr().getFw_primer()%></em></td>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%; word-wrap:break-word;"><em><%= genoma.getEnsamble().getContigs() %></em></td>
+                                                                 
                                                                 </tr> 
                                                                 <tr>
-                                                                    <td style="padding:10px;"><b>Lecturas Mareadas: </b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getVolumen()%></em></td>
-                                                                </tr>                                       
+                                                                    <td style="padding:10px;"><b>Contig más largo:</b></td>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><em><%= genoma.getEnsamble().getLongestContig() %></em></td>
+                                                                    <td style="padding:10px;"><b>Contig promedio:</b></td>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%; word-wrap:break-word;"><em><%= genoma.getEnsamble().getAvgContig() %></em></td>
+                                                                                                                               
+                                                                </tr>
+                                                                                                                             
                                                                 <tr>
-                                                                    <td style="padding:10px;"><b>Comentarios:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getPcr().getClean_up_kit()%></em></td>
+                                                                    <td style="padding:10px;"><b>N50/N90:</b></td>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%; word-break: break-all; "><em><%= genoma.getEnsamble().getN5090() %></em></td>
+                                                                    <td style="padding:10px;"><b>Lecturas Mapeadas: </b></td>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><em><%= genoma.getEnsamble().getLecturasMapeadas() %>%</em></td>
+                                                                                                  
+                                                                </tr>                                    
+                                                                <tr>
+                                                                    <td style="padding:10px;" ><b>Comentarios:</b></td>
+                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%;" colspan="2"><em><%= genoma.getEnsamble().getComentarios() %></em></td>
+                                                                    <td></td>
+                                                                    <td></td>
                                                                 </tr>
                                                             </tbody>
-                                                            <%//}%>
+                                                            <%}%>
                                                         </table>
                                                     </div>
                                                     <!-- /.table-responsive -->
@@ -552,54 +578,54 @@
 
                                                             <tbody>
                                                                 <%
-                                                                    //if (marcador != null) {
+                                                                    if (genoma != null) {
 
-                                                                        //for (ArchivoObj aobj : marcador.getArchivos()) {
+                                                                        for (ArchivoObj aobj : genoma.getArchivos()) {
 
                                                                 %>
 
-                                                                <tr style="border-top:none; background-color: #f9f9f9;" id="detalle<%//= aobj.getIdArchivo()%>" >
-                                                                    <td style="padding:10px; word-break: break-all;"><em><%//= aobj.getNombre()%></em></td>
-                                                                    <td style="padding:10px;"><em><%//= aobj.getDescription()%></em></td>
+                                                                <tr style="border-top:none; background-color: #f9f9f9;" id="detalle<%= aobj.getIdArchivo()%>" >
+                                                                    <td style="padding:10px; word-break: break-all;"><em><%= aobj.getNombre()%></em></td>
+                                                                    <td style="padding:10px;"><em><%= aobj.getDescription()%></em></td>
                                                                     <td style="padding:10px;"><button  class="fa fa-save"></button></td>
-                                                                    <td style="padding:10px;"><button value="0" class="fa fa-plus-circle" onclick="desplegar(<%//= aobj.getIdArchivo()%>)" id="icono<%//= aobj.getIdArchivo()%>"></button></td>
+                                                                    <td style="padding:10px;"><button value="0" class="fa fa-plus-circle" onclick="desplegar(<%= aobj.getIdArchivo()%>)" id="icono<%= aobj.getIdArchivo()%>"></button></td>
                                                                 </tr> 
-                                                                <tr style="display:none;" id="<%//= aobj.getIdArchivo()%>">
+                                                                <tr style="display:none;" id="<%= aobj.getIdArchivo()%>">
 
                                                                     <td>
                                                                         <table width="100%" class="table table-striped table-bordered table-hover">
                                                                             <tbody>
                                                                                 <tr>
                                                                                     <td style="padding:10px;"><em><b>Fecha:</b></em></td>
-                                                                                    <td style="padding:10px;"><em><%//= aobj.getDate().getFecha()%></em></td>
+                                                                                    <td style="padding:10px;"><em><%= aobj.getDate().getFecha()%></em></td>
                                                                                 </tr>  
                                                                                 <tr>
                                                                                     <td style="padding:10px;"><em><b>Alcance:</b></em></td>
-                                                                                    <td style="padding:10px;"><em><%//= aobj.getAlcance()%></em></td>
+                                                                                    <td style="padding:10px;"><em><%= aobj.getAlcance()%></em></td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td style="padding:10px;"><em><b>Editor:</b></em></td>
-                                                                                    <td style="padding:10px; word-wrap:break-word;"><em><%//= aobj.getEditor()%></em></td>
+                                                                                    <td style="padding:10px; word-wrap:break-word;"><em><%= aobj.getEditor()%></em></td>
                                                                                 </tr> 
                                                                                 <tr>
                                                                                     <td style="padding:10px;"><em><b>Derechos:</b></em></td>
-                                                                                    <td style="padding:10px;"><em><%//= aobj.getDerechos()%></em></td>
+                                                                                    <td style="padding:10px;"><em><%= aobj.getDerechos()%></em></td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td style="padding:10px;"><em><b>Etiquetas:</b></em></td>
-                                                                                    <td style="padding:10px;"><em><%//=aobj.getTags()%></em></td>
+                                                                                    <td style="padding:10px;"><em><%=aobj.getTags()%></em></td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td style="padding:10px;"><em><b>Tipo de archivo:</b></em></td>
-                                                                                    <td style="padding:10px;"><em><%//= aobj.getNombreTipo()%></em></td>
+                                                                                    <td style="padding:10px;"><em><%= aobj.getNombreTipo()%></em></td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td style="padding:10px;"><em><b>Cheksum:</b></em></td>
-                                                                                    <td style="padding:10px; word-break: break-all;"><em><%//= aobj.getChecksum()%></em></td>
+                                                                                    <td style="padding:10px; word-break: break-all;"><em><%= aobj.getChecksum()%></em></td>
                                                                                 </tr> 
                                                                                 <tr>
                                                                                     <td style="padding:10px;"><em><b>Tamaño:</b></em></td>
-                                                                                    <td style="padding:10px;"><em><%//= aobj.getSize()%></em></td>
+                                                                                    <td style="padding:10px;"><em><%= aobj.getSize()%></em></td>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>
@@ -623,19 +649,19 @@
                                                                                             </thead>
                                                                                             <tbody>
                                                                                                 <%
-                                                                                                    //ArrayList<Usuario> usu = aobj.getUsuarios();
-                                                                                                    //if (aobj.getUsuarios() != null) {
-                                                                                                        //for (Usuario u : aobj.getUsuarios()) {
+                                                                                                    ArrayList<Usuario> usu = aobj.getUsuarios();
+                                                                                                    if (aobj.getUsuarios() != null) {
+                                                                                                        for (Usuario u : aobj.getUsuarios()) {
                                                                                                 %>
                                                                                                 <tr>
 
-                                                                                                    <td><%//= u.getNombres() + " " + //u.getApellidos()%></td>
-                                                                                                    <td><%//= u.getAcciones()%></td>
-                                                                                                    <td><%//= u.getComentarios()%></td>                                                    
+                                                                                                    <td><%= u.getNombres() + " " + u.getApellidos()%></td>
+                                                                                                    <td><%= u.getAcciones()%></td>
+                                                                                                    <td><%= u.getComentarios()%></td>                                                    
                                                                                                 </tr>
                                                                                                 <%
-                                                                                                       // }
-                                                                                                   // }
+                                                                                                        }
+                                                                                                    }
 
                                                                                                 %>
                                                                                             </tbody>
@@ -651,8 +677,8 @@
                                                                     <td>                                                                       
                                                                     </td>
                                                                 </tr>                                                                
-                                                                <%     //}
-                                                                    //}
+                                                                <%     }
+                                                                    }
                                                                 %>
 
                                                             </tbody>

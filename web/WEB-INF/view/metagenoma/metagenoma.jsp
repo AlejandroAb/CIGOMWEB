@@ -275,17 +275,37 @@
                                                                 <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><a href = 'showMuestra?idMuestra=<%=metagenoma.getIdmuestra() %>' target='_blank'><%= metagenoma.getEtiquetaMuestra()%></a></em></td>
                                                             </tr>
                                                             <tr>
-                                                                <td style="padding:10px;"><b>Descripción:</b></td>
-                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= metagenoma.getDesc() %></em></td>
-                                                            </tr>                                                               
+                                                                <td style="padding:10px;"><b>Tipo de muestra:</b></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%//= metagenoma.getDesc() %></em></td>
+                                                            </tr>      
+                                                            <tr>
+                                                                <td style="padding:10px;"><b>Profundidad:</b></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%//= metagenoma.getDesc() %></em></td>
+                                                            </tr>  
                                                             <tr>
                                                                 <td style="padding:10px;"><b>Medio de cultivo:</b></td>
                                                                 <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%= metagenoma.getCultivo() %></em></td>
-                                                            </tr>    
+                                                            </tr> 
+                                                            <tr>
+                                                                <td style="padding:10px;"><b>Procesamiento:</b></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%//= metagenoma.getDesc() %></em></td>
+                                                            </tr>                                                            
+                                                            <tr>
+                                                                <td style="padding:10px;"><b>Descripción:</b></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= metagenoma.getDesc() %></em></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding:10px;"><b>Metodología de análisis:</b></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%//= metagenoma.getDesc() %></em></td>
+                                                            </tr>                                                             
                                                             <tr>
                                                                 <td style="padding:10px;"><b>Comentarios:</b></td>
                                                                 <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%= metagenoma.getComentarios() %></em></td>
                                                             </tr> 
+                                                            <tr>
+                                                                <td style="padding:10px;"><b>Referencia:</b></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%//= metagenoma.getDesc() %></em></td>
+                                                            </tr>                                                            
                                                         </tbody>
                                                         <%
                                                             }
@@ -371,6 +391,49 @@
                                                 </div>
                                                 <!-- /.panel-body -->
                                             </div> 
+                                             <div class="panel panel-default" style="border:none;">
+                                                <!-- /.panel-heading -->
+                                                <h4 style="color:#337ab7;">PCR</h4>
+                                                <hr> 
+                                                <div class="panel-body">
+                                                    <div class="table table-striped table-bordered table-hover" width="100%">
+                                                        <table class="table table-striped" >
+                                                            <%
+                                                                if (metagenoma != null) {
+                                                            %>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td style="padding:10px;"><b>Gen amplificado: </b></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= metagenoma.getCantidad_dna() %></em></td>
+                                                                </tr>                                       
+                                                                <tr>
+                                                                    <td style="padding:10px;"><b>FW Primer:</b></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= metagenoma.getKit() %></em></td>
+                                                                </tr>   
+                                                                <tr>
+                                                                    <td style="padding:10px;"><b>RV Primer:</b></td>
+                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= metagenoma.getMetodo() %></em></td>
+                                                                </tr> 
+                                                                <tr>
+                                                                    <td style="padding:10px;"><b>Referencia:</b></td>
+                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= metagenoma.getMetodo() %></em></td>
+                                                                </tr>  
+                                                                <tr>
+                                                                    <td style="padding:10px;"><b>Condiciones PCR:</b></td>
+                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= metagenoma.getMetodo() %></em></td>
+                                                                </tr> 
+                                                                <tr>
+                                                                    <td style="padding:10px;"><b>Comentarios:</b></td>
+                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= metagenoma.getMetodo() %></em></td>
+                                                                </tr>                                                                 
+                                                            </tbody>
+                                                            <%}%>
+                                                        </table>
+                                                    </div>
+                                                    <!-- /.table-responsive -->
+                                                </div>
+                                                <!-- /.panel-body -->
+                                            </div>                                                        
                                             <div class="panel panel-default" style="border:none;">
                                                 <!-- /.panel-heading -->
                                                 <h4 style="color:#337ab7;">Secuenciación</h4>
@@ -383,16 +446,24 @@
                                                             %>
                                                            <tbody>
                                                                 <tr style="border-top:none;">
+                                                                    <td style="padding:10px;"><b>Fuente:</b></td>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%//= metagenoma.getTipoSecuenciacion() %></td>         
                                                                     <td style="padding:10px;"><b>Tipo de secuenciación:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= metagenoma.getTipoSecuenciacion() %> - <%= metagenoma.getDescTipoSecuenciacion() %></td>         
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= metagenoma.getTipoSecuenciacion() %> - <%= metagenoma.getDescTipoSecuenciacion() %></td> 
+                                                                </tr>                                                               
+                                                                <tr style="border-top:none;">         
                                                                     <td style="padding:10px;"><b>Selección de la librería:</b></td>
                                                                     <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= metagenoma.getLibrary_selection() %></td> 
+                                                                    <td style="padding:10px;"><b>Configuración de la librería:</b></td>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= metagenoma.getLibrary_layout() %></td> 
+                                                                
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Secuenciador:</b></td>
                                                                     <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= metagenoma.getEquipoSecuenciacion() %></td>         
-                                                                    <td style="padding:10px;"><b>Configuración de la librería:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= metagenoma.getLibrary_layout() %></td> 
+                                                                    <td style="padding:10px;"><b>Centro de secuenciación:</b></td>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%//= metagenoma.getEquipoSecuenciacion() %></td>         
+                                                                                                                                
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Preparación de la libreria:</b></td>

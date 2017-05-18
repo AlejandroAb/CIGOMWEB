@@ -5,7 +5,9 @@
  */
 package controller;
 
+import bobjects.Genoma;
 import bobjects.Usuario;
+import dao.GenomaDAO;
 import database.Transacciones;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -63,9 +65,26 @@ public class GenomeController extends HttpServlet {
             }
 
             if (userPath.equals("/showGenoma")) {
-                 
-                        RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/view/genoma/genoma.jsp");
-                        view.forward(request, response);
+                String idGenoma = request.getParameter("idGenoma");
+                int idG = -1;
+                if (idGenoma != null) {
+                    try {
+                        idG = Integer.parseInt(idGenoma);
+                    } catch (NumberFormatException nfe) {
+
+                    }
+                }
+                if (idG == -1) {
+                    request.setAttribute("msg", "Error en el identificador del genoma!");
+                    String url = "/WEB-INF/view/error/error.jsp";
+                    request.getRequestDispatcher(url).forward(request, response);
+                } else {
+                    GenomaDAO gdao = new GenomaDAO(transacciones);
+                    Genoma genoma = gdao.initGenoma(idG);
+                    request.setAttribute("genoma", genoma);
+                    RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/view/genoma/genoma.jsp");
+                    view.forward(request, response);
+                }
                   
             }        
             

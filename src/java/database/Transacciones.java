@@ -595,7 +595,18 @@ public class Transacciones {
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
-
+    public ArrayList getGenoma(String idGenoma) {
+        String query = "SELECT muestra.idMuestra, muestra.etiqueta, genoma.genome_name, genoma.genome_desc, genoma.tax_id, genoma.strain, " 
+                       + "genoma.crecimiento, genoma.version, latitud_r, longitud_r, cantidad_dna, kit, metodo_dna, "
+                       + "ts.nombre, ts.descripcion, CONCAT(marca, ' ', modelo), library_selection, library_layout, genoma.comentarios, idstats, idensamble "
+                       + "FROM genoma INNER JOIN tipo_secuenciacion AS ts ON ts.idtipo_secuenciacion = genoma.idtipo_secuenciacion " 
+                       + "INNER JOIN secuenciador ON secuenciador.idSecuenciador = genoma.idSecuenciador " 
+                       + "INNER JOIN muestra ON muestra.idmuestra = genoma.idmuestra " 
+                       + "INNER JOIN muestreo ON muestreo.idmuestreo = muestra.idmuestreo "
+                       + "WHERE idgenoma = " + idGenoma;
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
     public ArrayList getMetagenomas(String where) {
         String query = "SELECT * from metagenoma " + where;
         conexion.executeStatement(query);
@@ -682,7 +693,12 @@ public class Transacciones {
         }
         return id;
     }
-
+    public ArrayList getLinaje(String tax_id) {
+        String query = "SELECT tax_id, kingdom, phylum, class, orden, family , genus , species, subspecies from taxon where tax_id = " + tax_id;
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+    
     public ArrayList getArchivosMarcador(String idMarcador) {
         String query = "SELECT idarchivo FROM marcador_archivo where idmarcador = " + idMarcador;
         conexion.executeStatement(query);
@@ -691,6 +707,11 @@ public class Transacciones {
 
     public ArrayList getArchivosMetagenoma(String idMetagenoma) {
         String query = "SELECT idarchivo FROM metagenoma_archivo where idmetagenoma = " + idMetagenoma;
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+    public ArrayList getArchivosGenoma(String idGenoma) {
+        String query = "SELECT idarchivo FROM genoma_archivo where idgenoma = " + idGenoma;
         conexion.executeStatement(query);
         return conexion.getTabla();
     }

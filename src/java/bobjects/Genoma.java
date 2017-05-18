@@ -5,6 +5,8 @@
  */
 package bobjects;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Alejandro
@@ -12,9 +14,14 @@ package bobjects;
 public class Genoma {
 
     private int idgenoma;
+    private String etiquetaMuestra;
     private int idmuestra;
+    private String tax_id;
     private int idtipo_secuenciacion;
     private int idSecuenciador;
+    private String tipoSecuenciacion;
+    private String descTipoSecuenciacion;
+    private String equipoSecuenciacion;
     private NCBINode tax;
     private String name;
     private String desc;
@@ -26,8 +33,123 @@ public class Genoma {
     private String library_selection;
     private String library_layout;
     private String library_screen;
+    private double latitud;
+    private double longitud;
+    private String cantidad_dna;
+    private String metodo;
+    private String kit;
+    private StatsObj stats;
+    private AssemblyObj ensamble;
+    ArrayList<ArchivoObj> archivos = new ArrayList<>();
+    
+
+    public AssemblyObj getEnsamble() {
+        return ensamble;
+    }
+
+    public void setEnsamble(AssemblyObj ensamble) {
+        this.ensamble = ensamble;
+    }
+
+    public ArrayList<ArchivoObj> getArchivos() {
+        return archivos;
+    }
+
+    public void setArchivos(ArrayList<ArchivoObj> archivos) {
+        this.archivos = archivos;
+    }
+    public void addArchivo(ArchivoObj archivo){
+        archivos.add(archivo);
+    }
+
+    public StatsObj getStats() {
+        return stats;
+    }
+
+    public void setStats(StatsObj stats) {
+        this.stats = stats;
+    }
+
+    public String getTipoSecuenciacion() {
+        return tipoSecuenciacion;
+    }
+
+    public void setTipoSecuenciacion(String tipoSecuenciacion) {
+        this.tipoSecuenciacion = tipoSecuenciacion;
+    }
+
+    public String getDescTipoSecuenciacion() {
+        return descTipoSecuenciacion;
+    }
+
+    public void setDescTipoSecuenciacion(String descTipoSecuenciacion) {
+        this.descTipoSecuenciacion = descTipoSecuenciacion;
+    }
+
+    public String getEquipoSecuenciacion() {
+        return equipoSecuenciacion;
+    }
+
+    public void setEquipoSecuenciacion(String equipoSecuenciacion) {
+        this.equipoSecuenciacion = equipoSecuenciacion;
+    }
+
+    public String getCantidad_dna() {
+        return cantidad_dna;
+    }
+
+    public void setCantidad_dna(String cantidad_dna) {
+        this.cantidad_dna = cantidad_dna;
+    }
+
+    public String getMetodo() {
+        return metodo;
+    }
+
+    public void setMetodo(String metodo) {
+        this.metodo = metodo;
+    }
+
+    public String getKit() {
+        return kit;
+    }
+
+    public void setKit(String kit) {
+        this.kit = kit;
+    }
+    
+    public double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
+
+    public double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
+    }
+    public String getTax_id() {
+        return tax_id;
+    }
+
+    public void setTax_id(String tax_id) {
+        this.tax_id = tax_id;
+    }
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
     private String library_vector;
     private String finishing_strategy;
+    private String version;
 
     public int getIdgenoma() {
         return idgenoma;
@@ -35,6 +157,14 @@ public class Genoma {
 
     public Genoma(int idgenoma) {
         this.idgenoma = idgenoma;
+    }
+
+    public String getEtiquetaMuestra() {
+        return etiquetaMuestra;
+    }
+
+    public void setEtiquetaMuestra(String etiquetaMuestra) {
+        this.etiquetaMuestra = etiquetaMuestra;
     }
 
     public Genoma() {
