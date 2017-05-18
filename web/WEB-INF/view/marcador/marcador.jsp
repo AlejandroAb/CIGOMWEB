@@ -107,7 +107,7 @@
                 $("#resultadokrona3").html("<frameset><iframe src='kronaAmp2?idkrona=" + idKrona + "' width=100%; height=500px; frameborder='0'> </iframe> </frameset>");
             }
         </script>
-        <!--SCRIPT PARA OCULTAR DIV DETALLES-->
+        
         <script>
 
             var clic = 1;
@@ -267,6 +267,10 @@
                                                                 <td style="padding:10px;"><b>Muestra:</b></td>
                                                                 <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><a href = 'showMuestra?idMuestra=<%=marcador.getIdMuestra()%>' target='_blank'><%= marcador.getEtiquetaMuestra()%></a></em></td>
                                                             </tr>
+                                                            <tr style="border-top:none;">
+                                                                <td style="padding:10px;"><b>Tipo de Muestra:</b></td>
+                                                                <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= marcador. %></em></td>
+                                                            </tr>                                                            
                                                             <tr>
                                                                 <td style="padding:10px;"><b>Tipo de librería:</b></td>
                                                                 <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= marcador.getGenes() + " " + marcador.getSubFragment()%></em></td>

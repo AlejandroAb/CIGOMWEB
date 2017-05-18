@@ -15,6 +15,78 @@ import java.util.ArrayList;
  * @author Alejandro
  */
 public class NCBINode {
+    private String kingdom;
+    private String phylum;
+    private String clas;
+    private String orden;
+    private String family;
+    private String genus;
+    private String species;
+    private String subspecies;
+
+    public String getKingdom() {
+        return kingdom;
+    }
+
+    public void setKingdom(String kingdom) {
+        this.kingdom = kingdom;
+    }
+
+    public String getPhylum() {
+        return phylum;
+    }
+
+    public void setPhylum(String phylum) {
+        this.phylum = phylum;
+    }
+
+    public String getClas() {
+        return clas;
+    }
+
+    public void setClas(String clas) {
+        this.clas = clas;
+    }
+
+    public String getOrden() {
+        return orden;
+    }
+
+    public void setOrden(String orden) {
+        this.orden = orden;
+    }
+
+    public String getFamily() {
+        return family;
+    }
+
+    public void setFamily(String family) {
+        this.family = family;
+    }
+
+    public String getGenus() {
+        return genus;
+    }
+
+    public void setGenus(String genus) {
+        this.genus = genus;
+    }
+
+    public String getSpecies() {
+        return species;
+    }
+
+    public void setSpecies(String species) {
+        this.species = species;
+    }
+
+    public String getSubspecies() {
+        return subspecies;
+    }
+
+    public void setSubspecies(String subspecies) {
+        this.subspecies = subspecies;
+    }
 
     /**
      * ncbi tax id del nodo. se lee en nodes.dmp primer campo

@@ -129,7 +129,7 @@
             $(document).ready(function () {
                 //var globalTimeout = null;  
                 //hacemos focus al campo de búsqueda
-                $("#search").focus();
+                //$("#search").focus();
                 //comprobamos si se pulsa una tecla
                 $("#search").keyup(function (e) {
                     //obtenemos el texto introducido en el campo de búsqueda
@@ -227,220 +227,214 @@
                         imageUrl: "images/error_busqueda.png",
                         html: true
                     })
-                }
-                else {
+                } else {
                     var counter = 1;
 
                     var taxaid = search.substring(0, search.indexOf("-")).trim();
                     var taxon = search.substring(search.indexOf("-") + 1, search.indexOf("(")).trim();
                     var rango = search.substring(search.indexOf("(") + 1, search.indexOf(")")).trim();
-                    
-                   
-                   t.row.add([taxaid, taxon, rango]).draw(false);
-                    counter++; 
-                
 
+                    var listaTaxones = [];
+                    var i = 0;
+                    $("#taxones tbody tr").find('td:eq(0)').each(function () {
+
+                        listaTaxones[i] = $(this).text();
+                        i++;
+
+                    });
+                     var c;
+                    var encontrado = -1;
+                    for (c = 0; c < listaTaxones.length; c++)
+                    {
+                        if (listaTaxones[c] == taxaid) {
+                            encontrado = c;
+                            break;
+                        }
+                    }
+
+                   if( encontrado == -1 ){
                     
+                    t.row.add([taxaid, taxon, rango]).draw(false);
+                    counter++;
+                }
+                   else{
+                      swal({
+                        title: "<span style='color:#red'>El taxón ya existe en tu lista!</span>",
+                        imageUrl: "images/error_busqueda.png",
+                        html: true
+                    })
+                   }
+
                 }
             }
         </script> 
 
         <script>
             $(document).ready(function () {
-                var table = $('#taxones').DataTable();
-
-                $("select[name=niveles]").change(function () {
-                    var niveles = $('select[name=niveles]').val();
+            var table = $('#taxones').DataTable();
+                    $("select[name=niveles]").change(function () {
+            var niveles = $('select[name=niveles]').val();
                     if (niveles == "genus") {
 
-                        $("#mGeneros").css("display", " block");
-                    } else {
-                        $("#mGeneros").css("display", "none");
-                    }
+            $("#mGeneros").css("display", " block");
+            } else {
+            $("#mGeneros").css("display", "none");
+            }
 
-                });
+            });
+                    $("#filtro").on("click", function () {
 
-
-
-                $("#filtro").on("click", function () {
-
-                    var nivel = $('select[name=niveles]').val();
+            var nivel = $('select[name=niveles]').val();
                     var organismo = $('input:radio[name=grupo1]:checked').val();
                     var conteos = $('input:radio[name=grupo2]:checked').val();
-
                     /*var trimNombre = "true";
                      if (!$("#nombres").is(':checked')) {
                      trimNombre = "false";
                      }*/
                     var toFile = "true";
                     if (!$("#toFile").is(':checked')) {
-                        toFile = "false";
-                    }
-                    var extrapoled = "false";
+            toFile = "false";
+            }
+            var extrapoled = "false";
                     if ($("#extrapoled").is(':checked')) {
-                        extrapoled = "true";
-                    }
-                    var degradadores = "false";
+            extrapoled = "true";
+            }
+            var degradadores = "false";
                     if ($("#degradadores").is(':checked')) {
-                        degradadores = "true";
-                    }
+            degradadores = "true";
+            }
 
-                    var opcionTaxones = "true";
+            var opcionTaxones = "true";
                     if ($("#descartarTaxones").is(':checked')) {
-                        opcionTaxones = "false";
-                    } else if ($("#incluirtTaxones").is(':checked')) {
-                        opcionTaxones = "true";
-                    }
+            opcionTaxones = "false";
+            } else if ($("#incluirtTaxones").is(':checked')) {
+            opcionTaxones = "true";
+            }
 
 
-                    var resultP = [];
+            var resultP = [];
                     var i = 0;
                     $('#profundidad tbody tr [type="checkbox"]').each(function (index) {
-                        if ($(this).is(':checked')) {
-                            resultP[i] = $(this).val();
-                            i++;
-                        }
-                    });
-
+            if ($(this).is(':checked')) {
+            resultP[i] = $(this).val();
+                    i++;
+            }
+            });
                     var profundidad = resultP.join('-');
-
-
                     var resultC = [];
                     var i = 0;
                     $('#campanas tbody tr [type="checkbox"]').each(function (index) {
-                        if ($(this).is(':checked')) {
-                            resultC[i] = $(this).val();
-                            i++;
-                        }
-                    });
-
+            if ($(this).is(':checked')) {
+            resultC[i] = $(this).val();
+                    i++;
+            }
+            });
                     var campana = resultC.join('-');
-                    
                     var resultP = [];
                     var i = 0;
                     $('#provincias tbody tr [type="checkbox"]').each(function (index) {
-                        if ($(this).is(':checked')) {
-                            resultP[i] = $(this).val();
-                            i++;
-                        }
-                    });
+            if ($(this).is(':checked')) {
+            resultP[i] = $(this).val();
+                    i++;
+            }
+            });
                     var provincias = resultP.join('-');
-
                     var resultaxones = [];
                     var i = 0;
                     $("#taxones tbody tr").find('td:eq(0)').each(function () {
 
-                        resultaxones[i] = $(this).text();
-                        i++;
-
-                    });
-                    var taxones = resultaxones.join(',');
-
-                            resultaxones[i] = $(this).text();
-                            i++;
-                        
-                    });
-                    var taxones = resultaxones.join(',');
-                    
-                    
-                    if (nivel === null) {
-                        swal({
-                            title: "<span style='color:#red'>Seleccionar Nivel Taxonómico!</span>",
-                            imageUrl: "images/error_busqueda.png",
-                            html: true
-                        })
-                    } else {
-                        $("#filtro").attr('disabled', 'disabled');
-
-                        var form = document.createElement("form");
-                        form.setAttribute("method", "post");
-                        form.setAttribute("action", "matrizFactory");
-
-                        var dataNivel = document.createElement("input");
-                        dataNivel.setAttribute("type", "hidden");
-                        dataNivel.setAttribute("name", "nivel");
-                        dataNivel.setAttribute("value", nivel);
-                        form.appendChild(dataNivel);
-
-                        var dataOrganismo = document.createElement("input");
-                        dataOrganismo.setAttribute("type", "hidden");
-                        dataOrganismo.setAttribute("name", "orgName");
-                        dataOrganismo.setAttribute("value", organismo);
-                        form.appendChild(dataOrganismo);
-
-                        var dataopcionTaxones = document.createElement("input");
-                        dataopcionTaxones.setAttribute("type", "hidden");
-                        dataopcionTaxones.setAttribute("name", "opcionTaxones");
-                        dataopcionTaxones.setAttribute("value", opcionTaxones);
-                        form.appendChild(dataopcionTaxones);
-
-                        var dataopcionTaxones = document.createElement("input");
-                        dataopcionTaxones.setAttribute("type", "hidden");
-                        dataopcionTaxones.setAttribute("name", "opcionTaxones");
-                        dataopcionTaxones.setAttribute("value", opcionTaxones);
-                        form.appendChild(dataopcionTaxones);
-                        
-                        var dataDegradadores = document.createElement("input");                
-                        dataDegradadores.setAttribute("type", "hidden");
-                        dataDegradadores.setAttribute("name", "degradadores");
-                        dataDegradadores.setAttribute("value", degradadores);
-                        form.appendChild(dataDegradadores);                       
-
-                        var dataconteos = document.createElement("input");
-                        dataconteos.setAttribute("type", "hidden");
-                        dataconteos.setAttribute("name", "conteos");
-                        dataconteos.setAttribute("value", conteos);
-                        form.appendChild(dataconteos);
-
-                        var datapro = document.createElement("input");
-                        datapro.setAttribute("type", "hidden");
-                        datapro.setAttribute("name", "tipoProfundidad");
-                        datapro.setAttribute("value", profundidad);
-                        form.appendChild(datapro);
-
-                        var datacampana = document.createElement("input");
-                        datacampana.setAttribute("type", "hidden");
-                        datacampana.setAttribute("name", "campanas");
-                        datacampana.setAttribute("value", campana);
-                        form.appendChild(datacampana);
-
-                        var dataProvincia = document.createElement("input");
-                        dataProvincia.setAttribute("type", "hidden");
-                        dataProvincia.setAttribute("name", "provincias");
-                        dataProvincia.setAttribute("value", provincias);
-                        form.appendChild(dataProvincia);
-
-                        var datataxones = document.createElement("input");
-                        datataxones.setAttribute("type", "hidden");
-                        datataxones.setAttribute("name", "taxones");
-                        datataxones.setAttribute("value", taxones);
-                        form.appendChild(datataxones);
-
-                        var dataFile = document.createElement("input");
-                        dataFile.setAttribute("type", "hidden");
-                        dataFile.setAttribute("name", "toFile");
-                        dataFile.setAttribute("value", toFile);
-                        form.appendChild(dataFile);
-
-                        var dataExtrapoled = document.createElement("input");
-                        dataExtrapoled.setAttribute("type", "hidden");
-                        dataExtrapoled.setAttribute("name", "xtraPoled");
-                        dataExtrapoled.setAttribute("value", extrapoled);
-                        form.appendChild(dataExtrapoled);
-
-                        document.body.appendChild(form);
-                        //$('#filtro').removeAttr('disabled');
-                        //$("#filtro").removeAttr("disabled");
-                        form.submit();
-                        return true;
-
-                        $("#filtro").removeAttr("disabled");
-                    }
-
-
-
-                });
+            resultaxones[i] = $(this).text();
+                    i++;
             });
+                    var taxones = resultaxones.join(',');
+                    resultaxones[i] = $(this).text();
+                    i++;
+            });
+                    var taxones = resultaxones.join(',');
+                    if (nivel === null) {
+            swal({
+            title: "<span style='color:#red'>Seleccionar Nivel Taxonómico!</span>",
+                    imageUrl: "images/error_busqueda.png",
+                    html: true
+            })
+            } else {
+            $("#filtro").attr('disabled', 'disabled');
+                    var form = document.createElement("form");
+                    form.setAttribute("method", "post");
+                    form.setAttribute("action", "matrizFactory");
+                    var dataNivel = document.createElement("input");
+                    dataNivel.setAttribute("type", "hidden");
+                    dataNivel.setAttribute("name", "nivel");
+                    dataNivel.setAttribute("value", nivel);
+                    form.appendChild(dataNivel);
+                    var dataOrganismo = document.createElement("input");
+                    dataOrganismo.setAttribute("type", "hidden");
+                    dataOrganismo.setAttribute("name", "orgName");
+                    dataOrganismo.setAttribute("value", organismo);
+                    form.appendChild(dataOrganismo);
+                    var dataopcionTaxones = document.createElement("input");
+                    dataopcionTaxones.setAttribute("type", "hidden");
+                    dataopcionTaxones.setAttribute("name", "opcionTaxones");
+                    dataopcionTaxones.setAttribute("value", opcionTaxones);
+                    form.appendChild(dataopcionTaxones);
+                    var dataopcionTaxones = document.createElement("input");
+                    dataopcionTaxones.setAttribute("type", "hidden");
+                    dataopcionTaxones.setAttribute("name", "opcionTaxones");
+                    dataopcionTaxones.setAttribute("value", opcionTaxones);
+                    form.appendChild(dataopcionTaxones);
+                    var dataDegradadores = document.createElement("input");
+                    dataDegradadores.setAttribute("type", "hidden");
+                    dataDegradadores.setAttribute("name", "degradadores");
+                    dataDegradadores.setAttribute("value", degradadores);
+                    form.appendChild(dataDegradadores);
+                    var dataconteos = document.createElement("input");
+                    dataconteos.setAttribute("type", "hidden");
+                    dataconteos.setAttribute("name", "conteos");
+                    dataconteos.setAttribute("value", conteos);
+                    form.appendChild(dataconteos);
+                    var datapro = document.createElement("input");
+                    datapro.setAttribute("type", "hidden");
+                    datapro.setAttribute("name", "tipoProfundidad");
+                    datapro.setAttribute("value", profundidad);
+                    form.appendChild(datapro);
+                    var datacampana = document.createElement("input");
+                    datacampana.setAttribute("type", "hidden");
+                    datacampana.setAttribute("name", "campanas");
+                    datacampana.setAttribute("value", campana);
+                    form.appendChild(datacampana);
+                    var dataProvincia = document.createElement("input");
+                    dataProvincia.setAttribute("type", "hidden");
+                    dataProvincia.setAttribute("name", "provincias");
+                    dataProvincia.setAttribute("value", provincias);
+                    form.appendChild(dataProvincia);
+                    var datataxones = document.createElement("input");
+                    datataxones.setAttribute("type", "hidden");
+                    datataxones.setAttribute("name", "taxones");
+                    datataxones.setAttribute("value", taxones);
+                    form.appendChild(datataxones);
+                    var dataFile = document.createElement("input");
+                    dataFile.setAttribute("type", "hidden");
+                    dataFile.setAttribute("name", "toFile");
+                    dataFile.setAttribute("value", toFile);
+                    form.appendChild(dataFile);
+                    var dataExtrapoled = document.createElement("input");
+                    dataExtrapoled.setAttribute("type", "hidden");
+                    dataExtrapoled.setAttribute("name", "xtraPoled");
+                    dataExtrapoled.setAttribute("value", extrapoled);
+                    form.appendChild(dataExtrapoled);
+                    document.body.appendChild(form);
+                    //$('#filtro').removeAttr('disabled');
+                    //$("#filtro").removeAttr("disabled");
+                    form.submit();
+                    return true;
+                    $("#filtro").removeAttr("disabled");
+            }
+
+
+
+            });
+            }
+            );
         </script>   
         <style>
             .dataTables_paginate, .paging_simple_numbers{
