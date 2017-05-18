@@ -28,28 +28,10 @@ public class PcrDAO {
             ArrayList<String> data = pcrData.get(0);
             pcr.setFw_primer(data.get(0));
             pcr.setRv_primer(data.get(1));
-            pcr.setClean_up_kit(data.get(2));
-            pcr.setClean_up_method(data.get(3));
-            pcr.setComentarios(data.get(4));
-            String condiciones = data.get(5);
-            //initial denaturation:98_3; annealing:50_1.5; elongation: 72_1; final elongation:72_10;25
-            try {
-                String etapas[] = condiciones.split(";");
-                for (String etapa : etapas) {
-                    String detalles[] = etapa.split("[:_]");
-                    if (detalles.length >= 3) {
-                        /**
-                         * Aca se podría hacer una validación de los términos en
-                         * la tripleta esperada. Por default se espera que venga
-                         * anotada como en el ejemplo de arriba, por lo que
-                         * esperamos: etapa, temperaturra y tiempo/ciclos
-                         */
-                        pcr.addCondition(detalles);
-                    }
-                }
-            } catch (Exception e) {
-
-            }
+            pcr.setPrimerRef(data.get(2));            
+            pcr.setComentarios(data.get(3));
+            String condiciones = data.get(4);
+            pcr.setPcr_cond(condiciones);
             return pcr;
         }else{
             return null;

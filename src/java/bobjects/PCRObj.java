@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package bobjects;
 
 import java.util.ArrayList;
@@ -13,13 +12,16 @@ import java.util.ArrayList;
  * @author Alejandro
  */
 public class PCRObj {
+
     int idPCR;
-    String fw_primer="";
-    String rv_primer="";
-    String clean_up_kit="";
-    String clean_up_method="";
+    String fw_primer = "";
+    String rv_primer = "";
+    String primerRef = "";
+   // String clean_up_kit="";
+    // String clean_up_method="";
     String comentarios = "";
-    ArrayList<String[]> pcr_cond = new ArrayList<>();
+   // ArrayList<String[]> pcr_cond = new ArrayList<>();
+    String pcr_cond = "";
 
     public PCRObj(int idPCR) {
         this.idPCR = idPCR;
@@ -27,6 +29,14 @@ public class PCRObj {
 
     public int getIdPCR() {
         return idPCR;
+    }
+
+    public String getPrimerRef() {
+        return primerRef;
+    }
+
+    public void setPrimerRef(String primerRef) {
+        this.primerRef = primerRef;
     }
 
     public void setIdPCR(int idPCR) {
@@ -49,22 +59,7 @@ public class PCRObj {
         this.rv_primer = rv_primer;
     }
 
-    public String getClean_up_kit() {
-        return clean_up_kit;
-    }
-
-    public void setClean_up_kit(String clean_up_kit) {
-        this.clean_up_kit = clean_up_kit;
-    }
-
-    public String getClean_up_method() {
-        return clean_up_method;
-    }
-
-    public void setClean_up_method(String clean_up_method) {
-        this.clean_up_method = clean_up_method;
-    }
-
+  
     public String getComentarios() {
         return comentarios;
     }
@@ -73,15 +68,16 @@ public class PCRObj {
         this.comentarios = comentarios;
     }
 
-    public ArrayList<String[]> getPcr_cond() {
+    public String getPcr_cond() {
         return pcr_cond;
     }
 
-    public void setPcr_cond(ArrayList<String[]> pcr_cond) {
+    public void setPcr_cond(String pcr_cond) {
         this.pcr_cond = pcr_cond;
     }
-    public void addCondition(String[] condition){
+
+   /* public void addCondition(String[] condition) {
         this.pcr_cond.add(condition);
-    }
-    
+    }*/
+
 }

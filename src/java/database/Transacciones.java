@@ -311,9 +311,10 @@ public class Transacciones {
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
+
     /**
-     *Este método se encarga traer algunos de datos de la tabla taxon de acuerdo
-     * a un tax_id dado.
+     * Este método se encarga traer algunos de datos de la tabla taxon de
+     * acuerdo a un tax_id dado.
      */
     public ArrayList getAgregarTaxon(String tax_id) {
         String query = "SELECT tax_id,taxon,rank "
@@ -321,7 +322,20 @@ public class Transacciones {
                 + "WHERE tax_id=" + tax_id;
         conexion.executeStatement(query);
         return conexion.getTabla();
-    }    
+    }
+    
+    /**
+     * Identificador único para la libreria
+     * @param idLibreria
+     * @return 
+     */ 
+    public ArrayList getLibreria(String idLibreria) {
+        String query = "SELECT fuente, selection, layout, vector, screen, metodo "
+                + "FROM libreria "
+                + "WHERE idlibreria=" + idLibreria;
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
 
     /**
      * Este métoodo calcula lo mismo que el método: getConteosMarcadorPorTaxo
@@ -716,9 +730,29 @@ public class Transacciones {
         return conexion.getTabla();
 //+ "WHERE seq_num_total > 0";
     }
+    public ArrayList getNewMarcador(String idMarcador) {
+        String query = "SELECT idmarcador, m.idMuestra,mu.etiqueta, m.idtipo_marcador,genes,subfragment, "
+                + "m.idtipo_secuenciacion,ts.nombre, ts.descripcion, m.idSecuenciador, s.marca, s.modelo, cs.nombre_centro,  "
+                + "m.idpcr, idlibreria, idstats, marc_name, marc_desc, raw_data_path, pro_data_path, analisis, clean_up_kit, "
+                + "clean_up_method, cantidad_dna, m.comentarios, cite, seq_num_total, procesamiento, estacion_nombre, latitud_r, "
+                + "longitud_r,muestreo.profundidad, tt.tipo_muestra "
+                + "FROM marcador AS m INNER JOIN tipo_marcador AS tp ON tp.idtpo_marcador = m.idtipo_marcador "
+                + "INNER JOIN muestra AS mu ON mu.idmuestra = m.idmuestra "
+                + "INNER JOIN secuenciador AS s ON s.idsecuenciador = m.idsecuenciador "
+                + "INNER JOIN tipo_secuenciacion as ts ON ts.idtipo_secuenciacion = m.idtipo_secuenciacion "
+                + "INNER JOIN centro_secuenciacion as cs ON cs.idcentro = s.idcentro "
+                + "INNER JOIN muestreo ON muestreo.idmuestreo = mu.idmuestreo "
+                + "INNER JOIN estacion ON estacion.idestacion = muestreo.idestacion "                
+                + "INNER JOIN tipo_muestra as tt on tt.idtipomuestra = muestreo.idtipomuestra "
+                + "WHERE m.idmarcador = " + idMarcador;
+
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+//+ "WHERE seq_num_total > 0";
+    }
 
     public ArrayList getPCR(String idPCR) {
-        String query = "SELECT fw_primer, rv_primer, clean_up_kit, clean_up_method, comentarios, volumen, pcr_cond "
+        String query = "SELECT fw_primer, rv_primer, primers_ref, comentarios, pcr_cond "
                 + "FROM pcr WHERE idpcr = " + idPCR;
         conexion.executeStatement(query);
         return conexion.getTabla();
@@ -1123,6 +1157,29 @@ public class Transacciones {
         String query = "SELECT path, nombre, extension FROM archivo "
                 + "INNER JOIN marcador_archivo AS ma ON ma.idarchivo = archivo.idarchivo "
                 + "WHERE idmarcador = " + idMarcador + " AND idtipo_archivo =  " + idTipoArchivo;
+        conexion.executeStatement(query);
+        ArrayList<ArrayList> dbResult = conexion.getTabla();
+        if (dbResult != null && !dbResult.isEmpty()) {
+            return (String) dbResult.get(0).get(0) + (String) dbResult.get(0).get(1);
+        } else {
+            return "";
+        }
+
+    }
+
+    /**
+     * Metodo que evoluciona del método getPath2Krona pero este nuevo es
+     * universal tanto para marcadores como para metagenomas
+     *
+     * @param idKrona id del marcador o del metagenoma
+     * @param idTipoArchivo id del tipo de archivo
+     * @param src metagenoma o marcador
+     * @return
+     */
+    public String getKronaPath(int idKrona, int idTipoArchivo, String src) {
+        String query = "SELECT path, nombre, extension FROM archivo "
+                + "INNER JOIN " + src + "_archivo AS ma ON ma.idarchivo = archivo.idarchivo "
+                + "WHERE id" + src + " = " + idKrona + " AND idtipo_archivo =  " + idTipoArchivo;
         conexion.executeStatement(query);
         ArrayList<ArrayList> dbResult = conexion.getTabla();
         if (dbResult != null && !dbResult.isEmpty()) {
