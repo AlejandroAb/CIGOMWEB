@@ -104,7 +104,7 @@
         <script>
             //var idKrona = <%//marcador.getIdMarcador();%>;
             function funcionKrona2(idKrona) {
-                $("#resultadokrona3").html("<frameset><iframe src='kronaAmp2?idkrona=" + idKrona + "' width=100%; height=500px; frameborder='0'> </iframe> </frameset>");
+                $("#resultadokrona3").html("<frameset><iframe src='showKrona?idkrona=" + idKrona + "&src=metagenoma' width=100%; height=500px; frameborder='0'> </iframe> </frameset>");
             }
         </script>
         <!--SCRIPT PARA OCULTAR DIV DETALLES-->
@@ -246,7 +246,7 @@
                                     </li>
                                     <li><a href="#archivos" id="boton" data-toggle="tab">Archivos</a>
                                     </li>
-                                    <li><a id="div-krona" href="#krona3" data-toggle="tab" onclick="funcionKrona2(<%//= marcador.getIdMarcador()%>)">Taxonomía</a>
+                                    <li><a id="div-krona" href="#krona3" data-toggle="tab" onclick="funcionKrona2(<%=metagenoma.getIdmetagenoma()%>)">Taxonomía</a>
                                     </li>
                                     <li><a href="#matriz" data-toggle="tab">Matriz</a>
                                     </li>    
