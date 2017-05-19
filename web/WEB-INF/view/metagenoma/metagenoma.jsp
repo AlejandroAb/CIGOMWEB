@@ -104,7 +104,7 @@
         <script>
             //var idKrona = <%//marcador.getIdMarcador();%>;
             function funcionKrona2(idKrona) {
-                $("#resultadokrona3").html("<frameset><iframe src='kronaAmp2?idkrona=" + idKrona + "' width=100%; height=500px; frameborder='0'> </iframe> </frameset>");
+                $("#resultadokrona3").html("<frameset><iframe src='showKrona?idkrona=" + idKrona + "&src=metagenoma' width=100%; height=500px; frameborder='0'> </iframe> </frameset>");
             }
         </script>
         <!--SCRIPT PARA OCULTAR DIV DETALLES-->
@@ -208,18 +208,18 @@
 
             <div id="page-wrapper">
                 <%
-                    if (metagenoma != null) {
+                    //if (metagenoma != null) {
 
                 %>
                 <div class="row">                     
                     <div class="col-lg-12">
 
-                        <h2 style="color:#337ab7;">METAGENOMA</h2><h4 class="page-header" style="color:#d9534f; margin-top:0px;"><%=metagenoma.getName()%></h4> 
+                        <h2 style="color:#337ab7;">METAGENOMA</h2><h4 class="page-header" style="color:#d9534f; margin-top:0px;"><%//=metagenoma.getName()%></h4> 
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
                 <%
-                   }
+                   //}
                 %>
                 <br>
                 <!-- /.row -->
@@ -246,7 +246,7 @@
                                     </li>
                                     <li><a href="#archivos" id="boton" data-toggle="tab">Archivos</a>
                                     </li>
-                                    <li><a id="div-krona" href="#krona3" data-toggle="tab" onclick="funcionKrona2(<%//= marcador.getIdMarcador()%>)">Taxonomía</a>
+                                    <li><a id="div-krona" href="#krona3" data-toggle="tab" onclick="funcionKrona2(<%=metagenoma.getIdmetagenoma()%>)">Taxonomía</a>
                                     </li>
                                     <li><a href="#matriz" data-toggle="tab">Matriz</a>
                                     </li>    
@@ -266,13 +266,13 @@
                                                 <div class="table table-striped table-bordered " width="100%">
                                                     <table class="table table-striped">
                                                         <%
-                                                           if (metagenoma != null) {
+                                                          // if (metagenoma != null) {
                                                         %>
                                                         <tbody>
 
                                                             <tr style="border-top:none;">
                                                                 <td style="padding:10px;"><b>Muestra:</b></td>
-                                                                <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><a href = 'showMuestra?idMuestra=<%=metagenoma.getIdmuestra() %>' target='_blank'><%= metagenoma.getEtiquetaMuestra()%></a></em></td>
+                                                                <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><a href = 'showMuestra?idMuestra=<%//=metagenoma.getIdmuestra() %>' target='_blank'><%//= metagenoma.getEtiquetaMuestra()%></a></em></td>
                                                             </tr>
                                                             <tr>
                                                                 <td style="padding:10px;"><b>Tipo de muestra:</b></td>
@@ -284,7 +284,7 @@
                                                             </tr>  
                                                             <tr>
                                                                 <td style="padding:10px;"><b>Medio de cultivo:</b></td>
-                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%= metagenoma.getCultivo() %></em></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= metagenoma.getCultivo() %></em></td>
                                                             </tr> 
                                                             <tr>
                                                                 <td style="padding:10px;"><b>Procesamiento:</b></td>
@@ -292,7 +292,7 @@
                                                             </tr>                                                            
                                                             <tr>
                                                                 <td style="padding:10px;"><b>Descripción:</b></td>
-                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= metagenoma.getDesc() %></em></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%//= metagenoma.getDesc() %></em></td>
                                                             </tr>
                                                             <tr>
                                                                 <td style="padding:10px;"><b>Metodología de análisis:</b></td>
@@ -300,7 +300,7 @@
                                                             </tr>                                                             
                                                             <tr>
                                                                 <td style="padding:10px;"><b>Comentarios:</b></td>
-                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%= metagenoma.getComentarios() %></em></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= metagenoma.getComentarios() %></em></td>
                                                             </tr> 
                                                             <tr>
                                                                 <td style="padding:10px;"><b>Referencia:</b></td>
@@ -308,7 +308,7 @@
                                                             </tr>                                                            
                                                         </tbody>
                                                         <%
-                                                            }
+                                                           // }
                                                         %>
                                                     </table>
                                                 </div>
@@ -320,7 +320,7 @@
                                     <div class="col-md-6">
                                             <script>
                                                 function mapa() {
-                                                    var puntoCentral = new google.maps.LatLng(<%= metagenoma.getLatitud() %>,<%= metagenoma.getLongitud() %>);
+                                                    var puntoCentral = new google.maps.LatLng(<%//= metagenoma.getLatitud() %>,<%//= metagenoma.getLongitud() %>);
                                                     var opciones = {
                                                         zoom: 4,
                                                         center: puntoCentral,
@@ -331,7 +331,7 @@
                                                     var div = document.getElementById('mapa');
                                                     var map = new google.maps.Map(div, opciones);
                                                     var marker = new google.maps.Marker({
-                                                        position: new google.maps.LatLng(<%= metagenoma.getLatitud() %>,<%= metagenoma.getLongitud() %>),
+                                                        position: new google.maps.LatLng(<%//= metagenoma.getLatitud() %>,<%//= metagenoma.getLongitud() %>),
                                                         map: map,
                                                             title: "Muestra",
                                                                 icon: iconoMuestra
@@ -343,7 +343,7 @@
                                             <h3 style="color:#337ab7;">LOCALIZACIÓN</h3>
                                             <hr> 
                                             <p>
-                                                <b>Coordenadas:</b> <%= metagenoma.getLatitud() %>,<%= metagenoma.getLongitud() %>
+                                                <b>Coordenadas:</b> <%//= metagenoma.getLatitud() %>,<%//= metagenoma.getLongitud() %>
                                             </p>
                                             <p>            
                                             <div id="mapa" style="width:100%; height:200px">
@@ -368,23 +368,23 @@
                                                     <div class="table table-striped table-bordered table-hover" width="100%">
                                                         <table class="table table-striped" >
                                                             <%
-                                                                if (metagenoma != null) {
+                                                               // if (metagenoma != null) {
                                                             %>
                                                             <tbody>
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Vol. DNA: </b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= metagenoma.getCantidad_dna() %></em></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= metagenoma.getCantidad_dna() %></em></td>
                                                                 </tr>                                       
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Kit:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= metagenoma.getKit() %></em></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= metagenoma.getKit() %></em></td>
                                                                 </tr>   
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Metodología:</b></td>
-                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%= metagenoma.getMetodo() %></em></td>
+                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= metagenoma.getMetodo() %></em></td>
                                                                 </tr> 
                                                             </tbody>
-                                                            <%}%>
+                                                            <%//}%>
                                                         </table>
                                                     </div>
                                                     <!-- /.table-responsive -->
@@ -399,7 +399,7 @@
                                                     <div class="table table-striped table-bordered table-hover" width="100%">
                                                         <table class="table table-striped" >
                                                             <%
-                                                                if (metagenoma != null) {
+                                                               // if (metagenoma != null) {
                                                             %>
                                                             <tbody>
                                                                 <tr>
@@ -427,7 +427,7 @@
                                                                     <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= metagenoma.getMetodo() %></em></td>
                                                                 </tr>                                                                 
                                                             </tbody>
-                                                            <%}%>
+                                                            <%//}%>
                                                         </table>
                                                     </div>
                                                     <!-- /.table-responsive -->
@@ -449,18 +449,18 @@
                                                                     <td style="padding:10px;"><b>Fuente:</b></td>
                                                                     <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%//= metagenoma.getTipoSecuenciacion() %></td>         
                                                                     <td style="padding:10px;"><b>Tipo de secuenciación:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= metagenoma.getTipoSecuenciacion() %> - <%= metagenoma.getDescTipoSecuenciacion() %></td> 
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%//= metagenoma.getTipoSecuenciacion() %> - <%= metagenoma.getDescTipoSecuenciacion() %></td> 
                                                                 </tr>                                                               
                                                                 <tr style="border-top:none;">         
                                                                     <td style="padding:10px;"><b>Selección de la librería:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= metagenoma.getLibrary_selection() %></td> 
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%//= metagenoma.getLibrary_selection() %></td> 
                                                                     <td style="padding:10px;"><b>Configuración de la librería:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= metagenoma.getLibrary_layout() %></td> 
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%//= metagenoma.getLibrary_layout() %></td> 
                                                                 
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Secuenciador:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= metagenoma.getEquipoSecuenciacion() %></td>         
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%//= metagenoma.getEquipoSecuenciacion() %></td>         
                                                                     <td style="padding:10px;"><b>Centro de secuenciación:</b></td>
                                                                     <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%//= metagenoma.getEquipoSecuenciacion() %></td>         
                                                                                                                                 
@@ -495,23 +495,23 @@
                                                             <tbody>
                                                                 <tr style="border-top:none;">
                                                                     <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Número de secuencias obtenidas.', {position: 0})"></span> <b>Lecturas:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= metagenoma.getStats().getReads() %></em></td>                                                                   
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= metagenoma.getStats().getReads() %></em></td>                                                                   
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Número de bases nucleotídicas que representan el total de las lecturas obtenidas.', {position: 0})"></span> <b>Bases:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= metagenoma.getStats().getBases()%></em></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= metagenoma.getStats().getBases()%></em></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Longitud promedio de las lecturas.', {position: 0})"></span> <b>Logitud promedio:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= metagenoma.getStats().getLong_avg()%></em></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= metagenoma.getStats().getLong_avg()%></em></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Cantidad porcentual de bases G\'s y C\'s dentro de las lecturas', {position: 0})"></span> <b>GC%</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= metagenoma.getStats().getGc_prc()%></em></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= metagenoma.getStats().getGc_prc()%></em></td>
                                                                 </tr>                                                               
                                                                 <tr>
                                                                     <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Valor de calidad promedio de todas las lecturas. Arriba de 20 es aceptable, arriba de 28 es muy buena calidad.', {position: 0})"></span> <b>Promedio QC:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= metagenoma.getStats().getQc_avg()%></em></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= metagenoma.getStats().getQc_avg()%></em></td>
 
                                                                 </tr>     
 
@@ -534,19 +534,19 @@
                                                             <tbody>
                                                                 <tr>
                                                                     <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Número de bases ambiguas o con la letra N.', {position: 0})"></span> <b>n's%:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= metagenoma.getStats().getNs_prc()%></em></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= metagenoma.getStats().getNs_prc()%></em></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Porcentaje de lecturas con promedio de calidad mayor a 20.', {position: 0})"></span> <b>Q20:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= metagenoma.getStats().getQ20()%></em></td>                                          
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= metagenoma.getStats().getQ20()%></em></td>                                          
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Porcentaje de lecturas con promedio de calidad mayor a 30.', {position: 0})"></span> <b>Q30:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= metagenoma.getStats().getQ30()%></em></td>                                                     
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= metagenoma.getStats().getQ30()%></em></td>                                                     
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Porcentaje de fragmentos que se pudieron extender (lecturas FW y RV).', {position: 0})"></span> <b>Porcentaje combinado:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= metagenoma.getStats().getCombined_prc()%></em></td>                                           
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= metagenoma.getStats().getCombined_prc()%></em></td>                                           
                                                                 </tr>
                                                                 
                                                             </tbody>
@@ -575,29 +575,29 @@
 
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Ensamblador:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><em><%= metagenoma.getEnsamble().getEnsamblador() %></em></td>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><em><%//= metagenoma.getEnsamble().getEnsamblador() %></em></td>
                                                                     <td style="padding:10px;"><b>Contigs:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%; word-wrap:break-word;"><em><%= metagenoma.getEnsamble().getContigs() %></em></td>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= metagenoma.getEnsamble().getContigs() %></em></td>
                                                                  
                                                                 </tr> 
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Contig más largo:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><em><%= metagenoma.getEnsamble().getLongestContig() %></em></td>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><em><%//= metagenoma.getEnsamble().getLongestContig() %></em></td>
                                                                     <td style="padding:10px;"><b>Contig promedio:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%; word-wrap:break-word;"><em><%= metagenoma.getEnsamble().getAvgContig() %></em></td>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= metagenoma.getEnsamble().getAvgContig() %></em></td>
                                                                                                                                
                                                                 </tr>
                                                                                                                              
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>N50/N90:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%; word-break: break-all; "><em><%= metagenoma.getEnsamble().getN5090() %></em></td>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%; word-break: break-all; "><em><%//= metagenoma.getEnsamble().getN5090() %></em></td>
                                                                     <td style="padding:10px;"><b>Lecturas Mapeadas: </b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><em><%= metagenoma.getEnsamble().getLecturasMapeadas() %>%</em></td>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><em><%//= metagenoma.getEnsamble().getLecturasMapeadas() %>%</em></td>
                                                                                                   
                                                                 </tr>                                    
                                                                 <tr>
                                                                     <td style="padding:10px;" ><b>Comentarios:</b></td>
-                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%;" colspan="2"><em><%= metagenoma.getEnsamble().getComentarios() %></em></td>
+                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%;" colspan="2"><em><%//= metagenoma.getEnsamble().getComentarios() %></em></td>
                                                                     <td></td>
                                                                     <td></td>
                                                                 </tr>
@@ -634,54 +634,54 @@
 
                                                             <tbody>
                                                                 <%
-                                                                    if (metagenoma != null) {
+                                                                    /*if (metagenoma != null) {
 
-                                                                        for (ArchivoObj aobj : metagenoma.getArchivos()) {
+                                                                        for (ArchivoObj aobj : metagenoma.getArchivos()) {*/
 
                                                                 %>
 
-                                                                <tr style="border-top:none; background-color: #f9f9f9;" id="detalle<%= aobj.getIdArchivo()%>" >
-                                                                    <td style="padding:10px; word-break: break-all;"><em><%= aobj.getNombre()%></em></td>
-                                                                    <td style="padding:10px;"><em><%= aobj.getDescription()%></em></td>
+                                                                <tr style="border-top:none; background-color: #f9f9f9;" id="detalle<%//= aobj.getIdArchivo()%>" >
+                                                                    <td style="padding:10px; word-break: break-all;"><em><%//= aobj.getNombre()%></em></td>
+                                                                    <td style="padding:10px;"><em><%//= aobj.getDescription()%></em></td>
                                                                     <td style="padding:10px;"><button  class="fa fa-save"></button></td>
-                                                                    <td style="padding:10px;"><button value="0" class="fa fa-plus-circle" onclick="desplegar(<%= aobj.getIdArchivo()%>)" id="icono<%= aobj.getIdArchivo()%>"></button></td>
+                                                                    <td style="padding:10px;"><button value="0" class="fa fa-plus-circle" onclick="desplegar(<%//= aobj.getIdArchivo()%>)" id="icono<%//= aobj.getIdArchivo()%>"></button></td>
                                                                 </tr> 
-                                                                <tr style="display:none;" id="<%= aobj.getIdArchivo()%>">
+                                                                <tr style="display:none;" id="<%//= aobj.getIdArchivo()%>">
 
                                                                     <td>
                                                                         <table width="100%" class="table table-striped table-bordered table-hover">
                                                                             <tbody>
                                                                                 <tr>
                                                                                     <td style="padding:10px;"><em><b>Fecha:</b></em></td>
-                                                                                    <td style="padding:10px;"><em><%= aobj.getDate().getFecha()%></em></td>
+                                                                                    <td style="padding:10px;"><em><%//= aobj.getDate().getFecha()%></em></td>
                                                                                 </tr>  
                                                                                 <tr>
                                                                                     <td style="padding:10px;"><em><b>Alcance:</b></em></td>
-                                                                                    <td style="padding:10px;"><em><%= aobj.getAlcance()%></em></td>
+                                                                                    <td style="padding:10px;"><em><%//= aobj.getAlcance()%></em></td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td style="padding:10px;"><em><b>Editor:</b></em></td>
-                                                                                    <td style="padding:10px; word-wrap:break-word;"><em><%= aobj.getEditor()%></em></td>
+                                                                                    <td style="padding:10px; word-wrap:break-word;"><em><%//= aobj.getEditor()%></em></td>
                                                                                 </tr> 
                                                                                 <tr>
                                                                                     <td style="padding:10px;"><em><b>Derechos:</b></em></td>
-                                                                                    <td style="padding:10px;"><em><%= aobj.getDerechos()%></em></td>
+                                                                                    <td style="padding:10px;"><em><%//= aobj.getDerechos()%></em></td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td style="padding:10px;"><em><b>Etiquetas:</b></em></td>
-                                                                                    <td style="padding:10px;"><em><%=aobj.getTags()%></em></td>
+                                                                                    <td style="padding:10px;"><em><%//=aobj.getTags()%></em></td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td style="padding:10px;"><em><b>Tipo de archivo:</b></em></td>
-                                                                                    <td style="padding:10px;"><em><%= aobj.getNombreTipo()%></em></td>
+                                                                                    <td style="padding:10px;"><em><%//= aobj.getNombreTipo()%></em></td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td style="padding:10px;"><em><b>Cheksum:</b></em></td>
-                                                                                    <td style="padding:10px; word-break: break-all;"><em><%= aobj.getChecksum()%></em></td>
+                                                                                    <td style="padding:10px; word-break: break-all;"><em><%//= aobj.getChecksum()%></em></td>
                                                                                 </tr> 
                                                                                 <tr>
                                                                                     <td style="padding:10px;"><em><b>Tamaño:</b></em></td>
-                                                                                    <td style="padding:10px;"><em><%= aobj.getSize()%></em></td>
+                                                                                    <td style="padding:10px;"><em><%//= aobj.getSize()%></em></td>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>
@@ -705,19 +705,19 @@
                                                                                             </thead>
                                                                                             <tbody>
                                                                                                 <%
-                                                                                                    ArrayList<Usuario> usu = aobj.getUsuarios();
+                                                                                                   /* ArrayList<Usuario> usu = aobj.getUsuarios();
                                                                                                     if (aobj.getUsuarios() != null) {
-                                                                                                        for (Usuario u : aobj.getUsuarios()) {
+                                                                                                        for (Usuario u : aobj.getUsuarios()) {*/
                                                                                                 %>
                                                                                                 <tr>
 
-                                                                                                    <td><%= u.getNombres() + " " + u.getApellidos()%></td>
-                                                                                                    <td><%= u.getAcciones()%></td>
-                                                                                                    <td><%= u.getComentarios()%></td>                                                    
+                                                                                                    <td><%//= u.getNombres() + " " + u.getApellidos()%></td>
+                                                                                                    <td><%//= u.getAcciones()%></td>
+                                                                                                    <td><%//= u.getComentarios()%></td>                                                    
                                                                                                 </tr>
                                                                                                 <%
-                                                                                                        }
-                                                                                                   }
+                                                                                                       // }
+                                                                                                  // }
 
                                                                                                 %>
                                                                                             </tbody>
@@ -733,8 +733,8 @@
                                                                     <td>                                                                       
                                                                     </td>
                                                                 </tr>                                                                
-                                                                <%     }
-                                                                    }
+                                                                <%    // }
+                                                                   // }
                                                                 %>
 
                                                             </tbody>
