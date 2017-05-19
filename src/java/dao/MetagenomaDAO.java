@@ -7,6 +7,7 @@ package dao;
 
 import bobjects.ArchivoObj;
 import bobjects.AssemblyObj;
+import bobjects.LibraryObj;
 import bobjects.Metagenoma;
 import bobjects.StatsObj;
 import database.Transacciones;
@@ -48,7 +49,7 @@ public class MetagenomaDAO {
      */
     public Metagenoma initMetagenoma(int idM) {
         Metagenoma metagenoma = new Metagenoma(idM);
-        ArrayList<ArrayList> metagenomaAL = transacciones.getMetagenoma("" + idM);
+        ArrayList<ArrayList> metagenomaAL = transacciones.getNewMetagenoma("" + idM);
         if (metagenomaAL != null && metagenomaAL.size() > 0) {
             ArrayList<String> meta = metagenomaAL.get(0);
             if (meta.size() < 16) {
@@ -61,49 +62,71 @@ public class MetagenomaDAO {
                 metagenoma.setIdmuestra(-1);
                 metagenoma.setEtiquetaMuestra("Muestra desconocida");
             }
-            metagenoma.setName(meta.get(2));
-            metagenoma.setDesc(meta.get(3));
-            metagenoma.setCultivo(meta.get(4));
+            metagenoma.setTipoMuestra(meta.get(2));
+            metagenoma.setProfundidad(meta.get(3));
+            metagenoma.setName(meta.get(4));
+            metagenoma.setDesc(meta.get(5));
+            metagenoma.setCultivo(meta.get(6));
+            metagenoma.setProcesamiento(meta.get(7));
+            metagenoma.setAnalisis(meta.get(8));            
             try {
-                metagenoma.setLatitud(Double.parseDouble(meta.get(5)));
+                metagenoma.setLatitud(Double.parseDouble(meta.get(9)));
             } catch (NumberFormatException nfe) {
                 metagenoma.setLatitud(-1);
             }
             try {
-                metagenoma.setLongitud(Double.parseDouble(meta.get(6)));
+                metagenoma.setLongitud(Double.parseDouble(meta.get(10)));
             } catch (NumberFormatException nfe) {
                 metagenoma.setLongitud(-1);
             }
-            metagenoma.setTipoSecuenciacion(meta.get(7));
-            metagenoma.setDescTipoSecuenciacion(meta.get(8));
-            metagenoma.setEquipoSecuenciacion(meta.get(9));
-            metagenoma.setCantidad_dna(meta.get(10));
-            metagenoma.setKit(meta.get(11));
-            metagenoma.setMetodo(meta.get(12));
-            metagenoma.setLibrary_selection(meta.get(13));
-            metagenoma.setLibrary_layout(meta.get(14));
-            metagenoma.setComentarios(meta.get(15));
-
+            metagenoma.setTipoSecuenciacion(meta.get(11));
+            metagenoma.setDescTipoSecuenciacion(meta.get(12));
+            metagenoma.setEquipoSecuenciacion(meta.get(13));
+            metagenoma.setCentro_secuenciacion(meta.get(14));
+            metagenoma.setCantidad_dna(meta.get(15));
+            metagenoma.setClean_up_kit(meta.get(16));
+            metagenoma.setClean_up_method(meta.get(17));            
+            metagenoma.setComentarios(meta.get(18));
             int stats;
             try {
-                stats = Integer.parseInt(meta.get(16));
+                stats = Integer.parseInt(meta.get(19));                
             } catch (NumberFormatException nfe) {
                 stats = -1;
             }
+            metagenoma.setIdStats(stats);
             StatsDAO sdao = new StatsDAO(transacciones);
             StatsObj s = sdao.initStats(stats);
             metagenoma.setStats(s);
-
             //EnsambleObj ensamble
             int statsAss;
             try {
-                statsAss = Integer.parseInt(meta.get(17));
+                statsAss = Integer.parseInt(meta.get(20));
             } catch (NumberFormatException nfe) {
                 statsAss = -1;
             }
             AssemblyDAO adao = new AssemblyDAO(transacciones);
             AssemblyObj ensamble = adao.initAssembly(statsAss);
             metagenoma.setEnsamble(ensamble);
+            //EnsambleObj ensamble
+            int idLib;
+            try {
+                idLib = Integer.parseInt(meta.get(21));
+            } catch (NumberFormatException nfe) {
+                idLib = -1;
+            }
+            LibraryDAO ldao = new LibraryDAO(transacciones);
+            LibraryObj library = ldao.initLibrary(idLib);
+            metagenoma.setLibreria(library);
+            metagenoma.setCite(meta.get(22));
+             try {
+                metagenoma.setGen_num_total(Integer.parseInt(meta.get(23)));
+            } catch (NumberFormatException nfe) {
+                metagenoma.setGen_num_total(-1);
+            }            
+            if(meta.get(24).equals("1")){
+                metagenoma.setIsTranscriptoma(true);
+            }            
+            metagenoma.setCondicionesTranscriptoma(meta.get(24));
             ArrayList<ArrayList<String>> ids = transacciones.getArchivosMetagenoma(""+idM);
             ArchivoDAO archivoDAO =  new ArchivoDAO(transacciones);
             if (ids != null) {

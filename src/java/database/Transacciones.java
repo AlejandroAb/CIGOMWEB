@@ -323,12 +323,13 @@ public class Transacciones {
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
-    
+
     /**
      * Identificador único para la libreria
+     *
      * @param idLibreria
-     * @return 
-     */ 
+     * @return
+     */
     public ArrayList getLibreria(String idLibreria) {
         String query = "SELECT fuente, selection, layout, vector, screen, metodo "
                 + "FROM libreria "
@@ -609,18 +610,20 @@ public class Transacciones {
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
+
     public ArrayList getGenoma(String idGenoma) {
-        String query = "SELECT muestra.idMuestra, muestra.etiqueta, genoma.genome_name, genoma.genome_desc, genoma.tax_id, genoma.strain, " 
-                       + "genoma.crecimiento, genoma.version, latitud_r, longitud_r, cantidad_dna, kit, metodo_dna, "
-                       + "ts.nombre, ts.descripcion, CONCAT(marca, ' ', modelo), library_selection, library_layout, genoma.comentarios, idstats, idensamble "
-                       + "FROM genoma INNER JOIN tipo_secuenciacion AS ts ON ts.idtipo_secuenciacion = genoma.idtipo_secuenciacion " 
-                       + "INNER JOIN secuenciador ON secuenciador.idSecuenciador = genoma.idSecuenciador " 
-                       + "INNER JOIN muestra ON muestra.idmuestra = genoma.idmuestra " 
-                       + "INNER JOIN muestreo ON muestreo.idmuestreo = muestra.idmuestreo "
-                       + "WHERE idgenoma = " + idGenoma;
+        String query = "SELECT muestra.idMuestra, muestra.etiqueta, genoma.genome_name, genoma.genome_desc, genoma.tax_id, genoma.strain, "
+                + "genoma.crecimiento, genoma.version, latitud_r, longitud_r, cantidad_dna, kit, metodo_dna, "
+                + "ts.nombre, ts.descripcion, CONCAT(marca, ' ', modelo), library_selection, library_layout, genoma.comentarios, idstats, idensamble "
+                + "FROM genoma INNER JOIN tipo_secuenciacion AS ts ON ts.idtipo_secuenciacion = genoma.idtipo_secuenciacion "
+                + "INNER JOIN secuenciador ON secuenciador.idSecuenciador = genoma.idSecuenciador "
+                + "INNER JOIN muestra ON muestra.idmuestra = genoma.idmuestra "
+                + "INNER JOIN muestreo ON muestreo.idmuestreo = muestra.idmuestreo "
+                + "WHERE idgenoma = " + idGenoma;
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
+
     public ArrayList getMetagenomas(String where) {
         String query = "SELECT * from metagenoma " + where;
         conexion.executeStatement(query);
@@ -635,6 +638,23 @@ public class Transacciones {
                 + "INNER JOIN secuenciador ON secuenciador.idSecuenciador = metagenoma.idSecuenciador "
                 + "INNER JOIN muestra ON muestra.idmuestra = metagenoma.idmuestra "
                 + "INNER JOIN muestreo ON muestreo.idmuestreo = muestra.idmuestreo "
+                + "WHERE idmetagenoma = " + idMetagenoma;
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    public ArrayList getNewMetagenoma(String idMetagenoma) {
+        String query = " SELECT mu.idmuestra, mu.etiqueta, tt.tipo_muestra, muestreo.profundidad, meta_name, meta_desc, "
+                + "medio_cultivo, procesamiento, analisis, latitud_r, longitud_r ,ts.nombre, ts.descripcion, CONCAT(marca, ' ', modelo), "
+                + "cs.nombre_centro, cantidad_dna, clean_up_kit, clean_up_method, metagenoma.comentarios, idstats, idensamble,idlibreria, cite, "
+                + "gen_num_total, esTranscriptoma, condicion_trans "
+                + "FROM metagenoma INNER JOIN tipo_secuenciacion AS ts ON ts.idtipo_secuenciacion = metagenoma.idtipo_secuenciacion "
+                + "INNER JOIN secuenciador ON secuenciador.idSecuenciador = metagenoma.idSecuenciador "
+                + "INNER JOIN muestra AS mu ON mu.idmuestra = metagenoma.idmuestra "
+                + "INNER JOIN muestreo ON muestreo.idmuestreo = mu.idmuestreo "
+                + "INNER JOIN centro_secuenciacion as cs ON cs.idcentro = secuenciador.idcentro "                
+                + "INNER JOIN estacion ON estacion.idestacion = muestreo.idestacion "
+                + "INNER JOIN tipo_muestra as tt on tt.idtipomuestra = muestreo.idtipomuestra "
                 + "WHERE idmetagenoma = " + idMetagenoma;
         conexion.executeStatement(query);
         return conexion.getTabla();
@@ -707,12 +727,13 @@ public class Transacciones {
         }
         return id;
     }
+
     public ArrayList getLinaje(String tax_id) {
         String query = "SELECT tax_id, kingdom, phylum, class, orden, family , genus , species, subspecies from taxon where tax_id = " + tax_id;
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
-    
+
     public ArrayList getArchivosMarcador(String idMarcador) {
         String query = "SELECT idarchivo FROM marcador_archivo where idmarcador = " + idMarcador;
         conexion.executeStatement(query);
@@ -724,6 +745,7 @@ public class Transacciones {
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
+
     public ArrayList getArchivosGenoma(String idGenoma) {
         String query = "SELECT idarchivo FROM genoma_archivo where idgenoma = " + idGenoma;
         conexion.executeStatement(query);
@@ -751,6 +773,7 @@ public class Transacciones {
         return conexion.getTabla();
 //+ "WHERE seq_num_total > 0";
     }
+
     public ArrayList getNewMarcador(String idMarcador) {
         String query = "SELECT idmarcador, m.idMuestra,mu.etiqueta, m.idtipo_marcador,genes,subfragment, "
                 + "m.idtipo_secuenciacion,ts.nombre, ts.descripcion, m.idSecuenciador, s.marca, s.modelo, cs.nombre_centro,  "
@@ -763,7 +786,7 @@ public class Transacciones {
                 + "INNER JOIN tipo_secuenciacion as ts ON ts.idtipo_secuenciacion = m.idtipo_secuenciacion "
                 + "INNER JOIN centro_secuenciacion as cs ON cs.idcentro = s.idcentro "
                 + "INNER JOIN muestreo ON muestreo.idmuestreo = mu.idmuestreo "
-                + "INNER JOIN estacion ON estacion.idestacion = muestreo.idestacion "                
+                + "INNER JOIN estacion ON estacion.idestacion = muestreo.idestacion "
                 + "INNER JOIN tipo_muestra as tt on tt.idtipomuestra = muestreo.idtipomuestra "
                 + "WHERE m.idmarcador = " + idMarcador;
 

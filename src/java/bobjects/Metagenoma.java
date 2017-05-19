@@ -14,30 +14,64 @@ import java.util.ArrayList;
 public class Metagenoma {
 
     private int idmetagenoma;
+    //datos de la muestra
     private int idmuestra;
-    private int idtipo_secuenciacion;
-    private String tipoSecuenciacion;
-    private String descTipoSecuenciacion;
-    private int idSecuenciador;
-    private String equipoSecuenciacion;//
-    private String name;//nombre metagenoma
-    private String desc;//descripcion  metagenoma
-    private String comentarios;
-    private String library_selection;
-    private String library_layout;
-    private String library_screen;
-    private String library_vector;
-    private int seq_num_total;
-    private String cantidad_dna;
-    private String metodo;
-    private String cultivo;
-    private String kit;
-    private String etiquetaMuestra;
+    private String etiquetaMuestra = "";
     private double latitud;
     private double longitud;
-    private StatsObj stats;
+    private String profundidad = "";
+    private String estacion = "";
+    private String tipoMuestra = "";
+    //secuenciacion
+    private int idtipo_secuenciacion = -1;
+    private String tipoSecuenciacion = "";
+    private String descTipoSecuenciacion = "";
+    //secuenciador
+    private int idSecuenciador;
+    private String equipoSecuenciacion = "";//
+    String centro_secuenciacion = "";
+    private String name = "";//nombre metagenoma
+    private String desc = "";//descripcion  metagenoma
+    private String comentarios = "";
+    //libreria    
+    LibraryObj libreria;
+    String cite="";
+    private int gen_num_total;
+    private String cantidad_dna = "";
+    private String cultivo = "";
+    String raw_data_path = "";
+    String proc_data_path = "";
+    String analisis = "";
+    String clean_up_kit = "";
+    String clean_up_method = "";
+    String procesamiento = ""; //procesamiento de la muestra (después de obtenida)
+    int idStats;
+    StatsObj stats;
+    boolean visible = true;
+   
     private AssemblyObj ensamble;
     ArrayList<ArchivoObj> archivos = new ArrayList<>();
+    boolean isTranscriptoma = false;
+    String condicionesTranscriptoma = "";
+
+    public String getTipoMuestra() {
+        return tipoMuestra;
+    }
+
+    public void setTipoMuestra(String tipoMuestra) {
+        
+        this.tipoMuestra = tipoMuestra;
+        if(etiquetaMuestra.contains("-MIL")){
+            tipoMuestra += " mil metros";
+        }else if(etiquetaMuestra.contains("-MAX")){
+            tipoMuestra += " máximo fluorescencia";
+        }else if(etiquetaMuestra.contains("-FON")){
+            tipoMuestra += " fondo";
+        }else if(etiquetaMuestra.contains("-MIN")){
+            tipoMuestra += " mínimo de oxígeno";
+        }
+    }
+
     public StatsObj getStats() {
         return stats;
     }
@@ -49,9 +83,11 @@ public class Metagenoma {
     public void setArchivos(ArrayList<ArchivoObj> archivos) {
         this.archivos = archivos;
     }
-    public void addArchivo(ArchivoObj archivo){
+
+    public void addArchivo(ArchivoObj archivo) {
         archivos.add(archivo);
     }
+
     public AssemblyObj getEnsamble() {
         return ensamble;
     }
@@ -80,10 +116,7 @@ public class Metagenoma {
         this.longitud = longitud;
     }
 
-    public String getMetodo() {
-        return metodo;
-    }
-
+   
     public String getTipoSecuenciacion() {
         return tipoSecuenciacion;
     }
@@ -108,10 +141,7 @@ public class Metagenoma {
         this.equipoSecuenciacion = equipoSecuenciacion;
     }
 
-    public void setMetodo(String metodo) {
-        this.metodo = metodo;
-    }
-
+   
     public String getCultivo() {
         return cultivo;
     }
@@ -120,16 +150,17 @@ public class Metagenoma {
         this.cultivo = cultivo;
     }
 
-    public String getKit() {
-        return kit;
-    }
-
-    public void setKit(String kit) {
-        this.kit = kit;
-    }
-
+    
     public String getEtiquetaMuestra() {
         return etiquetaMuestra;
+    }
+
+    public String getCite() {
+        return cite;
+    }
+
+    public void setCite(String cite) {
+        this.cite = cite;
     }
 
     public void setEtiquetaMuestra(String etiquetaMuestra) {
@@ -196,45 +227,128 @@ public class Metagenoma {
         this.comentarios = comentarios;
     }
 
-    public String getLibrary_selection() {
-        return library_selection;
+    public String getProfundidad() {
+        return profundidad;
     }
 
-    public void setLibrary_selection(String library_selection) {
-        this.library_selection = library_selection;
+    public void setProfundidad(String profundidad) {
+        this.profundidad = profundidad;
     }
 
-    public String getLibrary_layout() {
-        return library_layout;
+    public String getEstacion() {
+        return estacion;
     }
 
-    public void setLibrary_layout(String library_layout) {
-        this.library_layout = library_layout;
+    public void setEstacion(String estacion) {
+        this.estacion = estacion;
     }
 
-    public String getLibrary_screen() {
-        return library_screen;
+    public String getCentro_secuenciacion() {
+        return centro_secuenciacion;
     }
 
-    public void setLibrary_screen(String library_screen) {
-        this.library_screen = library_screen;
+    public void setCentro_secuenciacion(String centro_secuenciacion) {
+        this.centro_secuenciacion = centro_secuenciacion;
     }
 
-    public String getLibrary_vector() {
-        return library_vector;
+    public LibraryObj getLibreria() {
+        return libreria;
     }
 
-    public void setLibrary_vector(String library_vector) {
-        this.library_vector = library_vector;
+    public void setLibreria(LibraryObj libreria) {
+        this.libreria = libreria;
     }
 
-    public int getSeq_num_total() {
-        return seq_num_total;
+    public int getGen_num_total() {
+        return gen_num_total;
     }
 
-    public void setSeq_num_total(int seq_num_total) {
-        this.seq_num_total = seq_num_total;
+    public void setGen_num_total(int gen_num_total) {
+        this.gen_num_total = gen_num_total;
     }
+
+    public String getRaw_data_path() {
+        return raw_data_path;
+    }
+
+    public void setRaw_data_path(String raw_data_path) {
+        this.raw_data_path = raw_data_path;
+    }
+
+    public String getProc_data_path() {
+        return proc_data_path;
+    }
+
+    public void setProc_data_path(String proc_data_path) {
+        this.proc_data_path = proc_data_path;
+    }
+
+    public String getAnalisis() {
+        return analisis;
+    }
+
+    public void setAnalisis(String analisis) {
+        this.analisis = analisis;
+    }
+
+    public String getClean_up_kit() {
+        return clean_up_kit;
+    }
+
+    public void setClean_up_kit(String clean_up_kit) {
+        this.clean_up_kit = clean_up_kit;
+    }
+
+    public String getClean_up_method() {
+        return clean_up_method;
+    }
+
+    public void setClean_up_method(String clean_up_method) {
+        this.clean_up_method = clean_up_method;
+    }
+
+    public String getProcesamiento() {
+        return procesamiento;
+    }
+
+    public void setProcesamiento(String procesamiento) {
+        this.procesamiento = procesamiento;
+    }
+
+    public int getIdStats() {
+        return idStats;
+    }
+
+    public void setIdStats(int idStats) {
+        this.idStats = idStats;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    public boolean isTranscriptoma() {
+        return isTranscriptoma;
+    }
+
+    public void setIsTranscriptoma(boolean isTranscriptoma) {
+        this.isTranscriptoma = isTranscriptoma;
+    }
+
+    public String getCondicionesTranscriptoma() {
+        return condicionesTranscriptoma;
+    }
+
+    public void setCondicionesTranscriptoma(String condicionesTranscriptoma) {
+        this.condicionesTranscriptoma = condicionesTranscriptoma;
+    }
+
+   
+   
 
     public String getCantidad_dna() {
         return cantidad_dna;

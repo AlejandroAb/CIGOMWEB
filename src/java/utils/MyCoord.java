@@ -67,6 +67,9 @@ public class MyCoord {
         double long2 = Math.abs(lon2.getGradosDecimales());
         double lati1 = Math.abs(lat1.getGradosDecimales());
         double lati2 = Math.abs(lat2.getGradosDecimales());
+        if((long1-long2)==0&&(lati1-lati2)==0){
+            return 0;
+        }
      //   double theta = lon1.getGradosDecimales() - lon2.getGradosDecimales();
         //   double dist = Math.sin(deg2rad(lat1.getGradosDecimales())) * Math.sin(deg2rad(lat2.getGradosDecimales())) + Math.cos(deg2rad(lat1.getGradosDecimales())) * Math.cos(deg2rad(lat2.getGradosDecimales())) * Math.cos(deg2rad(theta));
         double theta = long1 - long2;
