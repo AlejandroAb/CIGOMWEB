@@ -132,7 +132,7 @@
             //});
 
         </script>
-        
+
         <script src="http://maps.google.com/maps/api/js?key=AIzaSyBfAtZqx-idIbmuhOlAOOnELI4WK0P9mKg"></script>
         <script type="text/javascript">
 
@@ -143,6 +143,11 @@
             window.onload = funciones;
 
         </script> 
+        <style>
+            .panel{
+                margin-bottom:0px ;
+            }
+        </style>
         <title>Amplicon</title>
     </head>
     <body>
@@ -215,12 +220,12 @@
                 <div class="row">                     
                     <div class="col-lg-12">
 
-                        <h2 style="color:#337ab7;">METAGENOMA</h2><h4 class="page-header" style="color:#d9534f; margin-top:0px;"><%=marcador.getMarc_name()%></h4> 
+                        <h2 style="color:#337ab7;">MARCADOR</h2><h4 class="page-header" style="color:#d9534f; margin-top:0px;"><%=marcador.getMarc_name()%></h4> 
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
                 <%
-                   }
+                    }
                 %>
                 <br>
                 <!-- /.row -->
@@ -243,15 +248,12 @@
                                     </li>
                                     <li><a href="#qc" data-toggle="tab">QC</a>
                                     </li>
-                                    <li><a href="#ensamble" id="boton" data-toggle="tab">Ensamble</a>
                                     </li>
                                     <li><a href="#archivos" id="boton" data-toggle="tab">Archivos</a>
                                     </li>
                                     <li><a id="div-krona" href="#krona3" data-toggle="tab" onclick="funcionKrona2(<%//=metagenoma.getIdmetagenoma()%>)">Taxonomía</a>
                                     </li>
                                     <li><a href="#matriz" data-toggle="tab">Matriz</a>
-                                    </li>    
-                                    <li><a href="#prediccion" data-toggle="tab">Predición Funcional</a>
                                     </li>                                    
                                 </ul>
 
@@ -260,16 +262,16 @@
                                 <div class="tab-content">
                                     <div class="tab-pane fade in active " id="detalles">
                                         <br>
-                                        <div class="col-md-6">
-                                        <div class="panel panel-default" style="border:none;">
-                                            <!-- /.panel-heading -->
-                                            <div class="panel-body">
-                                                <div class="table table-striped table-bordered " width="100%">
-                                                    <table class="table table-striped">
-                                                        <%
-                                                           if (marcador != null) {
-                                                        %>
-                                                        <tbody>
+                                        <div class="col-md-7">
+                                            <div class="panel panel-default" style="border:none; margin-bottom:0px;" >
+                                                <!-- /.panel-heading -->
+                                                <div class="panel-body" style="padding-bottom: 0px;">
+                                                    <div class="table table-striped table-bordered " width="100%">
+                                                        <table class="table table-striped">
+                                                            <%
+                                                                if (marcador != null) {
+                                                            %>
+                                                            <tbody>
 
                                                                 <tr style="border-top:none;">
                                                                     <td style="padding:10px;"><b>Muestra:</b></td>
@@ -279,7 +281,7 @@
                                                                     <td style="padding:10px;"><b>Tipo de muestra:</b></td>
                                                                     <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= marcador.getTipoMuestra()%></em></td>
                                                                 </tr>      
-                                                             <tr>
+                                                                <tr>
                                                                     <td style="padding:10px;"><b>Profundidad:</b></td>
                                                                     <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= marcador.getProfundidad()%></em></td>
                                                                 </tr> 
@@ -287,38 +289,58 @@
                                                                     <td style="padding:10px;"><b>Procesamiento:</b></td>
                                                                     <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%= marcador.getProcesamiento()%></em></td>
                                                                 </tr>                                                             
-                                                            <tr>
+                                                                <tr>
                                                                     <td style="padding:10px;"><b>Descripción:</b></td>
                                                                     <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-break: break-all;"><em><%= marcador.getMarc_desc()%></em></td>
                                                                 </tr>
-                                                                <tr>
-                                                                    <td style="padding:10px;"><b>Metodología de análisis:</b></td>
-                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= marcador.getAnalisis()%></em></td>
-                                                                </tr>                                                             
-                                                                <tr>
-                                                                    <td style="padding:10px;"><b>Comentarios:</b></td>
-                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%= marcador.getComentarios()%></em></td>
-                                                                </tr> 
-                                                                <tr>
-                                                                    <td style="padding:10px;"><b>Referencia:</b></td>
-                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= marcador.getCite()%></em></td>
-                                                                </tr>                                                             
-                                                        </tbody>
-                                                        <%
-                                                           }
-                                                        %>
-                                                    </table>
+
+                                                            </tbody>
+                                                            <%
+                                                                }
+                                                            %>
+                                                        </table>
+                                                    </div>
+                                                    <!-- /.table-responsive -->
                                                 </div>
-                                                <!-- /.table-responsive -->
-                                            </div>
-                                            <!-- /.panel-body -->
-                                        </div>   
-                                    </div>
-                                    
-                                    <div class="col-md-6">
+                                                <!-- /.panel-body -->
+                                            </div>   
+                                        </div>
+
+                                        <div class="col-md-5">
+                                            <div class="panel panel-default" style="border:none;">
+                                                <!-- /.panel-heading -->
+                                                <div class="panel-body">
+                                                    <div class="table table-striped table-bordered " width="100%" style="border:none;">
+                                                        <table class="table table-striped">
+
+                                                            <tbody>
+
+                                                                <tr>
+                                                                    <td style="padding:10px; border-top:0px;">
+                                                                        <h5 style="color:#337ab7;">LOCALIZACIÓN</h5>
+                                                                        
+                                                                        <p>
+                                                                            <b>Coordenadas:</b> <%= marcador.getLatitud()%>,<%= marcador.getLongitud()%>
+                                                                        </p>
+                                                                        <p>            
+                                                                        <div id="mapa" style="width:100%; height:150px">
+
+                                                                        </div>      
+                                                                    </td>
+
+                                                                </tr>
+
+                                                            </tbody>
+
+                                                        </table>
+                                                    </div>
+                                                    <!-- /.table-responsive -->
+                                                </div>
+                                                <!-- /.panel-body -->
+                                            </div>                                       
                                             <script>
                                                 function mapa() {
-                                                    var puntoCentral = new google.maps.LatLng(<%= marcador.getLatitud() %>,<%= marcador.getLongitud() %>);
+                                                    var puntoCentral = new google.maps.LatLng(<%= marcador.getLatitud()%>,<%= marcador.getLongitud()%>);
                                                     var opciones = {
                                                         zoom: 4,
                                                         center: puntoCentral,
@@ -329,26 +351,50 @@
                                                     var div = document.getElementById('mapa');
                                                     var map = new google.maps.Map(div, opciones);
                                                     var marker = new google.maps.Marker({
-                                                        position: new google.maps.LatLng(<%= marcador.getLatitud() %>,<%= marcador.getLongitud() %>),
+                                                        position: new google.maps.LatLng(<%= marcador.getLatitud()%>,<%= marcador.getLongitud()%>),
                                                         map: map,
-                                                            title: "Muestra",
-                                                                icon: iconoMuestra
+                                                        title: "Muestra",
+                                                        icon: iconoMuestra
                                                     });
-                                                   
-                                                                            }
-                                            </script>
 
-                                            <h3 style="color:#337ab7;">LOCALIZACIÓN</h3>
-                                            <hr> 
-                                            <p>
-                                                <b>Coordenadas:</b> <%= marcador.getLatitud() %>,<%= marcador.getLongitud() %>
-                                            </p>
-                                            <p>            
-                                            <div id="mapa" style="width:100%; height:200px">
+                                                }
+                                            </script>                                     
 
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="panel panel-default" style="border:none;">
+                                                <!-- /.panel-heading -->
+                                                <div class="panel-body" style="padding-top: 0px;">
+                                                    <div class="table table-striped table-bordered " width="100%" style="border-top:0px;">
+                                                        <table class="table table-striped">
+                                                            <%
+                                                                if (marcador != null) {
+                                                            %>
+                                                            <tbody>
+
+                                                                <tr style="background-color:#fff;">
+                                                                    <td style="padding:10px;"><b>Metodología de análisis:</b></td>
+                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= marcador.getAnalisis()%></em></td>
+                                                                </tr>                                                             
+                                                                <tr style="background-color:#f9f9f9;">
+                                                                    <td style="padding:10px;"><b>Comentarios:</b></td>
+                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%= marcador.getComentarios()%></em></td>
+                                                                </tr> 
+                                                                <tr style="background-color:#fff;">
+                                                                    <td style="padding:10px;"><b>Referencia:</b></td>
+                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= marcador.getCite()%></em></td>
+                                                                </tr>                                                             
+                                                            </tbody>
+                                                            <%
+                                                                }
+                                                            %>
+                                                        </table>
+                                                    </div>
+                                                    <!-- /.table-responsive -->
+                                                </div>
+                                                <!-- /.panel-body -->
                                             </div>                                        
-                                        
-                                    </div>
+                                        </div>
                                     </div>
 
 
@@ -371,15 +417,15 @@
                                                             <tbody>
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Vol. DNA: </b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= marcador.getVolumen() %></em></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= marcador.getVolumen()%></em></td>
                                                                 </tr>                                       
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Kit:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= marcador.getClean_up_kit() %></em></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= marcador.getClean_up_kit()%></em></td>
                                                                 </tr>   
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Metodología:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%; word-wrap:break-word;"><em><%= marcador.getClean_up_method() %></em></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%; word-wrap:break-word;"><em><%= marcador.getClean_up_method()%></em></td>
                                                                 </tr> 
                                                             </tbody>
                                                             <%}%>
@@ -389,7 +435,7 @@
                                                 </div>
                                                 <!-- /.panel-body -->
                                             </div> 
-                                             <div class="panel panel-default" style="border:none;">
+                                            <div class="panel panel-default" style="border:none;">
                                                 <!-- /.panel-heading -->
                                                 <h4 style="color:#337ab7;">PCR</h4>
                                                 <hr> 
@@ -399,30 +445,30 @@
                                                             <%
                                                                 if (marcador != null) {
                                                             %>
-                                                                <tr>
-                                                                    <td style="padding:10px;"><b>Gen amplificado: </b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getGenes() %> - <%//= marcador.getSubFragment() %></em></td>
-                                                                </tr>                                       
-                                                                <tr>
-                                                                    <td style="padding:10px;"><b>FW Primer:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getPcr().getFw_primer() %></em></td>
-                                                                </tr>   
-                                                                <tr>
-                                                                    <td style="padding:10px;"><b>RV Primer:</b></td>
-                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= marcador.getPcr().getRv_primer() %></em></td>
-                                                                </tr> 
-                                                                <tr>
-                                                                    <td style="padding:10px;"><b>Referencia:</b></td>
-                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= metagenoma.getMetodo() %></em></td>
-                                                                </tr>  
-                                                                <tr>
-                                                                    <td style="padding:10px;"><b>Condiciones PCR:</b></td>
-                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= marcador.getPcr().getPcr_cond() %></em></td>
-                                                                </tr> 
-                                                                <tr>
-                                                                    <td style="padding:10px;"><b>Comentarios:</b></td>
-                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= marcador.getPcr().getComentarios() %></em></td>
-                                                                </tr>                                                                 
+                                                            <tr>
+                                                                <td style="padding:10px;"><b>Gen amplificado: </b></td>
+                                                                <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getGenes() %> - <%//= marcador.getSubFragment() %></em></td>
+                                                            </tr>                                       
+                                                            <tr>
+                                                                <td style="padding:10px;"><b>FW Primer:</b></td>
+                                                                <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getPcr().getFw_primer() %></em></td>
+                                                            </tr>   
+                                                            <tr>
+                                                                <td style="padding:10px;"><b>RV Primer:</b></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= marcador.getPcr().getRv_primer() %></em></td>
+                                                            </tr> 
+                                                            <tr>
+                                                                <td style="padding:10px;"><b>Referencia:</b></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= metagenoma.getMetodo() %></em></td>
+                                                            </tr>  
+                                                            <tr>
+                                                                <td style="padding:10px;"><b>Condiciones PCR:</b></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= marcador.getPcr().getPcr_cond() %></em></td>
+                                                            </tr> 
+                                                            <tr>
+                                                                <td style="padding:10px;"><b>Comentarios:</b></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= marcador.getPcr().getComentarios() %></em></td>
+                                                            </tr>                                                                 
                                                             </tbody>
                                                             <%}%>
                                                         </table>
@@ -439,38 +485,38 @@
                                                     <div class="table table-striped table-bordered " width="100%">
                                                         <table class="table table-striped">
                                                             <%
-                                                                 if (marcador != null) {
+                                                                if (marcador != null) {
                                                             %>
-                                                           <tbody>
+                                                            <tbody>
                                                                 <tr style="border-top:none;">
                                                                     <td style="padding:10px;"><b>Fuente:</b></td>
                                                                     <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= marcador.getLibreria().getFuente()%></td>         
                                                                     <td style="padding:10px;"><b>Tipo de secuenciación:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= marcador.getNombreTipoSecuenciacion() %> - <%= marcador.getDescripcionTipoSecuenciacion() %></td> 
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= marcador.getNombreTipoSecuenciacion()%> - <%= marcador.getDescripcionTipoSecuenciacion()%></td> 
                                                                 </tr>                                                               
                                                                 <tr style="border-top:none;">         
                                                                     <td style="padding:10px;"><b>Selección de la librería:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= marcador.getLibreria().getSeleccion() %></td> 
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= marcador.getLibreria().getSeleccion()%></td> 
                                                                     <td style="padding:10px;"><b>Configuración de la librería:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= marcador.getLibreria().getLayout() %></td> 
-                                                                
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= marcador.getLibreria().getLayout()%></td> 
+
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Secuenciador:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= marcador.getMarca() %> - <%= marcador.getModelo() %></td>         
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= marcador.getMarca()%> - <%= marcador.getModelo()%></td>         
                                                                     <td style="padding:10px;"><b>Centro de secuenciación:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= marcador.getCentro_secuenciacion() %></td>         
-                                                                                                                                
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= marcador.getCentro_secuenciacion()%></td>         
+
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Preparación de la libreria:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;" colspan="3"><%= marcador.getLibreria().getMetodo() %></td>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;" colspan="3"><%= marcador.getLibreria().getMetodo()%></td>
                                                                     <td></td>
                                                                     <td></td>
                                                                 </tr>
                                                             </tbody> 
                                                             <%
-                                                               }
+                                                                }
                                                             %>
                                                         </table>
                                                     </div>
@@ -492,7 +538,7 @@
                                                             <tbody>
                                                                 <tr style="border-top:none;">
                                                                     <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Número de secuencias obtenidas.', {position: 0})"></span> <b>Lecturas:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= marcador.getStats().getReads() %></em></td>                                                                   
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= marcador.getStats().getReads()%></em></td>                                                                   
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Número de bases nucleotídicas que representan el total de las lecturas obtenidas.', {position: 0})"></span> <b>Bases:</b></td>
@@ -545,7 +591,7 @@
                                                                     <td style="padding:10px;"><span style="cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Porcentaje de fragmentos que se pudieron extender (lecturas FW y RV).', {position: 0})"></span> <b>Porcentaje combinado:</b></td>
                                                                     <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= marcador.getStats().getCombined_prc()%></em></td>                                           
                                                                 </tr>
-                                                                
+
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -566,7 +612,7 @@
                                                     <div class="table table-striped table-bordered table-hover" width="100%">
                                                         <table class="table table-striped" >
                                                             <%
-                                                              //if (metagenoma != null) {
+                                                                //if (metagenoma != null) {
                                                             %>
                                                             <tbody>
 
@@ -575,22 +621,22 @@
                                                                     <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><em><%//= metagenoma.getEnsamble().getEnsamblador() %></em></td>
                                                                     <td style="padding:10px;"><b>Contigs:</b></td>
                                                                     <td style="padding:10px; text-align:left; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= metagenoma.getEnsamble().getContigs() %></em></td>
-                                                                 
+
                                                                 </tr> 
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Contig más largo:</b></td>
                                                                     <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><em><%//= metagenoma.getEnsamble().getLongestContig() %></em></td>
                                                                     <td style="padding:10px;"><b>Contig promedio:</b></td>
                                                                     <td style="padding:10px; text-align:left; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= metagenoma.getEnsamble().getAvgContig() %></em></td>
-                                                                                                                               
+
                                                                 </tr>
-                                                                                                                             
+
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>N50/N90:</b></td>
                                                                     <td style="padding:10px; text-align:left; color:#777; font-size:87%; word-break: break-all; "><em><%//= metagenoma.getEnsamble().getN5090() %></em></td>
                                                                     <td style="padding:10px;"><b>Lecturas Mapeadas: </b></td>
                                                                     <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><em><%//= metagenoma.getEnsamble().getLecturasMapeadas() %>%</em></td>
-                                                                                                  
+
                                                                 </tr>                                    
                                                                 <tr>
                                                                     <td style="padding:10px;" ><b>Comentarios:</b></td>
@@ -713,8 +759,8 @@
                                                                                                     <td><%= u.getComentarios()%></td>                                                    
                                                                                                 </tr>
                                                                                                 <%
-                                                                                                       }
-                                                                                                   }
+                                                                                                        }
+                                                                                                    }
 
                                                                                                 %>
                                                                                             </tbody>
@@ -798,20 +844,18 @@
                                                                     <center><h3><b style="color:#d9534f;">Géneros Degradadores</b></h3></center>
                                                                 </div>
                                                                 <%
-                                                                   // Object tabla = request.getAttribute("tabla");
-                                                                   // String tablaHTML = tabla != null ? (String) tabla : null;
+                                                                    // Object tabla = request.getAttribute("tabla");
+                                                                    // String tablaHTML = tabla != null ? (String) tabla : null;
                                                                 %>
                                                                 <!-- /.panel-heading -->
                                                                 <div class="panel-body" >
                                                                     <div class="dataTable_wrapper">
-                                                                        <%
-                                                                           // if (tablaHTML != null) {
+                                                                        <%                                                                            // if (tablaHTML != null) {
                                                                         %>
                                                                         <%//= tablaHTML%>
 
                                                                         <%
-
-                                                                           // }
+                                                                            // }
                                                                         %>
                                                                     </div>
                                                                 </div>
