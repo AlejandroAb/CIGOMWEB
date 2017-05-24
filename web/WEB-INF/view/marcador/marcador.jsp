@@ -86,14 +86,14 @@
                         idkrona: idKrona
                     },
                     dataType: "html",
-                    beforeSend: function () {
+                    beforeSend: function() {
                         //imagen de carga
                         $("#resultadokrona").html("<p align='center'><img src='http://form.cenp.com.br/img/carregando.gif' /></p>");
                     },
-                    error: function () {
+                    error: function() {
                         alert("error petición ajax");
                     },
-                    success: function (data) {
+                    success: function(data) {
                         //alert("success??");
                         $("#resultadokrona").empty();
                         $("#resultadokrona").append(data);
@@ -447,36 +447,37 @@
                                                             %>
                                                             <tr>
                                                                 <td style="padding:10px;"><b>Gen amplificado: </b></td>
-                                                                <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getGenes() %> - <%//= marcador.getSubFragment() %></em></td>
+                                                                <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= marcador.getGenes() %> - <%= marcador.getSubFragment() %></em></td>
                                                             </tr>                                       
                                                             <tr>
                                                                 <td style="padding:10px;"><b>FW Primer:</b></td>
-                                                                <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%//= marcador.getPcr().getFw_primer() %></em></td>
+                                                                <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= marcador.getPcr().getFw_primer() %></em></td>
                                                             </tr>   
                                                             <tr>
                                                                 <td style="padding:10px;"><b>RV Primer:</b></td>
-                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= marcador.getPcr().getRv_primer() %></em></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%= marcador.getPcr().getRv_primer() %></em></td>
                                                             </tr> 
                                                             <tr>
                                                                 <td style="padding:10px;"><b>Referencia:</b></td>
-                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= metagenoma.getMetodo() %></em></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%= marcador.getPcr().getPrimerRef() %></em></td>
                                                             </tr>  
                                                             <tr>
                                                                 <td style="padding:10px;"><b>Condiciones PCR:</b></td>
-                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= marcador.getPcr().getPcr_cond() %></em></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%= marcador.getPcr().getPcr_cond() %></em></td>
                                                             </tr> 
                                                             <tr>
                                                                 <td style="padding:10px;"><b>Comentarios:</b></td>
-                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= marcador.getPcr().getComentarios() %></em></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%= marcador.getPcr().getComentarios() %></em></td>
                                                             </tr>                                                                 
                                                             </tbody>
-                                                            <%}%>
+
                                                         </table>
                                                     </div>
                                                     <!-- /.table-responsive -->
                                                 </div>
                                                 <!-- /.panel-body -->
-                                            </div>                                                        
+                                            </div>  
+                                            <%}%>      
                                             <div class="panel panel-default" style="border:none;">
                                                 <!-- /.panel-heading -->
                                                 <h4 style="color:#337ab7;">Secuenciación</h4>
@@ -968,8 +969,8 @@
 
 </div>  
 <script>
-    $(document).ready(function () {
-        $("select[name=nivel]").change(function () {
+    $(document).ready(function() {
+        $("select[name=nivel]").change(function() {
             var niveles = $('select[name=nivel]').val();
             if (niveles == "genus") {
 
@@ -982,7 +983,7 @@
     });
 </script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('#lista-organismo').DataTable({
             responsive: true
         });

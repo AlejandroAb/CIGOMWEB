@@ -76,7 +76,7 @@ public class BlastController extends HttpServlet {
                 MetagenomaDAO metaDAO = new MetagenomaDAO(transacciones);
 
                 ArrayList<ArrayList<String>> genomas = genomaDAO.getGenomasBlast("ORDER BY genome_name");
-                String where = " WHERE seq_num_total>0 AND visible = true ORDER BY meta_name"; //a cambiarr: "where seq_num_total >0";
+                String where = " WHERE gen_num_total>0 AND visible = true ORDER BY meta_name"; //a cambiarr: "where seq_num_total >0";
                 ArrayList<ArrayList<String>> metagenomas = metaDAO.getMetagenomasBlast(where);
                 request.setAttribute("genomas", genomas);
                 request.setAttribute("metagenomas", metagenomas);
