@@ -14,37 +14,56 @@ import java.util.ArrayList;
 public class Genoma {
 
     private int idgenoma;
-    private String etiquetaMuestra;
+    private String etiquetaMuestra = "";
     private int idmuestra;
-    private String tax_id;
+    private String tax_id = "";
     private int idtipo_secuenciacion;
     private int idSecuenciador;
-    private String tipoSecuenciacion;
-    private String descTipoSecuenciacion;
-    private String equipoSecuenciacion;
+    private String tipoSecuenciacion = "";
+    private String descTipoSecuenciacion = "";
+    private String equipoSecuenciacion = "";
     private NCBINode tax;
-    private String name;
-    private String desc;
-    private String strain;
-    private String crecimiento;
+    private String name = "";//nombre del genoma
+    private String desc = "";//desc del genoma
+    private String strain = "";//cepa
+    private String crecimiento = "";//
     private int replicones = 1;
-    private String referencia;
-    private String comentarios;
-    private String library_selection;
-    private String library_layout;
-    private String library_screen;
+    private String referencia = "";//cite en la bd
+    private String comentarios = "";
+    //libreria    
+    private LibraryObj libreria;
+    /* private String library_selection;
+     private String library_layout;
+     private String library_screen;
+     */
     private double latitud;
     private double longitud;
-    private String cantidad_dna;
-    private String metodo;
-    private String kit;
+    private String cantidad_dna = "";
+    private String clean_up_method = "";
+    private String clean_up_kit = "";
+    private String ref_anot = "";//organismo de referencia contra el que se anotó/mapeó 
+    private String finishing_strategy;
+    private String version;
+    private String procesamiento = "";
+    private String analisis="";
+    private int gen_num_total;
     private StatsObj stats;
     private AssemblyObj ensamble;
-    ArrayList<ArchivoObj> archivos = new ArrayList<>();
+    ArrayList<ArchivoObj> archivos = new ArrayList<>();    
+    boolean isTranscriptoma = false;
+    String condicionesTranscriptoma = "";
+    String respaldo_org;//donde se encuentra la cepa aislada.
     
-
     public AssemblyObj getEnsamble() {
         return ensamble;
+    }
+
+    public String getAnalisis() {
+        return analisis;
+    }
+
+    public void setAnalisis(String analisis) {
+        this.analisis = analisis;
     }
 
     public void setEnsamble(AssemblyObj ensamble) {
@@ -58,8 +77,81 @@ public class Genoma {
     public void setArchivos(ArrayList<ArchivoObj> archivos) {
         this.archivos = archivos;
     }
-    public void addArchivo(ArchivoObj archivo){
+
+    public void addArchivo(ArchivoObj archivo) {
         archivos.add(archivo);
+    }
+
+    public LibraryObj getLibreria() {
+        return libreria;
+    }
+
+    public void setLibreria(LibraryObj libreria) {
+        this.libreria = libreria;
+    }
+
+    public String getClean_up_method() {
+        return clean_up_method;
+    }
+
+    public void setClean_up_method(String clean_up_method) {
+        this.clean_up_method = clean_up_method;
+    }
+
+    public String getClean_up_kit() {
+        return clean_up_kit;
+    }
+
+    public void setClean_up_kit(String clean_up_kit) {
+        this.clean_up_kit = clean_up_kit;
+    }
+
+    public String getRef_anot() {
+        return ref_anot;
+    }
+
+    public void setRef_anot(String ref_anot) {
+        this.ref_anot = ref_anot;
+    }
+
+    public String getProcesamiento() {
+        return procesamiento;
+    }
+
+    public void setProcesamiento(String procesamiento) {
+        this.procesamiento = procesamiento;
+    }
+
+    public int getGen_num_total() {
+        return gen_num_total;
+    }
+
+    public void setGen_num_total(int gen_num_total) {
+        this.gen_num_total = gen_num_total;
+    }
+
+    public boolean isTranscriptoma() {
+        return isTranscriptoma;
+    }
+
+    public void setIsTranscriptoma(boolean isTranscriptoma) {
+        this.isTranscriptoma = isTranscriptoma;
+    }
+
+    public String getCondicionesTranscriptoma() {
+        return condicionesTranscriptoma;
+    }
+
+    public void setCondicionesTranscriptoma(String condicionesTranscriptoma) {
+        this.condicionesTranscriptoma = condicionesTranscriptoma;
+    }
+
+    public String getRespaldo_org() {
+        return respaldo_org;
+    }
+
+    public void setRespaldo_org(String respaldo_org) {
+        this.respaldo_org = respaldo_org;
     }
 
     public StatsObj getStats() {
@@ -102,22 +194,8 @@ public class Genoma {
         this.cantidad_dna = cantidad_dna;
     }
 
-    public String getMetodo() {
-        return metodo;
-    }
+ 
 
-    public void setMetodo(String metodo) {
-        this.metodo = metodo;
-    }
-
-    public String getKit() {
-        return kit;
-    }
-
-    public void setKit(String kit) {
-        this.kit = kit;
-    }
-    
     public double getLatitud() {
         return latitud;
     }
@@ -133,6 +211,7 @@ public class Genoma {
     public void setLongitud(double longitud) {
         this.longitud = longitud;
     }
+
     public String getTax_id() {
         return tax_id;
     }
@@ -140,6 +219,7 @@ public class Genoma {
     public void setTax_id(String tax_id) {
         this.tax_id = tax_id;
     }
+
     public String getVersion() {
         return version;
     }
@@ -147,9 +227,6 @@ public class Genoma {
     public void setVersion(String version) {
         this.version = version;
     }
-    private String library_vector;
-    private String finishing_strategy;
-    private String version;
 
     public int getIdgenoma() {
         return idgenoma;
@@ -169,7 +246,7 @@ public class Genoma {
 
     public Genoma() {
     }
-    
+
     public void setIdgenoma(int idgenoma) {
         this.idgenoma = idgenoma;
     }
@@ -262,37 +339,7 @@ public class Genoma {
         this.comentarios = comentarios;
     }
 
-    public String getLibrary_selection() {
-        return library_selection;
-    }
-
-    public void setLibrary_selection(String library_selection) {
-        this.library_selection = library_selection;
-    }
-
-    public String getLibrary_layout() {
-        return library_layout;
-    }
-
-    public void setLibrary_layout(String library_layout) {
-        this.library_layout = library_layout;
-    }
-
-    public String getLibrary_screen() {
-        return library_screen;
-    }
-
-    public void setLibrary_screen(String library_screen) {
-        this.library_screen = library_screen;
-    }
-
-    public String getLibrary_vector() {
-        return library_vector;
-    }
-
-    public void setLibrary_vector(String library_vector) {
-        this.library_vector = library_vector;
-    }
+   
 
     public String getFinishing_strategy() {
         return finishing_strategy;
@@ -301,7 +348,5 @@ public class Genoma {
     public void setFinishing_strategy(String finishing_strategy) {
         this.finishing_strategy = finishing_strategy;
     }
-    
-    
 
 }

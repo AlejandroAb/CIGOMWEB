@@ -613,12 +613,13 @@ public class Transacciones {
 
     public ArrayList getGenoma(String idGenoma) {
         String query = "SELECT muestra.idMuestra, muestra.etiqueta, genoma.genome_name, genoma.genome_desc, genoma.tax_id, genoma.strain, "
-                + "genoma.crecimiento, genoma.version, latitud_r, longitud_r, cantidad_dna, kit, metodo_dna, "
-                + "ts.nombre, ts.descripcion, CONCAT(marca, ' ', modelo), library_selection, library_layout, genoma.comentarios, idstats, idensamble "
+                + "genoma.crecimiento, genoma.version, latitud_r, longitud_r, cantidad_dna, clean_up_kit, clean_up_method, analisis, "
+                + "referencia_anot, finishing_strategy, procesamiento, cite, gen_num_total, ts.nombre, ts.descripcion, "
+                + "CONCAT(marca, ' ', modelo), genoma.comentarios, respaldo, idstats, genoma.idlibreria, idensamble, esTranscriptoma, condicion_trans "
                 + "FROM genoma INNER JOIN tipo_secuenciacion AS ts ON ts.idtipo_secuenciacion = genoma.idtipo_secuenciacion "
                 + "INNER JOIN secuenciador ON secuenciador.idSecuenciador = genoma.idSecuenciador "
                 + "INNER JOIN muestra ON muestra.idmuestra = genoma.idmuestra "
-                + "INNER JOIN muestreo ON muestreo.idmuestreo = muestra.idmuestreo "
+                + "INNER JOIN muestreo ON muestreo.idmuestreo = muestra.idmuestreo "                
                 + "WHERE idgenoma = " + idGenoma;
         conexion.executeStatement(query);
         return conexion.getTabla();
@@ -692,8 +693,8 @@ public class Transacciones {
                 + "FROM genoma INNER JOIN muestra ON muestra.idmuestra = genoma.idmuestra "
                 + "INNER JOIN ncbi_node ON ncbi_node.tax_id = genoma.tax_id  "
                 + "INNER JOIN muestreo ON muestreo.idmuestreo = muestra.idmuestreo "
-                + "INNER JOIN derrotero ON derrotero.idderrotero = muestreo.idCE "
-                + "INNER JOIN estacion on estacion.idestacion = derrotero.idestacion "
+               // + "INNER JOIN derrotero ON derrotero.idderrotero = muestreo.idCE "
+                + "INNER JOIN estacion on estacion.idestacion = muestreo.idestacion "
                 //Quizas poner un inner join con genes para asegurar que no sean genomas vacios
                 + where;
         conexion.executeStatement(query);

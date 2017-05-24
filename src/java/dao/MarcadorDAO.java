@@ -53,7 +53,7 @@ public class MarcadorDAO {
             marcador.setCentro_secuenciacion(datos.get(12));
             marcador.setIdPcr(datos.get(13));
             try {
-                int idPCR = Integer.parseInt(datos.get(12));
+                int idPCR = Integer.parseInt(datos.get(13));
                 marcador.setPcr(pcr.initPCR(idPCR));
             } catch (NumberFormatException nfe) {
                 marcador.setPcr(null);
