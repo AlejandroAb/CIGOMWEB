@@ -19,6 +19,11 @@ public class Genoma {
     private String tax_id = "";
     private int idtipo_secuenciacion;
     private int idSecuenciador;
+    
+    private String profundidad = "";
+    private String estacion = "";
+    private String tipoMuestra = "";
+    
     private String tipoSecuenciacion = "";
     private String descTipoSecuenciacion = "";
     private String equipoSecuenciacion = "";
@@ -45,15 +50,39 @@ public class Genoma {
     private String finishing_strategy;
     private String version;
     private String procesamiento = "";
-    private String analisis="";
+    private String analisis = "";
     private int gen_num_total;
     private StatsObj stats;
     private AssemblyObj ensamble;
-    ArrayList<ArchivoObj> archivos = new ArrayList<>();    
+    ArrayList<ArchivoObj> archivos = new ArrayList<>();
     boolean isTranscriptoma = false;
     String condicionesTranscriptoma = "";
     String respaldo_org;//donde se encuentra la cepa aislada.
-    
+
+    public String getProfundidad() {
+        return profundidad;
+    }
+
+    public void setProfundidad(String profundidad) {
+        this.profundidad = profundidad;
+    }
+
+    public String getEstacion() {
+        return estacion;
+    }
+
+    public void setEstacion(String estacion) {
+        this.estacion = estacion;
+    }
+
+    public String getTipoMuestra() {
+        return tipoMuestra;
+    }
+
+    public void setTipoMuestra(String tipoMuestra) {
+        this.tipoMuestra = tipoMuestra;
+    }
+
     public AssemblyObj getEnsamble() {
         return ensamble;
     }
@@ -193,8 +222,6 @@ public class Genoma {
     public void setCantidad_dna(String cantidad_dna) {
         this.cantidad_dna = cantidad_dna;
     }
-
- 
 
     public double getLatitud() {
         return latitud;
@@ -338,8 +365,6 @@ public class Genoma {
     public void setComentarios(String comentarios) {
         this.comentarios = comentarios;
     }
-
-   
 
     public String getFinishing_strategy() {
         return finishing_strategy;

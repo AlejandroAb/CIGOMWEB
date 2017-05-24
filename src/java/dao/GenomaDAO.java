@@ -156,6 +156,9 @@ public class GenomaDAO {
                 genoma.setIsTranscriptoma(true);
             }            
             genoma.setCondicionesTranscriptoma(geno.get(28));
+            genoma.setEstacion(geno.get(29));
+            genoma.setProfundidad(geno.get(30));
+            genoma.setTipoMuestra(geno.get(31));
             ArrayList<ArrayList<String>> ids = transacciones.getArchivosGenoma("" + idG);
             ArchivoDAO archivoDAO = new ArchivoDAO(transacciones);
             if (ids != null) {

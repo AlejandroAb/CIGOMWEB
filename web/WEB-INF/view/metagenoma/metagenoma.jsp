@@ -324,7 +324,7 @@
                                                                         <h5 style="color:#337ab7;">LOCALIZACIÓN</h5>
                                                                         
                                                                         <p>
-                                                                            <b>Coordenadas:</b> <%= marcador.getLatitud()%>,<%= marcador.getLongitud()%>
+                                                                            <b>Coordenadas:</b> <%= metagenoma.getLatitud()%>,<%= metagenoma.getLongitud()%>
                                                                         </p>
                                                                         <p>            
                                                                         <div id="mapa" style="width:100%; height:150px">
