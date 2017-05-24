@@ -403,10 +403,10 @@
                                             %>
                                         <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                             <thead>
-                                                  <tr id="bus">
+                                               <!--   <tr id="bus">
                                                     <th>ESTACIÓN</th>
                                                 </tr>
-                                                <br>
+                                                <br>-->
                                                 <tr align="center">
                                                     <th>ESTACIÓN</th>
                                                     <th>Producto Genético</th>
