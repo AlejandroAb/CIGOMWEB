@@ -272,9 +272,10 @@
         <script>
             $(document).ready(function () {
             var table = $('#taxones').DataTable();
-                    $("select[name=niveles]").change(function () {
             var niveles = $('select[name=niveles]').val();
-                    if (niveles == "genus") {
+            $("select[name=niveles]").change(function () {
+            var niveles2 = $('select[name=niveles]').val();
+             if (niveles2 == "genus") {
 
             $("#mGeneros").css("display", " block");
             } else {
@@ -282,7 +283,8 @@
             }
 
             });
-                    $("#filtro").on("click", function () {
+           
+        $("#filtro").on("click", function () {
 
             var nivel = $('select[name=niveles]').val();
                     var organismo = $('input:radio[name=grupo1]:checked').val();
@@ -349,9 +351,7 @@
                     var taxones = resultaxones.join(',');
                     resultaxones[i] = $(this).text();
                     i++;
-            });
-                    var taxones = resultaxones.join(',');
-                    if (nivel === null) {
+           if (nivel === null) {
             swal({
             title: "<span style='color:#red'>Seleccionar Nivel Taxonómico!</span>",
                     imageUrl: "images/error_busqueda.png",
@@ -429,6 +429,8 @@
                     return true;
                     $("#filtro").removeAttr("disabled");
             }
+            });
+                    //var taxones = resultaxones.join(',');
             });
   
         </script>   
