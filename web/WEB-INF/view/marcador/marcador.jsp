@@ -309,21 +309,20 @@
                                         <div class="col-md-5">
                                             <div class="panel panel-default" style="border:none;">
                                                 <!-- /.panel-heading -->
-                                                <div class="panel-body">
+                                                <div class="panel-body" style="padding:0px;">
                                                     <div class="table table-striped table-bordered " width="100%" style="border:none;">
                                                         <table class="table table-striped">
 
                                                             <tbody>
 
                                                                 <tr>
-                                                                    <td style="padding:10px; border-top:0px;">
+                                                                    <td style="padding:0px; border-top:0px;">
                                                                         <h5 style="color:#337ab7;">LOCALIZACIÓN</h5>
-                                                                        
                                                                         <p>
-                                                                            <b>Coordenadas:</b> <%= marcador.getLatitud()%>,<%= marcador.getLongitud()%>
+                                                                            <b>Estación:</b> <%= marcador.getEstacion() %> (<%= marcador.getLatitud()%> N,<%= marcador.getLongitud()%> W)
                                                                         </p>
                                                                         <p>            
-                                                                        <div id="mapa" style="width:100%; height:150px">
+                                                                        <div id="mapa" style="width:100%; height:200px">
 
                                                                         </div>      
                                                                     </td>
@@ -342,7 +341,7 @@
                                                 function mapa() {
                                                     var puntoCentral = new google.maps.LatLng(<%= marcador.getLatitud()%>,<%= marcador.getLongitud()%>);
                                                     var opciones = {
-                                                        zoom: 4,
+                                                        zoom: 5,
                                                         center: puntoCentral,
                                                         mapTypeId: google.maps.MapTypeId.HYBRID
                                                     };
@@ -602,61 +601,7 @@
 
 
                                     </div>  
-                                    <div class="tab-pane faden " id="ensamble">
-                                        <br>                     
 
-                                        <div class="col-md-12">
-
-                                            <div class="panel panel-default" style="border:none;">
-                                                <!-- /.panel-heading -->
-                                                <div class="panel-body">
-                                                    <div class="table table-striped table-bordered table-hover" width="100%">
-                                                        <table class="table table-striped" >
-                                                            <%
-                                                                //if (metagenoma != null) {
-                                                            %>
-                                                            <tbody>
-
-                                                                <tr>
-                                                                    <td style="padding:10px;"><b>Ensamblador:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><em><%//= metagenoma.getEnsamble().getEnsamblador() %></em></td>
-                                                                    <td style="padding:10px;"><b>Contigs:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= metagenoma.getEnsamble().getContigs() %></em></td>
-
-                                                                </tr> 
-                                                                <tr>
-                                                                    <td style="padding:10px;"><b>Contig más largo:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><em><%//= metagenoma.getEnsamble().getLongestContig() %></em></td>
-                                                                    <td style="padding:10px;"><b>Contig promedio:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%; word-wrap:break-word;"><em><%//= metagenoma.getEnsamble().getAvgContig() %></em></td>
-
-                                                                </tr>
-
-                                                                <tr>
-                                                                    <td style="padding:10px;"><b>N50/N90:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%; word-break: break-all; "><em><%//= metagenoma.getEnsamble().getN5090() %></em></td>
-                                                                    <td style="padding:10px;"><b>Lecturas Mapeadas: </b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><em><%//= metagenoma.getEnsamble().getLecturasMapeadas() %>%</em></td>
-
-                                                                </tr>                                    
-                                                                <tr>
-                                                                    <td style="padding:10px;" ><b>Comentarios:</b></td>
-                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%;" colspan="2"><em><%//= metagenoma.getEnsamble().getComentarios() %></em></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                </tr>
-                                                            </tbody>
-                                                            <%//}%>
-                                                        </table>
-                                                    </div>
-                                                    <!-- /.table-responsive -->
-                                                </div>
-                                                <!-- /.panel-body -->
-                                            </div> 
-
-                                        </div>
-
-                                    </div>
                                     <div class="tab-pane fade" id="archivos">
                                         <br>
                                         <div class="col-md-12">

@@ -21,27 +21,117 @@ public class GenObj {
     String gen_function;//funcion o definicion del gen
     String contig_id; //ID del contig al cual pertenece el gen
     String contig_gen_id; //ID del gen dentro del archivo de contigs
+    String gen_src; //genoma o metagenoma
     int contig_from; //posicion de del gen dentro del contig
     int contig_to;//pos del gen dentro del ccontig
-    ArrayList<GenSeqObj> sequences;//secuencias asociadas a ddicho gen
+    int gen_lenght;//
+    ArrayList<GenSeqObj> sequences;//secuencias asociadas a dicho gen
     ArrayList<DBProperty> props;//campos no modelados que pueden guardarse en MOngo
+    private int idmuestra;
+    private String etiquetaMuestra = "";
+    private double latitud;
+    private double longitud;
+    private String profundidad = "";
+    private String tipoMuestra = "";
+    private String name = "";//nombre metagenoma/genoma
+
+    SecuenciaObj sec5P;//= new SecuenciaObj(genID,"5p");
+    SecuenciaObj sec3P;// = new SecuenciaObj(genID,"3p"); 
+    SecuenciaObj secAA;// = new SecuenciaObj(genID,"aa");
+    SecuenciaObj secNC;//= new SecuenciaObj(genID,"nc");
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getGen_lenght() {
+        return gen_lenght;
+    }
+
+    public void setGen_lenght(int gen_lenght) {
+        this.gen_lenght = gen_lenght;
+    }
+
+    public int getIdmuestra() {
+        return idmuestra;
+    }
+
+    public void setIdmuestra(int idmuestra) {
+        this.idmuestra = idmuestra;
+    }
+
+    public String getEtiquetaMuestra() {
+        return etiquetaMuestra;
+    }
+
+    public void setEtiquetaMuestra(String etiquetaMuestra) {
+        this.etiquetaMuestra = etiquetaMuestra;
+    }
+
+    public double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
+
+    public double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
+    }
+
+    public String getProfundidad() {
+        return profundidad;
+    }
+
+    public void setProfundidad(String profundidad) {
+        this.profundidad = profundidad;
+    }
+
+    public String getTipoMuestra() {
+        return tipoMuestra;
+    }
+
+    public void setTipoMuestra(String tipoMuestra) {
+        this.tipoMuestra = tipoMuestra;
+    }
 
     public String getGenID() {
         return genID;
     }
 
+    public String getGen_src() {
+        return gen_src;
+    }
+
+    public void setGen_src(String gen_src) {
+        this.gen_src = gen_src;
+    }
+
     public void addSequence(GenSeqObj seq) {
         sequences.add(seq);
     }
-    public void addProperty(String key, String value){
-        props.add(new DBProperty(key,value));
+
+    public void addProperty(String key, String value) {
+        props.add(new DBProperty(key, value));
     }
-    public void addProperty(String key, String value, boolean isNumeric){
-        props.add(new DBProperty(key,value));
+
+    public void addProperty(String key, String value, boolean isNumeric) {
+        props.add(new DBProperty(key, value));
     }
-    public void insertProperty(DBProperty dbProp){
+
+    public void insertProperty(DBProperty dbProp) {
         props.add(dbProp);
     }
+
     public String getGene_map_id() {
         return gene_map_id;
     }
@@ -130,6 +220,43 @@ public class GenObj {
         this.genID = genID;
         sequences = new ArrayList<GenSeqObj>();
         props = new ArrayList<DBProperty>();
+
+        sec5P = new SecuenciaObj(genID, "5p");
+        sec3P = new SecuenciaObj(genID, "3p");
+        secAA = new SecuenciaObj(genID, "aa");
+        secNC = new SecuenciaObj(genID, "nc");
+    }
+
+    public SecuenciaObj getSec5P() {
+        return sec5P;
+    }
+
+    public void setSec5P(SecuenciaObj sec5P) {
+        this.sec5P = sec5P;
+    }
+
+    public SecuenciaObj getSec3P() {
+        return sec3P;
+    }
+
+    public void setSec3P(SecuenciaObj sec3P) {
+        this.sec3P = sec3P;
+    }
+
+    public SecuenciaObj getSecAA() {
+        return secAA;
+    }
+
+    public void setSecAA(SecuenciaObj secAA) {
+        this.secAA = secAA;
+    }
+
+    public SecuenciaObj getSecNC() {
+        return secNC;
+    }
+
+    public void setSecNC(SecuenciaObj secNC) {
+        this.secNC = secNC;
     }
 
 }

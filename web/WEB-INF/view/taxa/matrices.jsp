@@ -429,12 +429,8 @@
                     return true;
                     $("#filtro").removeAttr("disabled");
             }
-
-
-
             });
-            }
-            );
+  
         </script>   
         <style>
             .dataTables_paginate, .paging_simple_numbers{
@@ -840,7 +836,7 @@
                     </div>
                     <div class="row" style="padding:15px;">
                         <div class="panel-heading" style="background-color:#eee;">
-                            <b style="color:#d9534f;">Buscador</b> 
+                            <b style="color:#d9534f;">Filtrar taxones</b> 
                         </div>
                         <br>
                         <div class="col-lg-6">

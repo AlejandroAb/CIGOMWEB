@@ -23,7 +23,7 @@ public class Genoma {
     private String profundidad = "";
     private String estacion = "";
     private String tipoMuestra = "";
-    
+    String centro_secuenciacion = "";
     private String tipoSecuenciacion = "";
     private String descTipoSecuenciacion = "";
     private String equipoSecuenciacion = "";
@@ -65,6 +65,14 @@ public class Genoma {
 
     public void setProfundidad(String profundidad) {
         this.profundidad = profundidad;
+    }
+
+    public String getCentro_secuenciacion() {
+        return centro_secuenciacion;
+    }
+
+    public void setCentro_secuenciacion(String centro_secuenciacion) {
+        this.centro_secuenciacion = centro_secuenciacion;
     }
 
     public String getEstacion() {

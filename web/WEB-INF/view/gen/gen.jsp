@@ -3,6 +3,7 @@
     Created on : 5/05/2017, 10:41:51 AM
     Author     : Jose Pefi
 --%>
+<%@page import="bobjects.GenObj"%>
 <%@page import="java.util.List"%>
 <%@page import="bobjects.ArchivoObj"%>
 <%@page import="bobjects.PCRObj"%>
@@ -19,8 +20,8 @@
     }
     Usuario usuario = (Usuario) sesion.getAttribute("userObj");
     String nombreCompleto = usuario.getNombres() + " " + usuario.getApellidos();
-    //Object marcadorObj = request.getAttribute("marcador");
-    //Marcador marcador = marcadorObj != null ? (Marcador) marcadorObj : null;
+    Object GenObj = request.getAttribute("gen");
+    GenObj gen = GenObj != null ? (GenObj) GenObj : null;
 %>
 <!DOCTYPE html>
 <html>
@@ -139,17 +140,17 @@
 
             <div id="page-wrapper">
                 <%
-                    //if (marcador != null) {
+                   if (gen != null) {
                 %>
                 <div class="row">                     
                     <div class="col-lg-12">
 
-                        <h2 style="color:#337ab7;">GEN</h2><h4 class="page-header" style="color:#d9534f; margin-top:0px;"><%//= marcador.getMarc_name()%></h4> 
+                        <h2 style="color:#337ab7;">GEN</h2><h4 class="page-header" style="color:#d9534f; margin-top:0px;"><%= gen.getGenID() %></h4> 
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
                 <%
-                    // }
+                    }
                 %>
                 <br>
                 <!-- /.row -->
@@ -183,24 +184,30 @@
                                                     <div class="table table-striped table-bordered " width="100%">
                                                         <table class="table table-striped">
                                                             <%
-                                                                // if (marcador != null) {
+                                                               if (gen != null) {
                                                             %>
                                                            <tbody>
                                                                 <tr style="border-top:none;">
                                                                     <td style="padding:10px;"><b>Fuente:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"></td>         
+                                                                    <script>
+                                                                        if("<%= gen.getGen_src() %>" == "GEN"){
+                                                                        document.write("<td style=\"padding:10px; text-align:left; color:#777; font-size:87%;\">GENOMA:<em> <%= gen.getName() %></em></td> ");
+                                                                        }else{
+                                                                        document.write("<td style=\"padding:10px; text-align:left; color:#777; font-size:87%;\">METAGENOMA:<em> <%= gen.getName() %></em></td> ");    
+                                                                        }
+                                                                    </script>   
                                                                     <td style="padding:10px;"><b>Tipo de Muestra:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"></td> 
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><em><%= gen.getTipoMuestra() %></em></td> 
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Muestra:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"></td>         
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><em><a href = 'showMuestra?idMuestra=<%=gen.getIdmuestra() %>' target='_blank'><%= gen.getEtiquetaMuestra() %></a></em></td>         
                                                                     <td style="padding:10px;"><b>Profundidad:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"></td> 
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><em><%= gen.getProfundidad() %></em></td> 
                                                                 </tr>
                                                             </tbody> 
                                                             <%
-                                                                //}
+                                                                }
                                                             %>
                                                         </table>
                                                     </div>
@@ -225,21 +232,21 @@
                                                             <tbody>
                                                                 <tr style="border-top:none;">
                                                                     <td style="padding:10px;"><b>Tipo de gen:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"></td>         
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><em><%= gen.getGenType() %></em></td>         
                                                                     <td style="padding:10px;"><b>Contig ID:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"></td> 
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><em><%= gen.getContig_id() %></em></td> 
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Strand:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"></td>         
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><em><%= gen.getGen_strand() %></em></td>         
                                                                     <td style="padding:10px;"><b>Gen contig ID:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"></td> 
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><em><%= gen.getContig_gen_id() %></em></td> 
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Longitud:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"></td>         
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><em><%= gen.getGen_lenght() %></em></td>         
                                                                     <td style="padding:10px;"><b>Coordenadas contig:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"></td> 
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><em><%= gen.getContig_from() %> - <%= gen.getContig_to() %></em></td> 
                                                                 </tr>
                                                             </tbody>                                                       
                                                         </table>
@@ -259,33 +266,57 @@
                                                 <div class="panel-body">
                                                     <!-- Nav tabs -->
                                                     <ul class="nav nav-tabs">
-                                                        <li class="active"><a href="#home" data-toggle="tab">5P</a>
+                                                        <li class="active"><a href="#5p" data-toggle="tab">5P</a>
                                                         </li>
-                                                        <li><a href="#profile" data-toggle="tab">NC</a>
+                                                        <li><a href="#nc" data-toggle="tab">NC</a>
                                                         </li>
-                                                        <li><a href="#messages" data-toggle="tab">AA</a>
+                                                        <li><a href="#aa" data-toggle="tab">AA</a>
                                                         </li>
-                                                        <li><a href="#settings" data-toggle="tab">3P</a>
+                                                        <li><a href="#3p" data-toggle="tab">3P</a>
                                                         </li>
                                                     </ul>
 
                                                     <!-- Tab panes -->
                                                     <div class="tab-content">
-                                                        <div class="tab-pane fade in active" id="home">
-                                                           
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                                        <div class="tab-pane fade in active" id="5p">
+                                                            <br>
+                                                                <script>
+                                                                    if("<%= gen.getSec5P().getSecuencia()%>" == "null"){
+                                                                        document.write("<p>Sin secuencia.</p>");
+                                                                    }else{
+                                                                        document.write("<p style=\"word-wrap:break-word;\"><%= gen.getSec5P().getSecuencia() %></p>");
+                                                                    }
+                                                                </script>                                                           
                                                         </div>
-                                                        <div class="tab-pane fade" id="profile">
-                                                            
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                                        <div class="tab-pane fade" id="nc">
+                                                         <br>   
+                                                         <script>
+                                                                    if("<%= gen.getSecNC().getSecuencia() %>" == "null"){
+                                                                        document.write("<p>Sin secuencia.</p>");
+                                                                    }else{
+                                                                        document.write("<p style=\"word-wrap:break-word;\"><%= gen.getSecNC().getSecuencia() %></p>");
+                                                                    }
+                                                         </script>
                                                         </div>
-                                                        <div class="tab-pane fade" id="messages">
-                                                            
-                                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                                        <div class="tab-pane fade" id="aa">
+                                                          <br>
+                                                         <script>
+                                                                    if("<%= gen.getSecAA().getSecuencia() %>" == "null"){
+                                                                        document.write("<p>Sin secuencia.</p>");
+                                                                    }else{
+                                                                        document.write("<p style=\"word-wrap:break-word;\"><%= gen.getSecAA().getSecuencia() %></p>");
+                                                                    }
+                                                         </script>                                                        
                                                         </div>
-                                                        <div class="tab-pane fade" id="settings">
-                                                            
-                                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                                        <div class="tab-pane fade" id="3p">
+                                                          <br> 
+                                                         <script>
+                                                                    if("<%= gen.getSec3P().getSecuencia() %>" == "null"){
+                                                                        document.write("<p>Sin secuencia.</p>");
+                                                                    }else{
+                                                                        document.write("<p style=\"word-wrap:break-word;\"><%= gen.getSec3P().getSecuencia() %></p>");
+                                                                    }
+                                                         </script>                                                            
                                                         </div>
                                                     </div>
                                                 </div>

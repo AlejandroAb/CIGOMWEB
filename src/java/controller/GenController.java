@@ -5,7 +5,9 @@
  */
 package controller;
 
+import bobjects.GenObj;
 import bobjects.Usuario;
+import dao.GenDAO;
 import database.Transacciones;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -63,9 +65,12 @@ public class GenController extends HttpServlet {
             }
 
             if (userPath.equals("/showGen")) {
-                 
-                        RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/view/gen/gen.jsp");
-                        view.forward(request, response);
+                String idGen = request.getParameter("idGen");
+                 GenDAO gendao = new GenDAO(transacciones);
+                    GenObj gen = gendao.initGen(idGen);
+                    request.setAttribute("gen", gen);
+                    RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/view/gen/gen.jsp");
+                    view.forward(request, response);
                   
             }        
             

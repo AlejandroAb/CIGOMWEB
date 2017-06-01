@@ -598,7 +598,45 @@ public class Transacciones {
         String query = "DELETE FROM blast_job_genoma WHERE idblast_job = " + idJob;
         return conexion.queryUpdate(query);
     }
+    public String getIsGenoma(String idGen) {
+        String query = "SELECT IF (gen_src='GEN','TRUE','FALSE') FROM gen WHERE gen_id ='" + idGen +"'";
+        conexion.executeStatement(query);
+        ArrayList<ArrayList> dbResult = conexion.getTabla();
+        if (dbResult != null && !dbResult.isEmpty()) {
+            return (String) dbResult.get(0).get(0);
+        } else {
+            return "";
+        }
 
+    }
+    public ArrayList getGenSecuencias (String idGen){
+        String query = "SELECT seq_type, sequence from gen_seq where gen_id ='" + idGen +"'";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+    public ArrayList getGenMetagenoma(String idGen) {
+        String query = "SELECT gen_id, gen_type, contig_id, contig_gen_id, gen_strand, gen_src, m.idmetagenoma, m.meta_name, gen_length, contig_from, contig_to, muestra.idmuestra, muestra.etiqueta, muestra.profundidad, tt.tipo_muestra " 
+                       + "FROM gen INNER JOIN metagenoma AS m " 
+                       + " ON m.idmetagenoma = gen.idmetagenoma " 
+                       + " INNER JOIN muestra ON muestra.idmuestra = m.idmuestra " 
+                       + " INNER JOIN muestreo on muestreo.idmuestreo = muestra.idmuestreo " 
+                       + " INNER JOIN tipo_muestra as tt on tt.idtipomuestra = muestreo.idtipomuestra "
+                       + " where gen_id ='" + idGen +"'";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+    public ArrayList getGenGenoma(String idGen) {
+        String query = "SELECT gen_id, gen_type, contig_id, contig_gen_id, gen_strand, gen_src,g.idgenoma, g.genome_name, gen_length, contig_from, contig_to, " 
+                       + " muestra.idmuestra, muestra.etiqueta, muestra.profundidad, tt.tipo_muestra " 
+                       + " FROM gen INNER JOIN genoma AS g " 
+                       + " ON g.idgenoma = gen.idgenoma " 
+                       + " INNER JOIN muestra ON muestra.idmuestra = g.idmuestra "
+                       + " INNER JOIN muestreo on muestreo.idmuestreo = muestra.idmuestreo "
+                       + " INNER JOIN tipo_muestra as tt on tt.idtipomuestra = muestreo.idtipomuestra "
+                       + " where gen_id ='" + idGen +"'";
+                          conexion.executeStatement(query);
+                          return conexion.getTabla();
+                        }
     /**
      * Trae la información de todos los genomas dada una consición
      *
@@ -616,13 +654,14 @@ public class Transacciones {
                 + "genoma.crecimiento, genoma.version, latitud_r, longitud_r, cantidad_dna, clean_up_kit, clean_up_method, analisis, "
                 + "referencia_anot, finishing_strategy, procesamiento, cite, gen_num_total, ts.nombre, ts.descripcion, "
                 + "CONCAT(marca, ' ', modelo), genoma.comentarios, respaldo, idstats, genoma.idlibreria, idensamble, esTranscriptoma, "
-                + "condicion_trans, estacion_nombre, muestreo.profundidad,  tipo_muestra"
+                + "condicion_trans, estacion_nombre, muestreo.profundidad,  tipo_muestra, cs.nombre_centro "
                 + "FROM genoma INNER JOIN tipo_secuenciacion AS ts ON ts.idtipo_secuenciacion = genoma.idtipo_secuenciacion "
                 + "INNER JOIN secuenciador ON secuenciador.idSecuenciador = genoma.idSecuenciador "
+                + "INNER JOIN centro_secuenciacion as cs ON cs.idcentro = secuenciador.idcentro "
                 + "INNER JOIN muestra ON muestra.idmuestra = genoma.idmuestra "
                 + "INNER JOIN muestreo ON muestreo.idmuestreo = muestra.idmuestreo "
                 + "INNER JOIN estacion ON muestreo.idestacion = estacion.idestacion "
-                + "INNER JOIN tipo_muestra ON muestreo.idtipomuestra = muestra.idtipomuestra " 
+                + "INNER JOIN tipo_muestra ON muestreo.idtipomuestra = tipo_muestra.idtipomuestra " 
                 + "WHERE idgenoma = " + idGenoma;
         conexion.executeStatement(query);
         return conexion.getTabla();
@@ -841,7 +880,7 @@ public class Transacciones {
     }
 
     public ArrayList getDegradadorasByGenus() {
-        String query = " SELECT kingdom, phylum, class, orden, family, genus "
+        String query = " SELECT kingdom, phylum, class, orden, family, genus, tax_id "
                 + "FROM taxon "
                 + "WHERE degradadora = 1 "
                 + "ORDER BY kingdom, phylum, class, orden, family, genus";

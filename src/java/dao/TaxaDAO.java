@@ -855,6 +855,7 @@ public class TaxaDAO {
         StringBuilder htmlTable = new StringBuilder("");
         if (degradadores != null) {
             htmlTable.append("<table class=\"table table-striped\" id=\"lista-organismo\">").append("<thead>").append("<tr align=\"center\">");
+            htmlTable.append("<th>").append("Tax ID").append("</th>");
             htmlTable.append("<th>").append("Reino").append("</th>");
             htmlTable.append("<th>").append("Philum").append("</th>");
             htmlTable.append("<th>").append("Clase").append("</th>");
@@ -864,6 +865,7 @@ public class TaxaDAO {
             htmlTable.append("</tr>\n").append("<tbody>");
             for (ArrayList<String> organismo : degradadores) {
                 htmlTable.append("<tr>");
+                htmlTable.append("<td>").append(organismo.get(6)).append("</td>");
                 htmlTable.append("<td>").append(organismo.get(0)).append("</td>");
                 htmlTable.append("<td>").append(organismo.get(1)).append("</td>");
                 htmlTable.append("<td>").append(organismo.get(2)).append("</td>");
