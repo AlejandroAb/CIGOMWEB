@@ -263,7 +263,7 @@
                                 <div class="tab-content">
                                     <div class="tab-pane fade in active " id="detalles">
                                         <br>
-                                        <div class="col-md-6">
+                                        <div class="col-md-7">
                                         <div class="panel panel-default" style="border:none;">
                                             <!-- /.panel-heading -->
                                             <div class="panel-body">
@@ -284,22 +284,14 @@
                                                                 <td style="padding:10px;"><b>Muestra:</b></td>
                                                                 <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><a href = 'showMuestra?idMuestra=<%=genoma.getIdmuestra() %>' target='_blank'><%= genoma.getEtiquetaMuestra()%></a></em></td>
                                                             </tr>
-                                                            <tr>
-                                                                <td style="padding:10px;"><b>Descripción:</b></td>
-                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= genoma.getDesc() %></em></td>
-                                                            </tr> 
-                                                            <tr>
-                                                                <td style="padding:10px;"><b>Organismo:</b></td>
-                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= genoma.getTax_id() %> <%= genoma.getStrain() %></em></td>
-                                                            </tr> 
-                                                            <tr>
-                                                                <td style="padding:10px;"><b>Linaje:</b></td>
-                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-break: break-all;"><em><%= genoma.getTax().getKingdom()%>,<%= genoma.getTax().getPhylum() %>,<%= genoma.getTax().getClas() %>, <%= genoma.getTax().getOrden() %>,<%= genoma.getTax().getFamily() %>,<%= genoma.getTax().getGenus() %>,<%= genoma.getTax().getSpecies() %>,<%= genoma.getTax().getSubspecies() %></em></td>
-                                                            </tr>          
-                                                            <tr>
-                                                                <td style="padding:10px;"><b>Aislamiento y condiciones de crecimiento:</b></td>
-                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= genoma.getCrecimiento() %></em></td>
-                                                            </tr>   
+                                                            <tr style="border-top:none;">
+                                                                <td style="padding:10px;"><b>Profundidad:</b></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= genoma.getProfundidad() %></a></em></td>
+                                                            </tr>        
+                                                            <tr style="border-top:none;">
+                                                                <td style="padding:10px;"><b>Procesamiento:</b></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= genoma.getProcesamiento() %></a></em></td>
+                                                            </tr>
                                                         </tbody>
                                                         <%
                                                             }
@@ -311,12 +303,13 @@
                                             <!-- /.panel-body -->
                                         </div>   
                                     </div>
-                                    <div class="col-md-6">
+                                                   
+                                    <div class="col-md-5">
                                             <script>
                                                 function mapa() {
                                                     var puntoCentral = new google.maps.LatLng(<%= genoma.getLatitud() %>,<%= genoma.getLongitud() %>);
                                                     var opciones = {
-                                                        zoom: 4,
+                                                        zoom: 5,
                                                         center: puntoCentral,
                                                         mapTypeId: google.maps.MapTypeId.HYBRID
                                                     };
@@ -334,20 +327,96 @@
                                                                             }
                                             </script>
 
-                                            <h4 style="color:#337ab7;">LOCALIZACIÓN</h4>
-                                            <hr> 
-                                            <p>
-                                                <b>Coordenadas:</b> <%= genoma.getLatitud() %>,<%= genoma.getLongitud() %>
-                                            </p>
-                                            <p>            
-                                            <div id="mapa" style="width:100%; height:200px">
+                                            <div class="panel panel-default" style="border:none;">
+                                                <!-- /.panel-heading -->
+                                                <div class="panel-body" style="padding:0px;">
+                                                    <div class="table table-striped table-bordered " width="100%" style="border:none;">
+                                                        <table class="table table-striped">
 
-                                            </div>                                        
+                                                            <tbody>
+
+                                                                <tr>
+                                                                    <td style="padding:0px; border-top:0px;">
+                                                                        <h5 style="color:#337ab7;">LOCALIZACIÓN</h5>
+                                                                        <p>
+                                                                            <b>Estación:</b> <%= genoma.getEstacion() %> (<%= genoma.getLatitud()%> N,<%= genoma.getLongitud()%> W)
+                                                                        </p>
+                                                                        <p>            
+                                                                        <div id="mapa" style="width:100%; height:200px">
+
+                                                                        </div>      
+                                                                    </td>
+
+                                                                </tr>
+
+                                                            </tbody>
+
+                                                        </table>
+                                                    </div>
+                                                    <!-- /.table-responsive -->
+                                                </div>
+                                                <!-- /.panel-body -->
+                                            </div>                                         
                                         
                                     </div>
+                                        <div class="col-md-12">
+                                        <div class="panel panel-default" style="border:none;">
+                                            <!-- /.panel-heading -->
+                                            <div class="panel-body" style="padding-top: 0px;">
+                                                <div class="table table-striped table-bordered " width="100%" style="border-top:0px;">
+                                                    <table class="table table-striped">
+                                                        <%
+                                                           if (genoma != null) {
+                                                        %>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="padding:10px;"><b>Organismo:</b></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= genoma.getTax_id() %><%= genoma.getStrain() %></em></td>
+                                                            </tr>      
+                                                            <tr>
+                                                                <td style="padding:10px;"><b>Linaje:</b></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-break: break-all;"><em><%= genoma.getTax().getKingdom()%>,<%= genoma.getTax().getPhylum() %>,<%= genoma.getTax().getClas() %>, <%= genoma.getTax().getOrden() %>,<%= genoma.getTax().getFamily() %>,<%= genoma.getTax().getGenus() %>,<%= genoma.getTax().getSpecies() %>,<%= genoma.getTax().getSubspecies() %></em></td>
+                                                            </tr>       
+                                                            <tr>
+                                                                <td style="padding:10px;"><b>Organismo de referencia:</b></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= genoma.getRef_anot() %></em></td>
+                                                            </tr> 
+                                                            <tr>
+                                                                <td style="padding:10px;"><b>Aislado y crecimiento:</b></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= genoma.getCrecimiento() %></em></td>
+                                                            </tr>                                                            
+                                                            <tr>
+                                                                <td style="padding:10px;"><b>Descripción:</b></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= genoma.getDesc() %></em></td>
+                                                            </tr> 
+                                                            <tr>
+                                                                <td style="padding:10px;"><b>Metodologia de analisis:</b></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= genoma.getAnalisis() %></em></td>
+                                                            </tr> 
+                                                            <tr>
+                                                                <td style="padding:10px;"><b>Comentarios:</b></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= genoma.getComentarios() %></em></td>
+                                                            </tr>        
+                                                            <tr>
+                                                                <td style="padding:10px;"><b>Respaldo cepa:</b></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= genoma.getRespaldo_org() %></em></td>
+                                                            </tr> 
+                                                            <tr>
+                                                                <td style="padding:10px;"><b>Referencia:</b></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= genoma.getReferencia() %></em></td>
+                                                            </tr>                                                             
+                                                        </tbody>
+                                                        <%
+                                                           }
+                                                        %>
+                                                    </table>
+                                                </div>
+                                                <!-- /.table-responsive -->
+                                            </div>
+                                            <!-- /.panel-body -->
+                                        </div>   
+                                    </div>                                           
                                     </div>
-
-
 
                                     <div class="tab-pane faden " id="secuenciacion">
                                         <br>                     
@@ -371,11 +440,11 @@
                                                                 </tr>                                       
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Kit:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= genoma.getKit() %></em></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><%= genoma.getClean_up_kit() %></em></td>
                                                                 </tr>   
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Metodología:</b></td>
-                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%= genoma.getMetodo() %></em></td>
+                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%= genoma.getClean_up_method() %></em></td>
                                                                 </tr> 
                                                             </tbody>
                                                             <%}%>
@@ -397,20 +466,28 @@
                                                             %>
                                                            <tbody>
                                                                 <tr style="border-top:none;">
+                                                                    <td style="padding:10px;"><b>Fuente:</b></td>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= genoma.getLibreria().getFuente()%></td>         
                                                                     <td style="padding:10px;"><b>Tipo de secuenciación:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= genoma.getTipoSecuenciacion() %> - <%= genoma.getDescTipoSecuenciacion() %></td>         
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= genoma.getTipoSecuenciacion()%> - <%= genoma.getDescTipoSecuenciacion()%></td> 
+                                                                </tr>                                                               
+                                                                <tr style="border-top:none;">         
                                                                     <td style="padding:10px;"><b>Selección de la librería:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= genoma.getLibrary_selection() %></td> 
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= genoma.getLibreria().getSeleccion()%></td> 
+                                                                    <td style="padding:10px;"><b>Configuración de la librería:</b></td>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= genoma.getLibreria().getLayout()%></td> 
+
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Secuenciador:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= genoma.getEquipoSecuenciacion() %></td>         
-                                                                    <td style="padding:10px;"><b>Configuración de la librería:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= genoma.getLibrary_layout() %></td> 
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%=genoma.getEquipoSecuenciacion()%></td>         
+                                                                    <td style="padding:10px;"><b>Centro de secuenciación:</b></td>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= genoma.getCentro_secuenciacion()%></td>         
+
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Preparación de la libreria:</b></td>
-                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;" colspan="3"></td>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;" colspan="3"><%= genoma.getLibreria().getMetodo()%></td>
                                                                     <td></td>
                                                                     <td></td>
                                                                 </tr>

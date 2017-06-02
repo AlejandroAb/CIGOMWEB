@@ -294,11 +294,7 @@
                                                             <tr>
                                                                 <td style="padding:10px;"><b>Procesamiento:</b></td>
                                                                 <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= metagenoma.getProcesamiento() %></em></td>
-                                                            </tr>                                                            
-                                                            <tr>
-                                                                <td style="padding:10px;"><b>Descripción:</b></td>
-                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= metagenoma.getDesc() %></em></td>
-                                                            </tr>                                                           
+                                                            </tr>                                                                                                                       
                                                         </tbody>
                                                         <%
                                                            }
@@ -320,14 +316,13 @@
                                                             <tbody>
 
                                                                 <tr>
-                                                                    <td style="padding:10px; border-top:0px;">
+                                                                    <td style="padding:0px; border-top:0px;">
                                                                         <h5 style="color:#337ab7;">LOCALIZACIÓN</h5>
-                                                                        
                                                                         <p>
-                                                                            <b>Coordenadas:</b> <%= metagenoma.getLatitud()%>,<%= metagenoma.getLongitud()%>
+                                                                            <b>Estación:</b> <%= metagenoma.getEstacion() %> (<%= metagenoma.getLatitud()%> N,<%= metagenoma.getLongitud()%> W)
                                                                         </p>
                                                                         <p>            
-                                                                        <div id="mapa" style="width:100%; height:150px">
+                                                                        <div id="mapa" style="width:100%; height:200px">
 
                                                                         </div>      
                                                                     </td>
@@ -375,15 +370,27 @@
                                                            if (metagenoma != null) {
                                                         %>
                                                         <tbody>
-                                                            <tr style="background-color:#000;">
+                                                            <tr style="background-color:#fff;">
+                                                                <td style="padding:10px;"><b>Descripción:</b></td>
+                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= metagenoma.getDesc() %></em></td>
+                                                            </tr>
+                                                            <tr style="background-color:#f9f9f9;">
                                                                 <td style="padding:10px;"><b>Metodología de análisis:</b></td>
                                                                 <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= metagenoma.getAnalisis() %></em></td>
-                                                            </tr>                                                             
-                                                            <tr style="background-color:#000;">
+                                                            </tr>         
+                                                                <script>
+                                                                    if(is "<%= metagenoma.getCondicionesTranscriptoma() %>"){
+                                                                        document.write("<tr>");
+                                                                        document.write("<td style=\"padding:10px;\"><b>Transcriptoma:</b></td>");
+                                                                        document.write("<td style=\"padding:10px; text-align:justify; color:#777; font-size:87%;\"><em>\"<%= metagenoma.getCondicionesTranscriptoma() %>\"</em></td>");
+                                                                        document.write("</tr>");
+                                                                    }
+                                                                </script>
+                                                            <tr style="background-color:#fff;">
                                                                 <td style="padding:10px;"><b>Comentarios:</b></td>
                                                                 <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%= metagenoma.getComentarios() %></em></td>
                                                             </tr> 
-                                                            <tr style="background-color:#000;">
+                                                            <tr style="background-color:#f9f9f9;">
                                                                 <td style="padding:10px;"><b>Referencia:</b></td>
                                                                 <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= metagenoma.getCite() %></em></td>
                                                             </tr>                                                            
@@ -428,7 +435,7 @@
                                                                 </tr>   
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Metodología:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%; word-wrap:break-word;"><em><%= metagenoma.getClean_up_method() %></em></td>
+                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%= metagenoma.getClean_up_method() %></em></td>
                                                                 </tr> 
                                                             </tbody>
                                                             <%}%>
