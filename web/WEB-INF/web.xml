@@ -4,12 +4,12 @@
         <param-name>ipdb</param-name>
         <!--<param-value>localhost</param-value>-->
         <!--132.248.32.62-->
-        <param-value>132.248.32.18</param-value>
+        <param-value>localhost</param-value>
     </context-param>
     <context-param>
         <param-name>usuariodb</param-name>
-       <!-- <param-value>cigom_u</param-value>-->
-         <param-value>cigom_u2</param-value>
+      <param-value>cigom_u</param-value>
+         <!--<param-value>cigom_u2</param-value> user remote-->
     </context-param>
     <context-param>
         <param-name>dbname</param-name>
@@ -17,9 +17,8 @@
     </context-param>
     <context-param>
         <param-name>password</param-name>
-        <!--<param-value>CigomWeb2016</param-value>-->
-         <!--<param-value>CigomWeb2017Remote</param-value>-->
-          <param-value>CigomDB17</param-value>
+        <param-value>CigomWeb2016</param-value>         
+        <!--  <param-value>CigomDB17</param-value>-->
     </context-param>
     <context-param>
         <description>
