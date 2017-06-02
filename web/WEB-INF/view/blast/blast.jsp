@@ -251,7 +251,7 @@
                     <div class="col-lg-12">
                         <div class="panel panel-default" >
                             <div class="panel-heading" style="background-color:#eee;">
-                                <b style="color:#d9534f;"> Mis búsquedas</b> <button class="fa fa-chevron-up" id="mis-busquedas"></button>
+                                <b style="color:#d9534f;"> Mis búsquedas</b>  <p class="fa fa-toggle-up" id="mis-busquedas" style="cursor:pointer;"></p>
                             </div>
                             <div class="panel-body"  id="mi-busquedablast">
 
@@ -306,7 +306,7 @@
                                 </div>                                  
                             </div>                           
                             <div class="panel-heading" style="background-color:#eee;">
-                                <b style="color:#d9534f;">Crear nueva búsqueda Blast</b> <button class="fa fa-chevron-up" id="nueva-busqueda"></button>
+                                <b style="color:#d9534f;">Crear nueva búsqueda Blast</b>  <p class="fa fa-toggle-up" id="nueva-busqueda" style="cursor:pointer;"></p>
                             </div>
                             <div class="panel-body" id="busquedablast">
                                 <div class="row">
@@ -543,13 +543,13 @@
                 $("#mis-busquedas").on("click", function () {
                     if (clic == 1) {
                         $('#mi-busquedablast').hide(); //oculto
-                        $('#mis-busquedas').removeClass('fa-chevron-up');//elimina clse del icono up
-                        $('#mis-busquedas').addClass('fa-chevron-down');//agrega la clase del icono down
+                        $('#mis-busquedas').removeClass('fa fa-toggle-up');//elimina clse del icono up
+                        $('#mis-busquedas').addClass('fa fa-toggle-down');//agrega la clase del icono down
                         clic = clic + 1;
                     } else {
                         $('#mi-busquedablast').show(); //muestro
-                        $('#mis-busquedas').removeClass('fa-chevron-down');//elimina clse del icono down
-                        $('#mis-busquedas').addClass('fa-chevron-up');//agrega la clase del icono up
+                        $('#mis-busquedas').removeClass('fa fa-toggle-down');//elimina clse del icono down
+                        $('#mis-busquedas').addClass('fa fa-toggle-up');//agrega la clase del icono up
                         clic = 1;
                     }
                 });
@@ -562,13 +562,13 @@
                 $("#nueva-busqueda").on("click", function () {
                     if (clic == 1) {
                         $('#busquedablast').hide(); //oculto
-                        $('#nueva-busqueda').removeClass('fa-chevron-up');//elimina clse del icono up
-                        $('#nueva-busqueda').addClass('fa-chevron-down');//agrega la clase del icono down
+                        $('#nueva-busqueda').removeClass('fa fa-toggle-up');//elimina clse del icono up
+                        $('#nueva-busqueda').addClass('fa fa-toggle-down');//agrega la clase del icono down
                         clic = clic + 1;
                     } else {
                         $('#busquedablast').show(); //muestro
-                        $('#nueva-busqueda').removeClass('fa-chevron-down');//elimina clse del icono down
-                        $('#nueva-busqueda').addClass('fa-chevron-up');//agrega la clase del icono up
+                        $('#nueva-busqueda').removeClass('fa fa-toggle-down');//elimina clse del icono down
+                        $('#nueva-busqueda').addClass('fa fa-toggle-up');//agrega la clase del icono up
                         clic = 1;
                     }
 

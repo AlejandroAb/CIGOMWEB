@@ -192,7 +192,7 @@
                     <div class="col-lg-12">
                         <div class="panel panel-default" >
                             <div class="panel-heading" style="background-color:#eee;">
-                                <b style="color:#d9534f;"> Detalles de la busqueda </b><button class="fa fa-chevron-up" id="principal-job"></button>
+                                <b style="color:#d9534f;"> Detalles de la busqueda </b> <p class="fa fa-toggle-up" id="principal-job" style="cursor:pointer;"></p>
                             </div>
                             <div class="panel-body" id="caebecera-blastjob">
 
@@ -273,7 +273,7 @@
                                 </div>                                  
                             </div>                           
                             <div class="panel-heading" style="background-color:#eee;">
-                                <b style="color:#d9534f;"> Resultados</b> <button class="fa fa-chevron-up" id="resultados-job"></button>
+                                <b style="color:#d9534f;"> Resultados</b> <p class="fa fa-toggle-up" id="resultados-job" style="cursor:pointer;"></p>
                             </div>
                             <div class="panel-body" id="resultados">
                                 <div class="row">
@@ -421,13 +421,13 @@
                     $("#principal-job").on("click", function() {
                         if (clic == 1) {
                             $('#caebecera-blastjob').hide(); //oculto
-                            $('#principal-job').removeClass('fa-chevron-up');//elimina clse del icono up
-                            $('#principal-job').addClass('fa-chevron-down');//agrega la clase del icono down
+                            $('#principal-job').removeClass('fa fa-toggle-up');//elimina clse del icono up
+                            $('#principal-job').addClass('fa fa-toggle-down');//agrega la clase del icono down
                             clic = clic + 1;
                         } else {
                             $('#caebecera-blastjob').show(); //muestro
-                            $('#principal-job').removeClass('fa-chevron-down');//elimina clse del icono down
-                            $('#principal-job').addClass('fa-chevron-up');//agrega la clase del icono up
+                            $('#principal-job').removeClass('fa fa-toggle-down');//elimina clse del icono down
+                            $('#principal-job').addClass('fa fa-toggle-up');//agrega la clase del icono up
                             clic = 1;
                         }
                         
@@ -441,13 +441,13 @@
                     $("#resultados-job").on("click", function() {
                         if (clic == 1) {
                             $('#resultados').hide(); //oculto
-                            $('#resultados-job').removeClass('fa-chevron-up');//elimina clse del icono up
-                            $('#resultados-job').addClass('fa-chevron-down');//agrega la clase del icono down
+                            $('#resultados-job').removeClass('fa fa-toggle-up');//elimina clse del icono up
+                            $('#resultados-job').addClass('fa fa-toggle-down');//agrega la clase del icono down
                             clic = clic + 1;
                         } else {
                             $('#resultados').show(); //muestro
-                            $('#resultados-job').removeClass('fa-chevron-down');//elimina clse del icono down
-                            $('#resultados-job').addClass('fa-chevron-up');//agrega la clase del icono up
+                            $('#resultados-job').removeClass('fa fa-toggle-down');//elimina clse del icono down
+                            $('#resultados-job').addClass('fa fa-toggle-up');//agrega la clase del icono up
                             clic = 1;
                         }
                         

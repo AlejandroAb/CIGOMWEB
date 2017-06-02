@@ -5,6 +5,7 @@
  */
 package dao;
 
+import bobjects.Eggnog;
 import bobjects.GenObj;
 import bobjects.GenSeqObj;
 import bobjects.SecuenciaObj;
@@ -97,7 +98,7 @@ public class GenDAO {
            }
            
        }
-     
+       
        ArrayList<ArrayList> secuenciasAL = transacciones.getGenSecuencias(idGen);
        //if test for null
        if (secuenciasAL != null && secuenciasAL.size() > 0) {
@@ -112,6 +113,22 @@ public class GenDAO {
                gen.getSecNC().setSecuencia(secuencia.get(1));
            }
        }
+       }
+       
+       ArrayList<ArrayList> eggnosAL = transacciones.getGenEggnog(idGen);
+       if (eggnosAL != null && eggnosAL.size() > 0) {
+           for(ArrayList<String> e: eggnosAL){
+               Eggnog egg = new Eggnog();
+               
+               egg.setID(e.get(0));
+               egg.setDescripcion(e.get(1));
+               egg.setProteinas(e.get(2));
+               egg.setEspecies(e.get(3));
+               egg.setEvalue(e.get(4));
+               
+               gen.addEggnog(egg);
+               
+           }
        }
 
         return gen; 

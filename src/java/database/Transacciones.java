@@ -614,6 +614,14 @@ public class Transacciones {
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
+    public ArrayList getGenEggnog(String idGen) {
+        String query = "SELECT eggnog.ideggnog, eggnog.description, eggnog.proteins, eggnog.species, eval " 
+                       + " FROM eggnog INNER JOIN gen_eggnog " 
+                       + " ON gen_eggnog.ideggnog = eggnog.ideggnog "
+                       + " WHERE gen_id ='" + idGen +"'";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
     public ArrayList getGenMetagenoma(String idGen) {
         String query = "SELECT gen_id, gen_type, contig_id, contig_gen_id, gen_strand, gen_src, m.idmetagenoma, m.meta_name, gen_length, contig_from, contig_to, muestra.idmuestra, muestra.etiqueta, muestra.profundidad, tt.tipo_muestra " 
                        + "FROM gen INNER JOIN metagenoma AS m " 
