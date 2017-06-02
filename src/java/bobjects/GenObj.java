@@ -34,12 +34,27 @@ public class GenObj {
     private String profundidad = "";
     private String tipoMuestra = "";
     private String name = "";//nombre metagenoma/genoma
+    ArrayList<Eggnog> eggno;
 
     SecuenciaObj sec5P;//= new SecuenciaObj(genID,"5p");
     SecuenciaObj sec3P;// = new SecuenciaObj(genID,"3p"); 
     SecuenciaObj secAA;// = new SecuenciaObj(genID,"aa");
     SecuenciaObj secNC;//= new SecuenciaObj(genID,"nc");
 
+    
+    public void addEggnog(Eggnog e) {
+        this.eggno.add(e);
+    }
+
+    public ArrayList<Eggnog> getEggno() {
+        return eggno;
+    }
+
+    public void setEggno(ArrayList<Eggnog> eggno) {
+        this.eggno = eggno;
+    }
+    
+    
     public String getName() {
         return name;
     }
@@ -225,6 +240,8 @@ public class GenObj {
         sec3P = new SecuenciaObj(genID, "3p");
         secAA = new SecuenciaObj(genID, "aa");
         secNC = new SecuenciaObj(genID, "nc");
+        
+        eggno = new ArrayList<>();
     }
 
     public SecuenciaObj getSec5P() {

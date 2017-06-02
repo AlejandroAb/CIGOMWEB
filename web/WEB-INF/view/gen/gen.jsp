@@ -3,6 +3,7 @@
     Created on : 5/05/2017, 10:41:51 AM
     Author     : Jose Pefi
 --%>
+<%@page import="bobjects.Eggnog"%>
 <%@page import="bobjects.GenObj"%>
 <%@page import="java.util.List"%>
 <%@page import="bobjects.ArchivoObj"%>
@@ -432,37 +433,32 @@
                                                     <div class="dataTable_wrapper">
                                                         <table width="100%" class="table table-striped table-bordered" id="">
                                                             <thead>
-                                                                <tr>
+                                                                <tr style="text-align: center;">
                                                                     <th>ID</th>
                                                                     <th>Descripción</th>
                                                                     <th><span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, '', {position: 0});"></span> Proteinas</th>
                                                                     <th><span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, '', {position: 0});"></span> Especies</th>
+                                                                    <th>Eval</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody id="tgenomas">
-                                                                <%/*
-                                                                    ArrayList<ArrayList<String>> genomas = null;
-                                                                    // int c = request.getAttribute("campanaid");
-                                                                    Object genomasOobj = request.getAttribute("genomas");
+                                                            <tbody id="">
+                                                                <%
+                                                                     if (gen != null) {
 
-                                                                    if (genomasOobj != null) {
-                                                                        genomas = (ArrayList<ArrayList<String>>) genomasOobj;
-                                                                    }
-                                                                    if (genomas != null) {
-                                                                        for (int g = 0; g < genomas.size(); g++) {
-                                                                        */
+                                                                        for (Eggnog egobj : gen.getEggno()) {
                                                                 %>   
 
-                                                                <tr style="text-align: center;" class="genomas" id="genoma">
-                                                                    <td>Lorem i<%//= genomas.get(g).get(1)%></td>
-                                                                    <td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget.<%//= genomas.get(g).get(3)%></td>
-                                                                    <td>8956<%//= genomas.get(g).get(2)%></td>
-                                                                    <td>234<%//= genomas.get(g).get(3)%></td>
+                                                                <tr style="text-align: center;"  id="">
+                                                                    <td><%= egobj.getID() %></td>
+                                                                    <td><%= egobj.getDescripcion() %></td>
+                                                                    <td><%= egobj.getProteinas() %></td>
+                                                                    <td><%= egobj.getEspecies() %></td>
+                                                                    <td><%= egobj.getEvalue() %></td>
                                                                 </tr>
 
                                                                 <%
-                                                                    //    }
-                                                                   // }
+                                                                       }
+                                                                   }
                                                                 %>
                                                             </tbody>
                                                         </table>

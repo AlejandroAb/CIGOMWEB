@@ -153,6 +153,8 @@
                 if ($("#graficas").is(':checked')) {
                     grafica = "true";
                 }
+                var source = $('input:radio[name=grupo1]:checked').val();
+                
                 //quitamos los espacios en blanco, inicio-final
                 //  var search2 = $.trim(search);
                 //sacamos el primer espacio en blanco 
@@ -165,7 +167,8 @@
                     url: "searchTaxa",
                     data: {
                         taxa: search,
-                        grafica: grafica
+                        grafica: grafica,
+                        source: source
                     },
                     dataType: "html",
                     beforeSend: function() {
@@ -293,16 +296,35 @@
                                 <!-- .panel-body -->
                             </div>
                         </div>
-                        <div class="col-lg-6" >
+                        <div class="col-lg-2" >
                             <br>
                             <input type="checkbox" id="graficas"> <label>Generar gráficas</label>
 
 
                         </div>
-                        <div class="col-lg-1">
+                        <div class="col-lg-2">
+                            <label>Datos</label>
+                            <span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, '', {position: 0});"></span>
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <!--<label>Radio Buttons</label>-->
+                                        <div class="radio" style="margin-bottom:2px; margin-top: 2px;">
+                                            <label>
+                                                <input type="radio" name="grupo1" id="optionsRadios2" checked value="AMP" >Amplicones
+                                            </label>
+                                        </div>
 
-                            <!--<input type="text" class="form-control"  id="graficas" name="graficas">-->
+                                        <div class="radio" style="margin-bottom:2px; margin-top: 2px;">
+                                            <label>
+                                                <input type="radio" name="grupo1" id="optionsRadios1" value="SHOT" >Shotgun
+                                            </label>
+                                        </div>
 
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -323,7 +345,7 @@
                 </div>
                 <div class="panel panel-default" style="padding:15px; position:relative; z-index: 1;">
                     <div class="panel-heading" style="background-color:#eee;">
-                        <b style="color:#d9534f;">Filtros</b> <button class="fa fa-chevron-down" id="filtros-bt"></button>
+                        <b style="color:#d9534f;">Filtros</b> <p class="fa fa-toggle-down" id="filtros-bt" style="cursor:pointer;"></p>
                     </div>
                     <br>
                     <div class="row" id="filtros-row" style="display:none;">
@@ -524,13 +546,13 @@
                     $("#filtros-bt").on("click", function () {
                         if (clic == 1) {
                             $('#filtros-row').show(); //muestro
-                            $('#filtros-bt').removeClass('fa-chevron-down');//elimina clse del icono down
-                            $('#filtros-bt').addClass('fa-chevron-up');//agrega la clase del icono up
+                            $('#filtros-bt').removeClass('fa fa-toggle-down');//elimina clse del icono down
+                            $('#filtros-bt').addClass('fa fa-toggle-up');//agrega la clase del icono up
                             clic = clic + 1;
                         } else {
                             $('#filtros-row').hide(); //oculto
-                            $('#filtros-bt').removeClass('fa-chevron-up');//elimina clse del icono up
-                            $('#filtros-bt').addClass('fa-chevron-down');//agrega la clase del icono down
+                            $('#filtros-bt').removeClass('fa fa-toggle-up');//elimina clse del icono up
+                            $('#filtros-bt').addClass('fa fa-toggle-down');//agrega la clase del icono down
                             clic = 1;
                         }
                     });

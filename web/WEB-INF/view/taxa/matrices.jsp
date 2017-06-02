@@ -287,8 +287,11 @@
         $("#filtro").on("click", function () {
 
             var nivel = $('select[name=niveles]').val();
-                    var organismo = $('input:radio[name=grupo1]:checked').val();
+                    var datos = $('input:radio[name=grupo1]:checked').val();
                     var conteos = $('input:radio[name=grupo2]:checked').val();
+                    var organismo = $('input:radio[name=grupo3]:checked').val();
+                    
+                    
                     /*var trimNombre = "true";
                      if (!$("#nombres").is(':checked')) {
                      trimNombre = "false";
@@ -367,6 +370,11 @@
                     dataNivel.setAttribute("name", "nivel");
                     dataNivel.setAttribute("value", nivel);
                     form.appendChild(dataNivel);
+                    var dataSource = document.createElement("input");
+                    dataSource.setAttribute("type", "hidden");
+                    dataSource.setAttribute("name", "source");
+                    dataSource.setAttribute("value", datos);
+                    form.appendChild(dataSource);                    
                     var dataOrganismo = document.createElement("input");
                     dataOrganismo.setAttribute("type", "hidden");
                     dataOrganismo.setAttribute("name", "orgName");
@@ -519,7 +527,7 @@
                 <br>
                 <br>
                 <!-- /.row -->
-                <div class="row">
+                <div class="row" style=" padding-bottom: 15px ">
 
                     <!--<div class="col-lg-12">
                         <button  class="btn btn-default" id="cargar">Cargar</button>
@@ -587,7 +595,7 @@
                             </div>                            
                         </div>
 
-                        <div class="col-lg-1" >
+                        <div class="col-lg-3" >
                             <br>
 
                             <!-- <input type="checkbox" id="nombres" checked> <label>Nombres Cortos</label>-->
@@ -596,15 +604,25 @@
                             <label>Crear archivo</label>
 
                         </div>
-                        <div class="col-lg-1" >
+                        <div class="col-lg-3" >
                             <br>
 
                             <input type="checkbox" id="extrapoled" > 
                             <span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, '', {position: 0});"></span>
                             <label>Transponer Matriz</label>
                         </div>       
+                       
+                        <div class="col-lg-1">
+                            <br>
+
+                            <button  class="btn btn-default fa fa-gear" id="filtro" > Generar</button>
+                        </div>
+                    </div>
+                </div>
+                    <div class="row">
+                    <div class="col-md-12">
                         <div class="col-lg-3">
-                            <label>Nombre del Organismo</label>
+                            <label>Datos</label>
                             <span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, '', {position: 0});"></span>
                             <div class="panel panel-default">
                                 <div class="panel-body">
@@ -612,26 +630,21 @@
                                         <!--<label>Radio Buttons</label>-->
                                         <div class="radio" style="margin-bottom:2px; margin-top: 2px;">
                                             <label>
-                                                <input type="radio" name="grupo1" id="optionsRadios2" checked value="TAXON">Último nivel taxonómico
+                                                <input type="radio" name="grupo1" id="optionsRadios2" checked value="AMP" >Amplicones
                                             </label>
                                         </div>
 
                                         <div class="radio" style="margin-bottom:2px; margin-top: 2px;">
                                             <label>
-                                                <input type="radio" name="grupo1" id="optionsRadios1" value="FILO" >Filogenia
+                                                <input type="radio" name="grupo1" id="optionsRadios1" value="SHOT" >Shotgun
                                             </label>
                                         </div>
 
-                                        <div class="radio" style="margin-bottom:2px; margin-top: 2px;">
-                                            <label>
-                                                <input type="radio" name="grupo1" id="optionsRadios2" value="NCBI">NCBI TAX ID
-                                            </label>
-                                        </div>	
 
                                     </div>
                                 </div>
                             </div>
-                        </div>    
+                        </div>
                         <div class="col-lg-3">
                             <label>Conteos</label>
                             <span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, '', {position: 0});"></span>
@@ -656,19 +669,42 @@
                                 </div>
                             </div>
                         </div>                        
-                        <div class="col-lg-1">
-                            <br>
+                        <div class="col-lg-3">
+                            <label>Nombre del Organismo</label>
+                            <span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, '', {position: 0});"></span>
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <!--<label>Radio Buttons</label>-->
+                                        <div class="radio" style="margin-bottom:2px; margin-top: 2px;">
+                                            <label>
+                                                <input type="radio" name="grupo3" id="optionsRadios3" checked value="TAXON">Último nivel taxonómico
+                                            </label>
+                                        </div>
 
-                            <button  class="btn btn-default fa fa-gear" id="filtro" > Generar</button>
-                        </div>
+                                        <div class="radio" style="margin-bottom:2px; margin-top: 2px;">
+                                            <label>
+                                                <input type="radio" name="grupo3" id="optionsRadios2" value="FILO" >Filogenia
+                                            </label>
+                                        </div>
+
+                                        <div class="radio" style="margin-bottom:2px; margin-top: 2px;">
+                                            <label>
+                                                <input type="radio" name="grupo3" id="optionsRadios1" value="NCBI">NCBI TAX ID
+                                            </label>
+                                        </div>	
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                             
                     </div>
-
                 </div>
 
                 <br>
                 <div class="panel panel-default" style="padding:15px;">
                     <div class="panel-heading" style="background-color:#eee;">
-                        <b style="color:#d9534f;">Filtros</b> <button class="fa fa-chevron-up" id="filtros-bt"></button>
+                        <b style="color:#d9534f;">Filtros</b>  <p class="fa fa-toggle-up" id="filtros-bt" style="cursor:pointer;"></p>
                     </div>
                     <br>
                     <div class="row" id="filtros-row">
@@ -910,13 +946,13 @@
                     $("#filtros-bt").on("click", function () {
                         if (clic == 1) {
                             $('#filtros-row').hide(); //oculto
-                            $('#filtros-bt').removeClass('fa-chevron-up');//elimina clse del icono up
-                            $('#filtros-bt').addClass('fa-chevron-down');//agrega la clase del icono down
+                            $('#filtros-bt').removeClass('fa fa-toggle-up');//elimina clse del icono up
+                            $('#filtros-bt').addClass('fa fa-toggle-down');//agrega la clase del icono down
                             clic = clic + 1;
                         } else {
                             $('#filtros-row').show(); //muestro
-                            $('#filtros-bt').removeClass('fa-chevron-down');//elimina clse del icono down
-                            $('#filtros-bt').addClass('fa-chevron-up');//agrega la clase del icono up
+                            $('#filtros-bt').removeClass('fa fa-toggle-down');//elimina clse del icono down
+                            $('#filtros-bt').addClass('fa fa-toggle-up');//agrega la clase del icono up
                             clic = 1;
                         }
                     });
