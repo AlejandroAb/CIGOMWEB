@@ -598,8 +598,9 @@ public class Transacciones {
         String query = "DELETE FROM blast_job_genoma WHERE idblast_job = " + idJob;
         return conexion.queryUpdate(query);
     }
+
     public String getIsGenoma(String idGen) {
-        String query = "SELECT IF (gen_src='GEN','TRUE','FALSE') FROM gen WHERE gen_id ='" + idGen +"'";
+        String query = "SELECT IF (gen_src='GEN','TRUE','FALSE') FROM gen WHERE gen_id ='" + idGen + "'";
         conexion.executeStatement(query);
         ArrayList<ArrayList> dbResult = conexion.getTabla();
         if (dbResult != null && !dbResult.isEmpty()) {
@@ -609,42 +610,47 @@ public class Transacciones {
         }
 
     }
-    public ArrayList getGenSecuencias (String idGen){
-        String query = "SELECT seq_type, sequence from gen_seq where gen_id ='" + idGen +"'";
+
+    public ArrayList getGenSecuencias(String idGen) {
+        String query = "SELECT seq_type, sequence from gen_seq where gen_id ='" + idGen + "'";
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
+
     public ArrayList getGenEggnog(String idGen) {
-        String query = "SELECT eggnog.ideggnog, eggnog.description, eggnog.proteins, eggnog.species, eval " 
-                       + " FROM eggnog INNER JOIN gen_eggnog " 
-                       + " ON gen_eggnog.ideggnog = eggnog.ideggnog "
-                       + " WHERE gen_id ='" + idGen +"'";
+        String query = "SELECT eggnog.ideggnog, eggnog.description, eggnog.proteins, eggnog.species, eval "
+                + " FROM eggnog INNER JOIN gen_eggnog "
+                + " ON gen_eggnog.ideggnog = eggnog.ideggnog "
+                + " WHERE gen_id ='" + idGen + "'";
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
+
     public ArrayList getGenMetagenoma(String idGen) {
-        String query = "SELECT gen_id, gen_type, contig_id, contig_gen_id, gen_strand, gen_src, m.idmetagenoma, m.meta_name, gen_length, contig_from, contig_to, muestra.idmuestra, muestra.etiqueta, muestra.profundidad, tt.tipo_muestra " 
-                       + "FROM gen INNER JOIN metagenoma AS m " 
-                       + " ON m.idmetagenoma = gen.idmetagenoma " 
-                       + " INNER JOIN muestra ON muestra.idmuestra = m.idmuestra " 
-                       + " INNER JOIN muestreo on muestreo.idmuestreo = muestra.idmuestreo " 
-                       + " INNER JOIN tipo_muestra as tt on tt.idtipomuestra = muestreo.idtipomuestra "
-                       + " where gen_id ='" + idGen +"'";
+        String query = "SELECT gen_id, gen_type, contig_id, contig_gen_id, gen_strand, gen_src, m.idmetagenoma, m.meta_name, gen_length, contig_from, contig_to, muestra.idmuestra, muestra.etiqueta, muestra.profundidad, tt.tipo_muestra "
+                + "FROM gen INNER JOIN metagenoma AS m "
+                + " ON m.idmetagenoma = gen.idmetagenoma "
+                + " INNER JOIN muestra ON muestra.idmuestra = m.idmuestra "
+                + " INNER JOIN muestreo on muestreo.idmuestreo = muestra.idmuestreo "
+                + " INNER JOIN tipo_muestra as tt on tt.idtipomuestra = muestreo.idtipomuestra "
+                + " where gen_id ='" + idGen + "'";
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
+
     public ArrayList getGenGenoma(String idGen) {
-        String query = "SELECT gen_id, gen_type, contig_id, contig_gen_id, gen_strand, gen_src,g.idgenoma, g.genome_name, gen_length, contig_from, contig_to, " 
-                       + " muestra.idmuestra, muestra.etiqueta, muestra.profundidad, tt.tipo_muestra " 
-                       + " FROM gen INNER JOIN genoma AS g " 
-                       + " ON g.idgenoma = gen.idgenoma " 
-                       + " INNER JOIN muestra ON muestra.idmuestra = g.idmuestra "
-                       + " INNER JOIN muestreo on muestreo.idmuestreo = muestra.idmuestreo "
-                       + " INNER JOIN tipo_muestra as tt on tt.idtipomuestra = muestreo.idtipomuestra "
-                       + " where gen_id ='" + idGen +"'";
-                          conexion.executeStatement(query);
-                          return conexion.getTabla();
-                        }
+        String query = "SELECT gen_id, gen_type, contig_id, contig_gen_id, gen_strand, gen_src,g.idgenoma, g.genome_name, gen_length, contig_from, contig_to, "
+                + " muestra.idmuestra, muestra.etiqueta, muestra.profundidad, tt.tipo_muestra "
+                + " FROM gen INNER JOIN genoma AS g "
+                + " ON g.idgenoma = gen.idgenoma "
+                + " INNER JOIN muestra ON muestra.idmuestra = g.idmuestra "
+                + " INNER JOIN muestreo on muestreo.idmuestreo = muestra.idmuestreo "
+                + " INNER JOIN tipo_muestra as tt on tt.idtipomuestra = muestreo.idtipomuestra "
+                + " where gen_id ='" + idGen + "'";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
     /**
      * Trae la información de todos los genomas dada una consición
      *
@@ -669,7 +675,7 @@ public class Transacciones {
                 + "INNER JOIN muestra ON muestra.idmuestra = genoma.idmuestra "
                 + "INNER JOIN muestreo ON muestreo.idmuestreo = muestra.idmuestreo "
                 + "INNER JOIN estacion ON muestreo.idestacion = estacion.idestacion "
-                + "INNER JOIN tipo_muestra ON muestreo.idtipomuestra = tipo_muestra.idtipomuestra " 
+                + "INNER JOIN tipo_muestra ON muestreo.idtipomuestra = tipo_muestra.idtipomuestra "
                 + "WHERE idgenoma = " + idGenoma;
         conexion.executeStatement(query);
         return conexion.getTabla();
@@ -703,7 +709,7 @@ public class Transacciones {
                 + "INNER JOIN secuenciador ON secuenciador.idSecuenciador = metagenoma.idSecuenciador "
                 + "INNER JOIN muestra AS mu ON mu.idmuestra = metagenoma.idmuestra "
                 + "INNER JOIN muestreo ON muestreo.idmuestreo = mu.idmuestreo "
-                + "INNER JOIN centro_secuenciacion as cs ON cs.idcentro = secuenciador.idcentro "                
+                + "INNER JOIN centro_secuenciacion as cs ON cs.idcentro = secuenciador.idcentro "
                 + "INNER JOIN estacion ON estacion.idestacion = muestreo.idestacion "
                 + "INNER JOIN tipo_muestra as tt on tt.idtipomuestra = muestreo.idtipomuestra "
                 + "WHERE idmetagenoma = " + idMetagenoma;
@@ -743,7 +749,7 @@ public class Transacciones {
                 + "FROM genoma INNER JOIN muestra ON muestra.idmuestra = genoma.idmuestra "
                 + "INNER JOIN ncbi_node ON ncbi_node.tax_id = genoma.tax_id  "
                 + "INNER JOIN muestreo ON muestreo.idmuestreo = muestra.idmuestreo "
-               // + "INNER JOIN derrotero ON derrotero.idderrotero = muestreo.idCE "
+                // + "INNER JOIN derrotero ON derrotero.idderrotero = muestreo.idCE "
                 + "INNER JOIN estacion on estacion.idestacion = muestreo.idestacion "
                 //Quizas poner un inner join con genes para asegurar que no sean genomas vacios
                 + where;
@@ -1271,16 +1277,25 @@ public class Transacciones {
      * @param src metagenoma o marcador
      * @return
      */
-    public String getKronaPath(int idKrona, int idTipoArchivo, String src) {
+    public String getKronaPath(int idKrona, int idTipoArchivo, String src, String nombre) {
         String query = "SELECT path, nombre, extension FROM archivo "
                 + "INNER JOIN " + src + "_archivo AS ma ON ma.idarchivo = archivo.idarchivo "
-                + "WHERE id" + src + " = " + idKrona + " AND idtipo_archivo =  " + idTipoArchivo;
+                + "WHERE id" + src + " = " + idKrona + " AND idtipo_archivo =  " + idTipoArchivo + " AND nombre = '"+nombre+"'";
         conexion.executeStatement(query);
         ArrayList<ArrayList> dbResult = conexion.getTabla();
         if (dbResult != null && !dbResult.isEmpty()) {
             return (String) dbResult.get(0).get(0) + (String) dbResult.get(0).get(1);
         } else {
-            return "";
+            query = "SELECT path, nombre, extension FROM archivo "
+                    + "INNER JOIN " + src + "_archivo AS ma ON ma.idarchivo = archivo.idarchivo "
+                    + "WHERE id" + src + " = " + idKrona + " AND idtipo_archivo =  " + idTipoArchivo;
+            conexion.executeStatement(query);
+            dbResult = conexion.getTabla();
+            if (dbResult != null && !dbResult.isEmpty()) {
+                return (String) dbResult.get(0).get(0) + (String) dbResult.get(0).get(1);
+            } else {
+                return "";
+            }
         }
 
     }
