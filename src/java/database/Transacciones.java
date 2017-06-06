@@ -622,6 +622,14 @@ public class Transacciones {
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
+    public ArrayList getPfam(String idGen) {
+        String query = "SELECT gp.pfam_acc, gp.pfam_from, gp.pfam_to, gp.eval, clan_acc, id_pfam, pfam_deff " 
+                       + " FROM gen_pfam AS gp " 
+                       + " INNER JOIN pfam on pfam.pfam_acc = gp.pfam_acc  "
+                       + " WHERE gp.gen_id ='" + idGen +"'";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }   
     public ArrayList getGenMetagenoma(String idGen) {
         String query = "SELECT gen_id, gen_type, contig_id, contig_gen_id, gen_strand, gen_src, m.idmetagenoma, m.meta_name, gen_length, contig_from, contig_to, muestra.idmuestra, muestra.etiqueta, muestra.profundidad, tt.tipo_muestra " 
                        + "FROM gen INNER JOIN metagenoma AS m " 

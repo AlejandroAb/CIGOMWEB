@@ -35,15 +35,26 @@ public class GenObj {
     private String tipoMuestra = "";
     private String name = "";//nombre metagenoma/genoma
     ArrayList<Eggnog> eggno;
-
+    ArrayList<PFAMObj> pfam;
     SecuenciaObj sec5P;//= new SecuenciaObj(genID,"5p");
     SecuenciaObj sec3P;// = new SecuenciaObj(genID,"3p"); 
     SecuenciaObj secAA;// = new SecuenciaObj(genID,"aa");
     SecuenciaObj secNC;//= new SecuenciaObj(genID,"nc");
 
+    public ArrayList<PFAMObj> getPfam() {
+        return pfam;
+    }
+
+    public void setPfam(ArrayList<PFAMObj> pfam) {
+        this.pfam = pfam;
+    }
+
     
     public void addEggnog(Eggnog e) {
         this.eggno.add(e);
+    }
+    public void addPfam(PFAMObj p) {
+        this.pfam.add(p);
     }
 
     public ArrayList<Eggnog> getEggno() {
@@ -242,6 +253,7 @@ public class GenObj {
         secNC = new SecuenciaObj(genID, "nc");
         
         eggno = new ArrayList<>();
+        pfam = new ArrayList<>();
     }
 
     public SecuenciaObj getSec5P() {
