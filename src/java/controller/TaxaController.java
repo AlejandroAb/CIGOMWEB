@@ -72,6 +72,11 @@ public class TaxaController extends HttpServlet {
             String taxText = request.getParameter("taxa");
             String createImage = request.getParameter("grafica");
             String campanas = request.getParameter("campanas");
+            String source = request.getParameter("source");
+            if (source == null || source.length() < 3) {
+                source = "AMP";
+            }
+            //AMP SHOT
             /**
              * La idea de esta bandera es en algún momento validar si el usuario
              * está buscando sobre múltiples campañas o sólo una. En dado caso
@@ -91,9 +96,16 @@ public class TaxaController extends HttpServlet {
             fu.validateFile(workingDir, true);
             String taxId = taxText.indexOf("-") != -1 ? taxText.substring(0, taxText.indexOf("-")).trim() : taxText;
             String name = taxText.indexOf("-") != -1 && taxText.indexOf("(") != -1 ? taxText.substring(taxText.indexOf("-") + 1, taxText.indexOf("(")).trim() : taxText;
-            String rank = taxText.indexOf("(") != -1 && taxText.indexOf(")") != -1 ?taxText.substring(taxText.indexOf("(") + 1, taxText.indexOf(")")).trim() : taxText;
+            String rank = taxText.indexOf("(") != -1 && taxText.indexOf(")") != -1 ? taxText.substring(taxText.indexOf("(") + 1, taxText.indexOf(")")).trim() : taxText;
             TaxaDAO tdao = new TaxaDAO(transacciones);
-            ArrayList<ArrayList<String>> tabla = tdao.getConteosByTaxName(rank, name);
+            ArrayList<ArrayList<String>> tabla;
+            if (source.equals("AMP")) {
+                String idAnalisis = "2";
+                //ACA analisis traer de variable de contexto
+                tabla = tdao.getConteosByTaxName(rank, name, idAnalisis);
+            } else {
+                tabla = tdao.getConteosByTaxNameShotgun(rank, name);
+            }
             long total = tdao.getConteos();
             if (tabla != null && tabla.size() > 0) {
                 session.setAttribute("tablaTaxa", tabla);
@@ -121,14 +133,24 @@ public class TaxaController extends HttpServlet {
                 //downloadTaxaTable
                 out.println("<table width=\"100%\" class=\"table table-striped table-bordered table-hover\" id=\"taxonomia\">");
                 out.println("<thead>");
-                out.println("<tr><th></th><th>Marcador</th><th>Muestra</th><th>Tipo</th><th>Profundidad</th><th>Secuencias</th><th>A.Relativa %</th></tr>");
+                if (source.equals("AMP")) {
+                    out.println("<tr><th></th><th>Marcador</th><th>Muestra</th><th>Tipo</th><th>Profundidad</th><th>Secuencias</th><th>A.Relativa %</th></tr>");
+                } else {
+                    out.println("<tr><th></th><th>Metagenoma</th><th>Muestra</th><th>Tipo</th><th>Profundidad</th><th>Secuencias</th><th>A.Relativa %</th></tr>");
+                }
                 out.println("</head>");
                 out.println("<tbody>");
                 for (ArrayList<String> bg : tabla) {
 
                     out.println("<tr>");
-                    out.println("<td style='text-align:center;'><input type='checkbox' value='" + bg.get(0) + "' name='checkmarcador'></td>");
-                    out.println("<td><a href = 'showMarcador?idMarcador=" + bg.get(0) + "' target='_blank'>" + bg.get(1) + "</a></td>");//0 y 1
+
+                    if (source.equals("AMP")) {
+                        out.println("<td style='text-align:center;'><input type='checkbox' value='" + bg.get(0) + "' name='checkmarcador'></td>");
+                        out.println("<td><a href = 'showMarcador?idMarcador=" + bg.get(0) + "' target='_blank'>" + bg.get(1) + "</a></td>");//0 y 1
+                    } else {
+                        out.println("<td style='text-align:center;'><input type='checkbox' disabled value='" + bg.get(0) + "' name='checkmarcador'></td>");
+                        out.println("<td><a href = 'showMetagenoma?idMetagenoma=" + bg.get(0) + "' target='_blank'>" + bg.get(1) + "</a></td>");//0 y 1
+                    }
                     out.println("<td><a href = 'showMuestra?idMuestra=" + bg.get(2) + "' target='_blank'>" + bg.get(3) + "</a></td>");
                     out.println("<td>" + bg.get(4) + "</td>");
                     out.println("<td>" + bg.get(5) + " - " + bg.get(6) + "</td>");//5y6
@@ -140,7 +162,9 @@ public class TaxaController extends HttpServlet {
                 out.println("</table>");
 
                 out.println("<button onclick=\"window.location.href='downloadTaxaTable'\"  class=\"btn btn-primary glyphicon glyphicon-download-alt\" id='ObtenerVal'> Descargar Tabla</button>");
-                out.println("<button onclick=\"descargaSeqsMarcador('" + rank + "','" + name + "')\" class=\"btn btn-primary glyphicon glyphicon-download-alt\" id='ObtenerVal'> Descargar secuencias</button>");
+                if (source.equals("AMP")) {//sólo para marcadores se despliega la opción de descargar secuencias
+                    out.println("<button onclick=\"descargaSeqsMarcador('" + rank + "','" + name + "')\" class=\"btn btn-primary glyphicon glyphicon-download-alt\" id='ObtenerVal'> Descargar secuencias</button>");
+                }
                 out.println("</div>");
                 out.println("</div>");
                 if (createImage != null && createImage.equals("true")) {
@@ -292,10 +316,17 @@ public class TaxaController extends HttpServlet {
             }
         } else if (userPath.equals("/creaMatriz")) {
             String nivelTaxonomico = request.getParameter("nivel");
-            String idMarcador = request.getParameter("idMarcador");
+            String source = request.getParameter("source");
+            String idMarcador = request.getParameter("idSrc");
             String cabecera = request.getParameter("cabecera");
             String archivo = request.getParameter("toFile");
             String normalizar = request.getParameter("norm");
+            String degradadores = request.getParameter("degradadores");
+
+            boolean isAmplicon = false;
+            if (source == null || source.length() < 1 || source.equals("amplicon")) {
+                isAmplicon = true;
+            }
             boolean norm = true;
             if (normalizar != null && normalizar.equals("crudo")) {
                 norm = false;
@@ -318,7 +349,12 @@ public class TaxaController extends HttpServlet {
             String matriz = "";
             if (nivelTaxonomico != null && idMarcador != null) {
                 TaxaDAO tdao = new TaxaDAO(transacciones);
-                matriz = tdao.generaMatrizAbundancia(nivelTaxonomico, idMarcador, orgName, withHeader, norm, toFile);
+                if (degradadores != null && degradadores.equals("true") && nivelTaxonomico.equals("genus")) {
+                    tdao.setSoloDegradadores(true);
+                }
+                //TODO: traer variable tipo de analisis taxonomico
+                String idanalisis = "2";//HC a ParallelMeta
+                matriz = tdao.generaMatrizAbundancia(nivelTaxonomico, idMarcador, orgName, withHeader, norm, toFile, isAmplicon, idanalisis);
                 if (toFile) {
                     response.setHeader("Content-Disposition", "attachment; filename=\"MatrizAbundancia_" + nivelTaxonomico + "_" + idMarcador + ".tsv\"");
                     OutputStream outputStream = response.getOutputStream();
@@ -349,7 +385,7 @@ public class TaxaController extends HttpServlet {
             //tdao.generaTablaDegradadores();
             String htmlTable = tdao.generaTablaDegradadores(); //va desde <table> hasta <table>          
             request.setAttribute("tabla", htmlTable);
-            
+
             RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/view/taxa/matrices.jsp");
             view.forward(request, response);
             return;
@@ -426,24 +462,24 @@ public class TaxaController extends HttpServlet {
              view.forward(request, response);
              return;
              */
-        }else if(userPath.equals("/agregaTaxon")){
+        } else if (userPath.equals("/agregaTaxon")) {
             String taxText = request.getParameter("taxa");
             String taxId = taxText.indexOf("-") != -1 ? taxText.substring(0, taxText.indexOf("-")).trim() : taxText;
             ArrayList<ArrayList> agregar = transacciones.getAgregarTaxon(taxId);
-                
-                PrintWriter out = response.getWriter();
-                response.setContentType("text/html");
-                response.setCharacterEncoding("UTF-8");
 
- 		for (ArrayList<String> ag : agregar) {
-			out.println("<tr>");
-                        out.println("<td>"+ag.get(0)+"</td>");
-                        out.println("<td>"+ag.get(1)+"</td>");
-                        out.println("<td>"+ag.get(2)+"</td>");
-			out.println("</tr>");
-		}
-		out.close();
-            
+            PrintWriter out = response.getWriter();
+            response.setContentType("text/html");
+            response.setCharacterEncoding("UTF-8");
+
+            for (ArrayList<String> ag : agregar) {
+                out.println("<tr>");
+                out.println("<td>" + ag.get(0) + "</td>");
+                out.println("<td>" + ag.get(1) + "</td>");
+                out.println("<td>" + ag.get(2) + "</td>");
+                out.println("</tr>");
+            }
+            out.close();
+
         }
 
     }

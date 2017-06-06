@@ -368,8 +368,8 @@
                                                             <tr style="text-align: left; font-size:14px;" class="genomas" id="genoma">
                                                                 <td style="text-align:center;"><input type="checkbox" value="<%= result.getGen_id()%>" id="checkgenoma"></td>
                                                                 <td><%= result.getQuery()%></td>
-                                                                <td style="word-break: break-all"><%= result.getGen_id()%></td>
-                                                                <td><%= result.getSource()%> <a href="showMuestra?idMuestra=<%= result.getIdMuestra()%>"><p class="fa fa-flask"></p></a></td>
+                                                                <td style="word-break: break-all"><a href="showGen?idGen=<%= result.getGen_id()%>" target='_blank'><%= result.getGen_id()%></a></td>
+                                                                <td><%= result.getSource()%> <a href="showMuestra?idMuestra=<%= result.getIdMuestra()%>" target='_blank'><p class="fa fa-flask"></p></a></td>
                                                                 <td  style="word-break: break-all"><%= result.getTarget_definition()%></td>
                                                                 <td><%= result.getTaxa()%></td>
                                                                 <td><%= result.getIdentity()%></td>

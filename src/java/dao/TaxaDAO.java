@@ -68,7 +68,7 @@ public class TaxaDAO {
      * presenta:idmarcador, mar_name,idmuestra, etiqueta, tipoMuestra,
      * tipoProfundidad, profundidad, numero de secs
      */
-    public ArrayList<ArrayList<String>> getConteosByTaxName(String rank, String name) {
+    public ArrayList<ArrayList<String>> getConteosByTaxName(String rank, String name, String analisis) {
         List<String> rangos = Arrays.asList("kingdom", "superkingdom", "subkingdom", "superphylum", "phylum", "subphylum", "superclass", "infraclass", "class", "subclass", "parvorder", "superorder", "infraorder", "order", "suborder", "superfamily", "family", "subfamily", "tribe", "subtribe", "genus", "subgenus", "species", "species group", "species subgroup", "subspecies", "forma", "varietas", "no rank");
         if (!rangos.contains(rank)) {
             return null;
@@ -87,7 +87,7 @@ public class TaxaDAO {
         }
         ArrayList<ArrayList<String>> tabla = new ArrayList();
         //ArrayList<ArrayList> marcadoresCounts = transacciones.getConteosMarcadorPorTaxon(rank, name);
-        ArrayList<ArrayList> marcadoresCounts = transacciones.getConteosMarcadorPorTaxonOptimized(rank, name);
+        ArrayList<ArrayList> marcadoresCounts = transacciones.getConteosMarcadorPorTaxonOptimized(rank, name, analisis);
         /*if(rank.equals("no rank")){
          marcadoresCounts = transacciones.getConteosMarcadorPorTaxon(rank, name);
          }else{
@@ -114,6 +114,76 @@ public class TaxaDAO {
                 registro.add("" + counts);
                 int secsMarcador = transacciones.getSecuenciasByMarcador(idMarcador);
                 registro.add("" + df.format(((double) counts / secsMarcador) * 100));
+                //registros
+            } else {
+                registro.add("");
+                registro.add("");
+                registro.add("");
+                registro.add("");
+                registro.add("");
+                registro.add("");
+                registro.add("");
+                registro.add("");
+            }
+            tabla.add(registro);
+        }
+        return tabla;
+    }
+
+    /**
+     * *
+     * Igual que getConteosByTaxName pero este es para shotguns
+     *
+     * @param rank ver especificaciones getConteosByTaxName
+     * @param name ver especificaciones getConteosByTaxName
+     * @return
+     */
+    public ArrayList<ArrayList<String>> getConteosByTaxNameShotgun(String rank, String name) {
+        List<String> rangos = Arrays.asList("kingdom", "superkingdom", "subkingdom", "superphylum", "phylum", "subphylum", "superclass", "infraclass", "class", "subclass", "parvorder", "superorder", "infraorder", "order", "suborder", "superfamily", "family", "subfamily", "tribe", "subtribe", "genus", "subgenus", "species", "species group", "species subgroup", "subspecies", "forma", "varietas", "no rank");
+        if (!rangos.contains(rank)) {
+            return null;
+        } else {
+            if (rank.equals("superkingdom")) {
+                rank = "kingdom";
+            } else if (rank.equals("order")) {
+                rank = "orden";
+            } else if (rank.equals("species group")) {
+                rank = "species_group";
+            } else if (rank.equals("species subgroup")) {
+                rank = "species_subgroup";
+            } else if (rank.equals("no rank")) {
+                rank = "no_rank";
+            }
+        }
+        ArrayList<ArrayList<String>> tabla = new ArrayList();
+        //ArrayList<ArrayList> marcadoresCounts = transacciones.getConteosMarcadorPorTaxon(rank, name);
+        ArrayList<ArrayList> marcadoresCounts = transacciones.getConteosMetagenomaPorTaxonOptimized(rank, name);
+        /*if(rank.equals("no rank")){
+         marcadoresCounts = transacciones.getConteosMarcadorPorTaxon(rank, name);
+         }else{
+         marcadoresCounts = transacciones.getConteosMarcadorPorTaxonNoRank();
+         }*/
+        conteos = 0;
+        DecimalFormat df = new DecimalFormat("#.######");
+
+        for (ArrayList<String> marcador : marcadoresCounts) {
+            ArrayList<String> registro = new ArrayList();
+            String idMarcador = marcador.get(0);
+            int counts = Integer.parseInt(marcador.get(1));
+            conteos += counts;
+            registro.add(idMarcador);
+            ArrayList<ArrayList> detalles = transacciones.getDetallesMuestraMetagenomaa(idMarcador);
+            if (detalles.size() > 0) {
+                ArrayList<String> detalle = detalles.get(0);
+                registro.add(detalle.get(0));//nombre marcador
+                registro.add(detalle.get(1));//idMuestra
+                registro.add(detalle.get(2));//etiqueta
+                registro.add(detalle.get(3));//tipo_muestra
+                registro.add(detalle.get(4));//tipo_prof
+                registro.add(detalle.get(5));//profundidad
+                registro.add("" + counts);
+                int secsMetagenoma = transacciones.getSecuenciasByMetagenoma(idMarcador);
+                registro.add("" + df.format(((double) counts / secsMetagenoma) * 100));
                 //registros
             } else {
                 registro.add("");
@@ -886,11 +956,29 @@ public class TaxaDAO {
      * @param withHeader
      * @return
      */
-    public String generaMatrizAbundancia(String nivel, String idMarcadores, String orgName, boolean withHeader, boolean norm, boolean toFile) {
+    public String generaMatrizAbundancia(String nivel, String idsFuente, String orgName, boolean withHeader, boolean norm, boolean toFile, boolean isAmplicon, String idanalisis) {
         String camposSQL = getSQLFieldsForMatrixByLabel(nivel, "\t");
         String header = getFlatFieldsForMatrixByLabel(nivel);
         StringBuilder matrix = new StringBuilder("");
-        ArrayList<ArrayList> matrix_data = transacciones.getMatrizPorMarcadores(camposSQL, idMarcadores);
+        ArrayList<ArrayList> matrix_data;
+        StringBuilder whereTaxones = new StringBuilder("");
+        if (soloDegradadores) {
+            whereTaxones.append(" AND degradadora = 1 ");
+        }
+        if (isAmplicon) {
+            matrix_data = transacciones.getMatrizPorMarcadoresNew(camposSQL, idsFuente, idanalisis, whereTaxones.toString());
+            if (matrix_data == null || matrix_data.size() < 1) {
+                if (idanalisis.equals("2")) {
+                    idanalisis = "1";
+                } else {
+                    idanalisis = "2";
+                }
+                matrix_data = transacciones.getMatrizPorMarcadoresNew(camposSQL, idsFuente, idanalisis, whereTaxones.toString());
+            }
+        } else {
+            matrix_data = transacciones.getMatrizPorMetagenoma(camposSQL, idsFuente, whereTaxones.toString());
+
+        }
         ArrayList<String> listaTaxones = new ArrayList<>();
         if (matrix_data != null && !matrix_data.isEmpty()) {
             if (!toFile) {
@@ -928,7 +1016,11 @@ public class TaxaDAO {
             int secuenciasMarcador = 1;
             DecimalFormat df = new DecimalFormat("#.######");
             if (norm) {
-                secuenciasMarcador = transacciones.getSecuenciasByMarcador(idMarcadores);
+                if (isAmplicon) {
+                    secuenciasMarcador = transacciones.getSecuenciasByMarcador(idsFuente);
+                } else {
+                    secuenciasMarcador = transacciones.getSecuenciasByMetagenoma(idsFuente);
+                }
             }
             for (ArrayList<String> taxon : matrix_data) {
                 if (taxon.get(0).trim().length() > 0) {
@@ -978,7 +1070,7 @@ public class TaxaDAO {
                                 matrix.append(taxonTmp).append("\t").append(df.format((val / secuenciasMarcador) * 100)).append("\n");
                             }
                         } catch (NumberFormatException nfe) {
-                            System.err.println("Error al crear matriz de abundancia - parse double: " + taxon.get(1) + " taxon: " + taxon.get(0) + " marcadores: " + idMarcadores);
+                            System.err.println("Error al crear matriz de abundancia - parse double: " + taxon.get(1) + " taxon: " + taxon.get(0) + " ids: " + secuenciasMarcador);
                             matrix.append(taxonTmp).append("\t").append("0").append("\n");
                         }
                     } else {

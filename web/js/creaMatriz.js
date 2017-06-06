@@ -5,7 +5,7 @@
  */
 
 
-function buscaMatriz(idMarcador) {
+function buscaMatriz(idSrc, src) {
 
 
     // para cada checkbox "chequeado"
@@ -21,6 +21,10 @@ function buscaMatriz(idMarcador) {
     var orgsName = $('input[name=orgName]:checked').val();
     var conteos = $('input[name=conteos]:checked').val();
 
+    var degradadores = "false";
+    if ($("#degradadores").is(':checked')) {
+        degradadores = "true";
+    }
     if (nivelTaxo === null) {
         swal({
             title: "<span style='color:#red'>Seleccionar Nivel Taxonómico!</span>",
@@ -33,13 +37,25 @@ function buscaMatriz(idMarcador) {
             form.setAttribute("method", "post");
             form.setAttribute("action", "creaMatriz");
 
+            var dataDegradadores = document.createElement("input");
+            dataDegradadores.setAttribute("type", "hidden");
+            dataDegradadores.setAttribute("name", "degradadores");
+            dataDegradadores.setAttribute("value", degradadores);
+            form.appendChild(dataDegradadores);
+
+            var source = document.createElement("input");
+            source.setAttribute("type", "hidden");
+            source.setAttribute("name", "source");
+            source.setAttribute("value", src);
+            form.appendChild(source);
+
             var nivel = document.createElement("input");
             nivel.setAttribute("type", "hidden");
             nivel.setAttribute("name", "nivel");
             nivel.setAttribute("value", nivelTaxo);
             form.appendChild(nivel);
-            
-             var toFileData = document.createElement("input");
+
+            var toFileData = document.createElement("input");
             toFileData.setAttribute("type", "hidden");
             toFileData.setAttribute("name", "toFile");
             toFileData.setAttribute("value", toFile);
@@ -47,8 +63,8 @@ function buscaMatriz(idMarcador) {
 
             var marcador = document.createElement("input");
             marcador.setAttribute("type", "hidden");
-            marcador.setAttribute("name", "idMarcador");
-            marcador.setAttribute("value", idMarcador);
+            marcador.setAttribute("name", "idSrc");
+            marcador.setAttribute("value", idSrc);
             form.appendChild(marcador);
 
             var withHeader = document.createElement("input");

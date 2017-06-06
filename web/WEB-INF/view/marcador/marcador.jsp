@@ -887,7 +887,7 @@
                                             <div class="col-lg-1">
                                                 <br>
 
-                                                <button  class="fa fa-gear" onclick="buscaMatriz(<%//=marcador.getIdMarcador()%>)" > Generar</button>
+                                                <button  class="fa fa-gear" onclick="buscaMatriz(<%=marcador.getIdMarcador()%>, 'amplicon')" > Generar</button>
                                             </div>
                                         </div>
 

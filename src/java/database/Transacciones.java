@@ -346,13 +346,23 @@ public class Transacciones {
      *
      * @param rank
      * @param name
+     * @param idAnalisis el id del analisis 1 metaxa 2 = parallel meta
      * @return
      */
-    public ArrayList getConteosMarcadorPorTaxonOptimized(String rank, String name) {
+    public ArrayList getConteosMarcadorPorTaxonOptimized(String rank, String name, String idAnalisis) {
         String query = "SELECT idmarcador, sum(counts) "
                 + "FROM conteos "
                 + "INNER JOIN taxon ON taxon.tax_id = conteos.tax_id "
-                + "WHERE  " + rank + "='" + name + "' group by idmarcador";
+                + "WHERE  " + rank + "='" + name + "' AND idanalisis_clasificacion = " + idAnalisis + " group by idmarcador";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    public ArrayList getConteosMetagenomaPorTaxonOptimized(String rank, String name) {
+        String query = "SELECT idmetagenoma, sum(counts) "
+                + "FROM conteos_shotgun "
+                + "INNER JOIN taxon ON taxon.tax_id = conteos_shotgun.tax_id "
+                + "WHERE  " + rank + "='" + name + "' group by idmetagenoma";
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
@@ -376,6 +386,31 @@ public class Transacciones {
                 + "FROM seq_marcador "
                 + "INNER JOIN taxon AS t on t.tax_id = taxon_tax_id "
                 + "WHERE  idMarcador IN(" + marcadores + ") "
+                + "GROUP BY phy "
+                + "ORDER BY phy";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    public ArrayList getMatrizPorMarcadoresNew(String niveles, String marcadores, String idanalisis, String where) {
+        String query = "SELECT " + niveles + " AS phy, sum(counts) "
+                + "FROM conteos "
+                + "INNER JOIN taxon AS t on t.tax_id = conteos.tax_id "
+                + "WHERE  idMarcador IN(" + marcadores + ") "
+                + "AND idanalisis_clasificacion =  " + idanalisis + " "
+                + where
+                + "GROUP BY phy "
+                + "ORDER BY phy";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    public ArrayList getMatrizPorMetagenoma(String niveles, String metagenomas, String where) {
+        String query = "SELECT " + niveles + " AS phy, sum(counts) "
+                + "FROM conteos_shotgun "
+                + "INNER JOIN taxon AS t on t.tax_id = conteos_shotgun.tax_id "
+                + "WHERE  idmetagenoma IN(" + metagenomas + ") "
+                + where                
                 + "GROUP BY phy "
                 + "ORDER BY phy";
         conexion.executeStatement(query);
@@ -926,6 +961,29 @@ public class Transacciones {
         return counts;
     }
 
+    public int getSecuenciasByMetagenoma(String idMetagenoma) {
+        String query = "SELECT tax_num_total  "
+                + "FROM metagenoma WHERE idmetagenoma='" + idMetagenoma + "'";
+
+        conexion.executeStatement(query);
+        //   System.out.println(query);
+        ArrayList<ArrayList> dbResult = conexion.getTabla();
+        int counts = 1;
+        if (dbResult == null || dbResult.isEmpty()) {
+            counts = 1;
+        } else {
+            try {
+                counts = Integer.parseInt((String) dbResult.get(0).get(0));
+                if (counts == 0) {
+                    counts = 1;
+                }
+            } catch (NumberFormatException nfe) {
+                counts = 1;
+            }
+        }
+        return counts;
+    }
+
     /**
      * Trae el id de la campana mas reciente, es usado en el home para mostrar
      * la útima campaña por default
@@ -1280,7 +1338,7 @@ public class Transacciones {
     public String getKronaPath(int idKrona, int idTipoArchivo, String src, String nombre) {
         String query = "SELECT path, nombre, extension FROM archivo "
                 + "INNER JOIN " + src + "_archivo AS ma ON ma.idarchivo = archivo.idarchivo "
-                + "WHERE id" + src + " = " + idKrona + " AND idtipo_archivo =  " + idTipoArchivo + " AND nombre = '"+nombre+"'";
+                + "WHERE id" + src + " = " + idKrona + " AND idtipo_archivo =  " + idTipoArchivo + " AND nombre = '" + nombre + "'";
         conexion.executeStatement(query);
         ArrayList<ArrayList> dbResult = conexion.getTabla();
         if (dbResult != null && !dbResult.isEmpty()) {
@@ -1586,6 +1644,23 @@ public class Transacciones {
                 + "INNER JOIN muestreo on muestreo.idmuestreo = muestra.idmuestreo "
                 + "INNER JOIN tipo_muestra on tipo_muestra.idtipomuestra = muestreo.idtipomuestra "
                 + "WHERE idmarcador = " + idMarcador;
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    /**
+     * Igual que método: getDetallesMuestraMarcador pero para metagenomas
+     *
+     * @param idMetagenoma
+     * @return
+     */
+    public ArrayList getDetallesMuestraMetagenomaa(String idMetagenoma) {
+        String query = "SELECT meta_name,muestra.idmuestra, muestra.etiqueta, tipo_muestra, tipo_profundidad, muestreo.profundidad "
+                + "FROM metagenoma "
+                + "INNER JOIN muestra on muestra.idmuestra = metagenoma.idmuestra "
+                + "INNER JOIN muestreo on muestreo.idmuestreo = muestra.idmuestreo "
+                + "INNER JOIN tipo_muestra on tipo_muestra.idtipomuestra = muestreo.idtipomuestra "
+                + "WHERE idmetagenoma = " + idMetagenoma;
         conexion.executeStatement(query);
         return conexion.getTabla();
     }

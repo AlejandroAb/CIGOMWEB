@@ -476,7 +476,7 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Secuenciador:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><% %></td>         
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><%=metagenoma.getEquipoSecuenciacion() %></td>         
                                                                  </tr>
                                                                  <tr>
                                                                     <td style="padding:10px;"><b>Centro de secuenciación:</b></td>
@@ -916,7 +916,7 @@
                                             <div class="col-lg-1">
                                                 <br>
 
-                                                <button  class="fa fa-gear" onclick="buscaMatriz(<%//=marcador.getIdMarcador()%>)" > Generar</button>
+                                                <button  class="fa fa-gear" onclick="buscaMatriz(<%=metagenoma.getIdmetagenoma()%>, 'shotgun')" > Generar</button>
                                             </div>
                                         </div>
 
