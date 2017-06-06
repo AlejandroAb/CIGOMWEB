@@ -3,6 +3,7 @@
     Created on : 5/05/2017, 10:41:51 AM
     Author     : Jose Pefi
 --%>
+<%@page import="bobjects.PFAMObj"%>
 <%@page import="bobjects.Eggnog"%>
 <%@page import="bobjects.GenObj"%>
 <%@page import="java.util.List"%>
@@ -479,39 +480,77 @@
                                                                     <th>ACC</th>
                                                                     <th>CLAN_ACC</th>
                                                                     <th>ID PFAM</th>
+                                                                    <th>FROM</th>
+                                                                    <th>TO</th>
+                                                                    <th>Eval</th>
                                                                     <th>Descripción</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody id="tgenomas">
-                                                                <%/*
-                                                                    ArrayList<ArrayList<String>> genomas = null;
-                                                                    // int c = request.getAttribute("campanaid");
-                                                                    Object genomasOobj = request.getAttribute("genomas");
+                                                                <%
+                                                                     if (gen != null) {
 
-                                                                    if (genomasOobj != null) {
-                                                                        genomas = (ArrayList<ArrayList<String>>) genomasOobj;
-                                                                    }
-                                                                    if (genomas != null) {
-                                                                        for (int g = 0; g < genomas.size(); g++) {
-                                                                        */
+                                                                        for (PFAMObj pfam : gen.getPfam()) {
                                                                 %>   
 
-                                                                <tr style="text-align: center;" class="genomas" id="genoma">
-                                                                    <td>Lorem i<%//= genomas.get(g).get(1)%></td>
-                                                                    <td>Lorem i<%//= genomas.get(g).get(1)%></td>
-                                                                    <td>Lorem ipsum dolo<%//= genomas.get(g).get(2)%></td>
-                                                                    <td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget.<%//= genomas.get(g).get(3)%></td>
+                                                                <tr style="text-align: center;" >
+                                                                    <td><%= pfam.getAcc() %></td>
+                                                                    <td><%= pfam.getClan() %></td>
+                                                                    <td><%= pfam.getId_pfam() %></td>
+                                                                    <td><%= pfam.getFrom() %></td>
+                                                                    <td><%= pfam.getTo() %></td>
+                                                                    <td><%= pfam.getEvalue() %></td>
+                                                                    <td><%= pfam.getPfam_deff() %></td>
+                                                                    
                                                                 </tr>
 
                                                                 <%
-                                                                    //    }
-                                                                   // }
+                                                                        }
+                                                                    }
                                                                 %>
                                                             </tbody>
                                                         </table>
                                                     </div>
                                                 </div>                        
-                        </div>                                       
+                        </div>     
+                        <div class="col-md-12"> 
+                                <div class="panel-heading" style="border: 0px; background-color:#f5f5f5;">
+                                    <b style="color:#d9534f;">Gene Ontology</b>    <p class="fa fa-toggle-down" id="ontology-icon" style="cursor:pointer;"></p>
+                                </div>                                 
+                                                <div class="panel-body" id="ontology">
+                                                    
+                                                    <div class="dataTable_wrapper">
+                                                        <table width="100%" class="table table-striped table-bordered " id="">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>GO</th>
+                                                                    <th>Name Space</th>
+                                                                    <th>Definición</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tgenomas">
+                                                                <%
+                                                                    /* if (gen != null) {
+
+                                                                        for (PFAMObj pfam : gen.getPfam()) {*/
+                                                                %>   
+
+                                                                <tr style="text-align: center;" >
+                                                                    <td><%//= pfam.getAcc() %></td>
+                                                                    <td><%//= pfam.getClan() %></td>
+                                                                    <td><%//= pfam.getId_pfam() %></td>
+                                                                    
+                                                                </tr>
+
+                                                                <%
+                                                                     //   }
+                                                                    //}
+                                                                %>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>                        
+                        </div>                                                                
                                     </div>
 
                                 </div>
@@ -551,7 +590,7 @@
                     });
                 });
             </script> 
-                        <script>
+            <script>
                 $(document).ready(function () {
                     var clic = 1;
                     $("#pfam-icon").on("click", function () {
@@ -564,6 +603,24 @@
                             $('#pfam').show(); //muestro
                             $('#pfam-icon').removeClass('fa-chevron-down');//elimina clse del icono down
                             $('#pfam-icon').addClass('fa-chevron-up');//agrega la clase del icono up
+                            clic = 1;
+                        }
+                    });
+                });
+            </script>
+            <script>
+                $(document).ready(function () {
+                    var clic = 1;
+                    $("#ontology-icon").on("click", function () {
+                        if (clic == 1) {
+                            $('#ontology').hide(); //oculto
+                            $('#ontology-icon').removeClass('fa fa-toggle-up');//elimina clse del icono up
+                            $('#ontology-icon').addClass('fa fa-toggle-down');//agrega la clase del icono down
+                            clic = clic + 1;
+                        } else {
+                            $('#ontology').show(); //muestro
+                            $('#ontology-icon').removeClass('fa-chevron-down');//elimina clse del icono down
+                            $('#ontology-icon').addClass('fa-chevron-up');//agrega la clase del icono up
                             clic = 1;
                         }
                     });
