@@ -1032,7 +1032,7 @@ public class TaxaDAO {
                     } else if (orgName.toLowerCase().equals("filo")) {
                         taxonTmp = taxon.get(0);
                     } else {//NCBI!
-                        taxonTmp = taxon.get(1);
+                        taxonTmp = taxon.get(2);
                     }
 
                     if (listaTaxones.contains(taxonTmp)) {
