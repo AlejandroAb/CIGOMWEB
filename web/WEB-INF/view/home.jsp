@@ -273,7 +273,23 @@
                             <li>
                                 <a href="matrices"><i class="fa fa-edit fa-fw"></i>MATRICES</a>
                             </li>
-
+                            <li>
+                            <a href="#"><i class="fa fa-edit fa-fw"></i>Listas<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="showLista">Amplicones</a>
+                                </li>
+                                <li>
+                                    <a href="showLista">Metagenomas</a>
+                                </li>
+                                <li>
+                                    <a href="showLista">Genomas</a>
+                                </li>
+                                <li>
+                                    <a href="showLista">Muestras</a>
+                                </li>
+                            </ul>
+                            </li>
                             <li>
                                 <a href="CerrarSesion"><i class="fa fa-edit fa-fw"></i> SALIR</a>
                             </li>
