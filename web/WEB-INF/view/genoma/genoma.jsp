@@ -199,6 +199,23 @@
                                 <a href="matrices"><i class="fa fa-edit fa-fw"></i>MATRICES</a>
                             </li>
                             <li>
+                            <a href="#"><i class="fa fa-edit fa-fw"></i>LISTAS<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="showLista?idLista=1">Amplicones</a>
+                                </li>
+                                <li>
+                                    <a href="showLista?idLista=2">Metagenomas</a>
+                                </li>
+                                <li>
+                                    <a href="showLista?idLista=3">Genomas</a>
+                                </li>
+                                <li>
+                                    <a href="showLista">Muestras</a>
+                                </li>
+                            </ul>
+                            </li>                            
+                            <li>
                                 <a href="CerrarSesion"><i class="fa fa-edit fa-fw"></i> SALIR</a>
                             </li>
                         </ul>
@@ -250,12 +267,12 @@
                                     </li>
                                     <li><a href="#archivos" id="boton" data-toggle="tab">Archivos</a>
                                     </li>
-                                    <li><a id="div-krona" href="#krona3" data-toggle="tab" onclick="funcionKrona2(<%//= marcador.getIdMarcador()%>)">Taxonomía</a>
-                                    </li>
-                                    <li><a href="#matriz" data-toggle="tab">Matriz</a>
-                                    </li>    
-                                    <li><a href="#prediccion" data-toggle="tab">Predicción Funcional</a>
-                                    </li>                                    
+                                   <!-- <li><a id="div-krona" href="#krona3" data-toggle="tab" onclick="funcionKrona2(<%//= marcador.getIdMarcador()%>)">Taxonomía</a>
+                                    </li>-->
+                                   <!-- <li><a href="#matriz" data-toggle="tab">Matriz</a>
+                                    </li>  -->  
+                                    <!--<li><a href="#prediccion" data-toggle="tab">Predicción Funcional</a>
+                                    </li> -->                                   
                                 </ul>
 
 

@@ -6,9 +6,11 @@
 package controller;
 
 import bobjects.Usuario;
+import dao.ListaDAO;
 import database.Transacciones;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -62,7 +64,27 @@ public class ListasController extends HttpServlet {
             return;
         }
          if (userPath.equals("/showLista")) {
-                String idLista = request.getParameter("idGen");
+                String idLista = request.getParameter("idLista");
+                String titulo="";
+                if(idLista.equals("1")){
+                    
+                    titulo="Amplicones";
+                
+                } else if(idLista.equals("2")){
+                    
+                    titulo="Metagenomas";
+                    
+                }else if(idLista.equals("3")){
+                    
+                    titulo="Genomas";
+                }
+                ListaDAO listaDAO = new ListaDAO(transacciones);
+                String where = "";
+                ArrayList<ArrayList> listas = listaDAO.getLista(idLista, where);
+                request.setAttribute("listas", listas);
+                request.setAttribute("titulo", titulo);
+                
+                System.out.println(titulo);
                 
                     RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/view/listas/lista.jsp");
                     view.forward(request, response);

@@ -346,13 +346,23 @@ public class Transacciones {
      *
      * @param rank
      * @param name
+     * @param idAnalisis el id del analisis 1 metaxa 2 = parallel meta
      * @return
      */
-    public ArrayList getConteosMarcadorPorTaxonOptimized(String rank, String name) {
+    public ArrayList getConteosMarcadorPorTaxonOptimized(String rank, String name, String idAnalisis) {
         String query = "SELECT idmarcador, sum(counts) "
                 + "FROM conteos "
                 + "INNER JOIN taxon ON taxon.tax_id = conteos.tax_id "
-                + "WHERE  " + rank + "='" + name + "' group by idmarcador";
+                + "WHERE  " + rank + "='" + name + "' AND idanalisis_clasificacion = " + idAnalisis + " group by idmarcador";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    public ArrayList getConteosMetagenomaPorTaxonOptimized(String rank, String name) {
+        String query = "SELECT idmetagenoma, sum(counts) "
+                + "FROM conteos_shotgun "
+                + "INNER JOIN taxon ON taxon.tax_id = conteos_shotgun.tax_id "
+                + "WHERE  " + rank + "='" + name + "' group by idmetagenoma";
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
@@ -382,6 +392,31 @@ public class Transacciones {
         return conexion.getTabla();
     }
 
+    public ArrayList getMatrizPorMarcadoresNew(String niveles, String marcadores, String idanalisis, String where) {
+        String query = "SELECT " + niveles + " AS phy, sum(counts), conteos.tax_id  "
+                + "FROM conteos "
+                + "INNER JOIN taxon AS t on t.tax_id = conteos.tax_id "
+                + "WHERE  idMarcador IN(" + marcadores + ") "
+                + "AND idanalisis_clasificacion =  " + idanalisis + " "
+                + where
+                + "GROUP BY phy "
+                + "ORDER BY phy";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    public ArrayList getMatrizPorMetagenoma(String niveles, String metagenomas, String where) {
+        String query = "SELECT " + niveles + " AS phy, sum(counts), conteos_shotgun.tax_id  "
+                + "FROM conteos_shotgun "
+                + "INNER JOIN taxon AS t on t.tax_id = conteos_shotgun.tax_id "
+                + "WHERE  idmetagenoma IN(" + metagenomas + ") "
+                + where
+                + "GROUP BY phy "
+                + "ORDER BY phy";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
     /**
      * Este método se encarga de traer todos los taxones distintos para todos
      * los marcadores anotados o en su defecto los marcadores dada una condicón
@@ -394,7 +429,7 @@ public class Transacciones {
     public ArrayList getDistinctTaxones(String niveles, String where) {
         String query = "SELECT " + niveles + " AS phy, taxon.tax_id "
                 + "FROM taxon "
-                + "INNER JOIN conteos ON conteos.tax_id =taxon.tax_id "
+                + "INNER JOIN conteos ON conteos.tax_id = taxon.tax_id "
                 + where
                 + " GROUP BY phy "
                 + " ORDER BY phy";
@@ -598,8 +633,9 @@ public class Transacciones {
         String query = "DELETE FROM blast_job_genoma WHERE idblast_job = " + idJob;
         return conexion.queryUpdate(query);
     }
+
     public String getIsGenoma(String idGen) {
-        String query = "SELECT IF (gen_src='GEN','TRUE','FALSE') FROM gen WHERE gen_id ='" + idGen +"'";
+        String query = "SELECT IF (gen_src='GEN','TRUE','FALSE') FROM gen WHERE gen_id ='" + idGen + "'";
         conexion.executeStatement(query);
         ArrayList<ArrayList> dbResult = conexion.getTabla();
         if (dbResult != null && !dbResult.isEmpty()) {
@@ -609,50 +645,56 @@ public class Transacciones {
         }
 
     }
-    public ArrayList getGenSecuencias (String idGen){
-        String query = "SELECT seq_type, sequence from gen_seq where gen_id ='" + idGen +"'";
+
+    public ArrayList getGenSecuencias(String idGen) {
+        String query = "SELECT seq_type, sequence from gen_seq where gen_id ='" + idGen + "'";
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
+
     public ArrayList getGenEggnog(String idGen) {
-        String query = "SELECT eggnog.ideggnog, eggnog.description, eggnog.proteins, eggnog.species, eval " 
-                       + " FROM eggnog INNER JOIN gen_eggnog " 
-                       + " ON gen_eggnog.ideggnog = eggnog.ideggnog "
-                       + " WHERE gen_id ='" + idGen +"'";
+        String query = "SELECT eggnog.ideggnog, eggnog.description, eggnog.proteins, eggnog.species, eval "
+                + " FROM eggnog INNER JOIN gen_eggnog "
+                + " ON gen_eggnog.ideggnog = eggnog.ideggnog "
+                + " WHERE gen_id ='" + idGen + "'";
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
+
     public ArrayList getPfam(String idGen) {
-        String query = "SELECT gp.pfam_acc, gp.pfam_from, gp.pfam_to, gp.eval, clan_acc, id_pfam, pfam_deff " 
-                       + " FROM gen_pfam AS gp " 
-                       + " INNER JOIN pfam on pfam.pfam_acc = gp.pfam_acc  "
-                       + " WHERE gp.gen_id ='" + idGen +"'";
-        conexion.executeStatement(query);
-        return conexion.getTabla();
-    }   
-    public ArrayList getGenMetagenoma(String idGen) {
-        String query = "SELECT gen_id, gen_type, contig_id, contig_gen_id, gen_strand, gen_src, m.idmetagenoma, m.meta_name, gen_length, contig_from, contig_to, muestra.idmuestra, muestra.etiqueta, muestra.profundidad, tt.tipo_muestra " 
-                       + "FROM gen INNER JOIN metagenoma AS m " 
-                       + " ON m.idmetagenoma = gen.idmetagenoma " 
-                       + " INNER JOIN muestra ON muestra.idmuestra = m.idmuestra " 
-                       + " INNER JOIN muestreo on muestreo.idmuestreo = muestra.idmuestreo " 
-                       + " INNER JOIN tipo_muestra as tt on tt.idtipomuestra = muestreo.idtipomuestra "
-                       + " where gen_id ='" + idGen +"'";
+        String query = "SELECT gp.pfam_acc, gp.pfam_from, gp.pfam_to, gp.eval, clan_acc, id_pfam, pfam_deff "
+                + " FROM gen_pfam AS gp "
+                + " INNER JOIN pfam on pfam.pfam_acc = gp.pfam_acc  "
+                + " WHERE gp.gen_id ='" + idGen + "'";
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
+
+    public ArrayList getGenMetagenoma(String idGen) {
+        String query = "SELECT gen_id, gen_type, contig_id, contig_gen_id, gen_strand, gen_src, m.idmetagenoma, m.meta_name, gen_length, contig_from, contig_to, muestra.idmuestra, muestra.etiqueta, muestra.profundidad, tt.tipo_muestra "
+                + "FROM gen INNER JOIN metagenoma AS m "
+                + " ON m.idmetagenoma = gen.idmetagenoma "
+                + " INNER JOIN muestra ON muestra.idmuestra = m.idmuestra "
+                + " INNER JOIN muestreo on muestreo.idmuestreo = muestra.idmuestreo "
+                + " INNER JOIN tipo_muestra as tt on tt.idtipomuestra = muestreo.idtipomuestra "
+                + " where gen_id ='" + idGen + "'";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
     public ArrayList getGenGenoma(String idGen) {
-        String query = "SELECT gen_id, gen_type, contig_id, contig_gen_id, gen_strand, gen_src,g.idgenoma, g.genome_name, gen_length, contig_from, contig_to, " 
-                       + " muestra.idmuestra, muestra.etiqueta, muestra.profundidad, tt.tipo_muestra " 
-                       + " FROM gen INNER JOIN genoma AS g " 
-                       + " ON g.idgenoma = gen.idgenoma " 
-                       + " INNER JOIN muestra ON muestra.idmuestra = g.idmuestra "
-                       + " INNER JOIN muestreo on muestreo.idmuestreo = muestra.idmuestreo "
-                       + " INNER JOIN tipo_muestra as tt on tt.idtipomuestra = muestreo.idtipomuestra "
-                       + " where gen_id ='" + idGen +"'";
-                          conexion.executeStatement(query);
-                          return conexion.getTabla();
-                        }
+        String query = "SELECT gen_id, gen_type, contig_id, contig_gen_id, gen_strand, gen_src,g.idgenoma, g.genome_name, gen_length, contig_from, contig_to, "
+                + " muestra.idmuestra, muestra.etiqueta, muestra.profundidad, tt.tipo_muestra "
+                + " FROM gen INNER JOIN genoma AS g "
+                + " ON g.idgenoma = gen.idgenoma "
+                + " INNER JOIN muestra ON muestra.idmuestra = g.idmuestra "
+                + " INNER JOIN muestreo on muestreo.idmuestreo = muestra.idmuestreo "
+                + " INNER JOIN tipo_muestra as tt on tt.idtipomuestra = muestreo.idtipomuestra "
+                + " where gen_id ='" + idGen + "'";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
     /**
      * Trae la información de todos los genomas dada una consición
      *
@@ -677,7 +719,7 @@ public class Transacciones {
                 + "INNER JOIN muestra ON muestra.idmuestra = genoma.idmuestra "
                 + "INNER JOIN muestreo ON muestreo.idmuestreo = muestra.idmuestreo "
                 + "INNER JOIN estacion ON muestreo.idestacion = estacion.idestacion "
-                + "INNER JOIN tipo_muestra ON muestreo.idtipomuestra = tipo_muestra.idtipomuestra " 
+                + "INNER JOIN tipo_muestra ON muestreo.idtipomuestra = tipo_muestra.idtipomuestra "
                 + "WHERE idgenoma = " + idGenoma;
         conexion.executeStatement(query);
         return conexion.getTabla();
@@ -711,7 +753,7 @@ public class Transacciones {
                 + "INNER JOIN secuenciador ON secuenciador.idSecuenciador = metagenoma.idSecuenciador "
                 + "INNER JOIN muestra AS mu ON mu.idmuestra = metagenoma.idmuestra "
                 + "INNER JOIN muestreo ON muestreo.idmuestreo = mu.idmuestreo "
-                + "INNER JOIN centro_secuenciacion as cs ON cs.idcentro = secuenciador.idcentro "                
+                + "INNER JOIN centro_secuenciacion as cs ON cs.idcentro = secuenciador.idcentro "
                 + "INNER JOIN estacion ON estacion.idestacion = muestreo.idestacion "
                 + "INNER JOIN tipo_muestra as tt on tt.idtipomuestra = muestreo.idtipomuestra "
                 + "WHERE idmetagenoma = " + idMetagenoma;
@@ -751,7 +793,7 @@ public class Transacciones {
                 + "FROM genoma INNER JOIN muestra ON muestra.idmuestra = genoma.idmuestra "
                 + "INNER JOIN ncbi_node ON ncbi_node.tax_id = genoma.tax_id  "
                 + "INNER JOIN muestreo ON muestreo.idmuestreo = muestra.idmuestreo "
-               // + "INNER JOIN derrotero ON derrotero.idderrotero = muestreo.idCE "
+                // + "INNER JOIN derrotero ON derrotero.idderrotero = muestreo.idCE "
                 + "INNER JOIN estacion on estacion.idestacion = muestreo.idestacion "
                 //Quizas poner un inner join con genes para asegurar que no sean genomas vacios
                 + where;
@@ -879,6 +921,50 @@ public class Transacciones {
         return conexion.getTabla();
     }
 
+    /**
+     * Este query trae todos los datos para presnetar en la lista de metagenomas
+     *
+     * @param where
+     * @return
+     */
+    public ArrayList getListaMetagenomas(String where) {
+        String query = "SELECT CONCAT('showMetagenoma?idMetagenoma=',idmetagenoma), meta_name, c.nombre, e.idestacion, e.estacion_nombre,mu.etiqueta,"
+                + "CONCAT('showMuestra?idMuestra=',m.idmuestra), m.etiqueta, mu.profundidad "
+                + "FROM metagenoma "
+                + "INNER JOIN muestra AS m ON m.idmuestra = metagenoma.idmuestra "
+                + "INNER JOIN muestreo AS mu ON mu.idmuestreo = m.idmuestreo "
+                + "INNER JOIN estacion AS e ON e.idestacion = mu.idestacion "
+                + "INNER JOIN campana AS c ON c.idcampana = mu.idcampana "
+                + where;
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    public ArrayList getListaGenomas(String where) {
+        String query = " SELECT CONCAT('showGenoma?idGenoma=',idgenoma), genome_name, c.nombre, e.idestacion, e.estacion_nombre,mu.etiqueta,"
+                + "CONCAT('showMuestra?idMuestra=',m.idmuestra), m.etiqueta, mu.profundidad FROM genoma "
+                + "INNER JOIN muestra AS m ON m.idmuestra = genoma.idmuestra "
+                + "INNER JOIN muestreo AS mu ON mu.idmuestreo = m.idmuestreo "
+                + "INNER JOIN estacion AS e ON e.idestacion = mu.idestacion "
+                + "INNER JOIN campana AS c ON c.idcampana = mu.idcampana "
+                + where;
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    public ArrayList getListaMarcadores(String where) {
+        String query = "SELECT CONCAT('showMarcador?idMarcador=',idmarcador), marc_name, c.nombre, e.idestacion, e.estacion_nombre,"
+                + "mu.etiqueta,CONCAT('showMuestra?idMuestra=',m.idmuestra), m.etiqueta, mu.profundidad "
+                + "FROM marcador "
+                + "INNER JOIN muestra AS m ON m.idmuestra = marcador.idmuestra "
+                + "INNER JOIN muestreo AS mu ON mu.idmuestreo = m.idmuestreo "
+                + "INNER JOIN estacion AS e ON e.idestacion = mu.idestacion "
+                + "INNER JOIN campana AS c ON c.idcampana = mu.idcampana "
+                + where;
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
     public ArrayList getEnsambleByID(String idEnsamble) {
         String query = "SELECT ensamblador, comentarios, contigs, contig_lon, contig_avg, n5090, lecturas_mapeadas "
                 + "FROM ensamble "
@@ -908,6 +994,29 @@ public class Transacciones {
     public int getSecuenciasByMarcador(String idMarcador) {
         String query = "SELECT seq_num_total  "
                 + "FROM marcador WHERE idmarcador='" + idMarcador + "'";
+
+        conexion.executeStatement(query);
+        //   System.out.println(query);
+        ArrayList<ArrayList> dbResult = conexion.getTabla();
+        int counts = 1;
+        if (dbResult == null || dbResult.isEmpty()) {
+            counts = 1;
+        } else {
+            try {
+                counts = Integer.parseInt((String) dbResult.get(0).get(0));
+                if (counts == 0) {
+                    counts = 1;
+                }
+            } catch (NumberFormatException nfe) {
+                counts = 1;
+            }
+        }
+        return counts;
+    }
+
+    public int getSecuenciasByMetagenoma(String idMetagenoma) {
+        String query = "SELECT tax_num_total  "
+                + "FROM metagenoma WHERE idmetagenoma='" + idMetagenoma + "'";
 
         conexion.executeStatement(query);
         //   System.out.println(query);
@@ -1279,16 +1388,25 @@ public class Transacciones {
      * @param src metagenoma o marcador
      * @return
      */
-    public String getKronaPath(int idKrona, int idTipoArchivo, String src) {
+    public String getKronaPath(int idKrona, int idTipoArchivo, String src, String nombre) {
         String query = "SELECT path, nombre, extension FROM archivo "
                 + "INNER JOIN " + src + "_archivo AS ma ON ma.idarchivo = archivo.idarchivo "
-                + "WHERE id" + src + " = " + idKrona + " AND idtipo_archivo =  " + idTipoArchivo;
+                + "WHERE id" + src + " = " + idKrona + " AND idtipo_archivo =  " + idTipoArchivo + " AND nombre = '" + nombre + "'";
         conexion.executeStatement(query);
         ArrayList<ArrayList> dbResult = conexion.getTabla();
         if (dbResult != null && !dbResult.isEmpty()) {
             return (String) dbResult.get(0).get(0) + (String) dbResult.get(0).get(1);
         } else {
-            return "";
+            query = "SELECT path, nombre, extension FROM archivo "
+                    + "INNER JOIN " + src + "_archivo AS ma ON ma.idarchivo = archivo.idarchivo "
+                    + "WHERE id" + src + " = " + idKrona + " AND idtipo_archivo =  " + idTipoArchivo;
+            conexion.executeStatement(query);
+            dbResult = conexion.getTabla();
+            if (dbResult != null && !dbResult.isEmpty()) {
+                return (String) dbResult.get(0).get(0) + (String) dbResult.get(0).get(1);
+            } else {
+                return "";
+            }
         }
 
     }
@@ -1579,6 +1697,23 @@ public class Transacciones {
                 + "INNER JOIN muestreo on muestreo.idmuestreo = muestra.idmuestreo "
                 + "INNER JOIN tipo_muestra on tipo_muestra.idtipomuestra = muestreo.idtipomuestra "
                 + "WHERE idmarcador = " + idMarcador;
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
+
+    /**
+     * Igual que método: getDetallesMuestraMarcador pero para metagenomas
+     *
+     * @param idMetagenoma
+     * @return
+     */
+    public ArrayList getDetallesMuestraMetagenomaa(String idMetagenoma) {
+        String query = "SELECT meta_name,muestra.idmuestra, muestra.etiqueta, tipo_muestra, tipo_profundidad, muestreo.profundidad "
+                + "FROM metagenoma "
+                + "INNER JOIN muestra on muestra.idmuestra = metagenoma.idmuestra "
+                + "INNER JOIN muestreo on muestreo.idmuestreo = muestra.idmuestreo "
+                + "INNER JOIN tipo_muestra on tipo_muestra.idtipomuestra = muestreo.idtipomuestra "
+                + "WHERE idmetagenoma = " + idMetagenoma;
         conexion.executeStatement(query);
         return conexion.getTabla();
     }

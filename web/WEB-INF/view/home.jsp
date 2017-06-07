@@ -274,16 +274,16 @@
                                 <a href="matrices"><i class="fa fa-edit fa-fw"></i>MATRICES</a>
                             </li>
                             <li>
-                            <a href="#"><i class="fa fa-edit fa-fw"></i>Listas<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-edit fa-fw"></i>LISTAS<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="showLista">Amplicones</a>
+                                    <a href="showLista?idLista=1">Amplicones</a>
                                 </li>
                                 <li>
-                                    <a href="showLista">Metagenomas</a>
+                                    <a href="showLista?idLista=2">Metagenomas</a>
                                 </li>
                                 <li>
-                                    <a href="showLista">Genomas</a>
+                                    <a href="showLista?idLista=3">Genomas</a>
                                 </li>
                                 <li>
                                     <a href="showLista">Muestras</a>

@@ -84,7 +84,7 @@ public class KronaDAO {
         try {
             // BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\Alejandro\\Documents\\Projects\\pemex\\Amplicones\\kronas\\B8_FON_1\\krona.html"));
             //  BufferedReader reader = new BufferedReader(new FileReader("/home/glassfish/glassfish4/glassfish/domains/domain1/applications/CIGOMAPP/kronas/krona100.html"));
-            String dataPath = transacciones.getKronaPath(idKrona, ArchivoObj.TIPO_KRN, src);
+            String dataPath = transacciones.getKronaPath(idKrona, ArchivoObj.TIPO_KRN, src,"krona_p.html");
             if (dataPath.length() > 0) {
                 BufferedReader reader = new BufferedReader(new FileReader(dataPath));
                 StringBuilder kronaHTML = new StringBuilder();

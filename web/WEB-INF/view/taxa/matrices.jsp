@@ -503,7 +503,23 @@
                             <li>
                                 <a href="matrices"><i class="fa fa-edit fa-fw"></i>MATRICES</a>
                             </li>
-
+                            <li>
+                            <a href="#"><i class="fa fa-edit fa-fw"></i>LISTAS<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="showLista?idLista=1">Amplicones</a>
+                                </li>
+                                <li>
+                                    <a href="showLista?idLista=2">Metagenomas</a>
+                                </li>
+                                <li>
+                                    <a href="showLista?idLista=3">Genomas</a>
+                                </li>
+                                <li>
+                                    <a href="showLista">Muestras</a>
+                                </li>
+                            </ul>
+                            </li>                            
                             <li>
                                 <a href="CerrarSesion"><i class="fa fa-edit fa-fw"></i> SALIR</a>
                             </li>
@@ -874,9 +890,10 @@
                     </div>
                     <div class="row" style="padding:15px;">
                         <div class="panel-heading" style="background-color:#eee;">
-                            <b style="color:#d9534f;">Filtrar taxones</b> 
+                            <b style="color:#d9534f;">Filtrar taxones</b> <p class="fa fa-toggle-up" id="filtrar-taxones" style="cursor:pointer;"></p>
                         </div>
                         <br>
+                     <div class="col-lg-12" id="taxones-row">  
                         <div class="col-lg-6">
                             <div class="panel" style="border:none;">
                                 <label>Buscar Taxón:</label>
@@ -936,6 +953,7 @@
                             </div>                        
                         </div>
                     </div>
+                    </div>
 
                 </div>
             </div>
@@ -957,7 +975,26 @@
                         }
                     });
                 });
-            </script>   
+            </script>  
+            
+             <script>
+                $(document).ready(function () {
+                    var clic = 1;
+                    $("#filtrar-taxones").on("click", function () {
+                        if (clic == 1) {
+                            $('#taxones-row').hide(); //oculto
+                            $('#filtrar-taxones').removeClass('fa fa-toggle-up');//elimina clse del icono up
+                            $('#filtrar-taxones').addClass('fa fa-toggle-down');//agrega la clase del icono down
+                            clic = clic + 1;
+                        } else {
+                            $('#taxones-row').show(); //muestro
+                            $('#filtrar-taxones').removeClass('fa fa-toggle-down');//elimina clse del icono down
+                            $('#filtrar-taxones').addClass('fa fa-toggle-up');//agrega la clase del icono up
+                            clic = 1;
+                        }
+                    });
+                });
+            </script> 
 
     </body>
 </html>

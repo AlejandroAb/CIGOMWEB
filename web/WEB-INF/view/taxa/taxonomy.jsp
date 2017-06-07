@@ -304,7 +304,7 @@
                         </div>
                         <div class="col-lg-2">
                             <label>Datos</label>
-                            <span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, '', {position: 0});"></span>
+                            <span style="margin-right:5px; cursor:pointer;" class="glyphicon glyphicon-info-sign" class="tooltip" onmouseover="tooltip.pop(this, 'Seleccionar la fuente de los datos.<br>La opción amplicones busca taxones dentro de las asignaciones realizadas sobre librerías de genes marcadores (16S).<br>La opción Shotgun, buscará taxones sobre las predicciones taxonómicas realizadas en los metagenomas mediante espectro de kámeros (Kraken).', {position: 0});"></span>
                             <div class="panel panel-default">
                                 <div class="panel-body">
                                     <div class="form-group">

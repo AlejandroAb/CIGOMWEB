@@ -104,7 +104,7 @@
         <script>
             //var idKrona = <%//marcador.getIdMarcador();%>;
             function funcionKrona2(idKrona) {
-                $("#resultadokrona3").html("<frameset><iframe src='kronaAmp2?idkrona=" + idKrona + "' width=100%; height=500px; frameborder='0'> </iframe> </frameset>");
+                $("#resultadokrona3").html("<frameset><iframe src='showKrona?idkrona=" + idKrona + "&src=marcador' width=100%; height=500px; frameborder='0'> </iframe> </frameset>");
             }
         </script>
 
@@ -202,6 +202,23 @@
                             <li>
                                 <a href="matrices"><i class="fa fa-edit fa-fw"></i>MATRICES</a>
                             </li>
+                                        <li>
+                            <a href="#"><i class="fa fa-edit fa-fw"></i>LISTAS<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="showLista?idLista=1">Amplicones</a>
+                                </li>
+                                <li>
+                                    <a href="showLista?idLista=2">Metagenomas</a>
+                                </li>
+                                <li>
+                                    <a href="showLista?idLista=3">Genomas</a>
+                                </li>
+                                <li>
+                                    <a href="showLista">Muestras</a>
+                                </li>
+                            </ul>
+                            </li>               
                             <li>
                                 <a href="CerrarSesion"><i class="fa fa-edit fa-fw"></i> SALIR</a>
                             </li>
@@ -251,7 +268,7 @@
                                     </li>
                                     <li><a href="#archivos" id="boton" data-toggle="tab">Archivos</a>
                                     </li>
-                                    <li><a id="div-krona" href="#krona3" data-toggle="tab" onclick="funcionKrona2(<%//=metagenoma.getIdmetagenoma()%>)">Taxonomía</a>
+                                    <li><a id="div-krona" href="#krona3" data-toggle="tab" onclick="funcionKrona2(<%=marcador.getIdMarcador()%>)">Taxonomía</a>
                                     </li>
                                     <li><a href="#matriz" data-toggle="tab">Matriz</a>
                                     </li>                                    
@@ -454,7 +471,7 @@
                                                             </tr>   
                                                             <tr>
                                                                 <td style="padding:10px;"><b>RV Primer:</b></td>
-                                                                <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%= marcador.getPcr().getRv_primer() %></em></td>
+                                                                <td style="padding:10px; text-align:righ; color:#777; font-size:87%; word-wrap:break-word;"><em><%= marcador.getPcr().getRv_primer() %></em></td>
                                                             </tr> 
                                                             <tr>
                                                                 <td style="padding:10px;"><b>Referencia:</b></td>
@@ -887,7 +904,7 @@
                                             <div class="col-lg-1">
                                                 <br>
 
-                                                <button  class="fa fa-gear" onclick="buscaMatriz(<%//=marcador.getIdMarcador()%>)" > Generar</button>
+                                                <button  class="fa fa-gear" onclick="buscaMatriz(<%=marcador.getIdMarcador()%>, 'amplicon')" > Generar</button>
                                             </div>
                                         </div>
 
