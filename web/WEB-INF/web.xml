@@ -4,21 +4,22 @@
         <param-name>ipdb</param-name>
         <!--<param-value>localhost</param-value>-->
         <!--132.248.32.62-->
-        <param-value>localhost</param-value>
+        <param-value>132.248.32.18</param-value>
     </context-param>
     <context-param>
         <param-name>usuariodb</param-name>
-      <param-value>cigom_u</param-value>
-         <!--<param-value>cigom_u2</param-value> user remote-->
+        <!-- <param-value>cigom_u</param-value>-->
+        <param-value>cigom_u2</param-value>
     </context-param>
     <context-param>
         <param-name>dbname</param-name>
-        <param-value>cigomdb</param-value>        
+        <param-value>cigomdb</param-value>
     </context-param>
     <context-param>
         <param-name>password</param-name>
-        <param-value>CigomWeb2016</param-value>         
-        <!--  <param-value>CigomDB17</param-value>-->
+        <!--<param-value>CigomWeb2016</param-value>-->
+        <!--<param-value>CigomWeb2017Remote</param-value>-->
+        <param-value>CigomDB17</param-value>
     </context-param>
     <context-param>
         <description>
@@ -54,9 +55,9 @@
         <param-value>/data/blast/ncbi-blast-2.5.0+/bin/blastp</param-value>
     </context-param>
     <context-param>
-        <param-name>scriptDir</param-name>        
-       <!-- <param-value>C:/Users/Alejandro/Documents/Projects/pemex/R/web/</param-value>-->
-         <param-value>/data/R/</param-value>
+        <param-name>scriptDir</param-name>
+        <!-- <param-value>C:/Users/Alejandro/Documents/Projects/pemex/R/web/</param-value>-->
+        <param-value>/data/R/</param-value>
     </context-param>
     <context-param>
         <param-name>execR</param-name>
@@ -121,6 +122,10 @@
     <servlet>
         <servlet-name>KronaController</servlet-name>
         <servlet-class>controller.KronaController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListasController</servlet-name>
+        <servlet-class>controller.ListasController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>SequenceController</servlet-name>
@@ -192,9 +197,15 @@
         <servlet-name>KronaController</servlet-name>
         <url-pattern>/showKrona</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListasController</servlet-name>
+        <url-pattern>/ListasController</url-pattern>
+        <url-pattern>/showLista</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
 </web-app>
+

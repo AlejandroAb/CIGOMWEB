@@ -23,11 +23,12 @@ public class ListaDAO {
     public ArrayList<ArrayList> getLista(String lista, String where) {
         ArrayList<ArrayList> datos = null;
         if (lista.equals("1")) {
-            datos = transacciones.getListaMetagenomas(where);
-        } else if (lista.equals("2")) {
-            datos = transacciones.getListaGenomas(where);
-        } else if (lista.equals("3")) {
             datos = transacciones.getListaMarcadores(where);
+        } else if (lista.equals("2")) {
+            datos = transacciones.getListaMetagenomas(where);
+        } else if (lista.equals("3")) {
+            
+            datos = transacciones.getListaGenomas(where);
         }
         return datos;
 

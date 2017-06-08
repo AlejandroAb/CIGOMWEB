@@ -943,7 +943,7 @@ public class Transacciones {
      */
     public ArrayList getListaMetagenomas(String where) {
         String query = "SELECT CONCAT('showMetagenoma?idMetagenoma=',idmetagenoma), meta_name, c.nombre, e.idestacion, e.estacion_nombre,mu.etiqueta,"
-                + "m.idmuestra, m.etiqueta, mu.profundidad "
+                + "CONCAT('showMuestra?idMuestra=',m.idmuestra), m.etiqueta, mu.profundidad "
                 + "FROM metagenoma "
                 + "INNER JOIN muestra AS m ON m.idmuestra = metagenoma.idmuestra "
                 + "INNER JOIN muestreo AS mu ON mu.idmuestreo = m.idmuestreo "
@@ -955,8 +955,8 @@ public class Transacciones {
     }
 
     public ArrayList getListaGenomas(String where) {
-        String query = " SELECT CONCAT('shoGenoma?idGenoma=',idgenoma), genome_name, c.nombre, e.idestacion, e.estacion_nombre,mu.etiqueta,"
-                + "m.idmuestra, m.etiqueta, mu.profundidad FROM genoma "
+        String query = " SELECT CONCAT('showGenoma?idGenoma=',idgenoma), genome_name, c.nombre, e.idestacion, e.estacion_nombre,mu.etiqueta,"
+                + "CONCAT('showMuestra?idMuestra=',m.idmuestra), m.etiqueta, mu.profundidad FROM genoma "
                 + "INNER JOIN muestra AS m ON m.idmuestra = genoma.idmuestra "
                 + "INNER JOIN muestreo AS mu ON mu.idmuestreo = m.idmuestreo "
                 + "INNER JOIN estacion AS e ON e.idestacion = mu.idestacion "
@@ -968,9 +968,9 @@ public class Transacciones {
 
     public ArrayList getListaMarcadores(String where) {
         String query = "SELECT CONCAT('showMarcador?idMarcador=',idmarcador), marc_name, c.nombre, e.idestacion, e.estacion_nombre,"
-                + "mu.etiqueta,m.idmuestra, m.etiqueta, mu.profundidad "
-                + "FROM marcador"
-                + "INNER JOIN muestra AS m ON m.idmuestra = genoma.idmuestra "
+                + "mu.etiqueta,CONCAT('showMuestra?idMuestra=',m.idmuestra), m.etiqueta, mu.profundidad "
+                + "FROM marcador "
+                + "INNER JOIN muestra AS m ON m.idmuestra = marcador.idmuestra "
                 + "INNER JOIN muestreo AS mu ON mu.idmuestreo = m.idmuestreo "
                 + "INNER JOIN estacion AS e ON e.idestacion = mu.idestacion "
                 + "INNER JOIN campana AS c ON c.idcampana = mu.idcampana "

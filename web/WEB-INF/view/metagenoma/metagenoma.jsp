@@ -202,6 +202,23 @@
                                 <a href="matrices"><i class="fa fa-edit fa-fw"></i>MATRICES</a>
                             </li>
                             <li>
+                            <a href="#"><i class="fa fa-edit fa-fw"></i>LISTAS<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="showLista?idLista=1">Amplicones</a>
+                                </li>
+                                <li>
+                                    <a href="showLista?idLista=2">Metagenomas</a>
+                                </li>
+                                <li>
+                                    <a href="showLista?idLista=3">Genomas</a>
+                                </li>
+                                <li>
+                                    <a href="showLista">Muestras</a>
+                                </li>
+                            </ul>
+                            </li>                            
+                            <li>
                                 <a href="CerrarSesion"><i class="fa fa-edit fa-fw"></i> SALIR</a>
                             </li>
                         </ul>
@@ -251,12 +268,12 @@
                                     </li>
                                     <li><a href="#archivos" id="boton" data-toggle="tab">Archivos</a>
                                     </li>
-                                    <li><a id="div-krona" href="#krona3" data-toggle="tab" onclick="funcionKrona2(<%=metagenoma.getIdmetagenoma()%>)">Taxonomía</a>
+                                   <!-- <li><a id="div-krona" href="#krona3" data-toggle="tab" onclick="funcionKrona2(<%//=metagenoma.getIdmetagenoma()%>)">Taxonomía</a>
                                     </li>
                                     <li><a href="#matriz" data-toggle="tab">Matriz</a>
                                     </li>    
                                     <li><a href="#prediccion" data-toggle="tab">Predición Funcional</a>
-                                    </li>                                    
+                                    </li> -->                                   
                                 </ul>
 
 
@@ -435,7 +452,7 @@
                                                                 </tr>   
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Metodología:</b></td>
-                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%; word-wrap:break-word;"><em><%= metagenoma.getClean_up_method() %></em></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%; word-wrap:break-word;"><em><%= metagenoma.getClean_up_method() %></em></td>
                                                                 </tr> 
                                                             </tbody>
                                                             <%}%>
@@ -459,35 +476,31 @@
                                                            <tbody>
                                                                 <tr style="border-top:none;">
                                                                     <td style="padding:10px;"><b>Fuente:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><%= metagenoma.getLibreria().getFuente() %></td>         
-                                                                 </tr>
-                                                                 <tr>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= metagenoma.getLibreria().getFuente()%></td>         
                                                                     <td style="padding:10px;"><b>Tipo de secuenciación:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><%= metagenoma.getTipoSecuenciacion() %> - <%= metagenoma.getDescTipoSecuenciacion() %></td> 
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= metagenoma.getTipoSecuenciacion()%> - <%= metagenoma.getDescTipoSecuenciacion()%></td> 
                                                                 </tr>                                                               
                                                                 <tr style="border-top:none;">         
                                                                     <td style="padding:10px;"><b>Selección de la librería:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><%= metagenoma.getLibreria().getSeleccion() %> </td> 
-                                                                 </tr>
-                                                                 <tr>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= metagenoma.getLibreria().getSeleccion()%></td> 
                                                                     <td style="padding:10px;"><b>Configuración de la librería:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><%= metagenoma.getLibreria().getLayout() %></td> 
-                                                               
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= metagenoma.getLibreria().getLayout()%></td> 
+
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Secuenciador:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><%=metagenoma.getEquipoSecuenciacion() %></td>         
-                                                                 </tr>
-                                                                 <tr>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%=metagenoma.getEquipoSecuenciacion()%></td>         
                                                                     <td style="padding:10px;"><b>Centro de secuenciación:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><%= metagenoma.getCentro_secuenciacion() %></td>         
-                                                                                                                                
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><%= metagenoma.getCentro_secuenciacion()%></td>         
+
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Preparación de la libreria:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><%= metagenoma.getLibreria().getMetodo() %></td>
+                                                                    <td style="padding:10px; text-align:left; color:#777; font-size:87%;" colspan="3"><%= metagenoma.getLibreria().getMetodo()%></td>
+                                                                    <td></td>
+                                                                    <td></td>
                                                                 </tr>
-                                                            </tbody> 
+                                                            </tbody>  
                                                             <%
                                                                 }
                                                             %>
