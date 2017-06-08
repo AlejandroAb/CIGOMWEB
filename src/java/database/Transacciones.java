@@ -547,19 +547,33 @@ public class Transacciones {
      * @param valueRank el valor del rango, ejemplo pseudomonas
      * @return los diferentes tax_ids para esa búsqueda.
      */
-    public ArrayList getTaxonesByTaxonMarcador(String idMarcador, String rank, String valueRank) {
+    public ArrayList getTaxonesByTaxonMarcador(String idMarcador, String rank, String valueRank, String idanalisis) {
         String query = "SELECT DISTINCT taxon.tax_id, rank, taxon FROM taxon "
                 + "INNER JOIN conteos ON conteos.tax_id = taxon.tax_id "
                 + "WHERE idmarcador = " + idMarcador + " AND "
-                + rank + "= '" + valueRank + "'";
+                + rank + "= '" + valueRank + "' "
+                + "AND idanalisis_clasificacion = " + idanalisis;
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
 
-    public ArrayList getSecuenciasByTaxIdsAndMarcador(String taxIDS, String idMarcador) {
-        String query = "SELECT tax_id, seq_marcador.idseq_marcador, identity, score, seq "
+    /**
+     * Este método se encarga de construir un query para traer las secuencias de
+     * marcadores dada un lista de taxones
+     *
+     * @param taxIDS lista de tax_ids separada por coma
+     * @param idMarcador los marcadores sobre los que se busca
+     * @param parallel dependiendo del tipo de analisis busca en laa tabla
+     * seq_marcador_classif o seq_marcador_classif_parallel. Si la intención es
+     * servir las secuencias basadaas en la predicción de parallel, se espera
+     * que ese string venga con el valor '_parallel'. Caso contrario tendrá que
+     * venir en blanco
+     * @return
+     */
+    public ArrayList getSecuenciasByTaxIdsAndMarcador(String taxIDS, String idMarcador, String parallel) {
+        String query = "SELECT tax_id, seq_marcador.idseq_marcador, identity, score, seq, eval "
                 + "FROM seq_marcador "
-                + "INNER JOIN seq_marcador_classif ON seq_marcador_classif.idseq_marcador = seq_marcador.idseq_marcador "
+                + "INNER JOIN seq_marcador_classif" + parallel + " ON seq_marcador_classif" + parallel + ".idseq_marcador = seq_marcador.idseq_marcador "
                 + "WHERE tax_id IN (" + taxIDS + ") AND idmarcador = " + idMarcador;
         conexion.executeStatement(query);
         return conexion.getTabla();

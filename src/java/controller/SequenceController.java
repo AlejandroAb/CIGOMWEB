@@ -145,7 +145,9 @@ public class SequenceController extends HttpServlet {
                 String valueRank = request.getParameter("valueRank");
                 String ids = request.getParameter("ids");
                 SequenceFileCreator sfc = new SequenceFileCreator(transacciones);
-                String file = sfc.generaTaxoFileSequence(rank, valueRank, ids);
+                //TODO: ID HC a parallel-meta hacer una variable de sistema o en el path 
+                String idanalisis = "2";
+                String file = sfc.generaTaxoFileSequence(rank, valueRank, ids,idanalisis);
                 response.setContentType("text/fasta");
                 response.setHeader("Content-Disposition", "attachment; filename=\"Secuencias_" + valueRank.replaceAll(" ", "_") + ".fasta\"");
                 OutputStream outputStream = response.getOutputStream();
