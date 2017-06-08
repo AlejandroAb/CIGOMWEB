@@ -237,7 +237,7 @@
                                     <a href="showLista?idLista=3">Genomas</a>
                                 </li>
                                 <li>
-                                    <a href="showLista">Muestras</a>
+                                    <a href="#">Muestras</a>
                                 </li>
                             </ul>
                             </li>                            
@@ -486,11 +486,11 @@
                                 </div>                                                          
                                 <!-- /.row (nested) -->
                                            
-                                           <div class="col-lg-12">
+                                          <!-- <div class="col-lg-12">
                                            <p class="fa fa-plus-circle" id="masOpciones"> Opciones Avanzadas</p>
-                                           </div>
+                                           </div>-->
                                             <!--div opciones avanzadas-->
-                                            <div class="col-lg-12" id="opcionesAvanzadas" style="display:none;">
+                                          <!--  <div class="col-lg-12" id="opcionesAvanzadas" style="display:none;">
                                             <div class="form-group">
                                             <label>Max target sequences</label>
                                             <select class="form-control">
@@ -508,7 +508,7 @@
                                             <label>Expect threshold</label>
                                             <input class="form-control">
                                         </div>   
-                                            </div> 
+                                            </div> -->
                                             <div class="col-lg-1">
                                                 <button type="reset" class="btn btn-default">Limpiar</button>
                                             </div>

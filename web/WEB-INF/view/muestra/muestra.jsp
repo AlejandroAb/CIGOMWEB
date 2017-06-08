@@ -160,10 +160,10 @@
                                     <a href="showLista?idLista=3">Genomas</a>
                                 </li>
                                 <li>
-                                    <a href="showLista">Muestras</a>
+                                    <a href="#">Muestras</a>
                                 </li>
                             </ul>
-                            </li>                            
+                            </li>                             
                             <li>
                                 <a href="CerrarSesion"><i class="fa fa-edit fa-fw"></i> SALIR</a>
                             </li>

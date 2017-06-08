@@ -669,7 +669,14 @@ public class Transacciones {
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
-
+    public ArrayList getGenGo(String idGen) {
+        String query = "SELECT go.id_GO, go.go_name, go.namespace, go.url ,go.definition "
+                + " FROM gontology AS go "
+                + " INNER JOIN gen_go on gen_go.id_GO = go.id_GO  "
+                + " WHERE gen_go.gen_id ='" + idGen + "'";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
     public ArrayList getGenMetagenoma(String idGen) {
         String query = "SELECT gen_id, gen_type, contig_id, contig_gen_id, gen_strand, gen_src, m.idmetagenoma, m.meta_name, gen_length, contig_from, contig_to, muestra.idmuestra, muestra.etiqueta, muestra.profundidad, tt.tipo_muestra "
                 + "FROM gen INNER JOIN metagenoma AS m "
@@ -748,7 +755,7 @@ public class Transacciones {
         String query = " SELECT mu.idmuestra, mu.etiqueta, tt.tipo_muestra, muestreo.profundidad, meta_name, meta_desc, "
                 + "medio_cultivo, procesamiento, analisis, latitud_r, longitud_r ,ts.nombre, ts.descripcion, CONCAT(marca, ' ', modelo), "
                 + "cs.nombre_centro, cantidad_dna, clean_up_kit, clean_up_method, metagenoma.comentarios, idstats, idensamble,idlibreria, cite, "
-                + "gen_num_total, esTranscriptoma, condicion_trans "
+                + "gen_num_total, esTranscriptoma, condicion_trans, estacion_nombre "
                 + "FROM metagenoma INNER JOIN tipo_secuenciacion AS ts ON ts.idtipo_secuenciacion = metagenoma.idtipo_secuenciacion "
                 + "INNER JOIN secuenciador ON secuenciador.idSecuenciador = metagenoma.idSecuenciador "
                 + "INNER JOIN muestra AS mu ON mu.idmuestra = metagenoma.idmuestra "

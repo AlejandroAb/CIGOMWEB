@@ -87,6 +87,7 @@ public class MetagenomaDAO {
             metagenoma.setClean_up_kit(meta.get(16));
             metagenoma.setClean_up_method(meta.get(17));            
             metagenoma.setComentarios(meta.get(18));
+            metagenoma.setEstacion(meta.get(26));
             int stats;
             try {
                 stats = Integer.parseInt(meta.get(19));                
