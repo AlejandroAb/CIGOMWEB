@@ -971,6 +971,19 @@ public class Transacciones {
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
+    
+        public ArrayList getListaMuestra(String where) {
+        String query = "SELECT m.idmuestra, m.etiqueta, c.nombre, estacion_nombre as e, mu.etiqueta, fecha_i, mu.profundidad, count(idmarcador), count(idmetagenoma), COUNT(idgenoma) "
+                + " FROM muestreo as mu INNER JOIN muestra AS m ON m.idmuestreo = mu.idmuestreo "
+                + " INNER JOIN estacion ON estacion.idestacion = mu.idestacion "
+                + " INNER JOIN campana AS c ON c.idcampana = mu.idcampana "
+                + " LEFT JOIN marcador ON marcador.idmuestra = m.idmuestra  "
+                + " LEFT JOIN metagenoma ON metagenoma.idmuestra = m.idmuestra "
+                + " LEFT JOIN genoma ON genoma.idmuestra = m.idmuestra "
+                + " GROUP BY m.idmuestra ";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }  
 
     public ArrayList getEnsambleByID(String idEnsamble) {
         String query = "SELECT ensamblador, comentarios, contigs, contig_lon, contig_avg, n5090, lecturas_mapeadas "
