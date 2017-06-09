@@ -41,9 +41,34 @@ public class GenObj {
     SecuenciaObj sec3P;// = new SecuenciaObj(genID,"3p"); 
     SecuenciaObj secAA;// = new SecuenciaObj(genID,"aa");
     SecuenciaObj secNC;//= new SecuenciaObj(genID,"nc");
-
+    SwissProtObj blastP;
+    SwissProtObj blastX;
     public ArrayList<GOObj> getGo() {
         return go;
+    }
+
+    public ArrayList<DBProperty> getProps() {
+        return props;
+    }
+
+    public void setProps(ArrayList<DBProperty> props) {
+        this.props = props;
+    }
+
+    public SwissProtObj getBlastP() {
+        return blastP;
+    }
+
+    public void setBlastP(SwissProtObj blastP) {
+        this.blastP = blastP;
+    }
+
+    public SwissProtObj getBlastX() {
+        return blastX;
+    }
+
+    public void setBlastX(SwissProtObj blastX) {
+        this.blastX = blastX;
     }
 
     public void setGo(ArrayList<GOObj> go) {

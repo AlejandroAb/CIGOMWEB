@@ -691,6 +691,16 @@ public class Transacciones {
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
+      public ArrayList getGenSwissProtByIDMethod(String idGen, String method) {
+        String query = " SELECT gs.uniprot_id, uniprot_acc, prot_name, gene_name, eval, identity, "
+                + "query, ncbi_tax_id, taxon FROM gen_swiss_prot as gs "
+                + "inner join swiss_prot as s on gs.uniprot_id = s.uniprot_id "
+                + "inner join taxon on taxon.tax_id = s.ncbi_tax_id "
+                + "where gen_id = '"+idGen+"' AND prediction_method = '"+ method+ "'";
+                
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
     public ArrayList getGenMetagenoma(String idGen) {
         String query = "SELECT gen_id, gen_type, contig_id, contig_gen_id, gen_strand, gen_src, m.idmetagenoma, m.meta_name, gen_length, contig_from, contig_to, muestra.idmuestra, muestra.etiqueta, muestra.profundidad, tt.tipo_muestra "
                 + "FROM gen INNER JOIN metagenoma AS m "

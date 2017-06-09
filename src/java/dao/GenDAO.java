@@ -10,6 +10,7 @@ import bobjects.GOObj;
 import bobjects.GenObj;
 import bobjects.GenSeqObj;
 import bobjects.PFAMObj;
+import bobjects.SwissProtObj;
 import bobjects.SecuenciaObj;
 import database.Transacciones;
 import java.util.ArrayList;
@@ -149,22 +150,53 @@ public class GenDAO {
             }
 
         }
-        
-      ArrayList<ArrayList> genGOAL = transacciones.getGenGo(idGen);
+
+        ArrayList<ArrayList> genGOAL = transacciones.getGenGo(idGen);
 
         if (genGOAL != null && genGOAL.size() > 0) {
             for (ArrayList<String> gG : genGOAL) {
-            GOObj gGO = new GOObj(gG.get(0));
-            
-            gGO.setId_GO(gG.get(0));
-            gGO.setGo_name(gG.get(1));
-            gGO.setNamespace(gG.get(2));
-            gGO.setUrl(gG.get(3));
-            gGO.setDefinition(gG.get(4));
-            
-            gen.addGenGo(gGO);
-            
+                GOObj gGO = new GOObj(gG.get(0));
+
+                gGO.setId_GO(gG.get(0));
+                gGO.setGo_name(gG.get(1));
+                gGO.setNamespace(gG.get(2));
+                gGO.setUrl(gG.get(3));
+                gGO.setDefinition(gG.get(4));
+
+                gen.addGenGo(gGO);
+
             }
+        }
+
+        ArrayList<ArrayList<String>> bX = transacciones.getGenSwissProtByIDMethod(idGen, "BLASTX");
+        if (bX != null && bX.size() > 0) {
+            SwissProtObj blastX = new SwissProtObj(idGen);
+            blastX.setUniprotID(bX.get(0).get(0));
+            blastX.setUniprotACC(bX.get(0).get(0));
+            blastX.setProtName(bX.get(0).get(0));
+            blastX.setGenName(bX.get(0).get(0));
+            blastX.setEval(bX.get(0).get(0));
+            blastX.setIdentidad(bX.get(0).get(0));
+            blastX.setQuery(bX.get(0).get(0));
+            blastX.setTaxID(bX.get(0).get(0));
+            blastX.setTaxon(bX.get(0).get(0));
+            gen.setBlastX(blastX);
+
+        }
+        ArrayList<ArrayList<String>> bP = transacciones.getGenSwissProtByIDMethod(idGen, "BLASTP");
+        if (bP != null && bP.size() > 0) {
+            SwissProtObj blastP = new SwissProtObj(idGen);
+            blastP.setUniprotID(bP.get(0).get(0));
+            blastP.setUniprotACC(bP.get(0).get(0));
+            blastP.setProtName(bP.get(0).get(0));
+            blastP.setGenName(bP.get(0).get(0));
+            blastP.setEval(bP.get(0).get(0));
+            blastP.setIdentidad(bP.get(0).get(0));
+            blastP.setQuery(bP.get(0).get(0));
+            blastP.setTaxID(bP.get(0).get(0));
+            blastP.setTaxon(bP.get(0).get(0));
+            gen.setBlastP(blastP);
+
         }
         return gen;
     }

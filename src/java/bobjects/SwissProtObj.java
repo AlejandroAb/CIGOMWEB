@@ -20,8 +20,75 @@ public class SwissProtObj {
     private String clusterId = "";
     private String clusterName = "";
     private String clusterTax = "";
+    private String gen_id = "";
+    private String identidad = "";
+    private String genName = "";
+    private String protName = "";
+    private String eval = "";
+    private String query = "";
+    private String taxon="";
 
+    public String getTaxon() {
+        return taxon;
+    }
+
+    public void setTaxon(String taxon) {
+        this.taxon = taxon;
+    }
+    
     public SwissProtObj() {
+    }
+
+    public String getQuery() {
+        return query;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
+    }
+
+    public SwissProtObj(String gen_id) {
+        this.gen_id = gen_id;
+    }
+
+    public String getGen_id() {
+        return gen_id;
+    }
+
+    public void setGen_id(String gen_id) {
+        this.gen_id = gen_id;
+    }
+
+    public String getIdentidad() {
+        return identidad;
+    }
+
+    public void setIdentidad(String identidad) {
+        this.identidad = identidad;
+    }
+
+    public String getGenName() {
+        return genName;
+    }
+
+    public void setGenName(String genName) {
+        this.genName = genName;
+    }
+
+    public String getProtName() {
+        return protName;
+    }
+
+    public void setProtName(String protName) {
+        this.protName = protName;
+    }
+
+    public String getEval() {
+        return eval;
+    }
+
+    public void setEval(String eval) {
+        this.eval = eval;
     }
 
     public SwissProtObj(String uniprotID) {
