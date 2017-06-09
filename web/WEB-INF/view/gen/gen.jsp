@@ -3,6 +3,7 @@
     Created on : 5/05/2017, 10:41:51 AM
     Author     : Jose Pefi
 --%>
+<%@page import="bobjects.GOObj"%>
 <%@page import="bobjects.PFAMObj"%>
 <%@page import="bobjects.Eggnog"%>
 <%@page import="bobjects.GenObj"%>
@@ -130,6 +131,23 @@
                             <li>
                                 <a href="matrices"><i class="fa fa-edit fa-fw"></i>MATRICES</a>
                             </li>
+                            <li>
+                            <a href="#"><i class="fa fa-edit fa-fw"></i>LISTAS<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="showLista?idLista=1">Amplicones</a>
+                                </li>
+                                <li>
+                                    <a href="showLista?idLista=2">Metagenomas</a>
+                                </li>
+                                <li>
+                                    <a href="showLista?idLista=3">Genomas</a>
+                                </li>
+                                <li>
+                                    <a href="showLista?idLista=4">Muestras</a>
+                                </li>
+                            </ul>
+                            </li>                            
                             <li>
                                 <a href="CerrarSesion"><i class="fa fa-edit fa-fw"></i> SALIR</a>
                             </li>
@@ -525,26 +543,27 @@
                                                                 <tr>
                                                                     <th>GO</th>
                                                                     <th>Name Space</th>
+                                                                    <th>Name</th>
                                                                     <th>Definición</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody id="tgenomas">
                                                                 <%
-                                                                    /* if (gen != null) {
+                                                                     if (gen != null) {
 
-                                                                        for (PFAMObj pfam : gen.getPfam()) {*/
+                                                                        for (GOObj go : gen.getGo()) {
                                                                 %>   
 
-                                                                <tr style="text-align: center;" >
-                                                                    <td><%//= pfam.getAcc() %></td>
-                                                                    <td><%//= pfam.getClan() %></td>
-                                                                    <td><%//= pfam.getId_pfam() %></td>
-                                                                    
+                                                                <tr style="text-align: justify;" >
+                                                                    <td><a href="<%= go.getUrl() %>" target="_blank"><%= go.getUrl() %></a> </td>
+                                                                    <td><%= go.getNamespace() %></td>
+                                                                    <td><%= go.getGo_name() %></td>
+                                                                    <td><%= go.getDefinition() %></td>
                                                                 </tr>
 
                                                                 <%
-                                                                     //   }
-                                                                    //}
+                                                                      }
+                                                                    }
                                                                 %>
                                                             </tbody>
                                                         </table>

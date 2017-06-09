@@ -202,7 +202,7 @@
                             <li>
                                 <a href="matrices"><i class="fa fa-edit fa-fw"></i>MATRICES</a>
                             </li>
-                                        <li>
+                            <li>
                             <a href="#"><i class="fa fa-edit fa-fw"></i>LISTAS<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
@@ -215,7 +215,7 @@
                                     <a href="showLista?idLista=3">Genomas</a>
                                 </li>
                                 <li>
-                                    <a href="showLista">Muestras</a>
+                                    <a href="showLista?idLista=4">Muestras</a>
                                 </li>
                             </ul>
                             </li>               
@@ -471,7 +471,7 @@
                                                             </tr>   
                                                             <tr>
                                                                 <td style="padding:10px;"><b>RV Primer:</b></td>
-                                                                <td style="padding:10px; text-align:righ; color:#777; font-size:87%; word-wrap:break-word;"><em><%= marcador.getPcr().getRv_primer() %></em></td>
+                                                                <td style="padding:10px; text-align:right; color:#777; font-size:87%; word-wrap:break-word;"><em><%= marcador.getPcr().getRv_primer() %></em></td>
                                                             </tr> 
                                                             <tr>
                                                                 <td style="padding:10px;"><b>Referencia:</b></td>

@@ -66,9 +66,9 @@
                 $('#tabla-listas').DataTable({
                     responsive: true,
                     pageLength: 10
-                    //order: [[2, "desc"]]
                 });
-            });</script> 
+            });
+        </script> 
         <title>Listas</title>
     </head>
     <body>
@@ -136,10 +136,10 @@
                                     <a href="showLista?idLista=3">Genomas</a>
                                 </li>
                                 <li>
-                                    <a href="showLista">Muestras</a>
+                                    <a href="showLista?idLista=4">Muestras</a>
                                 </li>
                             </ul>
-                            </li>
+                            </li> 
                             <li>
                                 <a href="CerrarSesion"><i class="fa fa-edit fa-fw"></i> SALIR</a>
                             </li>
@@ -175,16 +175,14 @@
                             <div class="panel-body">
                                              <div class="col-lg-12">
                                             <div class="panel panel-default">
-                                                <div class="panel-heading">
+                                                
                                                     <%
-                                                        if (request.getAttribute("titulo") != null) {
+                                                        if (request.getAttribute("titulo") != null && request.getAttribute("titulo") != "Muestras") {
                                                     %>
+                                                    <div class="panel-heading">
                                                     <center><b style="color:#d9534f;"><%= request.getAttribute("titulo")%></b></center>
-                                                <%
-                                                    }
-                                                %>
-                                                </div>
-                                                <!-- /.panel-heading -->
+                                                    </div>
+                                                                                                    <!-- /.panel-heading -->
                                                 <div class="panel-body">
                                                    
                                                     <div class="dataTable_wrapper">
@@ -228,6 +226,67 @@
                                                         </table>
                                                     </div>
                                                 </div>
+                                                <%
+                                                    }
+                                                else{
+                                                %>
+                                                    <div class="panel-heading">
+                                                    <center><b style="color:#d9534f;"><%= request.getAttribute("titulo")%></b></center>
+                                                    </div>
+                                                <!-- /.panel-heading -->
+                                                <div class="panel-body">
+                                                   
+                                                    <div class="dataTable_wrapper">
+                                                        <table width="100%" class="table table-striped table-bordered table-hover" id="tabla-listas">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Muestra</th>
+                                                                    <th>Campaña</th>
+                                                                    <th>Estación</th>
+                                                                    <th>Colecta</th>
+                                                                    <th>Fecha</th>
+                                                                    <th>Profundidad</th>
+                                                                    <th>Amplicones</th>
+                                                                    <th>Metagenomas</th>
+                                                                    <th>Genomas</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody >
+                                                                <%
+                                                                 ArrayList<ArrayList> listas = null;
+                                                                    Object listasObj = request.getAttribute("listas");
+
+                                                                    if (listasObj != null) {
+                                                                        listas = (ArrayList<ArrayList>) listasObj;
+                                                                    }
+                                                                    if (listas != null) {
+                                                                        for (int li = 0; li < listas.size(); li++) {
+                                                                  
+                                                                %> 
+                                                                <tr style="text-align: left;" class="meta">
+                                                                    <td><a href="showMuestra?idMuestra=<%= listas.get(li).get(0) %>" target="_blank"><%= listas.get(li).get(1)%></a></td>
+                                                                    <td><%= listas.get(li).get(2) %></td>
+                                                                    <td><%= listas.get(li).get(3) %></td>
+                                                                    <td><%= listas.get(li).get(4) %></td>
+                                                                    <td><%= listas.get(li).get(5) %></td>
+                                                                    <td><%= listas.get(li).get(6) %></td>
+                                                                    <td><%= listas.get(li).get(7) %></td>
+                                                                    <td><%= listas.get(li).get(8) %></td>
+                                                                    <td><%= listas.get(li).get(9) %></td>
+                                                                </tr>
+                                                                <%
+                                                                       }
+                                                                   }
+                                                                %>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>                                                    
+                                                 <%   
+                                                   }
+                                                %>
+                                                
                                                 <!-- /.panel-body -->
                                             </div>
 

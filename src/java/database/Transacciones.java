@@ -683,7 +683,14 @@ public class Transacciones {
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
-
+    public ArrayList getGenGo(String idGen) {
+        String query = "SELECT go.id_GO, go.go_name, go.namespace, go.url ,go.definition "
+                + " FROM gontology AS go "
+                + " INNER JOIN gen_go on gen_go.id_GO = go.id_GO  "
+                + " WHERE gen_go.gen_id ='" + idGen + "'";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }
     public ArrayList getGenMetagenoma(String idGen) {
         String query = "SELECT gen_id, gen_type, contig_id, contig_gen_id, gen_strand, gen_src, m.idmetagenoma, m.meta_name, gen_length, contig_from, contig_to, muestra.idmuestra, muestra.etiqueta, muestra.profundidad, tt.tipo_muestra "
                 + "FROM gen INNER JOIN metagenoma AS m "
@@ -762,7 +769,7 @@ public class Transacciones {
         String query = " SELECT mu.idmuestra, mu.etiqueta, tt.tipo_muestra, muestreo.profundidad, meta_name, meta_desc, "
                 + "medio_cultivo, procesamiento, analisis, latitud_r, longitud_r ,ts.nombre, ts.descripcion, CONCAT(marca, ' ', modelo), "
                 + "cs.nombre_centro, cantidad_dna, clean_up_kit, clean_up_method, metagenoma.comentarios, idstats, idensamble,idlibreria, cite, "
-                + "gen_num_total, esTranscriptoma, condicion_trans "
+                + "gen_num_total, esTranscriptoma, condicion_trans, estacion_nombre "
                 + "FROM metagenoma INNER JOIN tipo_secuenciacion AS ts ON ts.idtipo_secuenciacion = metagenoma.idtipo_secuenciacion "
                 + "INNER JOIN secuenciador ON secuenciador.idSecuenciador = metagenoma.idSecuenciador "
                 + "INNER JOIN muestra AS mu ON mu.idmuestra = metagenoma.idmuestra "
@@ -978,6 +985,19 @@ public class Transacciones {
         conexion.executeStatement(query);
         return conexion.getTabla();
     }
+    
+        public ArrayList getListaMuestra(String where) {
+        String query = "SELECT m.idmuestra, m.etiqueta, c.nombre, estacion_nombre as e, mu.etiqueta, fecha_i, mu.profundidad, count(idmarcador), count(idmetagenoma), COUNT(idgenoma) "
+                + " FROM muestreo as mu INNER JOIN muestra AS m ON m.idmuestreo = mu.idmuestreo "
+                + " INNER JOIN estacion ON estacion.idestacion = mu.idestacion "
+                + " INNER JOIN campana AS c ON c.idcampana = mu.idcampana "
+                + " LEFT JOIN marcador ON marcador.idmuestra = m.idmuestra  "
+                + " LEFT JOIN metagenoma ON metagenoma.idmuestra = m.idmuestra "
+                + " LEFT JOIN genoma ON genoma.idmuestra = m.idmuestra "
+                + " GROUP BY m.idmuestra ";
+        conexion.executeStatement(query);
+        return conexion.getTabla();
+    }  
 
     public ArrayList getEnsambleByID(String idEnsamble) {
         String query = "SELECT ensamblador, comentarios, contigs, contig_lon, contig_avg, n5090, lecturas_mapeadas "

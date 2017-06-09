@@ -29,6 +29,8 @@ public class ListaDAO {
         } else if (lista.equals("3")) {
             
             datos = transacciones.getListaGenomas(where);
+        }else if(lista.equals("4")){
+            datos = transacciones.getListaMuestra(where);
         }
         return datos;
 

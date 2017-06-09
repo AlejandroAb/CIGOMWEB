@@ -211,7 +211,7 @@
                                     <a href="showLista?idLista=3">Genomas</a>
                                 </li>
                                 <li>
-                                    <a href="showLista">Muestras</a>
+                                    <a href="showLista?idLista=4">Muestras</a>
                                 </li>
                             </ul>
                             </li>                            

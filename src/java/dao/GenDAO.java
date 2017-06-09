@@ -6,6 +6,7 @@
 package dao;
 
 import bobjects.Eggnog;
+import bobjects.GOObj;
 import bobjects.GenObj;
 import bobjects.GenSeqObj;
 import bobjects.PFAMObj;
@@ -148,7 +149,23 @@ public class GenDAO {
             }
 
         }
+        
+      ArrayList<ArrayList> genGOAL = transacciones.getGenGo(idGen);
 
+        if (genGOAL != null && genGOAL.size() > 0) {
+            for (ArrayList<String> gG : genGOAL) {
+            GOObj gGO = new GOObj(gG.get(0));
+            
+            gGO.setId_GO(gG.get(0));
+            gGO.setGo_name(gG.get(1));
+            gGO.setNamespace(gG.get(2));
+            gGO.setUrl(gG.get(3));
+            gGO.setDefinition(gG.get(4));
+            
+            gen.addGenGo(gGO);
+            
+            }
+        }
         return gen;
     }
 

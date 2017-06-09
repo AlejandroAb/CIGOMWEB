@@ -77,14 +77,17 @@ public class ListasController extends HttpServlet {
                 }else if(idLista.equals("3")){
                     
                     titulo="Genomas";
+                    
+                }else if(idLista.equals("4")){
+                    
+                    titulo="Muestras";
                 }
                 ListaDAO listaDAO = new ListaDAO(transacciones);
                 String where = "";
                 ArrayList<ArrayList> listas = listaDAO.getLista(idLista, where);
                 request.setAttribute("listas", listas);
                 request.setAttribute("titulo", titulo);
-                
-                System.out.println(titulo);
+               
                 
                     RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/view/listas/lista.jsp");
                     view.forward(request, response);
