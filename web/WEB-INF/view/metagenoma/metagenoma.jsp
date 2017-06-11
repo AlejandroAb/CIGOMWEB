@@ -268,12 +268,12 @@
                                     </li>
                                     <li><a href="#archivos" id="boton" data-toggle="tab">Archivos</a>
                                     </li>
-                                   <!-- <li><a id="div-krona" href="#krona3" data-toggle="tab" onclick="funcionKrona2(<%//=metagenoma.getIdmetagenoma()%>)">Taxonomía</a>
+                                    <li><a id="div-krona" href="#krona3" data-toggle="tab" onclick="funcionKrona2(<%=metagenoma.getIdmetagenoma()%>)">Taxonomía</a>
                                     </li>
                                     <li><a href="#matriz" data-toggle="tab">Matriz</a>
                                     </li>    
-                                    <li><a href="#prediccion" data-toggle="tab">Predición Funcional</a>
-                                    </li> -->                                   
+                                   <!-- <li><a href="#prediccion" data-toggle="tab">Predición Funcional</a>
+                                    </li> -->                                  
                                 </ul>
 
 
