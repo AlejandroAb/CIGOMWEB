@@ -22,6 +22,7 @@ public class GenObj {
     String contig_id; //ID del contig al cual pertenece el gen
     String contig_gen_id; //ID del gen dentro del archivo de contigs
     String gen_src; //genoma o metagenoma
+    String idGeMe;
     int contig_from; //posicion de del gen dentro del contig
     int contig_to;//pos del gen dentro del ccontig
     int gen_lenght;//
@@ -47,6 +48,14 @@ public class GenObj {
         return go;
     }
 
+    public String getIdGeMe() {
+        return idGeMe;
+    }
+
+    public void setIdGeMe(String idGeMe) {
+        this.idGeMe = idGeMe;
+    }
+    
     public ArrayList<DBProperty> getProps() {
         return props;
     }

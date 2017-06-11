@@ -47,9 +47,9 @@ public class SwissProtObj {
         this.query = query;
     }
 
-    public SwissProtObj(String gen_id) {
-        this.gen_id = gen_id;
-    }
+  //  public SwissProtObj(String gen_id) {
+   //     this.gen_id = gen_id;
+    //}
 
     public String getGen_id() {
         return gen_id;

@@ -65,6 +65,7 @@ public class GenDAO {
                 gen.setContig_gen_id(ge.get(3));
                 gen.setGen_strand(ge.get(4));
                 gen.setGen_src(ge.get(5));
+                gen.setIdGeMe(ge.get(6));
                 gen.setName(ge.get(7));
                 gen.setIdmuestra(Integer.parseInt(ge.get(11)));
                 gen.setEtiquetaMuestra(ge.get(12));
@@ -88,6 +89,7 @@ public class GenDAO {
                 gen.setContig_gen_id(ge.get(3));
                 gen.setGen_strand(ge.get(4));
                 gen.setGen_src(ge.get(5));
+                gen.setIdGeMe(ge.get(6));
                 gen.setName(ge.get(7));
                 gen.setIdmuestra(Integer.parseInt(ge.get(11)));
                 gen.setEtiquetaMuestra(ge.get(12));
@@ -170,7 +172,8 @@ public class GenDAO {
 
         ArrayList<ArrayList<String>> bX = transacciones.getGenSwissProtByIDMethod(idGen, "BLASTX");
         if (bX != null && bX.size() > 0) {
-            SwissProtObj blastX = new SwissProtObj(idGen);
+            SwissProtObj blastX = new SwissProtObj();
+            blastX.setGen_id(idGen);
             blastX.setUniprotID(bX.get(0).get(0));
             blastX.setUniprotACC(bX.get(0).get(0));
             blastX.setProtName(bX.get(0).get(0));
@@ -185,7 +188,8 @@ public class GenDAO {
         }
         ArrayList<ArrayList<String>> bP = transacciones.getGenSwissProtByIDMethod(idGen, "BLASTP");
         if (bP != null && bP.size() > 0) {
-            SwissProtObj blastP = new SwissProtObj(idGen);
+            SwissProtObj blastP = new SwissProtObj();
+            blastP.setGen_id(idGen);
             blastP.setUniprotID(bP.get(0).get(0));
             blastP.setUniprotACC(bP.get(0).get(0));
             blastP.setProtName(bP.get(0).get(0));

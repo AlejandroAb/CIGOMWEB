@@ -211,9 +211,9 @@
                                                                     <td style="padding:10px;"><b>Fuente:</b></td>
                                                                     <script>
                                                                         if("<%= gen.getGen_src() %>" == "GEN"){
-                                                                        document.write("<td style=\"padding:10px; text-align:left; color:#777; font-size:87%;\">GENOMA:<em> <%= gen.getName() %></em></td> ");
+                                                                        document.write("<td style=\"padding:10px; text-align:left; color:#777; font-size:87%;\">GENOMA:<em><a href=\"showGenoma?idGenoma=<%= gen.getIdGeMe() %>\" target=\"_blank\"><%= gen.getName()%></a></em></td> ");
                                                                         }else{
-                                                                        document.write("<td style=\"padding:10px; text-align:left; color:#777; font-size:87%;\">METAGENOMA:<em> <%= gen.getName() %></em></td> ");    
+                                                                        document.write("<td style=\"padding:10px; text-align:left; color:#777; font-size:87%;\">METAGENOMA:<em><a href=\"showMetagenoma?idMetagenoma=<%= gen.getIdGeMe()%>\" target=\"_blank\"><%= gen.getName()%></a></em></td> ");    
                                                                         }
                                                                     </script>   
                                                                     <td style="padding:10px;"><b>Tipo de Muestra:</b></td>
@@ -365,30 +365,37 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-
-
-                                                <tr style="border-top:none;">
-                                                    <td style="padding:10px; border: 0px;"><b>Eval:</b></td>                                                                  
-                                                </tr>
-                                                <tr>
-                                                    <td style="padding:10px; border: 0px;"><b>Identidad:</b></td>
-                                                    
-                                                </tr>
                                                 <tr>
                                                     <td style="padding:10px; border: 0px;"><b>Uniprot ID:</b></td>
-                                                   
+                                                    <td style="padding:10px; border: 0px;"><%= gen.getBlastP().getUniprotID() %> </td>
                                                 </tr>
                                                 <tr>
                                                     <td style="padding:10px; border: 0px;"><b>Uniprot ACC:</b></td>
-                                                    
+                                                    <td style="padding:10px; border: 0px;"><%= gen.getBlastP().getUniprotACC() %></td>
                                                 </tr> 
                                                 <tr>
                                                     <td style="padding:10px; border: 0px;"><b>Gen name:</b></td>
-                                                    
+                                                    <td style="padding:10px; border: 0px;"><%= gen.getBlastP().getGenName() %> </td>
                                                 </tr>
                                                 <tr>
                                                     <td style="padding:10px; border: 0px;"><b>Prot name:</b></td>
-                                                    
+                                                    <td style="padding:10px; border: 0px;"><%= gen.getBlastP().getProtName() %> </td>
+                                                </tr>   
+                                                <tr>
+                                                    <td style="padding:10px; border: 0px;"><b>Organismo:</b></td>
+                                                    <td style="padding:10px; border: 0px;"><%= gen.getBlastP().getTaxID() %> - <%= gen.getBlastP().getTaxon() %> </td>
+                                                </tr>                     
+                                                <tr>
+                                                    <td style="padding:10px; border: 0px;"><b>Eval:</b></td> 
+                                                    <td style="padding:10px; border: 0px;"><%= gen.getBlastP().getEval() %></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding:10px; border: 0px;"><b>Identidad:</b></td>
+                                                    <td style="padding:10px; border: 0px;"><%= gen.getBlastP().getIdentidad() %></td>
+                                                </tr>  
+                                                <tr>
+                                                    <td style="padding:10px; border: 0px;"><b>Query:</b></td>
+                                                    <td style="padding:10px; border: 0px;"><%= gen.getBlastP().getQuery() %></td>
                                                 </tr>                                               
                                             </tbody>
                                         </table>
@@ -412,30 +419,37 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-
-
-                                                <tr style="border-top:none;">
-                                                    <td style="padding:10px; border: 0px;"><b>Eval:</b></td>                                                                  
-                                                </tr>
-                                                <tr>
-                                                    <td style="padding:10px; border: 0px;"><b>Identidad:</b></td>
-                                                    
-                                                </tr>
                                                 <tr>
                                                     <td style="padding:10px; border: 0px;"><b>Uniprot ID:</b></td>
-                                                   
+                                                    <td style="padding:10px; border: 0px;"><%= gen.getBlastX().getUniprotID() %> </td>
                                                 </tr>
                                                 <tr>
                                                     <td style="padding:10px; border: 0px;"><b>Uniprot ACC:</b></td>
-                                                    
+                                                    <td style="padding:10px; border: 0px;"><%= gen.getBlastX().getUniprotACC() %></td>
                                                 </tr> 
                                                 <tr>
                                                     <td style="padding:10px; border: 0px;"><b>Gen name:</b></td>
-                                                    
+                                                    <td style="padding:10px; border: 0px;"><%= gen.getBlastX().getGenName() %> </td>
                                                 </tr>
                                                 <tr>
                                                     <td style="padding:10px; border: 0px;"><b>Prot name:</b></td>
-                                                    
+                                                    <td style="padding:10px; border: 0px;"><%= gen.getBlastX().getProtName() %> </td>
+                                                </tr>   
+                                                <tr>
+                                                    <td style="padding:10px; border: 0px;"><b>Organismo:</b></td>
+                                                    <td style="padding:10px; border: 0px;"><%= gen.getBlastX().getTaxID() %> - <%= gen.getBlastX().getTaxon() %> </td>
+                                                </tr>                     
+                                                <tr>
+                                                    <td style="padding:10px; border: 0px;"><b>Eval:</b></td> 
+                                                    <td style="padding:10px; border: 0px;"><%= gen.getBlastX().getEval() %></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding:10px; border: 0px;"><b>Identidad:</b></td>
+                                                    <td style="padding:10px; border: 0px;"><%= gen.getBlastX().getIdentidad() %></td>
+                                                </tr>  
+                                                <tr>
+                                                    <td style="padding:10px; border: 0px;"><b>Query:</b></td>
+                                                    <td style="padding:10px; border: 0px;"><%= gen.getBlastX().getQuery() %></td>
                                                 </tr>                                               
                                             </tbody>
                                         </table>
