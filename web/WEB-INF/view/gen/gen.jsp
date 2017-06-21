@@ -249,6 +249,9 @@
                                                                     <th></th>
                                                                 </tr>
                                                             </thead>
+                                                            <%
+                                                               if (gen != null) {
+                                                            %>
                                                             <tbody>
                                                                 <tr style="border-top:none;">
                                                                     <td style="padding:10px;"><b>Tipo de gen:</b></td>
@@ -268,7 +271,10 @@
                                                                     <td style="padding:10px;"><b>Coordenadas contig:</b></td>
                                                                     <td style="padding:10px; text-align:left; color:#777; font-size:87%;"><em><%= gen.getContig_from() %> - <%= gen.getContig_to() %></em></td> 
                                                                 </tr>
-                                                            </tbody>                                                       
+                                                            </tbody>              
+                                                            <%
+                                                              }
+                                                            %>
                                                         </table>
                                                     </div>
                                                     <!-- /.table-responsive -->
@@ -364,7 +370,9 @@
                                                     <th></th>
                                                 </tr>
                                             </thead>
+                                            
                                             <tbody>
+                                            
                                                 <tr>
                                                     <td style="padding:10px; border: 0px;"><b>Uniprot ID:</b></td>
                                                     <td style="padding:10px; border: 0px;"><%= gen.getBlastP().getUniprotID() %> </td>
@@ -396,7 +404,8 @@
                                                 <tr>
                                                     <td style="padding:10px; border: 0px;"><b>Query:</b></td>
                                                     <td style="padding:10px; border: 0px;"><%= gen.getBlastP().getQuery() %></td>
-                                                </tr>                                               
+                                                </tr>        
+                                                
                                             </tbody>
                                         </table>
                                     </div>
@@ -411,7 +420,7 @@
                                 <!-- /.panel-heading -->
                                 <div class="panel-body" >
                                     <div class="dataTable_wrapper">
-                                        <table width="100%" class="table table-striped" id="campanas">
+                                        <table width="100%" class="table table-striped" id="">
                                             <thead style="display:none;">
                                                 <tr>
                                                     <th></th>
@@ -450,7 +459,8 @@
                                                 <tr>
                                                     <td style="padding:10px; border: 0px;"><b>Query:</b></td>
                                                     <td style="padding:10px; border: 0px;"><%= gen.getBlastX().getQuery() %></td>
-                                                </tr>                                               
+                                                </tr>  
+                                   
                                             </tbody>
                                         </table>
                                     </div>
@@ -490,8 +500,8 @@
                                                                 </tr>
 
                                                                 <%
-                                                                       }
-                                                                   }
+                                                                     }
+                                                                  }
                                                                 %>
                                                             </tbody>
                                                         </table>
@@ -520,7 +530,7 @@
                                                             </thead>
                                                             <tbody id="tgenomas">
                                                                 <%
-                                                                     if (gen != null) {
+                                                                    if (gen != null) {
 
                                                                         for (PFAMObj pfam : gen.getPfam()) {
                                                                 %>   
@@ -537,7 +547,7 @@
                                                                 </tr>
 
                                                                 <%
-                                                                        }
+                                                                       }
                                                                     }
                                                                 %>
                                                             </tbody>
@@ -563,20 +573,20 @@
                                                             </thead>
                                                             <tbody id="tgenomas">
                                                                 <%
-                                                                     if (gen != null) {
+                                                                    if (gen != null) {
 
                                                                         for (GOObj go : gen.getGo()) {
                                                                 %>   
 
                                                                 <tr style="text-align: justify;" >
-                                                                    <td><a href="<%= go.getUrl() %>" target="_blank"><%= go.getUrl() %></a> </td>
+                                                                    <td><a href="<%= go.getUrl() %>" target="_blank"><%= go.getId_GO() %></a> </td>
                                                                     <td><%= go.getNamespace() %></td>
                                                                     <td><%= go.getGo_name() %></td>
                                                                     <td><%= go.getDefinition() %></td>
                                                                 </tr>
 
                                                                 <%
-                                                                      }
+                                                                     }
                                                                     }
                                                                 %>
                                                             </tbody>

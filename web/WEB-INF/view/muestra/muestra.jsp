@@ -239,31 +239,39 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Coordenadas:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em>Lat: <%= muestreo.getLatitud_r().getCoordenadas()%> </em> <em>Lon:<%= muestreo.getLongitud_r().getCoordenadas()%></em></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><b>Lat:</b> <%= muestreo.getLatitud_r().getCoordenadas()%> </em> <em><b>Lon:</b><%= muestreo.getLongitud_r().getCoordenadas()%></em></td>
                                                                 </tr> 
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Fecha:</b></td>
-                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em>FI: <%= muestreo.getFechaInicial().toWebString()%></em>  <em>FF: <%= muestreo.getFechaFinal().toWebString()%></em></td>
+                                                                    <td style="padding:10px; text-align:right; color:#777; font-size:87%;"><em><b>FI:</b> <%= muestreo.getFechaInicial().toWebString()%></em>  
+                                                                        <script>
+                                                                           if("<%= muestreo.getFechaFinal().toWebString()%>" !== ""){
+                                                                                 document.write("<em><b>FF:</b> <%= muestreo.getFechaFinal().toWebString()%></em>");
+                                                                            
+                                                                        }
+                                                                        </script>
+                                                                    </td>
                                                                 </tr> 
                                                                 <tr>
                                                                     
-                                                                    <td style="padding:10px;"><b>Tipo Profundidad:</b></td>
+                                                                <td style="padding:10px;"><b>Tipo Profundidad:</b></td>
+                                                                <td style="padding:10px; text-align:right; color:#777; font-size:87%;">
                                                             <script>
                                                                     if("<%= muestreo.getTipo_prof()%>" == "FONDO"){
-                                                                        document.write("<td style='padding:10px; text-align:right; color:#777; font-size:87%;'> <em>FONDO</em></td>");
+                                                                        document.write(" <em>FONDO</em>");
                                                                     }else if("<%= muestreo.getTipo_prof()%>" == "MAX_F"){
-                                                                        document.write("<td style='padding:10px; text-align:right; color:#777; font-size:87%;'> <em>MÁXIMA FLUORESCENCIA</em></td>");
+                                                                        document.write(" <em>MÁXIMA FLUORESCENCIA</em>");
                                                                     }else if("<%= muestreo.getTipo_prof()%>" == "MIL"){
-                                                                        document.write("<td style='padding:10px; text-align:right; color:#777; font-size:87%;'> <em>MIL METROS</em></td>");
+                                                                        document.write("<em>MIL METROS</em>");
                                                                     }else if("<%= muestreo.getTipo_prof()%>" == "MIN_O2"){
-                                                                        document.write("<td style='padding:10px; text-align:right; color:#777; font-size:87%;'> <em>MINIMO DE OXIGENO</em></td>");
+                                                                        document.write("<em>MINIMO DE OXIGENO</em>");
                                                                     }else if("<%= muestreo.getTipo_prof()%>" == "SED"){
-                                                                    document.write("<td style='padding:10px; text-align:right; color:#777; font-size:87%;'> <em>SEDIMENTO</em></td>");
+                                                                    document.write("<em>SEDIMENTO</em>");
                                                                     }
-                                                                    
+                                                                   
                                                             </script>
                                                             
-                                                             
+                                                                 </td> 
                                                                 </tr>  
                                                                 <tr>
                                                                     

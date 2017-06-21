@@ -894,7 +894,7 @@
                         </div>
                         <br>
                      <div class="col-lg-12" id="taxones-row">  
-                        <div class="col-lg-6">
+                        <div class="col-lg-5">
                             <div class="panel" style="border:none;">
                                 <label>Buscar Taxón:</label>
                                 <div class="input-group custom-search-form" style="z-index:0;">
@@ -926,7 +926,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-7">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <center><b style="color:#d9534f;">Taxones Agregados</b></center>

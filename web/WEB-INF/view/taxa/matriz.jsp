@@ -86,7 +86,6 @@
                         if (tablaHTML != null) {
                     %>
                     <table width="100%" class="table table-striped table-bordered table-hover" id="tabla-taxo">
-                        Buscar por muestra:<input type="text" id="estacion" placeholder="Buscar">
                         <%=tablaHTML%>
                         <!-- <thead>
                             <tr>

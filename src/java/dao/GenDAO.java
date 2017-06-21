@@ -133,10 +133,22 @@ public class GenDAO {
                 gen.addEggnog(egg);
 
             }
+        }else{
+        
+                Eggnog egg = new Eggnog();
+
+                egg.setID("");
+                egg.setDescripcion("");
+                egg.setProteinas("");
+                egg.setEspecies("");
+                egg.setEvalue("");
+
+                gen.addEggnog(egg);
+
+            
         }
 
         ArrayList<ArrayList> pfamAL = transacciones.getPfam(idGen);
-
         if (pfamAL != null && pfamAL.size() > 0) {
 
             for (ArrayList<String> p : pfamAL) {
@@ -151,10 +163,20 @@ public class GenDAO {
                 gen.addPfam(pfam);
             }
 
+        }else{
+                PFAMObj pfam = new PFAMObj("");
+                
+                pfam.setFrom("");
+                pfam.setTo("");
+                pfam.setEvalue("");
+                pfam.setClan("");
+                pfam.setId_pfam("");
+                pfam.setPfam_deff("");
+                gen.addPfam(pfam);
+        
         }
 
         ArrayList<ArrayList> genGOAL = transacciones.getGenGo(idGen);
-
         if (genGOAL != null && genGOAL.size() > 0) {
             for (ArrayList<String> gG : genGOAL) {
                 GOObj gGO = new GOObj(gG.get(0));
@@ -168,6 +190,17 @@ public class GenDAO {
                 gen.addGenGo(gGO);
 
             }
+        }else{
+                GOObj gGO = new GOObj("");
+
+                gGO.setId_GO("");
+                gGO.setGo_name("");
+                gGO.setNamespace("");
+                gGO.setUrl("");
+                gGO.setDefinition("");
+
+                gen.addGenGo(gGO);
+            
         }
 
         ArrayList<ArrayList<String>> bX = transacciones.getGenSwissProtByIDMethod(idGen, "BLASTX");
@@ -185,6 +218,19 @@ public class GenDAO {
             blastX.setTaxon(bX.get(0).get(0));
             gen.setBlastX(blastX);
 
+        }else{
+            SwissProtObj blastX = new SwissProtObj();
+            blastX.setGen_id("");
+            blastX.setUniprotID("ID NO IDENTIFICADO");
+            blastX.setUniprotACC("");
+            blastX.setProtName("");
+            blastX.setGenName("");
+            blastX.setEval("");
+            blastX.setIdentidad("");
+            blastX.setQuery("");
+            blastX.setTaxID("");
+            blastX.setTaxon("");
+            gen.setBlastX(blastX);
         }
         ArrayList<ArrayList<String>> bP = transacciones.getGenSwissProtByIDMethod(idGen, "BLASTP");
         if (bP != null && bP.size() > 0) {
@@ -201,6 +247,20 @@ public class GenDAO {
             blastP.setTaxon(bP.get(0).get(0));
             gen.setBlastP(blastP);
 
+        }else{
+            SwissProtObj blastP = new SwissProtObj();
+            blastP.setGen_id("");
+            blastP.setUniprotID("ID NO IDENTIFICADO");
+            blastP.setUniprotACC("");
+            blastP.setProtName("");
+            blastP.setGenName("");
+            blastP.setEval("");
+            blastP.setIdentidad("");
+            blastP.setQuery("");
+            blastP.setTaxID("");
+            blastP.setTaxon("");
+            gen.setBlastP(blastP);
+        
         }
         return gen;
     }

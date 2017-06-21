@@ -72,7 +72,12 @@ public class GenController extends HttpServlet {
                     RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/view/gen/gen.jsp");
                     view.forward(request, response);
                   
-            }        
+            }   
+            if (userPath.equals("/showMaqueta")) {
+                    RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/view/maqueta.jsp");
+                    view.forward(request, response);
+                  
+            }
             
         }
     }

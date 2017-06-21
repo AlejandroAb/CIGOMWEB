@@ -63,7 +63,6 @@
         <script src="bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
         <script src="bower_components/datatables-responsive/js/dataTables.responsive.js"></script>
 
-
         <!-- Mandar form con archivo  -->
         <script src="js/blastForm.js"></script>
 

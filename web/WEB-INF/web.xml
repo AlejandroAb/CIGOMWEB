@@ -4,11 +4,11 @@
         <param-name>ipdb</param-name>
         <param-value>132.248.32.18</param-value>
         <!--132.248.32.62-->
-       <!-- <param-value>132.248.32.18</param-value>-->
+        <!-- <param-value>132.248.32.18</param-value>-->
     </context-param>
     <context-param>
         <param-name>usuariodb</param-name>
-         <param-value>cigom_u2</param-value>
+        <param-value>cigom_u2</param-value>
         <!--<param-value>cigom_u2</param-value>-->
     </context-param>
     <context-param>
@@ -17,7 +17,7 @@
     </context-param>
     <context-param>
         <param-name>password</param-name>
-       <!-- <param-value>CigomWeb2016</param-value>-->
+        <!-- <param-value>CigomWeb2016</param-value>-->
         <!--<param-value>CigomWeb2017Remote</param-value>-->
         <param-value>CigomDB17</param-value>
     </context-param>
@@ -170,10 +170,6 @@
         <url-pattern>/showGenoma</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>EstacionController</servlet-name>
-        <url-pattern>/showEstacion</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>MetagenomeController</servlet-name>
         <url-pattern>/showMetagenoma</url-pattern>
     </servlet-mapping>
@@ -189,11 +185,6 @@
         <url-pattern>/agregaTaxon</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>GenController</servlet-name>
-        <url-pattern>/GenController</url-pattern>
-        <url-pattern>/showGen</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>KronaController</servlet-name>
         <url-pattern>/showKrona</url-pattern>
     </servlet-mapping>
@@ -202,10 +193,19 @@
         <url-pattern>/ListasController</url-pattern>
         <url-pattern>/showLista</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EstacionController</servlet-name>
+        <url-pattern>/showEstacion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GenController</servlet-name>
+        <url-pattern>/showMaqueta</url-pattern>
+        <url-pattern>/GenController</url-pattern>
+        <url-pattern>/showGen</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
 </web-app>
-
