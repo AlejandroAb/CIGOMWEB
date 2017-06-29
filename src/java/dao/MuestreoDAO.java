@@ -258,40 +258,43 @@ public class MuestreoDAO {
                             muestreo.setProtocolo(val);
                             break;
                         case 8:
+                            muestreo.setComentarios(val);
+                            break;   
+                        case 9:
                             MyCoord lat = new MyCoord(val);
                             lat.computeGradosDecimales();
                             muestreo.setLatitud_r(lat);
                             break;
                         //en la vista
-                        case 9:
+                        case 10:
                             MyCoord lon = new MyCoord(val);
                             lon.computeGradosDecimales();
                             muestreo.setLongitud_r(lon);
                             break;
-                        case 10:
+                        case 11:
                             MyCoord latEstacion = new MyCoord(val);
                             latEstacion.computeGradosDecimales();
                             muestreo.setLatitud_estacion(latEstacion);
                             break;
-                        case 11:
+                        case 12:
                             MyCoord lonEstacion = new MyCoord(val);
                             lonEstacion.computeGradosDecimales();
                             muestreo.setLongitud_estacion(lonEstacion);
                             break;
-                        case 12:
+                        case 13:
                             MyDate fi = new MyDate(val);
                             fi.splitSQLStandarDate();
                             muestreo.setFechaInicial(fi);
                             break;
-                        case 13:
+                        case 14:
                             MyDate ff = new MyDate(val);
                             ff.splitSQLStandarDate();
                             muestreo.setFechaFinal(ff);
                             break;
-                        case 14:
+                        case 15:
                             muestreo.setTipo_prof(val);
                             break;
-                        case 15:
+                        case 16:
                             muestreo.setProfundidad(Double.parseDouble(val));
                             break;
                     }

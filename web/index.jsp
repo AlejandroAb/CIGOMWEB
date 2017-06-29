@@ -210,9 +210,9 @@
                             <p><br>Inicia sesión en tu cuenta @cigom.org y acepta los permisos que se te solicitan.</p>
 
                         </div>
-                        <!--<div class="g-signin2" data-onsuccess="onSignIn" ></div>-->
+                        <div class="g-signin2" data-onsuccess="onSignIn" ></div>
                         <br>
-                        <!--<a href="#" onclick="signOut();">Salir</a>-->
+                        <a href="#" onclick="signOut();">Salir</a>
                         <script>
                             function signOut() {
                                var auth2 = gapi.auth2.getAuthInstance();

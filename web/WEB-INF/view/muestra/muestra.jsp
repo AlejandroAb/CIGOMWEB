@@ -294,7 +294,11 @@
                                                                 <tr>
                                                                     <td style="padding:10px;"><b>Protocolo de muestreo:</b></td>
                                                                     <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= muestreo.getProtocolo()%></em></td>
-                                                                </tr>                                        
+                                                                </tr>   
+                                                                <tr>
+                                                                    <td style="padding:10px;"><b>Comentarios:</b></td>
+                                                                    <td style="padding:10px; text-align:justify; color:#777; font-size:87%;"><em><%= muestreo.getComentarios() %></em></td>
+                                                                </tr>                                                                
                                                             </tbody>
                                                         </table>
                                                     </div>

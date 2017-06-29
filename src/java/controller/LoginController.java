@@ -59,7 +59,8 @@ public class LoginController extends HttpServlet {
             String user = request.getParameter("usuario");
             String pass = request.getParameter("password");
 
-            String email = request.getParameter("email");
+         //   String email = request.getParameter("email");
+         //   System.out.println("El email del usuario es :"+email);
 
             try {
                 if (user == null || user.length() < 5 || pass == null || pass.length() < 4) {
