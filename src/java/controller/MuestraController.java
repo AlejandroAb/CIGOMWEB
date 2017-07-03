@@ -91,8 +91,8 @@ public class MuestraController extends HttpServlet {
                         RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/view/muestra/muestra.jsp");
                         view.forward(request, response);
                     } catch (NumberFormatException nfe) {
-
-                    }
+                            
+                    }   
                 } else {
                     String url = "/WEB-INF/view/error/error.jsp";
                     request.setAttribute("msg", "Error inicializando Etiqueta: " + idmuestra + "<br>Por favor comunicarse con el administrador del sistema ");

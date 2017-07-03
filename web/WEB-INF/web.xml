@@ -2,13 +2,13 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <context-param>
         <param-name>ipdb</param-name>
-        <param-value>132.248.32.18</param-value>
+        <param-value>localhost</param-value>
         <!--132.248.32.62-->
        <!-- <param-value>132.248.32.18</param-value>-->
     </context-param>
     <context-param>
         <param-name>usuariodb</param-name>
-         <param-value>cigom_u2</param-value>
+         <param-value>cigom_u</param-value>
         <!--<param-value>cigom_u2</param-value>-->
     </context-param>
     <context-param>
@@ -17,9 +17,8 @@
     </context-param>
     <context-param>
         <param-name>password</param-name>
-       <!-- <param-value>CigomWeb2016</param-value>-->
-        <!--<param-value>CigomWeb2017Remote</param-value>-->
-        <param-value>CigomDB17</param-value>
+        <param-value>CigomWeb2016</param-value>       
+       <!--<param-value>CigomDB17</param-value>-->
     </context-param>
     <context-param>
         <description>

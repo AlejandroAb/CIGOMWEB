@@ -175,14 +175,14 @@ public class GenDAO {
             SwissProtObj blastX = new SwissProtObj();
             blastX.setGen_id(idGen);
             blastX.setUniprotID(bX.get(0).get(0));
-            blastX.setUniprotACC(bX.get(0).get(0));
-            blastX.setProtName(bX.get(0).get(0));
-            blastX.setGenName(bX.get(0).get(0));
-            blastX.setEval(bX.get(0).get(0));
-            blastX.setIdentidad(bX.get(0).get(0));
-            blastX.setQuery(bX.get(0).get(0));
-            blastX.setTaxID(bX.get(0).get(0));
-            blastX.setTaxon(bX.get(0).get(0));
+            blastX.setUniprotACC(bX.get(0).get(1));
+            blastX.setProtName(bX.get(0).get(2));
+            blastX.setGenName(bX.get(0).get(3));
+            blastX.setEval(bX.get(0).get(4));
+            blastX.setIdentidad(bX.get(0).get(5));
+            blastX.setQuery(bX.get(0).get(6));
+            blastX.setTaxID(bX.get(0).get(7));
+            blastX.setTaxon(bX.get(0).get(8));
             gen.setBlastX(blastX);
 
         }
@@ -191,14 +191,14 @@ public class GenDAO {
             SwissProtObj blastP = new SwissProtObj();
             blastP.setGen_id(idGen);
             blastP.setUniprotID(bP.get(0).get(0));
-            blastP.setUniprotACC(bP.get(0).get(0));
-            blastP.setProtName(bP.get(0).get(0));
-            blastP.setGenName(bP.get(0).get(0));
-            blastP.setEval(bP.get(0).get(0));
-            blastP.setIdentidad(bP.get(0).get(0));
-            blastP.setQuery(bP.get(0).get(0));
-            blastP.setTaxID(bP.get(0).get(0));
-            blastP.setTaxon(bP.get(0).get(0));
+            blastP.setUniprotACC(bP.get(0).get(1));
+            blastP.setProtName(bP.get(0).get(2));
+            blastP.setGenName(bP.get(0).get(3));
+            blastP.setEval(bP.get(0).get(4));
+            blastP.setIdentidad(bP.get(0).get(5));
+            blastP.setQuery(bP.get(0).get(6));
+            blastP.setTaxID(bP.get(0).get(7));
+            blastP.setTaxon(bP.get(0).get(8));
             gen.setBlastP(blastP);
 
         }
